@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { FAQS } from "@/lib/content";
 import "./globals.css";
 
 const syne = Syne({
@@ -24,71 +25,226 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://compliflow.de";
+const SITE_NAME = "Compliflow";
+const TITLE = "Compliflow — DSGVO-Tools für deutsche Selbstständige";
+const DESCRIPTION =
+  "AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner in einer Suite. DSGVO-konforme Pflichtdokumente in Minuten statt Tagen. Launch Tool 1 am 17. Juni 2026.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://compliflow.de"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Compliflow — DSGVO-Tools für deutsche Selbstständige",
+    default: TITLE,
     template: "%s · Compliflow",
   },
-  description:
-    "AVV, Verarbeitungsverzeichnis, Cookie-Banner. In Minuten erstellt statt Tagen recherchiert. Tools die DSGVO-Bußgelder vermeiden — ohne Anwalt.",
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
   keywords: [
     "AVV Generator",
+    "AVV Vorlage",
+    "Auftragsverarbeitungsvertrag",
+    "DSGVO Art 28",
     "DSGVO",
     "Verarbeitungsverzeichnis",
-    "Cookie Banner",
+    "VVT Vorlage",
+    "DSGVO Art 30",
+    "Cookie Banner Generator",
+    "Cookie Consent",
+    "TTDSG",
     "Compliance Tools",
-    "Datenschutz Tools",
-    "DACH",
+    "Datenschutz Tools DACH",
+    "DSGVO konform",
+    "Schrems II",
   ],
-  authors: [{ name: "Al-Khalil Aoumeur" }],
+  authors: [{ name: "Al-Khalil Aoumeur", url: "https://drvnautomatisations.com" }],
+  creator: "Al-Khalil Aoumeur",
+  publisher: "DRVN",
+  category: "Software",
+  alternates: {
+    canonical: SITE_URL,
+    languages: { "de-DE": SITE_URL },
+  },
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://compliflow.de",
-    siteName: "Compliflow",
-    title: "Compliflow — DSGVO-Tools für deutsche Selbstständige",
-    description:
-      "AVV, Verarbeitungsverzeichnis, Cookie-Banner. In Minuten erstellt statt Tagen recherchiert.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Compliflow — DSGVO-Tools für deutsche Selbstständige",
-    description: "AVV, Verarbeitungsverzeichnis, Cookie-Banner. Tools statt Anwalt.",
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: "@drvn",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://compliflow.de/#org",
-      name: "Compliflow",
-      url: "https://compliflow.de",
-      description: "DSGVO-Compliance-Tool-Suite für deutsche Selbstständige und Agenturen.",
-      founder: { "@type": "Person", name: "Al-Khalil Aoumeur" },
-      areaServed: ["DE", "AT", "CH"],
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://compliflow.de/#website",
-      url: "https://compliflow.de",
-      name: "Compliflow",
-      publisher: { "@id": "https://compliflow.de/#org" },
-      inLanguage: "de-DE",
-    },
-  ],
+export const viewport = {
+  themeColor: "#0a0906",
+  colorScheme: "dark",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+function buildJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#org`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description:
+          "DSGVO-Compliance-Tool-Suite für deutsche Selbstständige und Agenturen.",
+        founder: {
+          "@type": "Person",
+          name: "Al-Khalil Aoumeur",
+          jobTitle: "Solo-Builder",
+        },
+        foundingDate: "2026",
+        areaServed: [
+          { "@type": "Country", name: "Deutschland" },
+          { "@type": "Country", name: "Österreich" },
+          { "@type": "Country", name: "Schweiz" },
+        ],
+        sameAs: ["https://drvnautomatisations.com"],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Stuttgart",
+          addressCountry: "DE",
+        },
+        email: "hello@compliflow.de",
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: SITE_NAME,
+        publisher: { "@id": `${SITE_URL}/#org` },
+        inLanguage: "de-DE",
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE_URL}/avv#app`,
+        name: "Compliflow AVV-Generator",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        inLanguage: "de-DE",
+        description:
+          "Erstelle DSGVO-konforme Auftragsverarbeitungs-Verträge nach Art. 28 in 2 Minuten — mit Live-Vorschau, PDF-Export und Custom-Branding.",
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Free",
+            price: "0",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/PreOrder",
+            url: `${SITE_URL}/avv`,
+          },
+          {
+            "@type": "Offer",
+            name: "Pro Single",
+            price: "29",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/PreOrder",
+          },
+          {
+            "@type": "Offer",
+            name: "Pro Agency",
+            price: "19",
+            priceCurrency: "EUR",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+              price: "19",
+              priceCurrency: "EUR",
+            },
+            availability: "https://schema.org/PreOrder",
+          },
+        ],
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE_URL}/vvt#app`,
+        name: "Compliflow Verarbeitungsverzeichnis",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        inLanguage: "de-DE",
+        description:
+          "Verarbeitungsverzeichnis nach Art. 30 DSGVO erstellen — strukturiert, prüfungssicher, mit Branchen-Vorlagen.",
+        offers: {
+          "@type": "Offer",
+          price: "29",
+          priceCurrency: "EUR",
+          availability: "https://schema.org/PreOrder",
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE_URL}/cookie-banner#app`,
+        name: "Compliflow Cookie-Banner",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        inLanguage: "de-DE",
+        description:
+          "TTDSG- und DSGVO-konformer Cookie-Banner mit Audit-Trail und Google Consent Mode V2.",
+        offers: {
+          "@type": "Offer",
+          price: "9",
+          priceCurrency: "EUR",
+          availability: "https://schema.org/PreOrder",
+        },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/#faq`,
+        mainEntity: FAQS.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: f.a,
+          },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="de" className={`${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()) }}
         />
       </head>
       <body>
