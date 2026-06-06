@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0a0906;
+  --color-bg-soft: #14110d;
+  --color-bg-card: #1a1612;
+  --color-ink: #f4efe8;
+  --color-ink-dim: #a89f92;
+  --color-ink-faded: #5c5447;
+  --color-accent: #ff4d00;
+  --color-line: #2a241d;
+  --space: 8px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% -10%, rgba(255, 77, 0, 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 110%, rgba(255, 77, 0, 0.04), transparent 60%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(8px, -12px, 0) rotate(0.5deg);
+  }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fade 1200ms ease forwards;
+}
+
+.drift {
+  animation: drift 14s ease-in-out infinite;
+}
+
+.hairline {
+  background: linear-gradient(90deg, transparent, var(--color-line) 20%, var(--color-line) 80%, transparent);
+}
+
+.glyph-tilt {
+  display: inline-block;
+  transform: rotate(-3deg);
+  transform-origin: 50% 60%;
+}
