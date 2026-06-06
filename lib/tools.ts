@@ -8,6 +8,8 @@ export type Tool = {
   launchLabel: string;
   span: string;
   offset: number;
+  status: "live" | "soon";
+  href?: string;
 };
 
 export const tools: Tool[] = [
@@ -23,9 +25,11 @@ export const tools: Tool[] = [
       "Optional digitaler Versand via DocuSign",
       "Mehrere AVVs zentral verwalten (Agentur-Tier)",
     ],
-    launchLabel: "17. Juni 2026",
+    launchLabel: "Live · kostenlos starten",
     span: "lg:col-span-4",
     offset: 0,
+    status: "live",
+    href: "/avv",
   },
   {
     id: "vvt",
@@ -42,6 +46,7 @@ export const tools: Tool[] = [
     launchLabel: "15. Juli 2026",
     span: "lg:col-span-4",
     offset: 0,
+    status: "soon",
   },
   {
     id: "cookie-banner",
@@ -58,5 +63,6 @@ export const tools: Tool[] = [
     launchLabel: "19. August 2026",
     span: "lg:col-span-4",
     offset: 0,
+    status: "soon",
   },
 ];

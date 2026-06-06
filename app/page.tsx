@@ -44,18 +44,12 @@ function Header() {
             DSGVO Suite
           </span>
         </a>
-        <nav className="fade-in flex items-center gap-7">
+        <nav className="fade-in flex items-center gap-5 md:gap-7">
           <a
             href="#suite"
             className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline"
           >
             Tools
-          </a>
-          <a
-            href="#worum"
-            className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline"
-          >
-            Worum es geht
           </a>
           <a
             href="#faq"
@@ -64,10 +58,11 @@ function Header() {
             Fragen
           </a>
           <a
-            href="#warteliste"
-            className="btn-ghost inline-flex h-9 items-center justify-center px-4 font-body text-[13px] font-medium"
+            href="/avv"
+            className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
-            Warteliste
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
+            AVV-Generator
           </a>
         </nav>
       </Container>
@@ -81,11 +76,14 @@ function Hero() {
       <Container className="grid grid-cols-12 gap-y-10 pt-20 pb-24 lg:gap-x-12 lg:pt-28 lg:pb-32">
         <div className="col-span-12 lg:col-span-8">
           <p
-            className="rise mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded"
+            className="rise mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent"
             style={{ animationDelay: "0ms" }}
           >
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            DSGVO-Suite · Launch 17. Juni 2026
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            Tool 01 ist live — AVV-Generator
           </p>
 
           <h1
@@ -107,23 +105,24 @@ function Hero() {
           </p>
 
           <div
-            className="rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
+            className="rise mt-10 flex flex-wrap items-center gap-x-4 gap-y-3"
             style={{ animationDelay: "240ms" }}
           >
             <a
-              href="#warteliste"
-              className="btn-primary inline-flex h-12 items-center justify-center px-7 font-body text-[14px] font-medium tracking-tight"
+              href="/avv"
+              className="btn-primary inline-flex h-12 items-center justify-center gap-2 px-7 font-body text-[15px] font-medium tracking-tight"
             >
-              Auf die Warteliste
+              AVV-Generator kostenlos starten
+              <span aria-hidden="true">→</span>
             </a>
             <a
-              href="#worum"
-              className="link-underline inline-flex items-center font-body text-[14px] font-medium text-ink"
+              href="#warteliste"
+              className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-body text-[14px] font-medium"
             >
-              Was die Suite leistet
+              Tool 2 + 3: Warteliste
             </a>
-            <span className="hidden font-body text-[14px] text-ink-faded sm:inline">
-              · <Countdown variant="compact" />
+            <span className="hidden font-body text-[13px] text-ink-faded md:inline">
+              <Countdown variant="compact" /> bis Tool 2
             </span>
           </div>
         </div>
@@ -213,38 +212,66 @@ function Suite() {
         </div>
 
         <div className="grid grid-cols-12 gap-y-12 lg:gap-x-10">
-          {tools.map((tool, i) => (
-            <article
-              key={tool.id}
-              className={`col-span-12 lg:col-span-4 ${i === 0 ? "rise" : i === 1 ? "rise" : "rise"}`}
-              style={{ animationDelay: `${300 + i * 100}ms` }}
-            >
-              <div className="flex items-baseline justify-between border-b border-line pb-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-                  {tool.idx}
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
-                  {tool.launchLabel}
-                </span>
-              </div>
-              <h3 className="mt-6 font-display text-[26px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[30px]">
-                {tool.name}
-              </h3>
-              <p className="mt-4 font-body text-[15px] leading-[1.6] text-ink-dim">
-                {tool.pitch}
-              </p>
-              <ul className="mt-6 space-y-2.5 border-t border-line pt-5 font-body text-[14px] text-ink-dim">
-                {tool.bullets.map((b) => (
-                  <li key={b} className="flex gap-3">
-                    <span className="text-accent" aria-hidden="true">
-                      —
+          {tools.map((tool, i) => {
+            const isLive = tool.status === "live";
+            const Wrapper = isLive && tool.href ? "a" : "article";
+            const wrapperProps = isLive && tool.href ? { href: tool.href } : {};
+            return (
+              <Wrapper
+                key={tool.id}
+                {...wrapperProps}
+                className={`col-span-12 lg:col-span-4 rise group block ${
+                  isLive
+                    ? "transition hover:-translate-y-1 hover:border-accent border border-line bg-bg-soft/40 p-6 cursor-pointer"
+                    : "border border-line/40 p-6"
+                }`}
+                style={{ animationDelay: `${300 + i * 100}ms` }}
+              >
+                <div className="flex items-baseline justify-between border-b border-line pb-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
+                    {tool.idx}
+                  </span>
+                  <span
+                    className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
+                      isLive ? "text-accent font-bold" : "text-ink-faded"
+                    }`}
+                  >
+                    {isLive && (
+                      <span
+                        className="inline-block h-1.5 w-1.5 rounded-full bg-accent mr-1.5 align-middle"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {tool.launchLabel}
+                  </span>
+                </div>
+                <h3 className="mt-6 font-display text-[26px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[30px]">
+                  {tool.name}
+                </h3>
+                <p className="mt-4 font-body text-[15px] leading-[1.6] text-ink-dim">
+                  {tool.pitch}
+                </p>
+                <ul className="mt-6 space-y-2.5 border-t border-line pt-5 font-body text-[14px] text-ink-dim">
+                  {tool.bullets.map((b) => (
+                    <li key={b} className="flex gap-3">
+                      <span className="text-accent" aria-hidden="true">
+                        —
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                {isLive && (
+                  <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent group-hover:text-ink transition">
+                    Jetzt öffnen
+                    <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                      →
                     </span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                  </div>
+                )}
+              </Wrapper>
+            );
+          })}
         </div>
       </Container>
     </section>
