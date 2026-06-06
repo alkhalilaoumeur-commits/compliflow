@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// Node-Runtime für Hetzner/Coolify-Kompatibilität.
 export const alt = "Compliflow — DSGVO-Tools für deutsche Selbstständige";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -51,9 +51,12 @@ export default async function og() {
               fontWeight: 500,
               letterSpacing: -2,
               lineHeight: 1.05,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 14,
             }}
           >
-            Compliance, in Stunden statt{" "}
+            <span>Compliance, in Stunden statt</span>
             <span style={{ color: "#1F3D2F", fontStyle: "italic" }}>
               Anwaltstagen.
             </span>
