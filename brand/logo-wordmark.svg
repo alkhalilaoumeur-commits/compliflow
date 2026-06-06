@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" width="720" height="160" fill="none" role="img" aria-label="Compliflow">
+  <title>Compliflow</title>
+  <style>
+    .wm { font-family: 'Syne', system-ui, sans-serif; font-weight: 800; font-size: 110px; letter-spacing: -0.04em; }
+  </style>
+  <text x="40" y="115" class="wm" fill="currentColor">complif<tspan fill="#FF4D00">l</tspan>ow</text>
+</svg>

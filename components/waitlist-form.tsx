@@ -25,41 +25,45 @@ export function WaitlistForm() {
   const done = status.kind === "ok";
 
   return (
-    <form onSubmit={onSubmit} className="mt-10 max-w-lg">
-      <div className="relative flex flex-col gap-3 border border-line bg-bg-soft p-2 sm:flex-row sm:items-stretch sm:gap-0">
+    <form onSubmit={onSubmit} className="w-full">
+      <label htmlFor="waitlist-email" className="sr-only">
+        Deine Email-Adresse
+      </label>
+      <div className="flex flex-col gap-3 sm:flex-row">
         <input
+          id="waitlist-email"
           type="email"
           name="email"
           required
           placeholder="dein.name@firma.de"
           autoComplete="email"
           disabled={pending || done}
-          className="flex-1 bg-transparent px-4 py-4 font-body text-[15px] text-ink placeholder:text-ink-faded focus:outline-none focus:placeholder:text-ink-faded/60 disabled:opacity-50"
+          className="h-12 flex-1 rounded-none border border-line-strong bg-surface-alt px-4 font-body text-[15px] text-ink placeholder:text-ink-faded focus:border-accent focus:outline-none focus:ring-0 disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={pending || done}
-          className="group relative inline-flex items-center justify-center bg-accent px-6 py-4 font-display text-[14px] font-bold uppercase tracking-[0.1em] text-bg transition-all duration-300 hover:bg-ink hover:text-bg disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn-primary inline-flex h-12 items-center justify-center rounded-none px-7 font-body text-[14px] font-medium tracking-tight disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <span className="relative z-10">
-            {pending ? "Speichere…" : done ? "Eingetragen ✓" : "Auf die Liste"}
-          </span>
+          {pending ? "Speichere…" : done ? "Eingetragen" : "Auf die Warteliste"}
         </button>
       </div>
 
-      <div className="mt-4 min-h-[20px] font-mono text-[11px] uppercase tracking-[0.15em]">
-        {status.kind === "ok" && (
-          <span className="text-accent">{status.msg}</span>
-        )}
-        {status.kind === "err" && (
-          <span className="text-accent">{status.msg}</span>
-        )}
-        {status.kind === "idle" && !pending && (
-          <span className="text-ink-faded">
-            Wir nutzen deine Mail nur für die Launch-Benachrichtigung.
-          </span>
-        )}
-      </div>
+      <p
+        className={`mt-3 min-h-[20px] font-body text-[13px] ${
+          status.kind === "ok"
+            ? "text-accent"
+            : status.kind === "err"
+              ? "text-warn"
+              : "text-ink-faded"
+        }`}
+      >
+        {status.kind === "ok"
+          ? status.msg
+          : status.kind === "err"
+            ? status.msg
+            : "Eine Mail beim Launch. Keine weiteren Newsletter. Abmelden mit einem Klick."}
+      </p>
     </form>
   );
 }

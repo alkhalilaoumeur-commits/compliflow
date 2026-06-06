@@ -8,23 +8,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: {
-          DEFAULT: "var(--color-bg)",
-          soft: "var(--color-bg-soft)",
-          card: "var(--color-bg-card)",
+        bg: "var(--color-bg)",
+        surface: {
+          DEFAULT: "var(--color-surface)",
+          alt: "var(--color-surface-alt)",
         },
         ink: {
           DEFAULT: "var(--color-ink)",
           dim: "var(--color-ink-dim)",
           faded: "var(--color-ink-faded)",
         },
-        accent: "var(--color-accent)",
-        line: "var(--color-line)",
+        accent: {
+          DEFAULT: "var(--color-accent)",
+          hover: "var(--color-accent-hover)",
+          soft: "var(--color-accent-soft)",
+        },
+        line: {
+          DEFAULT: "var(--color-line)",
+          strong: "var(--color-line-strong)",
+        },
+        warn: "var(--color-warn)",
       },
       fontFamily: {
-        display: ["var(--font-display)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+      },
+      boxShadow: {
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        lg: "var(--shadow-lg)",
+      },
+      maxWidth: {
+        container: "1200px",
+        prose: "62ch",
       },
     },
   },

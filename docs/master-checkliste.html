@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRVN Compliance Suite — Master-Checkliste</title>
+<style>
+:root {
+  --bg: #0A0906;
+  --bg-soft: #14110D;
+  --bg-card: #1A1612;
+  --ink: #F4EFE8;
+  --ink-dim: #A89F92;
+  --ink-faded: #5C5447;
+  --accent: #FF4D00;
+  --accent-soft: rgba(255, 77, 0, 0.12);
+  --line: #2A241D;
+  --success: #4D8B5A;
+  --warn: #D4A445;
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --space: 8px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* === LAYOUT === */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  background: var(--bg-soft);
+  border-right: 1px solid var(--line);
+  padding: 32px 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.brand-sub {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.progress-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.progress-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+
+.progress-stats {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.progress-stats span { color: var(--accent); }
+
+.progress-bar {
+  height: 4px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 400ms ease;
+}
+
+.nav-search {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.nav-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.nav-list {
+  list-style: none;
+  font-size: 13px;
+}
+
+.nav-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--ink-dim);
+  text-decoration: none;
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  transition: all 150ms ease;
+}
+
+.nav-list li a:hover {
+  color: var(--ink);
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+}
+
+.nav-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-faded);
+}
+
+.nav-count.done { color: var(--success); }
+
+.controls {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn {
+  background: transparent;
+  color: var(--ink-dim);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 150ms ease;
+}
+
+.btn:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.btn.danger:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* === MAIN === */
+.main {
+  padding: 64px 80px 120px;
+  max-width: 1100px;
+}
+
+.hero {
+  margin-bottom: 80px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+
+.hero-eyebrow {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero-desc {
+  color: var(--ink-dim);
+  font-size: 18px;
+  max-width: 640px;
+  line-height: 1.5;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 48px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.hero-meta-item .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.hero-meta-item .val {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* === SECTIONS === */
+.section {
+  margin-bottom: 80px;
+  scroll-margin-top: 32px;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-stats {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-faded);
+}
+
+.section-stats .done-count {
+  color: var(--success);
+}
+
+.section-intro {
+  color: var(--ink-dim);
+  margin-bottom: 32px;
+  max-width: 720px;
+  font-size: 15px;
+}
+
+/* === SUBSECTIONS === */
+.subsection {
+  margin-bottom: 40px;
+  background: var(--bg-soft);
+  border-left: 2px solid var(--line);
+  padding: 24px 28px;
+  transition: border-left-color 200ms ease;
+}
+
+.subsection:hover {
+  border-left-color: var(--accent);
+}
+
+.subsection-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.subsection-note {
+  color: var(--ink-dim);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.todo-list { list-style: none; }
+
+.todo {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 8px 0;
+  cursor: pointer;
+  border-bottom: 1px dotted transparent;
+}
+
+.todo:hover {
+  border-bottom-color: var(--line);
+}
+
+.todo input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--ink-faded);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  margin-top: 3px;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+.todo input[type="checkbox"]:hover { border-color: var(--accent); }
+
+.todo input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.todo input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.todo label {
+  cursor: pointer;
+  color: var(--ink);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.todo input[type="checkbox"]:checked + label {
+  color: var(--ink-faded);
+  text-decoration: line-through;
+}
+
+.todo .meta {
+  color: var(--ink-faded);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  margin-left: 6px;
+}
+
+.todo .badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-left: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.todo .badge.warn { background: rgba(212, 164, 69, 0.15); color: var(--warn); }
+.todo .badge.crit { background: rgba(255, 77, 0, 0.25); color: var(--accent); }
+
+.todo code {
+  background: var(--bg-card);
+  color: var(--accent);
+  padding: 1px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.todo a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.callout {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+
+.callout strong { color: var(--accent); }
+
+.table-wrap { overflow-x: auto; margin: 16px 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th, td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+}
+th {
+  color: var(--ink-faded);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Hide for search */
+.hidden { display: none !important; }
+
+/* Print */
+@media print {
+  body { background: white; color: black; font-size: 11pt; }
+  .sidebar, .controls { display: none; }
+  .app { grid-template-columns: 1fr; }
+  .main { padding: 20px; }
+  .hero h1 { font-size: 32pt; color: black; }
+  .hero h1 em { color: #FF4D00; }
+  .section-title { font-size: 18pt; color: black; }
+  .subsection { background: #f8f8f8; border-left-color: #FF4D00; page-break-inside: avoid; }
+  .todo label { color: black; }
+  .todo input[type="checkbox"] { border-color: black; }
+  .callout { background: #fff5ee; border-left-color: #FF4D00; color: black; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; }
+  .main { padding: 40px 24px; }
+  .hero h1 { font-size: 48px; }
+  .section-header { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand">DRVN Suite</div>
+  <div class="brand-sub">Master-Checkliste</div>
+
+  <div class="progress-card">
+    <div class="progress-label">Fortschritt</div>
+    <div class="progress-stats"><span id="doneCount">0</span> / <span id="totalCount">0</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <input type="text" class="nav-search" id="searchInput" placeholder="Todos suchen…">
+
+  <ul class="nav-list" id="navList"></ul>
+
+  <div class="controls">
+    <button class="btn" onclick="window.print()">PDF Drucken</button>
+    <button class="btn" onclick="exportProgress()">Export JSON</button>
+    <button class="btn danger" onclick="resetAll()">Alles zurücksetzen</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<header class="hero">
+  <div class="hero-eyebrow">3-Monatsplan · Ziel: 500+ Sales</div>
+  <h1>Master<em>Checkliste</em><br>für die Suite.</h1>
+  <p class="hero-desc">Alles was du brauchst um die DRVN Compliance Suite live zu bringen, juristisch sauber, technisch solide und Google-tauglich. Hak die Todos ab — der Browser merkt sich deinen Stand.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="label">Tools</div><div class="val">3</div></div>
+    <div class="hero-meta-item"><div class="label">Sections</div><div class="val">24</div></div>
+    <div class="hero-meta-item"><div class="label">Todos</div><div class="val" id="heroTotal">—</div></div>
+    <div class="hero-meta-item"><div class="label">Sales-Ziel</div><div class="val">500+</div></div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: SETUP & FOUNDATION                                -->
+<!-- ============================================================ -->
+<section class="section" id="s1">
+<div class="section-header">
+  <div class="section-num">01</div>
+  <h2 class="section-title">Setup & Foundation</h2>
+  <div class="section-stats" data-section="s1">—</div>
+</div>
+<p class="section-intro">Bevor irgendein Code entsteht: Domain, Accounts, Werkzeuge. Diese Säule trägt alle 3 Tools später.</p>
+
+<div class="subsection">
+<div class="subsection-title">Domain & Brand</div>
+<div class="subsection-note">Suite-Domain (compliflow.de o.ä.), Privacy aktivieren, bei Vercel verbinden.</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t1" checked><label for="t1">15 Domain-Kandidaten auf inwx.de durchklicken (Liste aus Vault) <span class="badge crit">START</span></label></li>
+<li class="todo"><input type="checkbox" id="t2" checked><label for="t2">Erste freie Suite-Domain registrieren (compliflow.de / complibase.de / dsgvopro.de)</label></li>
+<li class="todo"><input type="checkbox" id="t3" checked><label for="t3">WhoisGuard / Domain Privacy aktivieren</label></li>
+<li class="todo"><input type="checkbox" id="t4" checked><label for="t4">Auto-Renewal aktivieren</label></li>
+<li class="todo"><input type="checkbox" id="t5" checked><label for="t5">Wayback-Machine-Check der Domain (war früher etwas darauf?)</label></li>
+<li class="todo"><input type="checkbox" id="t6" checked><label for="t6">Google "site:domain.de" Check (Penalty-Verdacht?)</label></li>
+<li class="todo"><input type="checkbox" id="t7"><label for="t7">Brand-Namen DPMA-Marken-Check (kostenlose Recherche unter <code>register.dpma.de</code>)</label></li>
+<li class="todo"><input type="checkbox" id="t8"><label for="t8">Brand-Name auf LinkedIn + Twitter/X + Instagram + YouTube reservieren</label></li>
+<li class="todo"><input type="checkbox" id="t9" checked><label for="t9">Brand-Mail einrichten (z.B. <code>hello@domain.de</code> via Cloudflare Email Routing)</label></li>
+<li class="todo"><input type="checkbox" id="t10" checked><label for="t10">Logo-Entwurf (Claude oder Figma) im DRVN-Style (Espresso + Vermillion)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Accounts & Dienste</div>
+<div class="subsection-note">Alles was wir an Cloud-Diensten brauchen, einmal sauber einrichten.</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t11" checked><label for="t11">GitHub-Repo <code>compliflow</code> privat erstellen</label></li>
+<li class="todo"><input type="checkbox" id="t12" checked><label for="t12">Vercel: neues Projekt anlegen + Domain verbinden + SSL prüfen</label></li>
+<li class="todo"><input type="checkbox" id="t13"><label for="t13">Supabase: neues Projekt EU-Region (Frankfurt) anlegen — DSGVO-Pflicht!</label></li>
+<li class="todo"><input type="checkbox" id="t14"><label for="t14">Stripe: prüfen ob ServeFlow-Account für 2. Produkt erweitert wird, sonst neu</label></li>
+<li class="todo"><input type="checkbox" id="t15"><label for="t15">Resend-Account: API-Key generieren + Domain verifizieren (SPF, DKIM, DMARC)</label></li>
+<li class="todo"><input type="checkbox" id="t16" checked><label for="t16">Plausible Analytics: neue Site im DRVN-Konto anlegen</label></li>
+<li class="todo"><input type="checkbox" id="t17"><label for="t17">Google Search Console: Property hinzufügen + DNS-TXT-Verifizierung</label></li>
+<li class="todo"><input type="checkbox" id="t18"><label for="t18">Bing Webmaster Tools: gleiche Domain hinzufügen</label></li>
+<li class="todo"><input type="checkbox" id="t19"><label for="t19">PostHog (kostenlos, EU-Region) für Heatmaps + Funnel-Tracking</label></li>
+<li class="todo"><input type="checkbox" id="t20"><label for="t20">Sentry oder Vercel-Logs für Error-Monitoring aktivieren</label></li>
+<li class="todo"><input type="checkbox" id="t21"><label for="t21">DocuSign oder PandaDoc-Trial für Phase 2 (Pro-Feature)</label></li>
+<li class="todo"><input type="checkbox" id="t22" checked><label for="t22">Cursor + Claude Code lokal aktualisieren</label></li>
+<li class="todo"><input type="checkbox" id="t23" checked><label for="t23">Lokalen Projekt-Ordner anlegen: <code>~/compliflow/</code></label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Initialer Tech-Stack-Build</div>
+<div class="subsection-note">Skelett das alle 3 Tools später trägt (Suite-Architektur).</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t24" checked><label for="t24">Next.js 14 mit App-Router + TypeScript initialisieren</label></li>
+<li class="todo"><input type="checkbox" id="t25" checked><label for="t25">Tailwind + shadcn/ui Setup mit DRVN-Theme</label></li>
+<li class="todo"><input type="checkbox" id="t26" checked><label for="t26">CLAUDE.md im Projekt-Root anlegen (Brand-Regeln, design-rules-Verweis, Stack-Beschreibung)</label></li>
+<li class="todo"><input type="checkbox" id="t27" checked><label for="t27">Ordnerstruktur: <code>/app</code>, <code>/components</code>, <code>/lib</code>, <code>/content</code>, <code>/templates</code></label></li>
+<li class="todo"><input type="checkbox" id="t28"><label for="t28">Supabase-Client integrieren (<code>lib/supabase</code>)</label></li>
+<li class="todo"><input type="checkbox" id="t29"><label for="t29">Stripe-Client integrieren (<code>lib/stripe</code>) im Test-Mode</label></li>
+<li class="todo"><input type="checkbox" id="t30" checked><label for="t30">ENV-Variablen: <code>.env.local</code> + <code>.env.example</code></label></li>
+<li class="todo"><input type="checkbox" id="t31" checked><label for="t31">First Commit + Push to GitHub</label></li>
+<li class="todo"><input type="checkbox" id="t32" checked><label for="t32">Vercel auto-Deploy aus main-Branch aktivieren</label></li>
+<li class="todo"><input type="checkbox" id="t33" checked><label for="t33">Erste Test-Page (<code>/</code>) live auf Domain → SSL grün?</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: RECHTLICHES & DSGVO FÜR EIGENES TOOL              -->
+<!-- ============================================================ -->
+<section class="section" id="s2">
+<div class="section-header">
+  <div class="section-num">02</div>
+  <h2 class="section-title">Rechtliches & DSGVO für eigenes Tool</h2>
+  <div class="section-stats" data-section="s2">—</div>
+</div>
+<p class="section-intro">Ironisch aber wichtig: Wir bauen ein Compliance-Tool — also muss UNSERE Seite selbst 100% sauber sein, sonst Reputations-Killer.</p>
+
+<div class="subsection">
+<div class="subsection-title">Pflicht-Rechtstexte für die Seite</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t34" checked><label for="t34">Impressum schreiben (Al-Khalil Aoumeur, Egilolfstr. 41, 70599 Stuttgart, Kleinunternehmer §19 UStG) <span class="badge crit">PFLICHT</span></label></li>
+<li class="todo"><input type="checkbox" id="t35" checked><label for="t35">Datenschutzerklärung schreiben (mit Supabase, Stripe, Resend, Plausible, PostHog erwähnt)</label></li>
+<li class="todo"><input type="checkbox" id="t36" checked><label for="t36">Cookie-Hinweis (eigentlich nicht zwingend nötig wegen Plausible, aber transparent erklären)</label></li>
+<li class="todo"><input type="checkbox" id="t37" checked><label for="t37">AGB / Nutzungsbedingungen für Pro-Käufer (Haftungsausschluss prominent!)</label></li>
+<li class="todo"><input type="checkbox" id="t38" checked><label for="t38">Widerrufsbelehrung für Digitalprodukte (gemäß §356 BGB — sofortige Lieferung-Verzicht-Klausel)</label></li>
+<li class="todo"><input type="checkbox" id="t39" checked><label for="t39">Disclaimer prominent: "Tool ersetzt keine Rechtsberatung"</label></li>
+<li class="todo"><input type="checkbox" id="t40" checked><label for="t40">Hinweise auf Vorlagen-Grundlage (z.B. "basierend auf Bitkom-Mustervertrag")</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">DSGVO-Konformität des eigenen Tools</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t41" checked><label for="t41">Supabase EU-Region (Frankfurt) bestätigen — Datenflüsse bleiben in EU</label></li>
+<li class="todo"><input type="checkbox" id="t42" checked><label for="t42">AVV mit Vercel abschließen (Vercel hat Standard-AVV, einmal akzeptieren)</label></li>
+<li class="todo"><input type="checkbox" id="t43" checked><label for="t43">AVV mit Supabase (Standard-AVV im Dashboard akzeptieren)</label></li>
+<li class="todo"><input type="checkbox" id="t44" checked><label for="t44">AVV mit Stripe (im Dashboard "Data Processing Addendum" akzeptieren)</label></li>
+<li class="todo"><input type="checkbox" id="t45" checked><label for="t45">AVV mit Resend</label></li>
+<li class="todo"><input type="checkbox" id="t46" checked><label for="t46">AVV mit PostHog (Self-Hosted EU oder Cloud-EU bestätigen)</label></li>
+<li class="todo"><input type="checkbox" id="t47" checked><label for="t47">Eigenes Verarbeitungsverzeichnis (VVT) anlegen (kannst du im Tool selbst nutzen wenn fertig — Meta-Move)</label></li>
+<li class="todo"><input type="checkbox" id="t48" checked><label for="t48">TOMs (Technische und Organisatorische Maßnahmen) dokumentieren — Vault-Datei</label></li>
+<li class="todo"><input type="checkbox" id="t49" checked><label for="t49">Datenpannen-Reaktionsplan schreiben (Art. 33 — innerhalb 72h Meldung)</label></li>
+<li class="todo"><input type="checkbox" id="t50"><label for="t50">Löschkonzept dokumentieren (Pro-Käufer-Daten nach Kündigung: 30 Tage Backup, dann hard delete)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Compliance der generierten AVVs (Inhaltliche Qualität)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t51"><label for="t51">Bitkom AVV-Mustervertrag 2024 als Basis-Vorlage runterladen</label></li>
+<li class="todo"><input type="checkbox" id="t52"><label for="t52">Anwaltliche Quick-Review der Vorlage einholen (300-500€ einmalig, lohnt sich!) <span class="badge warn">EMPFEHLUNG</span></label></li>
+<li class="todo"><input type="checkbox" id="t53"><label for="t53">Schrems-II-Klauseln für US-Anbieter integrieren (SCC 2021/914)</label></li>
+<li class="todo"><input type="checkbox" id="t54"><label for="t54">EU-AI-Act-Konformität für KI-Verarbeitungs-AVVs (ChatGPT, Claude, etc.)</label></li>
+<li class="todo"><input type="checkbox" id="t55"><label for="t55">Standardvertragsklauseln (SCC) für Drittland-Transfer einbauen</label></li>
+<li class="todo"><input type="checkbox" id="t56"><label for="t56">TOMs-Vorlage für gängige Anbieter (Google, Microsoft, AWS, Mailchimp) hinterlegen</label></li>
+<li class="todo"><input type="checkbox" id="t57"><label for="t57">Versionierung der AVV-Vorlage (z.B. v1.0 — bei Updates User benachrichtigen)</label></li>
+<li class="todo"><input type="checkbox" id="t58"><label for="t58">Disclaimer im PDF prominent: "Vorlage ohne Rechtsberatung im Einzelfall"</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: STEUERN & BUCHHALTUNG                              -->
+<!-- ============================================================ -->
+<section class="section" id="s3">
+<div class="section-header">
+  <div class="section-num">03</div>
+  <h2 class="section-title">Steuern & Buchhaltung</h2>
+  <div class="section-stats" data-section="s3">—</div>
+</div>
+<p class="section-intro">Du bist Kleinunternehmer §19 UStG. Trotzdem gibt es Fallen — vor allem bei digitalen Produkten an EU-/Nicht-EU-Käufer.</p>
+
+<div class="subsection">
+<div class="subsection-title">Stripe-Setup für Steuern</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t59"><label for="t59">Stripe Tax aktivieren — automatische USt-Berechnung pro Land</label></li>
+<li class="todo"><input type="checkbox" id="t60"><label for="t60">Stripe als Merchant of Record nutzen falls möglich (OSS-Pflicht entfällt für dich)</label></li>
+<li class="todo"><input type="checkbox" id="t61"><label for="t61">Kleinunternehmer-Hinweis in Rechnungen: "Gemäß §19 UStG wird keine USt ausgewiesen"</label></li>
+<li class="todo"><input type="checkbox" id="t62"><label for="t62">Rechnungs-Template in Stripe konfigurieren (DRVN-Brand + Pflichtangaben)</label></li>
+<li class="todo"><input type="checkbox" id="t63"><label for="t63">Test-Kauf durchführen → Rechnung prüfen → an Steuerberater senden zur Freigabe</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Buchhaltung & Pflichten</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t64"><label for="t64">Steuerberater informieren: neue Einnahmequelle (digitale Produkte) <span class="badge warn">WICHTIG</span></label></li>
+<li class="todo"><input type="checkbox" id="t65"><label for="t65">22.000€-Schwelle für Kleinunternehmer-Status beobachten (bei Suite-Erfolg in Sicht!)</label></li>
+<li class="todo"><input type="checkbox" id="t66"><label for="t66">EÜR-Vorbereitung: Stripe-Auszüge monatlich exportieren + ablegen</label></li>
+<li class="todo"><input type="checkbox" id="t67"><label for="t67">Betriebsausgaben tracken: Domain, Hosting, Tools, Steuerberater, Anwalts-Review</label></li>
+<li class="todo"><input type="checkbox" id="t68"><label for="t68">DATEV-Export (oder lexware) monatlich an Steuerberater</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: TOOL 1 — AVV-GENERATOR BUILD                       -->
+<!-- ============================================================ -->
+<section class="section" id="s4">
+<div class="section-header">
+  <div class="section-num">04</div>
+  <h2 class="section-title">Tool 1 — AVV-Generator Build</h2>
+  <div class="section-stats" data-section="s4">—</div>
+</div>
+<p class="section-intro">Der eigentliche Wizard. Mehrstufig, mit Live-Vorschau, PDF-Export und Free-/Pro-Logik.</p>
+
+<div class="subsection">
+<div class="subsection-title">Datenbank-Modell (Supabase)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t69"><label for="t69">Tabelle <code>users</code> (id, email, created_at, plan)</label></li>
+<li class="todo"><input type="checkbox" id="t70"><label for="t70">Tabelle <code>avvs</code> (id, user_id, data_json, pdf_url, branding_json, created_at, version)</label></li>
+<li class="todo"><input type="checkbox" id="t71"><label for="t71">Tabelle <code>waitlist</code> (id, email, source, created_at)</label></li>
+<li class="todo"><input type="checkbox" id="t72"><label for="t72">Tabelle <code>purchases</code> (id, user_id, tool, amount, stripe_session_id, created_at)</label></li>
+<li class="todo"><input type="checkbox" id="t73"><label for="t73">Tabelle <code>affiliates</code> (id, name, email, code, commission_rate, total_earned)</label></li>
+<li class="todo"><input type="checkbox" id="t74"><label for="t74">Tabelle <code>referrals</code> (id, affiliate_id, purchase_id, commission, status)</label></li>
+<li class="todo"><input type="checkbox" id="t75"><label for="t75">Row Level Security (RLS) Policies — User darf nur eigene Daten sehen</label></li>
+<li class="todo"><input type="checkbox" id="t76"><label for="t76">Backup-Schedule in Supabase aktivieren (Daily)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Wizard-UI</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t77" checked><label for="t77">Step 1: Auftraggeber-Daten (Firmenname, Adresse, Vertreter, Email)</label></li>
+<li class="todo"><input type="checkbox" id="t78" checked><label for="t78">Step 2: Auftragsverarbeiter-Daten (oder Auto-Auswahl gängiger Anbieter)</label></li>
+<li class="todo"><input type="checkbox" id="t79" checked><label for="t79">Step 3: Vertragsgegenstand (welche Datenkategorien, welche Zwecke)</label></li>
+<li class="todo"><input type="checkbox" id="t80" checked><label for="t80">Step 4: Ort der Verarbeitung (EU/Drittland) → automatisch Schrems-II-Klauseln</label></li>
+<li class="todo"><input type="checkbox" id="t81" checked><label for="t81">Step 5: Subverarbeiter erlaubt? (Ja/Nein/Mit Zustimmung)</label></li>
+<li class="todo"><input type="checkbox" id="t82" checked><label for="t82">Step 6: TOMs auswählen oder eigene eingeben</label></li>
+<li class="todo"><input type="checkbox" id="t83" checked><label for="t83">Step 7: Vertragsdauer + Beendigung</label></li>
+<li class="todo"><input type="checkbox" id="t84" checked><label for="t84">Step 8: Review + Email-Capture + Download</label></li>
+<li class="todo"><input type="checkbox" id="t85" checked><label for="t85">Live-Vorschau rechts neben Wizard (mit smooth Auto-Scroll)</label></li>
+<li class="todo"><input type="checkbox" id="t86" checked><label for="t86">Progress-Bar oben (1/8, 2/8 etc.)</label></li>
+<li class="todo"><input type="checkbox" id="t87" checked><label for="t87">Back/Forward-Navigation zwischen Steps</label></li>
+<li class="todo"><input type="checkbox" id="t88" checked><label for="t88">Form-Validation pro Step (kein Weiter bei Fehlern)</label></li>
+<li class="todo"><input type="checkbox" id="t89" checked><label for="t89">Auto-Save in LocalStorage (User darf nicht Eingaben verlieren bei Reload)</label></li>
+<li class="todo"><input type="checkbox" id="t90"><label for="t90">Mobile-tauglicher Wizard (Touch-optimiert)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">PDF-Generierung</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t91" checked><label for="t91">React-PDF oder Puppeteer für serverseitige PDF-Erstellung</label></li>
+<li class="todo"><input type="checkbox" id="t92" checked><label for="t92">Vorlagen-Text rechtssicher modular bauen (Bausteine je nach User-Wahl)</label></li>
+<li class="todo"><input type="checkbox" id="t93" checked><label for="t93">PDF-Layout: Deckblatt, Inhaltsverzeichnis, Vertragstext, Anlagen (TOMs, Subverarbeiter)</label></li>
+<li class="todo"><input type="checkbox" id="t94" checked><label for="t94">Free-Tier: Footer "Powered by compliflow.de"</label></li>
+<li class="todo"><input type="checkbox" id="t95"><label for="t95">Pro-Tier: Custom-Logo + Custom-Farben im PDF</label></li>
+<li class="todo"><input type="checkbox" id="t96"><label for="t96">PDF in Supabase Storage speichern + Download-Link generieren (24h gültig)</label></li>
+<li class="todo"><input type="checkbox" id="t97"><label for="t97">PDF auch per Mail senden (Resend-Integration)</label></li>
+<li class="todo"><input type="checkbox" id="t98" checked><label for="t98">PDF-Filename: <code>AVV_[Firma]_[YYYY-MM-DD].pdf</code></label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Pro-Tier (Stripe-Checkout)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t99"><label for="t99">Pricing-Page: 19€ Early Bird → 29€ Standard (Stripe Product anlegen)</label></li>
+<li class="todo"><input type="checkbox" id="t100"><label for="t100">Stripe Checkout Session erstellen + Redirect-URL</label></li>
+<li class="todo"><input type="checkbox" id="t101"><label for="t101">Webhook für <code>checkout.session.completed</code> → User auf "pro" updaten</label></li>
+<li class="todo"><input type="checkbox" id="t102"><label for="t102">Pro-Tier Branding-Upload (Logo, Farbcodes)</label></li>
+<li class="todo"><input type="checkbox" id="t103"><label for="t103">Pro-Tier Multi-AVV-Dashboard (Liste aller bisherigen AVVs)</label></li>
+<li class="todo"><input type="checkbox" id="t104"><label for="t104">Refund-Logic + Money-Back-Garantie (14 Tage)</label></li>
+<li class="todo"><input type="checkbox" id="t105"><label for="t105">Affiliate-Tracking via UTM-Parameter / Tolt-Cookie</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Landing-Page (SEO-optimiert)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t106"><label for="t106">Hero-Section: Loss-Frame-Headline ("Bußgeld bis 20 Mio € — vermeide das in 2 min")</label></li>
+<li class="todo"><input type="checkbox" id="t107"><label for="t107">Live-Demo direkt eingebettet (User kann Wizard sofort testen ohne Anmeldung)</label></li>
+<li class="todo"><input type="checkbox" id="t108"><label for="t108">Trust-Signale: 3-5 echte Testimonials (Beta-Tester aus Netzwerk)</label></li>
+<li class="todo"><input type="checkbox" id="t109"><label for="t109">FAQ-Sektion mit 10+ Fragen (für FAQ-Schema)</label></li>
+<li class="todo"><input type="checkbox" id="t110"><label for="t110">Pricing-Section transparent (Free / Pro 29€ / Bundle 49€)</label></li>
+<li class="todo"><input type="checkbox" id="t111"><label for="t111">Footer mit Impressum + Datenschutz + AGB + Widerruf + Affiliate-Programm</label></li>
+<li class="todo"><input type="checkbox" id="t112"><label for="t112">Schema.org Markup: SoftwareApplication + FAQPage + BreadcrumbList + Organization</label></li>
+<li class="todo"><input type="checkbox" id="t113"><label for="t113">Open Graph + Twitter Cards für Social-Sharing</label></li>
+<li class="todo"><input type="checkbox" id="t114" checked><label for="t114">Favicon + Apple-Touch-Icon + Manifest.json (PWA-ready)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: TOOL 1 — TESTING                                   -->
+<!-- ============================================================ -->
+<section class="section" id="s5">
+<div class="section-header">
+  <div class="section-num">05</div>
+  <h2 class="section-title">Tool 1 — Testing vor Launch</h2>
+  <div class="section-stats" data-section="s5">—</div>
+</div>
+<p class="section-intro">Bevor irgendein User bezahlt: alles durchtesten. Jeder Bug am Launch-Tag kostet Sales und Reputation.</p>
+
+<div class="subsection">
+<div class="subsection-title">Funktionale Tests</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t115"><label for="t115">Wizard-Durchlauf: 10 echte AVV-Fälle durchspielen (Mailchimp, Google, ChatGPT, Stripe, Hetzner, Notion, Slack, Calendly, DocuSign, AWS)</label></li>
+<li class="todo"><input type="checkbox" id="t116"><label for="t116">PDF-Output prüfen: Layout korrekt? Texte vollständig? Keine Platzhalter?</label></li>
+<li class="todo"><input type="checkbox" id="t117"><label for="t117">Email-Capture: Speichert in Supabase? Resend sendet Bestätigung?</label></li>
+<li class="todo"><input type="checkbox" id="t118"><label for="t118">Stripe-Checkout: Test-Karte 4242 4242 4242 4242 → Webhook feuert?</label></li>
+<li class="todo"><input type="checkbox" id="t119"><label for="t119">Pro-Upgrade-Flow: User-Status updated auf 'pro' in DB?</label></li>
+<li class="todo"><input type="checkbox" id="t120"><label for="t120">Refund-Flow testen (Stripe-Dashboard → Refund → User auf 'free' zurück)</label></li>
+<li class="todo"><input type="checkbox" id="t121"><label for="t121">Affiliate-Tracking: Code anhängen → Sale → Affiliate-Provision in DB?</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Browser & Device Testing</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t122"><label for="t122">Chrome (aktuell) Desktop + Mobile</label></li>
+<li class="todo"><input type="checkbox" id="t123"><label for="t123">Safari Desktop + iOS</label></li>
+<li class="todo"><input type="checkbox" id="t124"><label for="t124">Firefox Desktop</label></li>
+<li class="todo"><input type="checkbox" id="t125"><label for="t125">Edge Desktop</label></li>
+<li class="todo"><input type="checkbox" id="t126"><label for="t126">iPhone (echtes Gerät, nicht Emulator) durchklicken</label></li>
+<li class="todo"><input type="checkbox" id="t127"><label for="t127">Android-Device durchklicken</label></li>
+<li class="todo"><input type="checkbox" id="t128"><label for="t128">iPad-Layout prüfen</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Performance</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t129"><label for="t129">PageSpeed Insights → Score ≥ 90 Mobile + Desktop</label></li>
+<li class="todo"><input type="checkbox" id="t130"><label for="t130">LCP &lt; 2,5 sec</label></li>
+<li class="todo"><input type="checkbox" id="t131"><label for="t131">CLS &lt; 0,1</label></li>
+<li class="todo"><input type="checkbox" id="t132"><label for="t132">Bilder optimiert (WebP/AVIF, Next/Image)</label></li>
+<li class="todo"><input type="checkbox" id="t133"><label for="t133">Fonts mit <code>font-display: swap</code></label></li>
+<li class="todo"><input type="checkbox" id="t134"><label for="t134">Lazy-Loading für Below-The-Fold-Content</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Security</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t135"><label for="t135">SSL-Test auf <a href="https://www.ssllabs.com/ssltest/">ssllabs.com</a> → A oder A+</label></li>
+<li class="todo"><input type="checkbox" id="t136"><label for="t136">HTTP Security Headers (CSP, X-Frame-Options, HSTS) via Vercel-Config</label></li>
+<li class="todo"><input type="checkbox" id="t137"><label for="t137">Supabase RLS Policies durchtesten (kann User fremde Daten sehen?)</label></li>
+<li class="todo"><input type="checkbox" id="t138"><label for="t138">SQL-Injection-Test (Wizard-Inputs)</label></li>
+<li class="todo"><input type="checkbox" id="t139"><label for="t139">XSS-Test (Special Chars in Eingabefeldern)</label></li>
+<li class="todo"><input type="checkbox" id="t140"><label for="t140">Rate-Limiting auf API-Routes (max 10 PDF/Stunde pro IP)</label></li>
+<li class="todo"><input type="checkbox" id="t141"><label for="t141">Stripe-Webhook-Signatur-Verifikation aktiv</label></li>
+<li class="todo"><input type="checkbox" id="t142"><label for="t142">Env-Vars NICHT im Frontend exposed (.env.local nur server-seitig)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">DSGVO + Legal Final Check</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t143"><label for="t143">Impressum vollständig (alle Pflichtangaben §5 TMG)</label></li>
+<li class="todo"><input type="checkbox" id="t144"><label for="t144">Datenschutzerklärung deckt alle eingesetzten Dienste ab</label></li>
+<li class="todo"><input type="checkbox" id="t145"><label for="t145">Cookie-Banner (oder Plausible-Hinweis) korrekt</label></li>
+<li class="todo"><input type="checkbox" id="t146"><label for="t146">Widerrufsbelehrung-Klausel für Digitalprodukte korrekt</label></li>
+<li class="todo"><input type="checkbox" id="t147"><label for="t147">Echter Friend macht 1× Live-Test komplett vor Launch</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: TOOL 2 — VVT-GENERATOR BUILD                       -->
+<!-- ============================================================ -->
+<section class="section" id="s6">
+<div class="section-header">
+  <div class="section-num">06</div>
+  <h2 class="section-title">Tool 2 — VVT-Generator Build</h2>
+  <div class="section-stats" data-section="s6">—</div>
+</div>
+<p class="section-intro">Verarbeitungsverzeichnis nach Art. 30 DSGVO. Niedrige Konkurrenz, hoher Bedarf — die VVT-Pflicht ist vielen unbekannt.</p>
+
+<div class="subsection">
+<div class="subsection-title">Datenmodell + Logik</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t148"><label for="t148">Tabelle <code>vvt_entries</code> (id, user_id, name, purpose, data_categories, recipients, retention, toms)</label></li>
+<li class="todo"><input type="checkbox" id="t149"><label for="t149">Vorlagen-Bibliothek für gängige Verarbeitungstätigkeiten (Buchhaltung, Personal, Newsletter, Kundendaten etc.)</label></li>
+<li class="todo"><input type="checkbox" id="t150"><label for="t150">Wizard für VVT-Eintrag (8 Felder pro Eintrag)</label></li>
+<li class="todo"><input type="checkbox" id="t151"><label for="t151">VVT-Übersicht als sortierbare Tabelle</label></li>
+<li class="todo"><input type="checkbox" id="t152"><label for="t152">Export als PDF + Excel + CSV</label></li>
+<li class="todo"><input type="checkbox" id="t153"><label for="t153">Update-Erinnerung (jährliche Review-Pflicht)</label></li>
+<li class="todo"><input type="checkbox" id="t154"><label for="t154">Aggregierte Datenkategorien-Auflistung im PDF</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Cross-Sell mit AVV</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t155"><label for="t155">VVT-Käufer bekommen Discount auf AVV-Tool und umgekehrt</label></li>
+<li class="todo"><input type="checkbox" id="t156"><label for="t156">"Du hast schon AVV von uns? Hier ist VVT mit 20% Rabatt" Email-Kampagne</label></li>
+<li class="todo"><input type="checkbox" id="t157"><label for="t157">Bundle "AVV + VVT für 49€" auf beiden Tool-Seiten prominent</label></li>
+<li class="todo"><input type="checkbox" id="t158"><label for="t158">Im VVT-Tool: "Brauchst du AVVs mit deinen Auftragsverarbeitern? Tool hier" Link</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">VVT Landing + SEO</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t159"><label for="t159">Landing <code>/vvt</code> mit FAQ + Live-Demo</label></li>
+<li class="todo"><input type="checkbox" id="t160"><label for="t160">10 VVT-Cluster-Artikel im Content-Plan (siehe Section 11)</label></li>
+<li class="todo"><input type="checkbox" id="t161"><label for="t161">Pillar Page "Verarbeitungsverzeichnis — Vollständiger Leitfaden 2026"</label></li>
+<li class="todo"><input type="checkbox" id="t162"><label for="t162">Schema.org SoftwareApplication für VVT-Tool</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: TOOL 2 — VVT TESTING                               -->
+<!-- ============================================================ -->
+<section class="section" id="s7">
+<div class="section-header">
+  <div class="section-num">07</div>
+  <h2 class="section-title">Tool 2 — VVT Testing</h2>
+  <div class="section-stats" data-section="s7">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t163"><label for="t163">10 reale VVT-Use-Cases durchspielen</label></li>
+<li class="todo"><input type="checkbox" id="t164"><label for="t164">Excel-Export prüfen (formatierte Zellen, lesbar)</label></li>
+<li class="todo"><input type="checkbox" id="t165"><label for="t165">CSV-Export Kompatibilität mit Excel + Google Sheets</label></li>
+<li class="todo"><input type="checkbox" id="t166"><label for="t166">PDF-Output sauber formatiert</label></li>
+<li class="todo"><input type="checkbox" id="t167"><label for="t167">Cross-Browser-Test (siehe Section 5)</label></li>
+<li class="todo"><input type="checkbox" id="t168"><label for="t168">Cross-Sell-Flow testen (Discount-Code funktioniert?)</label></li>
+<li class="todo"><input type="checkbox" id="t169"><label for="t169">Bundle-Checkout testen</label></li>
+<li class="todo"><input type="checkbox" id="t170"><label for="t170">Performance Lighthouse ≥ 90</label></li>
+<li class="todo"><input type="checkbox" id="t171"><label for="t171">DSGVO-Review (gleiche Checks wie AVV)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: TOOL 3 — COOKIE-BANNER-GENERATOR                   -->
+<!-- ============================================================ -->
+<section class="section" id="s8">
+<div class="section-header">
+  <div class="section-num">08</div>
+  <h2 class="section-title">Tool 3 — Cookie-Banner-Generator</h2>
+  <div class="section-stats" data-section="s8">—</div>
+</div>
+<p class="section-intro">Subscription-fähig (Usercentrics-Style). Höchster LTV — User bindet den Banner per Embed-Code auf seiner Webseite ein.</p>
+
+<div class="subsection">
+<div class="subsection-title">Build</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t172"><label for="t172">Banner-Editor mit Live-Vorschau (Style, Texte, Buttons)</label></li>
+<li class="todo"><input type="checkbox" id="t173"><label for="t173">Vorlagen-Bibliothek: 5 Banner-Stile (Minimal, Editorial, Brand-Strong, Ghost, Bottom-Bar)</label></li>
+<li class="todo"><input type="checkbox" id="t174"><label for="t174">DSGVO-konformer Workflow: kein Pre-Ticked, klare Ablehnung gleich prominent</label></li>
+<li class="todo"><input type="checkbox" id="t175"><label for="t175">TTDSG-Konformität (deutsche Cookie-Sondergesetzgebung)</label></li>
+<li class="todo"><input type="checkbox" id="t176"><label for="t176">Google Consent Mode V2 Integration</label></li>
+<li class="todo"><input type="checkbox" id="t177"><label for="t177">Embed-Code generieren (1-Liner Script-Tag)</label></li>
+<li class="todo"><input type="checkbox" id="t178"><label for="t178">Self-Hosted CMP-Script (CDN via Vercel Edge)</label></li>
+<li class="todo"><input type="checkbox" id="t179"><label for="t179">Consent-Logging in Supabase (Audit-Trail!)</label></li>
+<li class="todo"><input type="checkbox" id="t180"><label for="t180">Subscription-Pricing: 9€/M (Solo), 29€/M (Pro/Multi-Domain), 79€/M (Agency)</label></li>
+<li class="todo"><input type="checkbox" id="t181"><label for="t181">Stripe-Subscription-Setup (recurring)</label></li>
+<li class="todo"><input type="checkbox" id="t182"><label for="t182">Multi-Language-Banner (DE/EN minimum)</label></li>
+<li class="todo"><input type="checkbox" id="t183"><label for="t183">A/B-Test-Funktion für Banner-Varianten (Pro-Feature)</label></li>
+<li class="todo"><input type="checkbox" id="t184"><label for="t184">Analytics-Dashboard: Accept-Rate, Reject-Rate, Region-Breakdown</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Cookie-Tool Landing + SEO</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t185"><label for="t185">Landing <code>/cookie-banner</code></label></li>
+<li class="todo"><input type="checkbox" id="t186"><label for="t186">10 SEO-Artikel zu Cookie-Banner-Themen</label></li>
+<li class="todo"><input type="checkbox" id="t187"><label for="t187">Pillar Page "Cookie-Banner DSGVO-konform 2026"</label></li>
+<li class="todo"><input type="checkbox" id="t188"><label for="t188">Vergleichsseite "Usercentrics vs. consentmanager vs. compliflow.de" — Goldgrube für Conversion</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: TOOL 3 TESTING                                     -->
+<!-- ============================================================ -->
+<section class="section" id="s9">
+<div class="section-header">
+  <div class="section-num">09</div>
+  <h2 class="section-title">Tool 3 — Cookie Testing</h2>
+  <div class="section-stats" data-section="s9">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t189"><label for="t189">Embed-Code auf 3 Test-Webseiten testen (eigene Domain, WordPress-Beispiel, plain HTML)</label></li>
+<li class="todo"><input type="checkbox" id="t190"><label for="t190">Banner zeigt nur einmal pro User (Cookie korrekt gesetzt)</label></li>
+<li class="todo"><input type="checkbox" id="t191"><label for="t191">Accept-Reject-Logik funktioniert (Consent-Status korrekt)</label></li>
+<li class="todo"><input type="checkbox" id="t192"><label for="t192">Google Tag Manager Integration testen</label></li>
+<li class="todo"><input type="checkbox" id="t193"><label for="t193">Banner blockiert Tracking-Scripts korrekt vor Consent</label></li>
+<li class="todo"><input type="checkbox" id="t194"><label for="t194">Mobile Banner-Layout</label></li>
+<li class="todo"><input type="checkbox" id="t195"><label for="t195">Performance: Banner-Load &lt; 100ms</label></li>
+<li class="todo"><input type="checkbox" id="t196"><label for="t196">Subscription-Lifecycle testen (Sign-up, Renew, Cancel, Downgrade)</label></li>
+<li class="todo"><input type="checkbox" id="t197"><label for="t197">DSGVO-Audit-Trail: Consents korrekt geloggt</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 10: SEO ON-PAGE                                       -->
+<!-- ============================================================ -->
+<section class="section" id="s10">
+<div class="section-header">
+  <div class="section-num">10</div>
+  <h2 class="section-title">SEO On-Page</h2>
+  <div class="section-stats" data-section="s10">—</div>
+</div>
+<p class="section-intro">Was Google direkt auf deiner Seite sieht. 100% Kontrolle — und Pflicht für Ranking.</p>
+
+<div class="subsection">
+<div class="subsection-title">Technical SEO</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t198"><label for="t198"><code>sitemap.xml</code> automatisch generiert (Next.js Plugin)</label></li>
+<li class="todo"><input type="checkbox" id="t199"><label for="t199"><code>robots.txt</code> mit Sitemap-Verweis</label></li>
+<li class="todo"><input type="checkbox" id="t200"><label for="t200">Canonical-Tags pro Seite (Duplicate Content vermeiden)</label></li>
+<li class="todo"><input type="checkbox" id="t201"><label for="t201">Strukturierte 404-Seite (mit Suchfunktion + Top-Links)</label></li>
+<li class="todo"><input type="checkbox" id="t202"><label for="t202">URL-Struktur kurz + sprechend (<code>/blog/avv-mailchimp</code> nicht <code>?id=42</code>)</label></li>
+<li class="todo"><input type="checkbox" id="t203"><label for="t203">Hreflang Tags falls DE/AT/CH unterschieden werden</label></li>
+<li class="todo"><input type="checkbox" id="t204"><label for="t204">Image-Alt-Tags überall (auch für Decorative-Bilder leer)</label></li>
+<li class="todo"><input type="checkbox" id="t205"><label for="t205">Internal Linking sauber (Pillar → Cluster, Cluster ↔ Cluster)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Per-Page Meta + Schema</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t206"><label for="t206">Title-Tag: 50-60 Zeichen, Keyword vorne</label></li>
+<li class="todo"><input type="checkbox" id="t207"><label for="t207">Meta-Description: 150-160 Zeichen, mit Call-to-Action</label></li>
+<li class="todo"><input type="checkbox" id="t208"><label for="t208">H1 genau 1× pro Seite (mit Hauptkeyword)</label></li>
+<li class="todo"><input type="checkbox" id="t209"><label for="t209">H2-H3 strukturiert (Sub-Themen abdecken)</label></li>
+<li class="todo"><input type="checkbox" id="t210"><label for="t210">Schema.org SoftwareApplication für jede Tool-Page</label></li>
+<li class="todo"><input type="checkbox" id="t211"><label for="t211">Schema.org FAQPage für jede Landing</label></li>
+<li class="todo"><input type="checkbox" id="t212"><label for="t212">Schema.org BreadcrumbList</label></li>
+<li class="todo"><input type="checkbox" id="t213"><label for="t213">Schema.org Organization (mit Logo + Social-Profile-Links)</label></li>
+<li class="todo"><input type="checkbox" id="t214"><label for="t214">Schema.org Article für Blog-Posts (mit Author + Date)</label></li>
+<li class="todo"><input type="checkbox" id="t215"><label for="t215">Open Graph Image-Templates (1200x630)</label></li>
+<li class="todo"><input type="checkbox" id="t216"><label for="t216">Twitter Card Markup</label></li>
+<li class="todo"><input type="checkbox" id="t217"><label for="t217">Schema-Markup-Tester durchlaufen lassen für jede Page</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Google Search Console Setup</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t218"><label for="t218">Property hinzufügen + DNS-Verifizierung</label></li>
+<li class="todo"><input type="checkbox" id="t219"><label for="t219">Sitemap einreichen</label></li>
+<li class="todo"><input type="checkbox" id="t220"><label for="t220">URL-Inspektion für jede wichtige Seite</label></li>
+<li class="todo"><input type="checkbox" id="t221"><label for="t221">Indexierungs-Anfragen für Landing-Pages</label></li>
+<li class="todo"><input type="checkbox" id="t222"><label for="t222">Bing Webmaster Tools gleiches Setup</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 11: BLOG CONTENT — 35+ ARTIKEL                        -->
+<!-- ============================================================ -->
+<section class="section" id="s11">
+<div class="section-header">
+  <div class="section-num">11</div>
+  <h2 class="section-title">Blog-Content — 35 Artikel</h2>
+  <div class="section-stats" data-section="s11">—</div>
+</div>
+<p class="section-intro">Pillar + Cluster Strategie. 3 Pillar Pages (eine pro Tool) + 32 Cluster-Artikel. Jeder Artikel = eigener Google-Eintrag.</p>
+
+<div class="subsection">
+<div class="subsection-title">3 Pillar Pages (3.000+ Wörter)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t223"><label for="t223">Pillar 1: "AVV nach DSGVO Art. 28 — Vollständiger Leitfaden 2026"</label></li>
+<li class="todo"><input type="checkbox" id="t224"><label for="t224">Pillar 2: "Verarbeitungsverzeichnis (VVT) — Vollständiger Leitfaden 2026"</label></li>
+<li class="todo"><input type="checkbox" id="t225"><label for="t225">Pillar 3: "Cookie-Banner DSGVO-konform 2026 — Leitfaden"</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">AVV-Cluster (15 Artikel)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t226"><label for="t226">"Brauche ich einen AVV mit Google Workspace? Ja, hier ist warum" <span class="meta">900/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t227"><label for="t227">"AVV mit Mailchimp — Komplettanleitung" <span class="meta">600/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t228"><label for="t228">"AVV mit ChatGPT/OpenAI — was musst du wissen?" <span class="meta">500/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t229"><label for="t229">"AVV für Steuerberater-Mandanten — Checkliste" <span class="meta">600/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t230"><label for="t230">"AVV vs. Joint-Controller-Vereinbarung — wann was?" <span class="meta">400/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t231"><label for="t231">"5 typische Fehler im AVV mit echten Bußgeld-Fällen" <span class="meta">300/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t232"><label for="t232">"AVV-Mustervertrag kostenlos in 2 Minuten" <span class="meta">1.800/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t233"><label for="t233">"AVV mit US-Anbietern nach Schrems II 2026" <span class="meta">700/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t234"><label for="t234">"AVV für Kleinunternehmer — Pflicht oder Wahlrecht?" <span class="meta">400/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t235"><label for="t235">"AVV für Online-Shops mit Stripe und PayPal" <span class="meta">800/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t236"><label for="t236">"AVV mit Cloud-Anbietern (AWS, Hetzner, IONOS)" <span class="meta">600/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t237"><label for="t237">"Subverarbeiter im AVV richtig regeln" <span class="meta">300/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t238"><label for="t238">"AVV-Update 2026: Was hat sich geändert?" <span class="meta">Trend</span></label></li>
+<li class="todo"><input type="checkbox" id="t239"><label for="t239">"Was kostet ein AVV vom Anwalt vs. selbst?" <span class="meta">200/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t240"><label for="t240">"AVV für Agenturen mit mehreren Kunden" <span class="meta">400/M</span></label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">VVT-Cluster (10 Artikel)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t241"><label for="t241">"VVT-Vorlage Excel kostenlos" <span class="meta">2.500/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t242"><label for="t242">"VVT für Kleinunternehmen — was musst du wissen?" <span class="meta">800/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t243"><label for="t243">"VVT-Pflicht ab wie vielen Mitarbeitern?" <span class="meta">1.200/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t244"><label for="t244">"VVT vs. AVV — Unterschied erklärt" <span class="meta">400/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t245"><label for="t245">"Welche Verarbeitungstätigkeiten gehören ins VVT?" <span class="meta">300/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t246"><label for="t246">"VVT bei Auftragsverarbeitern (Art. 30 Abs. 2)" <span class="meta">200/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t247"><label for="t247">"VVT-Bußgelder — echte Fälle 2025/26" <span class="meta">100/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t248"><label for="t248">"VVT für E-Commerce / Online-Shops" <span class="meta">600/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t249"><label for="t249">"VVT-Update-Pflicht — wie oft aktualisieren?" <span class="meta">200/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t250"><label for="t250">"VVT für Steuerberater + Mandanten" <span class="meta">300/M</span></label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Cookie-Banner-Cluster (10 Artikel)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t251"><label for="t251">"Cookie-Banner Generator kostenlos" <span class="meta">18.000/M ⭐</span></label></li>
+<li class="todo"><input type="checkbox" id="t252"><label for="t252">"TTDSG vs. DSGVO — was musst du beachten?" <span class="meta">4.000/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t253"><label for="t253">"Cookie-Consent richtig einholen (Beispiele)" <span class="meta">5.000/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t254"><label for="t254">"Cookie-Banner für WordPress einbinden" <span class="meta">2.500/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t255"><label for="t255">"Cookie-Banner für Shopify einbinden" <span class="meta">600/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t256"><label for="t256">"Was darf ein Cookie-Banner NICHT — Dark Patterns" <span class="meta">300/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t257"><label for="t257">"Cookie-Banner-Abmahnungen 2025/26" <span class="meta">1.200/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t258"><label for="t258">"Consent Management Plattform (CMP) Vergleich" <span class="meta">800/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t259"><label for="t259">"Google Consent Mode V2 — was du wissen musst" <span class="meta">3.500/M</span></label></li>
+<li class="todo"><input type="checkbox" id="t260"><label for="t260">"Cookie-Banner für Next.js / React" <span class="meta">800/M</span></label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Schreib-Workflow pro Artikel</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t261"><label for="t261">Outline mit Claude generieren (Keyword + User-Intent)</label></li>
+<li class="todo"><input type="checkbox" id="t262"><label for="t262">1.500-3.000 Wörter Draft mit Claude</label></li>
+<li class="todo"><input type="checkbox" id="t263"><label for="t263">Persönliche Anekdoten + DACH-spezifische Beispiele ergänzen</label></li>
+<li class="todo"><input type="checkbox" id="t264"><label for="t264">FAQ-Sektion mit 5-8 Q&A (für FAQ-Schema)</label></li>
+<li class="todo"><input type="checkbox" id="t265"><label for="t265">Internal Links zur Pillar-Page + Tool</label></li>
+<li class="todo"><input type="checkbox" id="t266"><label for="t266">Open-Graph-Bild generieren (Vercel OG-Image-API)</label></li>
+<li class="todo"><input type="checkbox" id="t267"><label for="t267">Veröffentlichen + Search Console Indexierungs-Request</label></li>
+<li class="todo"><input type="checkbox" id="t268"><label for="t268">LinkedIn-Post mit Artikel-Link</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 12: BACKLINKS                                         -->
+<!-- ============================================================ -->
+<section class="section" id="s12">
+<div class="section-header">
+  <div class="section-num">12</div>
+  <h2 class="section-title">Backlinks (50 Outreach-Mails)</h2>
+  <div class="section-stats" data-section="s12">—</div>
+</div>
+<p class="section-intro">Echte fremde Domains die auf dich verweisen. 40% des SEO-Erfolgs hängen daran.</p>
+
+<div class="subsection">
+<div class="subsection-title">Tier 1 — Premium-Targets (10 Mails)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t269"><label for="t269">datenschutz-praxis.de — Gastartikel-Pitch</label></li>
+<li class="todo"><input type="checkbox" id="t270"><label for="t270">dr-datenschutz.de — Gastartikel-Pitch</label></li>
+<li class="todo"><input type="checkbox" id="t271"><label for="t271">datenschutzbeauftragter-info.de — Tool-Listing</label></li>
+<li class="todo"><input type="checkbox" id="t272"><label for="t272">activeMind.de — Co-Marketing-Anfrage</label></li>
+<li class="todo"><input type="checkbox" id="t273"><label for="t273">datenschutz-grundverordnung.eu Forum — Tool-Vorstellung</label></li>
+<li class="todo"><input type="checkbox" id="t274"><label for="t274">dasvr.de</label></li>
+<li class="todo"><input type="checkbox" id="t275"><label for="t275">compliancekultur.de</label></li>
+<li class="todo"><input type="checkbox" id="t276"><label for="t276">recht-digital.com</label></li>
+<li class="todo"><input type="checkbox" id="t277"><label for="t277">it-recht-kanzlei.de — Partner-Anfrage</label></li>
+<li class="todo"><input type="checkbox" id="t278"><label for="t278">dsgvo-info.com</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 2 — Steuerberater + Berater (15 Mails)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t279"><label for="t279">5 Stuttgart-Steuerberater (lokal)</label></li>
+<li class="todo"><input type="checkbox" id="t280"><label for="t280">5 DACH-bekannte Solo-Steuerberater auf LinkedIn</label></li>
+<li class="todo"><input type="checkbox" id="t281"><label for="t281">5 externe Datenschutzbeauftragte</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 3 — Webdesigner + Agenturen (10 Mails)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t282"><label for="t282">5 kleinere Webdesigner-Agenturen DACH</label></li>
+<li class="todo"><input type="checkbox" id="t283"><label for="t283">3 WordPress-Themes-Anbieter (Compliance-Add-On-Pitch)</label></li>
+<li class="todo"><input type="checkbox" id="t284"><label for="t284">2 IT-Berater-Blogs</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 4 — HARO / Quoted Pressezitate (10 Mails)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t285"><label for="t285">Account auf <a href="https://www.helpareporter.com">helpareporter.com</a> anlegen</label></li>
+<li class="todo"><input type="checkbox" id="t286"><label for="t286">Account auf <a href="https://www.quoted.app">quoted.app</a> anlegen</label></li>
+<li class="todo"><input type="checkbox" id="t287"><label for="t287">DSGVO/Datenschutz-Tags abonnieren</label></li>
+<li class="todo"><input type="checkbox" id="t288"><label for="t288">3 Pressezitate / Experteneinblicke pro Woche schicken (Antwortrate ~10-20%)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 5 — Reddit + Foren (15 Beiträge)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t289"><label for="t289">r/Datenschutz: 5× hilfreiche Antwort mit subtilem Tool-Hinweis</label></li>
+<li class="todo"><input type="checkbox" id="t290"><label for="t290">r/de: 2× hilfreiche Antwort zu DSGVO-Fragen</label></li>
+<li class="todo"><input type="checkbox" id="t291"><label for="t291">r/selbststaendig: 3× Antwort + Tool-Vorstellung wenn passt</label></li>
+<li class="todo"><input type="checkbox" id="t292"><label for="t292">r/SaaS: 1× Launch-Post + Updates</label></li>
+<li class="todo"><input type="checkbox" id="t293"><label for="t293">r/SideProject: 1× Launch-Post pro Tool</label></li>
+<li class="todo"><input type="checkbox" id="t294"><label for="t294">r/PrivacyTools: 1× Tool-Vorstellung</label></li>
+<li class="todo"><input type="checkbox" id="t295"><label for="t295">Stack Overflow: 1× DSGVO-Antwort zu Datenschutz-Implementierung</label></li>
+<li class="todo"><input type="checkbox" id="t296"><label for="t296">Indie Hackers: wöchentliches Build-Update mit MRR-Zahlen</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Backlink-Mail-Template + Tracking</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t297"><label for="t297">Mail-Template auf Deutsch personalisiert pro Empfänger</label></li>
+<li class="todo"><input type="checkbox" id="t298"><label for="t298">Tracking-Sheet (Google Sheet oder Notion): Empfänger, Datum, Status, Follow-up-Datum</label></li>
+<li class="todo"><input type="checkbox" id="t299"><label for="t299">Follow-up-Mail nach 7 Tagen wenn keine Antwort (1×, höflich)</label></li>
+<li class="todo"><input type="checkbox" id="t300"><label for="t300">Antwortrate analysieren — welche Pitches funktionieren?</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 13: LISTINGS & VERZEICHNISSE                          -->
+<!-- ============================================================ -->
+<section class="section" id="s13">
+<div class="section-header">
+  <div class="section-num">13</div>
+  <h2 class="section-title">Listings & Verzeichnisse</h2>
+  <div class="section-stats" data-section="s13">—</div>
+</div>
+<p class="section-intro">35 Plattformen wo du gelistet sein musst. Jedes Listing = Backlink + organischer Traffic.</p>
+
+<div class="subsection">
+<div class="subsection-title">Tier 1 — Pflicht (Launch-Woche)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t301"><label for="t301">Product Hunt — Tool-Launch (Mittwoch optimal)</label></li>
+<li class="todo"><input type="checkbox" id="t302"><label for="t302">Indie Hackers — Launch-Post + Maker-Profil</label></li>
+<li class="todo"><input type="checkbox" id="t303"><label for="t303">Hacker News "Show HN"</label></li>
+<li class="todo"><input type="checkbox" id="t304"><label for="t304">BetaList</label></li>
+<li class="todo"><input type="checkbox" id="t305"><label for="t305">OMR Reviews</label></li>
+<li class="todo"><input type="checkbox" id="t306"><label for="t306">t3n Tool-Tipps (Pitch via redaktion@t3n.de)</label></li>
+<li class="todo"><input type="checkbox" id="t307"><label for="t307">Capterra DE</label></li>
+<li class="todo"><input type="checkbox" id="t308"><label for="t308">GetApp DE</label></li>
+<li class="todo"><input type="checkbox" id="t309"><label for="t309">trusted.de</label></li>
+<li class="todo"><input type="checkbox" id="t310"><label for="t310">SaaSHub</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 2 — Empfohlen (Woche 2-4)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t311"><label for="t311">AlternativeTo (Listings für AVV/VVT/Cookie-Tool-Alternativen)</label></li>
+<li class="todo"><input type="checkbox" id="t312"><label for="t312">G2 (B2B Reviews)</label></li>
+<li class="todo"><input type="checkbox" id="t313"><label for="t313">Toolify (AI-Tool-Verzeichnis falls AI-Element drin)</label></li>
+<li class="todo"><input type="checkbox" id="t314"><label for="t314">Gründerszene Tool-Verzeichnis</label></li>
+<li class="todo"><input type="checkbox" id="t315"><label for="t315">deutsche-startups.de</label></li>
+<li class="todo"><input type="checkbox" id="t316"><label for="t316">Crunchbase</label></li>
+<li class="todo"><input type="checkbox" id="t317"><label for="t317">F6S</label></li>
+<li class="todo"><input type="checkbox" id="t318"><label for="t318">drvn-deals</label></li>
+<li class="todo"><input type="checkbox" id="t319"><label for="t319">Microlaunch</label></li>
+<li class="todo"><input type="checkbox" id="t320"><label for="t320">There's An AI For That (falls AI-Element)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 3 — DSGVO-spezifisch</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t321"><label for="t321">datenschutz-praxis.de Tool-Verzeichnis</label></li>
+<li class="todo"><input type="checkbox" id="t322"><label for="t322">dr-datenschutz Tools-Seite</label></li>
+<li class="todo"><input type="checkbox" id="t323"><label for="t323">Bitkom Tool-Liste-Pitch</label></li>
+<li class="todo"><input type="checkbox" id="t324"><label for="t324">datenschutzbeauftragten-info.de</label></li>
+<li class="todo"><input type="checkbox" id="t325"><label for="t325">DSGVO-Hilfe Forum</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Tier 4 — Long-Tail Verzeichnisse</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t326"><label for="t326">Uneed.best</label></li>
+<li class="todo"><input type="checkbox" id="t327"><label for="t327">Tiny Startups</label></li>
+<li class="todo"><input type="checkbox" id="t328"><label for="t328">StartupBase</label></li>
+<li class="todo"><input type="checkbox" id="t329"><label for="t329">The Tool Hub</label></li>
+<li class="todo"><input type="checkbox" id="t330"><label for="t330">Launching Today</label></li>
+<li class="todo"><input type="checkbox" id="t331"><label for="t331">SaaS Mag</label></li>
+<li class="todo"><input type="checkbox" id="t332"><label for="t332">Sourceforge (DR 92!)</label></li>
+<li class="todo"><input type="checkbox" id="t333"><label for="t333">TrustRadius</label></li>
+<li class="todo"><input type="checkbox" id="t334"><label for="t334">Software Advice DE</label></li>
+<li class="todo"><input type="checkbox" id="t335"><label for="t335">GoodFirms</label></li>
+</ul>
+</div>
+
+<div class="callout"><strong>Listing-Effizienz-Tipp:</strong> Erstelle EIN Master-Sheet mit Produkt-Name, Tagline, Description (kurz + lang), Logo-Link, Screenshots, Demo-Video. Spart 50% Zeit bei den 35 Listings.</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 14: PR + NEWSLETTER PITCHES                           -->
+<!-- ============================================================ -->
+<section class="section" id="s14">
+<div class="section-header">
+  <div class="section-num">14</div>
+  <h2 class="section-title">PR + Newsletter Pitches</h2>
+  <div class="section-stats" data-section="s14">—</div>
+</div>
+<p class="section-intro">1-2 PR-Hits können einzeln 200+ Sales bringen. Personalisierte Pitches an 15 Targets.</p>
+
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t336"><label for="t336">t3n Redaktion (redaktion@t3n.de) — "Solo-Founder baut DSGVO-Tool für DACH"</label></li>
+<li class="todo"><input type="checkbox" id="t337"><label for="t337">OMR Daily Newsletter (LinkedIn-DM an Editorial Lead)</label></li>
+<li class="todo"><input type="checkbox" id="t338"><label for="t338">Heise iX — Pitch zu "Solo-Compliance-Tool-Stack"</label></li>
+<li class="todo"><input type="checkbox" id="t339"><label for="t339">Pip Newsletter (Joel Kaczmarek) — Founder-Story</label></li>
+<li class="todo"><input type="checkbox" id="t340"><label for="t340">digital kompakt Newsletter</label></li>
+<li class="todo"><input type="checkbox" id="t341"><label for="t341">Make Magazine DE</label></li>
+<li class="todo"><input type="checkbox" id="t342"><label for="t342">Failory Newsletter (englisch, falls EN-Version geplant)</label></li>
+<li class="todo"><input type="checkbox" id="t343"><label for="t343">Datenschutz-Praxis Newsletter</label></li>
+<li class="todo"><input type="checkbox" id="t344"><label for="t344">activeMind Insights Newsletter</label></li>
+<li class="todo"><input type="checkbox" id="t345"><label for="t345">Lokaler Stuttgart-Wirtschaft-Newsletter (Stuttgart Surge, IHK)</label></li>
+<li class="todo"><input type="checkbox" id="t346"><label for="t346">Pitch-Mail mit konkretem Hook (nicht "schau mein Tool an")</label></li>
+<li class="todo"><input type="checkbox" id="t347"><label for="t347">Pitch-Mail mit konkreten Daten ("X Käufer in Woche 1")</label></li>
+<li class="todo"><input type="checkbox" id="t348"><label for="t348">Follow-up nach 10 Tagen wenn keine Antwort</label></li>
+<li class="todo"><input type="checkbox" id="t349"><label for="t349">Pressemitteilung-Template (5 Pflicht-Elementen) vorbereiten</label></li>
+<li class="todo"><input type="checkbox" id="t350"><label for="t350">Presse-Bereich auf der Webseite (compliflow.de/presse) mit Hi-Res-Screenshots + Brand-Assets</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 15: AFFILIATE-PROGRAMM                                -->
+<!-- ============================================================ -->
+<section class="section" id="s15">
+<div class="section-header">
+  <div class="section-num">15</div>
+  <h2 class="section-title">Affiliate-Programm</h2>
+  <div class="section-stats" data-section="s15">—</div>
+</div>
+<p class="section-intro">30% Provision lifetime. 20 Affiliate-Partner aktiv = +50-150 Sales über 3 Monate.</p>
+
+<div class="subsection">
+<div class="subsection-title">Setup</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t351"><label for="t351">Tool-Auswahl: Tolt.io (29€/M, einfach) vs. PartnerStack (komplexer)</label></li>
+<li class="todo"><input type="checkbox" id="t352"><label for="t352">Affiliate-Programm-Setup im gewählten Tool</label></li>
+<li class="todo"><input type="checkbox" id="t353"><label for="t353">30% Lifetime-Provision konfigurieren</label></li>
+<li class="todo"><input type="checkbox" id="t354"><label for="t354">1-Jahres-Cookie (lange Attribution für späte Käufe)</label></li>
+<li class="todo"><input type="checkbox" id="t355"><label for="t355">Auszahlung-Schwellenwert 50€ (motiviert Affiliates aktiv zu sein)</label></li>
+<li class="todo"><input type="checkbox" id="t356"><label for="t356">Affiliate-Dashboard im Tool integrieren (User Login → Affiliate-Status)</label></li>
+<li class="todo"><input type="checkbox" id="t357"><label for="t357">Affiliate-Landing-Page (compliflow.de/affiliate) erstellen</label></li>
+<li class="todo"><input type="checkbox" id="t358"><label for="t358">Marketing-Assets für Affiliates: Banner, Logos, Pitch-Texte, Demo-Videos</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Outreach an 25 Partner-Targets</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t359"><label for="t359">10 Steuerberater (Stuttgart + DACH Solo)</label></li>
+<li class="todo"><input type="checkbox" id="t360"><label for="t360">5 Webdesigner-Agenturen DACH</label></li>
+<li class="todo"><input type="checkbox" id="t361"><label for="t361">3 externe Datenschutzbeauftragte</label></li>
+<li class="todo"><input type="checkbox" id="t362"><label for="t362">2 LinkedIn-DSGVO-Influencer DACH</label></li>
+<li class="todo"><input type="checkbox" id="t363"><label for="t363">2 YouTube-Kanäle "Business Recht" / "Selbstständig in DE"</label></li>
+<li class="todo"><input type="checkbox" id="t364"><label for="t364">1 Newsletter-Owner DSGVO/Self-Employed</label></li>
+<li class="todo"><input type="checkbox" id="t365"><label for="t365">2 IT-Recht-Anwalts-Praxen</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Affiliate-Management</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t366"><label for="t366">Monatliche Affiliate-Newsletter (Updates + Tipps)</label></li>
+<li class="todo"><input type="checkbox" id="t367"><label for="t367">Top-3-Affiliate-Spotlight (Belohnung + Brand-Boost)</label></li>
+<li class="todo"><input type="checkbox" id="t368"><label for="t368">Provisions-Auszahlung pünktlich (jeden 1. des Monats)</label></li>
+<li class="todo"><input type="checkbox" id="t369"><label for="t369">Affiliate-Performance-Tracking (Top-Converter, Drop-Outs)</label></li>
+<li class="todo"><input type="checkbox" id="t370"><label for="t370">Bonus für Top-Performer (50% Provision für 1. Monat)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 16: SOCIAL MEDIA & LINKEDIN                           -->
+<!-- ============================================================ -->
+<section class="section" id="s16">
+<div class="section-header">
+  <div class="section-num">16</div>
+  <h2 class="section-title">Social Media & LinkedIn</h2>
+  <div class="section-stats" data-section="s16">—</div>
+</div>
+<p class="section-intro">LinkedIn ist Hauptkanal für DACH B2B. Build-in-Public bringt Reichweite + Affiliate-Anfragen + Press-Pickups.</p>
+
+<div class="subsection">
+<div class="subsection-title">LinkedIn-Build-in-Public</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t371"><label for="t371">LinkedIn-Profil-Headline updaten: "Building Compliance Tools für DACH-Selbstständige"</label></li>
+<li class="todo"><input type="checkbox" id="t372"><label for="t372">Banner-Bild: DRVN-Brand + Suite-Teaser</label></li>
+<li class="todo"><input type="checkbox" id="t373"><label for="t373">Featured-Section: 3 Top-Posts pinnen (mit Tool-Links)</label></li>
+<li class="todo"><input type="checkbox" id="t374"><label for="t374">Täglich 1 Post (5/Woche): Build-Updates, DSGVO-Insights, Persönliche Stories</label></li>
+<li class="todo"><input type="checkbox" id="t375"><label for="t375">1× pro Woche Carousel-Post (5-10 Slides — höchste Reach)</label></li>
+<li class="todo"><input type="checkbox" id="t376"><label for="t376">Wöchentlicher Milestone-Post mit Zahlen ("Woche X: Y Sales, Z Visitors")</label></li>
+<li class="todo"><input type="checkbox" id="t377"><label for="t377">Hashtag-Strategie: #DSGVO #Selbstständig #SaaS #Compliance #BuildInPublic</label></li>
+<li class="todo"><input type="checkbox" id="t378"><label for="t378">DSGVO-Influencer DACH taggen wenn relevant (max 3 pro Post)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Twitter/X — Optional</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t379"><label for="t379">Account anlegen falls noch nicht</label></li>
+<li class="todo"><input type="checkbox" id="t380"><label for="t380">3 Tweets/Woche (Launch-Updates, MRR-Bilder)</label></li>
+<li class="todo"><input type="checkbox" id="t381"><label for="t381">Build-in-Public Tag #BuildInPublic verwenden</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Instagram + TikTok — NUR wenn Tool sich visualisieren lässt</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t382"><label for="t382">Reel 1: "So sparst du 3h beim AVV-Erstellen" (Tool-Demo)</label></li>
+<li class="todo"><input type="checkbox" id="t383"><label for="t383">Reel 2: "DSGVO-Bußgelder die Selbstständige nicht kennen"</label></li>
+<li class="todo"><input type="checkbox" id="t384"><label for="t384">Reel 3: "5 Tools die jeder Solopreneur braucht — meines davon ist 1 in der Liste" (Soft-Plug)</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">YouTube — Phase 2 (nicht zwingend Phase 1)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t385"><label for="t385">3 kurze Tutorial-Videos: AVV-Generator-Demo, VVT-Erklärung, Cookie-Banner-Setup</label></li>
+<li class="todo"><input type="checkbox" id="t386"><label for="t386">Video-SEO-Optimierung (Titel, Beschreibung, Tags, Kapitel)</label></li>
+<li class="todo"><input type="checkbox" id="t387"><label for="t387">Auf Tool-Landing einbetten als Demo</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 17: EMAIL MARKETING + AUTOMATIONEN                    -->
+<!-- ============================================================ -->
+<section class="section" id="s17">
+<div class="section-header">
+  <div class="section-num">17</div>
+  <h2 class="section-title">Email Marketing + Automationen</h2>
+  <div class="section-stats" data-section="s17">—</div>
+</div>
+<p class="section-intro">Email-Liste = dein wertvollstes Asset. 5.000 Subscriber × 2-5% Konversion = passive Sales monatlich.</p>
+
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t388"><label for="t388">Resend-Setup mit verifizierter Domain</label></li>
+<li class="todo"><input type="checkbox" id="t389"><label for="t389">Email-Templates designen: Welcome, AVV-Done, Pro-Upgrade, Cross-Sell, Newsletter</label></li>
+<li class="todo"><input type="checkbox" id="t390"><label for="t390">Welcome-Sequenz: 5 Emails über 14 Tage</label></li>
+<li class="todo"><input type="checkbox" id="t391"><label for="t391">Email 1: "Dein AVV ist fertig" + Tool-Erinnerung</label></li>
+<li class="todo"><input type="checkbox" id="t392"><label for="t392">Email 2: "5 DSGVO-Mythen aufgedeckt" (Value-First)</label></li>
+<li class="todo"><input type="checkbox" id="t393"><label for="t393">Email 3: "Brauchst du auch VVT?" (Cross-Sell)</label></li>
+<li class="todo"><input type="checkbox" id="t394"><label for="t394">Email 4: Pro-Upgrade-Angebot mit Discount-Code (z.B. -20%)</label></li>
+<li class="todo"><input type="checkbox" id="t395"><label for="t395">Email 5: Affiliate-Programm vorstellen</label></li>
+<li class="todo"><input type="checkbox" id="t396"><label for="t396">Wöchentlicher Newsletter: "DSGVO der Woche" (1 Tipp, 1 News, 1 Tool-Update)</label></li>
+<li class="todo"><input type="checkbox" id="t397"><label for="t397">Cart-Abandonment-Email (User klickt auf Pro aber kauft nicht → Erinnerung nach 24h)</label></li>
+<li class="todo"><input type="checkbox" id="t398"><label for="t398">Re-Engagement-Mail nach 60 Tagen Inaktivität</label></li>
+<li class="todo"><input type="checkbox" id="t399"><label for="t399">Update-Mail bei jedem neuen Tool-Launch</label></li>
+<li class="todo"><input type="checkbox" id="t400"><label for="t400">A/B-Test Subject Lines (mind. 2 Varianten pro Mail)</label></li>
+<li class="todo"><input type="checkbox" id="t401"><label for="t401">Doppel-Opt-In für DSGVO-Konformität</label></li>
+<li class="todo"><input type="checkbox" id="t402"><label for="t402">Unsubscribe-Link in jeder Mail (Pflicht!)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 18: CONVERSION OPTIMIZATION                           -->
+<!-- ============================================================ -->
+<section class="section" id="s18">
+<div class="section-header">
+  <div class="section-num">18</div>
+  <h2 class="section-title">Conversion Optimization</h2>
+  <div class="section-stats" data-section="s18">—</div>
+</div>
+<p class="section-intro">Conversion 0,3% vs. 0,7% = doppelte Sales bei gleichem Traffic.</p>
+
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t403"><label for="t403">A/B-Test Hero-Headline (3 Varianten)</label></li>
+<li class="todo"><input type="checkbox" id="t404"><label for="t404">A/B-Test CTA-Button-Text ("Kostenlos starten" vs "AVV erstellen" vs "Jetzt sichern")</label></li>
+<li class="todo"><input type="checkbox" id="t405"><label for="t405">A/B-Test Pricing-Position (oben vs. unten)</label></li>
+<li class="todo"><input type="checkbox" id="t406"><label for="t406">A/B-Test Free-Tier vs. Trial-Tier</label></li>
+<li class="todo"><input type="checkbox" id="t407"><label for="t407">Testimonials sammeln (3 echte Beta-Tester)</label></li>
+<li class="todo"><input type="checkbox" id="t408"><label for="t408">Trust-Badges: "DSGVO-konform", "EU-Hosting", "Sofortige Auslieferung"</label></li>
+<li class="todo"><input type="checkbox" id="t409"><label for="t409">Money-Back-Garantie prominent (14-30 Tage)</label></li>
+<li class="todo"><input type="checkbox" id="t410"><label for="t410">Stripe-Logo + "Sichere Bezahlung" am Checkout</label></li>
+<li class="todo"><input type="checkbox" id="t411"><label for="t411">PostHog-Funnel: Landing → Wizard-Start → Wizard-Ende → Email → Pro-Klick → Sale</label></li>
+<li class="todo"><input type="checkbox" id="t412"><label for="t412">Heatmaps mit PostHog: wo klicken User wirklich?</label></li>
+<li class="todo"><input type="checkbox" id="t413"><label for="t413">Drop-Off-Analyse: an welchem Wizard-Step verlassen User?</label></li>
+<li class="todo"><input type="checkbox" id="t414"><label for="t414">Mobile-Conversion separat tracken (oft 30-50% niedriger)</label></li>
+<li class="todo"><input type="checkbox" id="t415"><label for="t415">Live-Chat (Crisp, Tawk.to gratis) für hochpreisige Sub-Tiers</label></li>
+<li class="todo"><input type="checkbox" id="t416"><label for="t416">FOMO-Elemente: "127 User haben heute ihren AVV erstellt"</label></li>
+<li class="todo"><input type="checkbox" id="t417"><label for="t417">Exit-Intent-Popup mit Discount-Code (10% wenn User verlässt)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 19: LAUNCH-DAY SPRINT (PRO TOOL)                      -->
+<!-- ============================================================ -->
+<section class="section" id="s19">
+<div class="section-header">
+  <div class="section-num">19</div>
+  <h2 class="section-title">Launch-Day Sprint (× 3 Tools)</h2>
+  <div class="section-stats" data-section="s19">—</div>
+</div>
+<p class="section-intro">Diese Liste 3× durchgehen — einmal pro Tool-Launch. Mittwoch optimaler Tag.</p>
+
+<div class="subsection">
+<div class="subsection-title">Pre-Launch (Woche vor Launch)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t418"><label for="t418">Demo-Video aufnehmen (60-90 sec, OBS Studio, Bildschirm + Voice-over)</label></li>
+<li class="todo"><input type="checkbox" id="t419"><label for="t419">Demo-GIF erstellen (für Product Hunt + Listings)</label></li>
+<li class="todo"><input type="checkbox" id="t420"><label for="t420">5 Hero-Screenshots (verschiedene Tool-States)</label></li>
+<li class="todo"><input type="checkbox" id="t421"><label for="t421">Product Hunt "Coming Soon"-Seite mit 50+ Subscribern</label></li>
+<li class="todo"><input type="checkbox" id="t422"><label for="t422">PH-Description, Tagline, Maker-Comment vorschreiben</label></li>
+<li class="todo"><invoke type="checkbox" id="t423"></invoke><input type="checkbox" id="t423"><label for="t423">10 Hunter-Accounts auf PH bitten zu boosten</label></li>
+<li class="todo"><input type="checkbox" id="t424"><label for="t424">LinkedIn-Post angekündigt + 100+ Reactions vorgewärmt</label></li>
+<li class="todo"><input type="checkbox" id="t425"><label for="t425">Email an deine Subscriber: "Morgen launchen wir + 24h-Discount"</label></li>
+<li class="todo"><input type="checkbox" id="t426"><label for="t426">WhatsApp-Status + WhatsApp-Liste (100+ Personen) angekündigt</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Launch-Day (Stunde für Stunde)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t427"><label for="t427">09:01 deutsche Zeit: Product Hunt LIVE</label></li>
+<li class="todo"><input type="checkbox" id="t428"><label for="t428">09:15: Indie Hackers Launch-Post</label></li>
+<li class="todo"><input type="checkbox" id="t429"><label for="t429">09:30: Hacker News Show HN</label></li>
+<li class="todo"><input type="checkbox" id="t430"><label for="t430">10:00: LinkedIn-Post mit Demo-Video</label></li>
+<li class="todo"><input type="checkbox" id="t431"><label for="t431">10:30: Twitter/X-Thread (kurz, knackig)</label></li>
+<li class="todo"><input type="checkbox" id="t432"><label for="t432">11:00: Reddit r/SideProject + r/SaaS + r/Datenschutz</label></li>
+<li class="todo"><input type="checkbox" id="t433"><label for="t433">12:00: WhatsApp-Status + persönliche WhatsApp-Mails</label></li>
+<li class="todo"><input type="checkbox" id="t434"><label for="t434">14:00: E-Mail an 3 DSGVO-Newsletter-Owner</label></li>
+<li class="todo"><input type="checkbox" id="t435"><label for="t435">15:00: jeden PH-Kommentar persönlich beantworten</label></li>
+<li class="todo"><input type="checkbox" id="t436"><label for="t436">17:00: Mid-Day-Update auf LinkedIn ("X Upvotes, Y Sales bisher")</label></li>
+<li class="todo"><input type="checkbox" id="t437"><label for="t437">18:00: Email an Beta-Tester um PH-Vote zu bitten</label></li>
+<li class="todo"><input type="checkbox" id="t438"><label for="t438">21:00: End-of-Day-Summary auf LinkedIn + Twitter</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Post-Launch (Woche nach Launch)</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t439"><label for="t439">Tag 2-3: PH-Engagement (alle Kommentare beantwortet)</label></li>
+<li class="todo"><input type="checkbox" id="t440"><label for="t440">Tag 2: 10 Tier-1-Listings einreichen</label></li>
+<li class="todo"><input type="checkbox" id="t441"><label for="t441">Tag 3: Tier-2-Listings</label></li>
+<li class="todo"><input type="checkbox" id="t442"><label for="t442">Tag 4: PR-Pitches an t3n + OMR + Heise</label></li>
+<li class="todo"><input type="checkbox" id="t443"><label for="t443">Tag 5: Launch-Recap-Post auf LinkedIn (Zahlen + Learnings)</label></li>
+<li class="todo"><input type="checkbox" id="t444"><label for="t444">Tag 7: Search Console auf neue Backlinks prüfen</label></li>
+<li class="todo"><input type="checkbox" id="t445"><label for="t445">Woche 2: Konvertierungsrate analysieren + erste Optimierungen</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 20: CROSS-SELL & RETENTION                            -->
+<!-- ============================================================ -->
+<section class="section" id="s20">
+<div class="section-header">
+  <div class="section-num">20</div>
+  <h2 class="section-title">Cross-Sell & Retention</h2>
+  <div class="section-stats" data-section="s20">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t446"><label for="t446">Sobald 2. Tool live: Bundle "AVV + VVT für 49€" prominent</label></li>
+<li class="todo"><input type="checkbox" id="t447"><label for="t447">Sobald 3. Tool live: Suite Pro 99€ Lifetime (limitiert 100 Stück)</label></li>
+<li class="todo"><input type="checkbox" id="t448"><label for="t448">Cross-Sell-Mail nach jedem Tool-Kauf (mit Discount-Code für 2. Tool)</label></li>
+<li class="todo"><input type="checkbox" id="t449"><label for="t449">In jedem Tool: Footer-Promo für andere Tools der Suite</label></li>
+<li class="todo"><input type="checkbox" id="t450"><label for="t450">Update-Service: bei DSGVO-Änderungen → Mail an alle Pro-Käufer mit "Tool wurde aktualisiert"</label></li>
+<li class="todo"><input type="checkbox" id="t451"><label for="t451">Re-Engagement: 60 Tage nach Kauf → Mail "Hier ist was du auch nutzen könntest"</label></li>
+<li class="todo"><input type="checkbox" id="t452"><label for="t452">Subscription-Retention: 3 Tage vor Renewal → "Vergiss nicht zu nutzen"-Mail</label></li>
+<li class="todo"><input type="checkbox" id="t453"><label for="t453">Cancellation-Flow: "Warum kündigst du?" + 30%-Discount-Rückgewinnung</label></li>
+<li class="todo"><input type="checkbox" id="t454"><label for="t454">NPS-Survey nach 30 Tagen (Promoters als Affiliates gewinnen)</label></li>
+<li class="todo"><input type="checkbox" id="t455"><label for="t455">Referral-Programm: jeder Pro-Käufer kann 1 Tool gratis verschenken</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 21: ANALYTICS & TRACKING                              -->
+<!-- ============================================================ -->
+<section class="section" id="s21">
+<div class="section-header">
+  <div class="section-num">21</div>
+  <h2 class="section-title">Analytics & Tracking</h2>
+  <div class="section-stats" data-section="s21">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t456"><label for="t456">Plausible: alle Hauptseiten getrackt</label></li>
+<li class="todo"><input type="checkbox" id="t457"><label for="t457">Plausible Custom-Events: "wizard_started", "wizard_completed", "pro_clicked", "purchase"</label></li>
+<li class="todo"><input type="checkbox" id="t458"><label for="t458">Google Search Console wöchentlich auswerten</label></li>
+<li class="todo"><input type="checkbox" id="t459"><label for="t459">PostHog Funnels für jedes Tool</label></li>
+<li class="todo"><input type="checkbox" id="t460"><label for="t460">PostHog Heatmaps auf Pricing-Page + Tool-Page</label></li>
+<li class="todo"><input type="checkbox" id="t461"><label for="t461">PostHog Session-Replays für Drop-Off-Verständnis</label></li>
+<li class="todo"><input type="checkbox" id="t462"><label for="t462">Stripe Dashboard: tägliche Sales + MRR-Monitor</label></li>
+<li class="todo"><input type="checkbox" id="t463"><label for="t463">Wöchentliches Master-Dashboard in Notion/Google Sheets</label></li>
+<li class="todo"><input type="checkbox" id="t464"><label for="t464">KPI-Tracking: Visitors, Sign-Ups, Conversion, Sales, MRR, Backlinks</label></li>
+<li class="todo"><input type="checkbox" id="t465"><label for="t465">Search Console: Top-Queries-Tracking → Content-Themen-Inspiration</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 22: USER-SUPPORT SETUP                                -->
+<!-- ============================================================ -->
+<section class="section" id="s22">
+<div class="section-header">
+  <div class="section-num">22</div>
+  <h2 class="section-title">User-Support Setup</h2>
+  <div class="section-stats" data-section="s22">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t466"><label for="t466">Support-Email: support@compliflow.de (Forwarding zu deiner Haupt-Inbox)</label></li>
+<li class="todo"><input type="checkbox" id="t467"><label for="t467">Help-Center / FAQ-Seite (15-20 häufige Fragen)</label></li>
+<li class="todo"><input type="checkbox" id="t468"><label for="t468">Crisp oder Tawk.to Live-Chat (gratis-Tier reicht erstmal)</label></li>
+<li class="todo"><input type="checkbox" id="t469"><label for="t469">Auto-Responder: "Antwort in 24h" mit Link zu FAQ</label></li>
+<li class="todo"><input type="checkbox" id="t470"><label for="t470">Refund-Workflow im Stripe-Dashboard dokumentiert</label></li>
+<li class="todo"><input type="checkbox" id="t471"><label for="t471">Pro-Account-Issues-Workflow (Pro-Status updaten, PDF neu generieren)</label></li>
+<li class="todo"><input type="checkbox" id="t472"><label for="t472">DSGVO-Auskunftsersuchen-Workflow (Art. 15) — Antwort in 30 Tagen pflicht</label></li>
+<li class="todo"><input type="checkbox" id="t473"><label for="t473">Daily 30-min Support-Block (z.B. 17-17:30 Uhr)</label></li>
+<li class="todo"><input type="checkbox" id="t474"><label for="t474">Häufige Fragen als FAQ-Posts in Blog veröffentlichen (SEO-Bonus!)</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 23: SECURITY & BACKUPS                                -->
+<!-- ============================================================ -->
+<section class="section" id="s23">
+<div class="section-header">
+  <div class="section-num">23</div>
+  <h2 class="section-title">Security & Backups</h2>
+  <div class="section-stats" data-section="s23">—</div>
+</div>
+<div class="subsection">
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t475"><label for="t475">Supabase Daily-Backups aktiviert</label></li>
+<li class="todo"><input type="checkbox" id="t476"><label for="t476">PDF-Storage Versioning aktiviert</label></li>
+<li class="todo"><input type="checkbox" id="t477"><label for="t477">2FA auf allen kritischen Konten (GitHub, Stripe, Supabase, Vercel, Domain-Registrar)</label></li>
+<li class="todo"><input type="checkbox" id="t478"><label for="t478">Passwort-Manager (1Password / Bitwarden) für alle Service-Logins</label></li>
+<li class="todo"><input type="checkbox" id="t479"><label for="t479">Code-Backups: GitHub + monatlicher lokaler Clone</label></li>
+<li class="todo"><input type="checkbox" id="t480"><label for="t480">Vercel-ENV-Vars dokumentiert (verschlüsselte Notion-Page)</label></li>
+<li class="todo"><input type="checkbox" id="t481"><label for="t481">Disaster-Recovery-Plan dokumentiert (was tun wenn Supabase down?)</label></li>
+<li class="todo"><input type="checkbox" id="t482"><label for="t482">Datenpannen-Reaktionsplan (Art. 33: 72h-Meldung)</label></li>
+<li class="todo"><input type="checkbox" id="t483"><label for="t483">Monitoring: Uptime-Robot oder BetterStack für Tool-Uptime-Alerts</label></li>
+<li class="todo"><input type="checkbox" id="t484"><label for="t484">Sentry für Error-Monitoring</label></li>
+</ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 24: WÖCHENTLICHE ROUTINEN                             -->
+<!-- ============================================================ -->
+<section class="section" id="s24">
+<div class="section-header">
+  <div class="section-num">24</div>
+  <h2 class="section-title">Wöchentliche Routinen</h2>
+  <div class="section-stats" data-section="s24">—</div>
+</div>
+<p class="section-intro">Was JEDE Woche passieren muss, damit der Motor läuft. Sonntag-Abend 1h Review-Block einplanen.</p>
+
+<div class="subsection">
+<div class="subsection-title">Mo-Fr Tägliche Routine</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t485"><label for="t485">Morgens 10 Minuten: KPIs checken (Sales, Visitors, Sign-Ups)</label></li>
+<li class="todo"><input type="checkbox" id="t486"><label for="t486">1 SEO-Artikel schreiben oder veröffentlichen</label></li>
+<li class="todo"><input type="checkbox" id="t487"><label for="t487">5 Backlink-Mails versenden</label></li>
+<li class="todo"><input type="checkbox" id="t488"><label for="t488">1 LinkedIn-Post veröffentlichen</label></li>
+<li class="todo"><input type="checkbox" id="t489"><label for="t489">2-5 Freelance-Bewerbungen schreiben</label></li>
+<li class="todo"><input type="checkbox" id="t490"><label for="t490">Support-Inbox abarbeiten</label></li>
+<li class="todo"><input type="checkbox" id="t491"><label for="t491">Abends KPIs in Tracker eintragen</label></li>
+</ul>
+</div>
+
+<div class="subsection">
+<div class="subsection-title">Wöchentliches Sonntag-Review</div>
+<ul class="todo-list">
+<li class="todo"><input type="checkbox" id="t492"><label for="t492">Search Console Top-Queries durchgehen</label></li>
+<li class="todo"><input type="checkbox" id="t493"><label for="t493">Sales-Quellen analysieren (Welcher Kanal? Welche UTM-Quelle?)</label></li>
+<li class="todo"><input type="checkbox" id="t494"><label for="t494">Backlink-Tracking-Sheet aktualisieren</label></li>
+<li class="todo"><input type="checkbox" id="t495"><label for="t495">Affiliate-Performance prüfen</label></li>
+<li class="todo"><input type="checkbox" id="t496"><label for="t496">Pipeline-Status: Hagi-Shop, Pizza-System, Freelance-Verträge</label></li>
+<li class="todo"><input type="checkbox" id="t497"><label for="t497">Vault-Update: Was hat funktioniert, was nicht</label></li>
+<li class="todo"><input type="checkbox" id="t498"><label for="t498">Nächste-Woche-Plan erstellen (3 Hauptziele)</label></li>
+<li class="todo"><input type="checkbox" id="t499"><label for="t499">Bilanz-Update: Cash-Eingänge + Ausgaben des Monats</label></li>
+<li class="todo"><input type="checkbox" id="t500"><label for="t500">1× pro Monat: Big-Picture-Review (Strategie noch richtig?)</label></li>
+</ul>
+</div>
+</section>
+
+<div class="callout" style="margin-top: 80px; text-align: center; font-size: 16px; padding: 32px;">
+<strong>Du hast es geschafft.</strong><br>500 Todos für die Suite. Jetzt Schritt für Schritt durchgehen — der Browser speichert deinen Stand lokal.<br><br>
+<em>Bei Fragen zu einzelnen Punkten: <code>/projekt-brainstorm</code> öffnen.</em>
+</div>
+
+</main>
+</div>
+
+<script>
+// === STATE MANAGEMENT ===
+const STORAGE_KEY = 'compliflow_checklist_state_v1';
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    checkboxes.forEach(cb => {
+      if (saved[cb.id]) cb.checked = true;
+    });
+  } catch(e) { console.warn('Load failed', e); }
+}
+
+function saveState() {
+  const state = {};
+  checkboxes.forEach(cb => { if (cb.checked) state[cb.id] = true; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function updateProgress() {
+  const total = checkboxes.length;
+  const done = Array.from(checkboxes).filter(cb => cb.checked).length;
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('heroTotal').textContent = total;
+  document.getElementById('progressFill').style.width = (done/total*100) + '%';
+
+  document.querySelectorAll('.section').forEach(sec => {
+    const sid = sec.id;
+    const secBoxes = sec.querySelectorAll('input[type="checkbox"]');
+    const secDone = Array.from(secBoxes).filter(cb => cb.checked).length;
+    const statsEl = document.querySelector(`[data-section="${sid}"]`);
+    if (statsEl) {
+      statsEl.innerHTML = `<span class="done-count">${secDone}</span> / ${secBoxes.length}`;
+    }
+  });
+  renderNav();
+}
+
+// === NAV ===
+function renderNav() {
+  const navList = document.getElementById('navList');
+  const sections = document.querySelectorAll('.section');
+  navList.innerHTML = '';
+  sections.forEach(sec => {
+    const num = sec.querySelector('.section-num').textContent;
+    const title = sec.querySelector('.section-title').textContent;
+    const boxes = sec.querySelectorAll('input[type="checkbox"]');
+    const done = Array.from(boxes).filter(cb => cb.checked).length;
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${sec.id}">
+      <span>${num}. ${title}</span>
+      <span class="nav-count ${done === boxes.length ? 'done' : ''}">${done}/${boxes.length}</span>
+    </a>`;
+    navList.appendChild(li);
+  });
+}
+
+// === SEARCH ===
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase().trim();
+  document.querySelectorAll('.todo').forEach(t => {
+    if (!q) { t.classList.remove('hidden'); return; }
+    const text = t.textContent.toLowerCase();
+    t.classList.toggle('hidden', !text.includes(q));
+  });
+  document.querySelectorAll('.subsection').forEach(sub => {
+    const visible = sub.querySelectorAll('.todo:not(.hidden)').length;
+    sub.classList.toggle('hidden', q && visible === 0);
+  });
+});
+
+// === CONTROLS ===
+function exportProgress() {
+  const data = localStorage.getItem(STORAGE_KEY) || '{}';
+  const blob = new Blob([data], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `compliflow-checkliste-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+}
+
+function resetAll() {
+  if (!confirm('Wirklich alle Todos zurücksetzen?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  checkboxes.forEach(cb => cb.checked = false);
+  updateProgress();
+}
+
+// === INIT ===
+checkboxes.forEach(cb => {
+  cb.addEventListener('change', () => { saveState(); updateProgress(); });
+});
+
+loadState();
+updateProgress();
+</script>
+</body>
+</html>

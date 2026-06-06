@@ -15,54 +15,61 @@ export default async function og() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "80px",
-          background:
-            "radial-gradient(circle at 20% -10%, rgba(255,77,0,0.18), transparent 50%), radial-gradient(circle at 90% 100%, rgba(255,77,0,0.10), transparent 50%), #0A0906",
-          color: "#F4EFE8",
-          fontFamily: "sans-serif",
+          padding: "72px 80px",
+          background: "#F6F2EA",
+          color: "#15171B",
+          fontFamily: "Georgia, serif",
         }}
       >
         <div
           style={{
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: 16,
-            color: "#FF4D00",
-            fontSize: 20,
-            letterSpacing: 6,
+            fontFamily: "ui-sans-serif, system-ui",
+            fontSize: 14,
+            letterSpacing: 3,
             textTransform: "uppercase",
-            fontWeight: 700,
+            color: "#8B8E94",
           }}
         >
-          <span
-            style={{
-              display: "inline-block",
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "#FF4D00",
-            }}
-          />
-          DSGVO Stack · Launch 17. Juni 2026
+          <span>Compliflow · DSGVO-Suite</span>
+          <span>Launch · 17. Juni 2026</span>
         </div>
 
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 6,
-            fontSize: 96,
-            fontWeight: 800,
-            letterSpacing: -3,
-            lineHeight: 1.0,
+            gap: 18,
+            maxWidth: "85%",
           }}
         >
-          <span>DSGVO ohne</span>
-          <span style={{ color: "#A89F92" }}>Anwaltshonorar.</span>
-          <span>
-            Compliance{" "}
-            <span style={{ color: "#FF4D00" }}>automatisiert</span>.
-          </span>
+          <div
+            style={{
+              fontSize: 76,
+              fontWeight: 500,
+              letterSpacing: -2,
+              lineHeight: 1.05,
+            }}
+          >
+            Compliance, in Stunden statt{" "}
+            <span style={{ color: "#1F3D2F", fontStyle: "italic" }}>
+              Anwaltstagen.
+            </span>
+          </div>
+          <div
+            style={{
+              fontSize: 22,
+              color: "#4F5359",
+              fontFamily: "ui-sans-serif, system-ui",
+              lineHeight: 1.4,
+              maxWidth: 800,
+            }}
+          >
+            AVV-Generator · Verarbeitungsverzeichnis · Cookie-Banner — drei
+            Tools, eine Suite, anwaltlich geprüfte Vorlagen.
+          </div>
         </div>
 
         <div
@@ -70,20 +77,17 @@ export default async function og() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            fontSize: 22,
-            color: "#A89F92",
-            borderTop: "1px solid #2A241D",
-            paddingTop: 28,
+            borderTop: "1px solid #C9C3B3",
+            paddingTop: 24,
+            fontFamily: "ui-sans-serif, system-ui",
+            color: "#4F5359",
+            fontSize: 16,
           }}
         >
-          <div style={{ fontWeight: 800, color: "#F4EFE8", fontSize: 36 }}>
-            Compli<span style={{ color: "#FF4D00" }}>flow</span>
-          </div>
-          <div style={{ display: "flex", gap: 28 }}>
-            <span>AVV</span>
-            <span>VVT</span>
-            <span>Cookie-Banner</span>
-          </div>
+          <span style={{ fontFamily: "Georgia, serif", fontSize: 30, color: "#15171B", fontWeight: 600 }}>
+            Compliflow
+          </span>
+          <span>Stuttgart · Frankfurt · DSGVO-konform</span>
         </div>
       </div>
     ),

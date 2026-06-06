@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliflow — Logo-Vorschau</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0906;
+    --bg-soft: #14110D;
+    --bg-card: #1A1612;
+    --ink: #F4EFE8;
+    --ink-dim: #A89F92;
+    --accent: #FF4D00;
+    --line: #2A241D;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    padding: 60px;
+    line-height: 1.5;
+  }
+  h1 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  h1 span { color: var(--accent); }
+  .sub {
+    color: var(--ink-dim);
+    font-size: 14px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 30px;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 20px;
+  }
+  section { margin-bottom: 80px; }
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .panel {
+    border: 1px solid var(--line);
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .panel-dark { background: var(--bg-soft); }
+  .panel-light { background: var(--ink); color: var(--bg); }
+  .panel-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 24px;
+  }
+  .panel-light .panel-caption { color: var(--bg); opacity: 0.6; }
+  .wordmark {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: currentColor;
+  }
+  .wordmark span { color: var(--accent); }
+  .lockup { display: inline-flex; align-items: center; gap: 14px; }
+  .size-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+  }
+  .size-item { text-align: center; }
+  .size-item-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+    margin-top: 12px;
+  }
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .swatch {
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .swatch-color { height: 80px; }
+  .swatch-info {
+    padding: 12px;
+    background: var(--bg-soft);
+  }
+  .swatch-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+    margin-top: 4px;
+  }
+  .favicon-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 40px;
+    border: 1px solid var(--line);
+    background: #FFFFFF;
+    color: #000;
+  }
+  .favicon-frame {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2a2a2a;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: system-ui;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<h1>compli<span>f</span><span style="color: var(--accent)">l</span>ow</h1>
+<p class="sub">Logo-Vorschau · DRVN-Brand-Familie · Stand 2026-06-06</p>
+
+<!-- ===== MARK ===== -->
+<section>
+  <div class="section-label">01 — Logo Mark (Symbol)</div>
+  <div class="panels">
+    <div class="panel panel-dark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="128" height="128" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="panel-caption">Auf Espresso · logo-mark-on-dark.svg</div>
+    </div>
+    <div class="panel panel-light">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="128" height="128" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#0A0906" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="panel-caption">Auf Cream · logo-mark-on-light.svg</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORDMARK ===== -->
+<section>
+  <div class="section-label">02 — Wordmark</div>
+  <div class="panels">
+    <div class="panel panel-dark">
+      <div class="wordmark" style="font-size: 64px;">complif<span>l</span>ow</div>
+      <div class="panel-caption">Auf Espresso · logo-wordmark.svg</div>
+    </div>
+    <div class="panel panel-light">
+      <div class="wordmark" style="font-size: 64px;">complif<span>l</span>ow</div>
+      <div class="panel-caption">Auf Cream</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOCKUP ===== -->
+<section>
+  <div class="section-label">03 — Lockup (Mark + Wordmark)</div>
+  <div class="panels">
+    <div class="panel panel-dark">
+      <div class="lockup">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="72" height="72" fill="none">
+          <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+          <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+        </svg>
+        <span class="wordmark" style="font-size: 56px;">complif<span>l</span>ow</span>
+      </div>
+      <div class="panel-caption">logo-lockup-on-dark.svg</div>
+    </div>
+    <div class="panel panel-light">
+      <div class="lockup">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="72" height="72" fill="none">
+          <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+          <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#0A0906" stroke-width="20" stroke-linecap="round"/>
+        </svg>
+        <span class="wordmark" style="font-size: 56px;">complif<span>l</span>ow</span>
+      </div>
+      <div class="panel-caption">logo-lockup-on-light.svg</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SIZES ===== -->
+<section>
+  <div class="section-label">04 — Skalierung (zeigt: bleibt bis Favicon-Groesse lesbar)</div>
+  <div class="size-row">
+    <div class="size-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="128" height="128" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="size-item-label">128 px</div>
+    </div>
+    <div class="size-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="64" height="64" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="size-item-label">64 px</div>
+    </div>
+    <div class="size-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="32" height="32" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="size-item-label">32 px</div>
+    </div>
+    <div class="size-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="none">
+        <path d="M203.37 75.23 A 92 92 0 1 0 203.37 180.77" stroke="#FF4D00" stroke-width="20" stroke-linecap="round"/>
+        <path d="M173.88 95.88 A 56 56 0 1 0 173.88 160.12" stroke="#F4EFE8" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="size-item-label">20 px</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAVICON SIMULATION ===== -->
+<section>
+  <div class="section-label">05 — Favicon im Browser-Tab (Simulation)</div>
+  <div class="favicon-row">
+    <div class="favicon-frame">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="16" height="16" fill="none">
+        <rect width="64" height="64" rx="12" fill="#0A0906"/>
+        <path d="M50.84 18.81 A 23 23 0 1 0 50.84 45.19" stroke="#FF4D00" stroke-width="6" stroke-linecap="round"/>
+        <path d="M43.47 23.97 A 14 14 0 1 0 43.47 40.03" stroke="#F4EFE8" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <span>Compliflow — DSGVO-Tools</span>
+    </div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #666;">
+      favicon.svg @ 16×16
+    </div>
+  </div>
+</section>
+
+<!-- ===== PALETTE ===== -->
+<section>
+  <div class="section-label">06 — Farb-Palette (DRVN-Familie)</div>
+  <div class="palette">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #0A0906;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Espresso</div>
+        <div class="swatch-hex">#0A0906 · BG</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #F4EFE8;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Cream</div>
+        <div class="swatch-hex">#F4EFE8 · Ink</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #FF4D00;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Vermillion</div>
+        <div class="swatch-hex">#FF4D00 · Accent</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #A89F92;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Ink-Dim</div>
+        <div class="swatch-hex">#A89F92 · Sekundaer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p style="color: var(--ink-dim); font-size: 12px; text-align: center; padding-top: 40px; border-top: 1px solid var(--line);">
+  Doppel-Klick auf <code>brand/preview.html</code> im Finder zum oeffnen · Alle SVGs in <code>brand/</code>
+</p>
+
+</body>
+</html>

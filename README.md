@@ -34,20 +34,47 @@
 
 ## Brand-Identity
 
-Siehe `CLAUDE.md` und `~/vault/agency/intern/brand-identity.md`.
+Vollstaendige Guidelines: [`brand/BRAND.md`](./brand/BRAND.md)
 
-- Farben: Espresso `#0A0906` + Vermillion `#FF4D00`
-- Display-Font: Syne
-- Body-Font: DM Sans
-- Tonalität: Duzen, professionell-technisch
+- Farben: Espresso `#0A0906` + Vermillion `#FF4D00` + Cream `#F4EFE8`
+- Display-Font: Syne · Body-Font: DM Sans · Mono: JetBrains Mono
+- Tonalitaet: Duzen, professionell-technisch
+- Logo-Konzept: Doppel-C / Channel (siehe `brand/`)
+
+### Logo verwenden (React)
+
+```tsx
+import { Logo } from "@/components/brand/logo";
+
+<Logo variant="lockup" size={40} />   // Mark + Wordmark
+<Logo variant="mark" size={32} />     // nur Symbol
+<Logo variant="wordmark" size={28} /> // nur Text
+```
+
+### Logo-Dateien (SVG)
+
+- [`brand/logo-mark.svg`](./brand/logo-mark.svg) — Mark, `currentColor`-adaptiv
+- [`brand/logo-mark-on-dark.svg`](./brand/logo-mark-on-dark.svg) — fuer dunklen BG
+- [`brand/logo-mark-on-light.svg`](./brand/logo-mark-on-light.svg) — fuer hellen BG
+- [`brand/logo-wordmark.svg`](./brand/logo-wordmark.svg) — nur "compliflow"
+- [`brand/logo-lockup-on-dark.svg`](./brand/logo-lockup-on-dark.svg) — Mark+Wordmark dunkel
+- [`brand/logo-lockup-on-light.svg`](./brand/logo-lockup-on-light.svg) — Mark+Wordmark hell
+- [`brand/favicon.svg`](./brand/favicon.svg) — Favicon mit BG-Square
+- [`app/icon.svg`](./app/icon.svg) — Next.js auto-Favicon
+- [`app/apple-icon.svg`](./app/apple-icon.svg) — iOS Home-Screen-Icon
 
 ---
 
-## Planung
+## Projekt-Dokumentation
 
-- `~/vault/agency/business-center/12-avv-generator-launch-plan.md` — AVV-Plan + Finanz-Modell
-- `~/vault/agency/business-center/13-strategie-sommer-2026.md` — 8-Wochen-Roadmap
-- `~/vault/agency/business-center/avv-suite-checkliste.html` — 500-Todo-Checkliste
+Alles direkt im Projekt-Ordner (statt verstreut im Vault):
+
+- [`docs/launch-plan.md`](./docs/launch-plan.md) — AVV-Plan + Finanz-Modell + Pricing
+- [`docs/sommer-roadmap.md`](./docs/sommer-roadmap.md) — 8-Wochen-Roadmap Sommer 2026
+- [`docs/master-checkliste.html`](./docs/master-checkliste.html) — 500-Todo-Checkliste (im Browser oeffnen)
+- [`CLAUDE.md`](./CLAUDE.md) — Claude-Instruktionen fuer dieses Projekt
+
+Vault-Versionen bleiben als Master erhalten und werden bei aenderungen weiter gepflegt.
 
 ---
 

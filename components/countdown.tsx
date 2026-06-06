@@ -4,58 +4,36 @@ import { useEffect, useState } from "react";
 
 const TARGET = new Date("2026-06-17T09:00:00+02:00").getTime();
 
-type T = { d: number; h: number; m: number; s: number };
-
-function diff(now: number): T {
-  const ms = Math.max(0, TARGET - now);
-  const s = Math.floor(ms / 1000);
-  return {
-    d: Math.floor(s / 86400),
-    h: Math.floor((s % 86400) / 3600),
-    m: Math.floor((s % 3600) / 60),
-    s: s % 60,
-  };
+function daysUntil(now: number) {
+  return Math.max(0, Math.ceil((TARGET - now) / 86_400_000));
 }
 
-export function Countdown({ variant = "hero" }: { variant?: "hero" | "compact" }) {
-  const [t, setT] = useState<T | null>(null);
+export function Countdown({ variant = "inline" }: { variant?: "inline" | "compact" }) {
+  const [days, setDays] = useState<number | null>(null);
 
   useEffect(() => {
-    setT(diff(Date.now()));
-    const i = setInterval(() => setT(diff(Date.now())), 1000);
+    setDays(daysUntil(Date.now()));
+    const i = setInterval(() => setDays(daysUntil(Date.now())), 60_000);
     return () => clearInterval(i);
   }, []);
 
-  if (!t) {
-    return <div className="h-[60px]" aria-hidden="true" />;
+  if (days === null) {
+    return <span aria-hidden="true">—</span>;
   }
 
   if (variant === "compact") {
     return (
-      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-dim">
-        T-{String(t.d).padStart(2, "0")}d {String(t.h).padStart(2, "0")}h{" "}
-        {String(t.m).padStart(2, "0")}m
+      <span>
+        in <strong className="font-medium text-ink">{days}</strong>{" "}
+        {days === 1 ? "Tag" : "Tagen"}
       </span>
     );
   }
 
   return (
-    <div className="flex items-end gap-4 font-display">
-      {[
-        ["Tage", t.d],
-        ["Std", t.h],
-        ["Min", t.m],
-        ["Sek", t.s],
-      ].map(([label, val]) => (
-        <div key={label} className="text-left">
-          <div className="text-[44px] font-extrabold leading-none tracking-tight text-ink md:text-[64px]">
-            {String(val).padStart(2, "0")}
-          </div>
-          <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-faded">
-            {label}
-          </div>
-        </div>
-      ))}
-    </div>
+    <span>
+      <span className="font-display text-ink">{days}</span>{" "}
+      {days === 1 ? "Tag" : "Tage"} bis Launch
+    </span>
   );
 }

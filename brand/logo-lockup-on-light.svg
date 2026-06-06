@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 200" width="880" height="200" fill="none" role="img" aria-label="Compliflow">
+  <title>Compliflow</title>
+  <style>
+    .wm { font-family: 'Syne', system-ui, sans-serif; font-weight: 800; font-size: 110px; letter-spacing: -0.04em; }
+  </style>
+  <g transform="translate(20, 20)">
+    <path d="M127.10 47.02 A 57.5 57.5 0 1 0 127.10 112.98" stroke="#FF4D00" stroke-width="12.5" stroke-linecap="round"/>
+    <path d="M108.67 59.93 A 35 35 0 1 0 108.67 100.07" stroke="#0A0906" stroke-width="12.5" stroke-linecap="round"/>
+  </g>
+  <text x="200" y="135" class="wm" fill="#0A0906">complif<tspan fill="#FF4D00">l</tspan>ow</text>
+</svg>

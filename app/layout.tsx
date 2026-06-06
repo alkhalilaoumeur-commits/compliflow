@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, DM_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { FAQS } from "@/lib/content";
 import "./globals.css";
 
-const syne = Syne({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["500", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
@@ -33,10 +32,7 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: TITLE,
-    template: "%s · Compliflow",
-  },
+  title: { default: TITLE, template: "%s · Compliflow" },
   description: DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
@@ -76,7 +72,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    creator: "@drvn",
   },
   robots: {
     index: true,
@@ -92,8 +87,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0a0906",
-  colorScheme: "dark",
+  themeColor: "#f6f2ea",
+  colorScheme: "light",
 };
 
 function buildJsonLd() {
@@ -107,11 +102,7 @@ function buildJsonLd() {
         url: SITE_URL,
         description:
           "DSGVO-Compliance-Tool-Suite für deutsche Selbstständige und Agenturen.",
-        founder: {
-          "@type": "Person",
-          name: "Al-Khalil Aoumeur",
-          jobTitle: "Solo-Builder",
-        },
+        founder: { "@type": "Person", name: "Al-Khalil Aoumeur", jobTitle: "Solo-Builder" },
         foundingDate: "2026",
         areaServed: [
           { "@type": "Country", name: "Deutschland" },
@@ -144,34 +135,9 @@ function buildJsonLd() {
         description:
           "Erstelle DSGVO-konforme Auftragsverarbeitungs-Verträge nach Art. 28 in 2 Minuten — mit Live-Vorschau, PDF-Export und Custom-Branding.",
         offers: [
-          {
-            "@type": "Offer",
-            name: "Free",
-            price: "0",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/PreOrder",
-            url: `${SITE_URL}/avv`,
-          },
-          {
-            "@type": "Offer",
-            name: "Pro Single",
-            price: "29",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/PreOrder",
-          },
-          {
-            "@type": "Offer",
-            name: "Pro Agency",
-            price: "19",
-            priceCurrency: "EUR",
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
-              price: "19",
-              priceCurrency: "EUR",
-            },
-            availability: "https://schema.org/PreOrder",
-          },
+          { "@type": "Offer", name: "Free", price: "0", priceCurrency: "EUR", availability: "https://schema.org/PreOrder", url: `${SITE_URL}/avv` },
+          { "@type": "Offer", name: "Pro Single", price: "29", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
+          { "@type": "Offer", name: "Pro Agency", price: "19", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
         ],
       },
       {
@@ -183,12 +149,7 @@ function buildJsonLd() {
         inLanguage: "de-DE",
         description:
           "Verarbeitungsverzeichnis nach Art. 30 DSGVO erstellen — strukturiert, prüfungssicher, mit Branchen-Vorlagen.",
-        offers: {
-          "@type": "Offer",
-          price: "29",
-          priceCurrency: "EUR",
-          availability: "https://schema.org/PreOrder",
-        },
+        offers: { "@type": "Offer", price: "29", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
       },
       {
         "@type": "SoftwareApplication",
@@ -199,12 +160,7 @@ function buildJsonLd() {
         inLanguage: "de-DE",
         description:
           "TTDSG- und DSGVO-konformer Cookie-Banner mit Audit-Trail und Google Consent Mode V2.",
-        offers: {
-          "@type": "Offer",
-          price: "9",
-          priceCurrency: "EUR",
-          availability: "https://schema.org/PreOrder",
-        },
+        offers: { "@type": "Offer", price: "9", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
       },
       {
         "@type": "FAQPage",
@@ -212,21 +168,13 @@ function buildJsonLd() {
         mainEntity: FAQS.map((f) => ({
           "@type": "Question",
           name: f.q,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: f.a,
-          },
+          acceptedAnswer: { "@type": "Answer", text: f.a },
         })),
       },
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: SITE_URL,
-          },
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
         ],
       },
     ],
@@ -239,7 +187,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}>
+    <html
+      lang="de"
+      className={`${fraunces.variable} ${dmSans.variable} ${jetbrains.variable}`}
+    >
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <script
