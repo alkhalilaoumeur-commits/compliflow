@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const TARGET = new Date("2026-06-17T09:00:00+02:00").getTime();
+const TARGET = new Date("2026-08-19T09:00:00+02:00").getTime();
 
 function daysUntil(now: number) {
   return Math.max(0, Math.ceil((TARGET - now) / 86_400_000));

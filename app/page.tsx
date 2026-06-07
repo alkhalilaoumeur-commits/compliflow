@@ -8,8 +8,7 @@ export default function Home() {
     <main className="relative z-10 min-h-screen">
       <Header />
       <Hero />
-      <TrustStrip />
-      <StatsBar />
+      <TrustAndStats />
       <HowItWorks />
       <Suite />
       <Comparison />
@@ -198,31 +197,6 @@ function Hero() {
   );
 }
 
-function TrustStrip() {
-  const items = [
-    { label: "Hosting", value: "EU · Frankfurt" },
-    { label: "Vorlagen", value: "Anwaltlich geprüft" },
-    { label: "Tracking", value: "Plausible · cookieless" },
-    { label: "Sitz", value: "Stuttgart" },
-  ];
-  return (
-    <section className="border-y border-line bg-surface">
-      <Container className="grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4 md:gap-x-10 md:py-10">
-        {items.map((i) => (
-          <div key={i.label} className="flex flex-col">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-              {i.label}
-            </span>
-            <span className="mt-1.5 font-display text-[17px] font-medium text-ink">
-              {i.value}
-            </span>
-          </div>
-        ))}
-      </Container>
-    </section>
-  );
-}
-
 function Suite() {
   return (
     <section id="suite" className="relative">
@@ -313,32 +287,30 @@ function Suite() {
   );
 }
 
-function StatsBar() {
-  const stats = [
-    { value: "10", label: "Branchen-Vorlagen", sub: "für VVT & AVV" },
-    { value: "0 €", label: "Kosten", sub: "kostenlos für immer" },
-    { value: "100%", label: "Lokal im Browser", sub: "kein Upload, kein Server" },
-    { value: "Art. 28 & 30", label: "DSGVO-konform", sub: "anwaltlich geprüft" },
+function TrustAndStats() {
+  const rows = [
+    { value: "10", label: "Branchen-Vorlagen", meta: "KMU-optimiert" },
+    { value: "0 €", label: "Kostenlos", meta: "für immer" },
+    { value: "100%", label: "Lokal", meta: "kein Upload" },
+    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "anwaltlich geprüft" },
+    { value: "Frankfurt", label: "Hosting", meta: "EU-Server" },
+    { value: "Stuttgart", label: "Sitz", meta: "Deutschland" },
   ];
 
   return (
-    <section className="border-b border-line">
-      <Container className="py-10 md:py-14">
-        <div className="grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-x-8">
-          {stats.map((s) => (
-            <div key={s.label} className="flex flex-col gap-0.5">
-              <span
-                className="font-display text-[36px] font-medium tracking-[-0.03em] text-ink leading-none"
-              >
-                {s.value}
-              </span>
-              <span className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-ink">
-                {s.label}
-              </span>
-              <span className="font-body text-[13px] text-ink-faded">{s.sub}</span>
-            </div>
-          ))}
-        </div>
+    <section className="border-y border-line bg-surface">
+      <Container className="grid grid-cols-3 gap-y-8 gap-x-6 py-10 md:grid-cols-6 md:py-12">
+        {rows.map((r) => (
+          <div key={r.label} className="flex flex-col">
+            <span className="font-display text-[22px] font-medium tracking-[-0.02em] text-ink leading-tight">
+              {r.value}
+            </span>
+            <span className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-ink">
+              {r.label}
+            </span>
+            <span className="font-body text-[11px] text-ink-faded">{r.meta}</span>
+          </div>
+        ))}
       </Container>
     </section>
   );
