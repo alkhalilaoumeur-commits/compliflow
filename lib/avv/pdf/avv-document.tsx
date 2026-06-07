@@ -229,7 +229,7 @@ export function AvvPdfDocument({ data, noBranding = false }: { data: AvvFormData
   return (
     <Document
       title={`AVV ${data.auftraggeber.firma || "Vertrag"}`}
-      author="Compliflow"
+      author={noBranding ? (data.auftraggeber.firma || "Verantwortlicher") : "Compliflow · compliflow.de"}
       subject="Auftragsverarbeitungsvertrag nach Art. 28 DSGVO"
     >
       {/* Deckblatt */}

@@ -153,8 +153,8 @@ export function StepReview() {
 
         <Section title="Unterschrift" onEdit={() => {}}>
           <div className="grid sm:grid-cols-2 gap-4">
-            <label className="flex flex-col gap-2">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-ink-dim">
+            <div className="flex flex-col gap-1.5">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">
                 Ort der Unterschrift
               </span>
               <input
@@ -164,11 +164,11 @@ export function StepReview() {
                 onChange={(e) =>
                   useAvvStore.getState().patch({ abschlussOrt: e.target.value })
                 }
-                className="bg-bg-soft border border-line px-4 py-3 text-ink outline-none focus:border-accent transition"
+                className="w-full bg-bg-soft border border-line px-4 py-3 font-body text-base text-ink outline-none focus:border-accent transition"
               />
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-ink-dim">
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">
                 Datum
               </span>
               <input
@@ -177,9 +177,9 @@ export function StepReview() {
                 onChange={(e) =>
                   useAvvStore.getState().patch({ abschlussDatum: e.target.value })
                 }
-                className="bg-bg-soft border border-line px-4 py-3 text-ink outline-none focus:border-accent transition"
+                className="w-full bg-bg-soft border border-line px-4 py-3 font-body text-base text-ink outline-none focus:border-accent transition"
               />
-            </label>
+            </div>
           </div>
         </Section>
 

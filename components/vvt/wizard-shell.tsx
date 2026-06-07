@@ -196,7 +196,7 @@ export function VvtWizardShell() {
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <button
             type="button"
-            onClick={goPrev}
+            onClick={() => { goPrev(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             disabled={isFirst}
             className="font-mono text-[11px] uppercase tracking-widest px-5 py-2.5 border border-line text-ink-dim hover:text-ink hover:border-accent transition disabled:opacity-20 disabled:cursor-not-allowed"
           >
@@ -223,7 +223,7 @@ export function VvtWizardShell() {
           {!isLast && (
             <button
               type="button"
-              onClick={goNext}
+              onClick={() => { goNext(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               disabled={!stepValid}
               title={!stepValid ? "Bitte alle Pflichtfelder ausfüllen" : undefined}
               className="btn-primary font-mono text-[11px] uppercase tracking-widest px-7 py-2.5 disabled:bg-bg-soft disabled:text-ink-faded disabled:border disabled:border-line disabled:cursor-not-allowed"

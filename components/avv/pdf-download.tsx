@@ -6,6 +6,16 @@ import { AvvPdfDocument } from "@/lib/avv/pdf/avv-document";
 import { getCompletionStatus } from "@/lib/avv/contract";
 import { slugify } from "@/lib/utils";
 
+const STEP_LABELS = {
+  parteien: "Vertragsparteien vollständig ausfüllen",
+  verarbeitung: "Gegenstand, Zweck, Dauer und Verarbeitungsart angeben",
+  datenkategorien: "Mind. 1 Datenkategorie auswählen",
+  personenkategorien: "Mind. 1 Betroffenengruppe auswählen",
+  toms: "Schutzmaßnahmen (mind. 1 pro Kategorie, 8 Kategorien)",
+  subverarbeiter: "Subverarbeiter-Schritt abschließen",
+  review: "Unterschrift vervollständigen",
+};
+
 export function PdfDownload() {
   const data = useAvvStore((s) => s.data);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +56,7 @@ export function PdfDownload() {
           {missing.map((m) => (
             <li key={m} className="flex items-center gap-2">
               <span className="text-accent">×</span>
-              <span>{m === "toms" ? "Schutzmaßnahmen (mind. 8)" : m}</span>
+              <span>{STEP_LABELS[m as keyof typeof STEP_LABELS] ?? m}</span>
             </li>
           ))}
         </ul>

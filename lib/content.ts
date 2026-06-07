@@ -64,7 +64,7 @@ export const FAQS = [
   },
   {
     q: "Was kostet Compliflow?",
-    a: "Free-Tier mit Compliflow-Footer ist kostenlos. Pro Single (29 €, einmalig) entfernt den Footer und erlaubt Custom-Branding. Pro Agency (19 € pro Monat) bietet Multi-Mandant-Dashboard, DocuSign-Integration und Update-Service.",
+    a: "Free-Tier mit Compliflow-Footer ist kostenlos. Pro Dokument (29 €, einmalig) entfernt den Footer — je AVV und VVT separat buchbar. Agency (19 €/Monat) ist für Datenschutzberater und Agenturen geplant, die unbegrenzt Mandanten-Dokumente erstellen.",
   },
   {
     q: "Ist das hier rechtsverbindlich?",
@@ -72,11 +72,11 @@ export const FAQS = [
   },
   {
     q: "Wo werden meine Daten gespeichert?",
-    a: "Komplett in der EU. Unsere Datenbank läuft auf Supabase in Frankfurt am Main. Wir nutzen Plausible Analytics anstelle von Google Analytics, weil Plausible cookieless und DSGVO-konform aus dem Karton ist. Die Liste aller Auftragsverarbeiter steht in unserer Datenschutzerklärung.",
+    a: "Komplett in der EU. Deine Eingaben verlassen niemals deinen Browser — wir speichern keine Dokument-Inhalte auf unseren Servern. Der Webserver läuft bei Hetzner in Frankfurt am Main. Wir nutzen Plausible Analytics statt Google Analytics, weil Plausible cookieless und DSGVO-konform ist. Die Liste aller Auftragsverarbeiter steht in unserer Datenschutzerklärung.",
   },
   {
     q: "Kann ich Compliflow als Agentur für meine Kunden nutzen?",
-    a: "Genau dafür gibt es Pro Agency. Du verwaltest beliebig viele Mandanten unter einem Account, jeder bekommt eigene AVVs mit deinem Logo, der Versand läuft über DocuSign, und bei DSGVO-Änderungen aktualisierst du alle Dokumente mit einem Klick.",
+    a: "Der Agency-Plan (19 €/Monat, bald buchbar) ist genau dafür gedacht: unbegrenzte Dokumente ohne Branding, Mandanten-Übersicht und Prioritäts-Support. Jetzt schon per E-Mail vormerken: hello@compliflow.de.",
   },
   {
     q: "Wer steht hinter Compliflow?",

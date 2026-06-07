@@ -233,7 +233,9 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Verarbeitungsverzeichnis</Text>
-          <Text style={styles.headerSub}>nach Art. 30 Abs. 1 DSGVO · Compliflow</Text>
+          <Text style={styles.headerSub}>
+            {noBranding ? "nach Art. 30 Abs. 1 DSGVO" : "nach Art. 30 Abs. 1 DSGVO · Compliflow"}
+          </Text>
           <View style={styles.headerMeta}>
             <View>
               <Text style={styles.headerMetaItem}>Verantwortlicher</Text>

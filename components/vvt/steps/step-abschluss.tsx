@@ -164,17 +164,24 @@ export function StepAbschluss() {
                 ok: data.taetigkeiten.every((t) => !!t.drittlandGarantie),
               },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3">
+              <div key={item.label} className="flex items-center gap-3 py-2 border-b border-line last:border-0">
                 <span
-                  className={`flex-shrink-0 font-mono text-[13px] ${
-                    item.ok ? "text-accent" : "text-warn"
+                  className={`flex-shrink-0 inline-flex h-5 w-5 items-center justify-center border transition ${
+                    item.ok
+                      ? "bg-accent border-accent text-bg"
+                      : "border-line bg-bg-soft text-ink-faded"
                   }`}
+                  aria-hidden="true"
                 >
-                  {item.ok ? "✓" : "○"}
+                  {item.ok ? (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : (
+                    <span className="font-mono text-[10px]">○</span>
+                  )}
                 </span>
-                <span
-                  className={`text-sm ${item.ok ? "text-ink-dim" : "text-warn"}`}
-                >
+                <span className={`text-sm ${item.ok ? "text-ink-dim" : "text-warn"}`}>
                   {item.label}
                 </span>
               </div>

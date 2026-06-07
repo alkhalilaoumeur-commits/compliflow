@@ -49,21 +49,35 @@ export function StepDatenkategorien() {
                 type="button"
                 onClick={() => toggle(cat.id)}
                 className={
-                  "text-left p-4 border transition " +
+                  "text-left p-4 border transition flex items-start gap-3 " +
                   (active
                     ? "border-accent bg-accent-soft"
                     : "border-line bg-bg-soft hover:border-accent")
                 }
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-display font-bold">{cat.label}</span>
-                  {cat.besondereKategorie && (
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-accent">
-                      Art. 9
-                    </span>
+                <span
+                  className={`flex-shrink-0 mt-0.5 inline-flex h-4 w-4 items-center justify-center border transition ${
+                    active ? "bg-accent border-accent text-bg" : "border-line"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {active && (
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                      <path d="M1 3l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   )}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-display font-bold">{cat.label}</span>
+                    {cat.besondereKategorie && (
+                      <span className="flex-shrink-0 font-mono text-[9px] uppercase tracking-widest text-accent">
+                        Art. 9
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-ink-dim mt-1">{cat.beispiele.join(" · ")}</p>
                 </div>
-                <p className="text-xs text-ink-dim mt-1">{cat.beispiele.join(" · ")}</p>
               </button>
             );
           })}

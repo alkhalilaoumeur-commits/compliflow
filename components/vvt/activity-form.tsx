@@ -142,10 +142,17 @@ export function ActivityForm({ value, onChange }: Props) {
                 }`}
               >
                 <span
-                  className={`mt-0.5 h-3.5 w-3.5 flex-shrink-0 border transition ${
-                    active ? "bg-accent border-accent" : "bg-bg-soft border-line-strong"
+                  className={`mt-0.5 flex-shrink-0 inline-flex h-4 w-4 items-center justify-center border transition ${
+                    active ? "bg-accent border-accent text-bg" : "bg-bg-soft border-line-strong"
                   }`}
-                />
+                  aria-hidden="true"
+                >
+                  {active && (
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                      <path d="M1 3l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </span>
                 <span>
                   {RECHTSGRUNDLAGEN_LABELS[rg]}
                   {isBesonders && (
@@ -379,10 +386,13 @@ export function ActivityForm({ value, onChange }: Props) {
                   }`}
                 >
                   <span
-                    className={`mt-0.5 h-3.5 w-3.5 flex-shrink-0 rounded-full border transition ${
+                    className={`mt-0.5 flex-shrink-0 inline-flex h-4 w-4 items-center justify-center rounded-full border transition ${
                       active ? "bg-accent border-accent" : "bg-bg-soft border-line-strong"
                     }`}
-                  />
+                    aria-hidden="true"
+                  >
+                    {active && <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" />}
+                  </span>
                   {DRITTLAND_GARANTIE_LABELS[key]}
                 </button>
               );
