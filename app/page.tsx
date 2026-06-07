@@ -9,6 +9,7 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustStrip />
+      <StatsBar />
       <HowItWorks />
       <Suite />
       <Comparison />
@@ -229,16 +230,15 @@ function Suite() {
         <div className="mb-16 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              01 · Die Suite
+              02 · Die Suite
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
             <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
-              Drei eigenständige Werkzeuge. Ein gemeinsamer Account.
+              Drei eigenständige Werkzeuge. Eine Suite.
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
-              Du brauchst nicht alle drei am ersten Tag — aber sie sind so gebaut,
-              dass sich Daten und Mandanten zwischen ihnen teilen lassen.
+              Du brauchst nicht alle drei am ersten Tag — AVV und VVT sind jetzt live, Cookie-Banner kommt im August. Alle komplett kostenlos, ohne Account, ohne Upload.
             </p>
           </div>
         </div>
@@ -313,6 +313,37 @@ function Suite() {
   );
 }
 
+function StatsBar() {
+  const stats = [
+    { value: "10", label: "Branchen-Vorlagen", sub: "für VVT & AVV" },
+    { value: "0 €", label: "Kosten", sub: "kostenlos für immer" },
+    { value: "100%", label: "Lokal im Browser", sub: "kein Upload, kein Server" },
+    { value: "Art. 28 & 30", label: "DSGVO-konform", sub: "anwaltlich geprüft" },
+  ];
+
+  return (
+    <section className="border-b border-line">
+      <Container className="py-10 md:py-14">
+        <div className="grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-x-8">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col gap-0.5">
+              <span
+                className="font-display text-[36px] font-medium tracking-[-0.03em] text-ink leading-none"
+              >
+                {s.value}
+              </span>
+              <span className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-ink">
+                {s.label}
+              </span>
+              <span className="font-body text-[13px] text-ink-faded">{s.sub}</span>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function HowItWorks() {
   const steps = [
     {
@@ -341,7 +372,7 @@ function HowItWorks() {
         <div className="mb-16 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              00 · Wie es funktioniert
+              01 · Wie es funktioniert
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
@@ -354,36 +385,34 @@ function HowItWorks() {
           </div>
         </div>
 
-        <div className="relative grid grid-cols-12 gap-y-8 lg:gap-x-0">
-          {/* Connecting line (desktop only) */}
-          <div className="absolute top-[52px] left-[calc(100%/12*4+28px)] right-[calc(100%/12*0+28px)] hidden h-px bg-line lg:block" aria-hidden />
-
+        <div className="grid grid-cols-12 gap-y-8 lg:gap-x-10">
           {steps.map((step, i) => (
             <div
               key={step.n}
               className="col-span-12 lg:col-span-4 rise"
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className="lg:pr-10">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center border border-accent bg-accent text-bg">
-                    <span className="font-mono text-[13px] font-bold tracking-widest">
-                      {step.n}
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] border border-line px-2.5 py-1 text-ink-faded">
-                    {step.tag}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center bg-accent text-bg">
+                  <span className="font-mono text-[13px] font-bold tracking-widest">
+                    {step.n}
                   </span>
                 </div>
-                <h3
-                  className="font-display text-[24px] font-medium leading-[1.2] tracking-[-0.01em] text-ink"
-                >
-                  {step.title}
-                </h3>
-                <p className="mt-3 font-body text-[15px] leading-[1.65] text-ink-dim">
-                  {step.body}
-                </p>
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] border border-line px-2.5 py-1 text-ink-faded">
+                  {step.tag}
+                </span>
+                {i < steps.length - 1 && (
+                  <div className="hidden lg:block flex-1 h-px bg-line" aria-hidden />
+                )}
               </div>
+              <h3
+                className="font-display text-[24px] font-medium leading-[1.2] tracking-[-0.01em] text-ink"
+              >
+                {step.title}
+              </h3>
+              <p className="mt-3 font-body text-[15px] leading-[1.65] text-ink-dim">
+                {step.body}
+              </p>
             </div>
           ))}
         </div>
@@ -423,7 +452,7 @@ function Comparison() {
         <div className="mb-14 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              00.5 · Vergleich
+              03 · Vergleich
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
@@ -493,7 +522,7 @@ function Primer() {
         <div className="mb-20 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              02 · Worum es geht
+              04 · Worum es geht
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
@@ -565,7 +594,7 @@ function Faq() {
         <div className="grid grid-cols-12 gap-y-10 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              03 · Häufige Fragen
+              05 · Häufige Fragen
             </p>
             <h2 className="mt-4 balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[42px]">
               Was Leute uns am häufigsten fragen.
@@ -616,7 +645,7 @@ function Waitlist() {
       <Container className="py-24 lg:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-            04 · Vor dem Launch
+            06 · Vor dem Launch
           </p>
           <h2 className="mt-5 balance font-display text-[40px] font-medium leading-[1.05] tracking-[-0.02em] text-ink md:text-[56px]">
             Cookie-Banner ist in Arbeit.
