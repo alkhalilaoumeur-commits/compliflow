@@ -8,10 +8,10 @@ import { formatDateDE } from "@/lib/utils";
 // React-PDF nutzt eingebaute Helvetica — keine externe Font-Abhängigkeit, robust offline.
 
 const COLOR = {
-  ink: "#0A0906",
-  accent: "#FF4D00",
-  dim: "#5C5447",
-  line: "#D4CFC7",
+  ink: "#15171B",
+  accent: "#1F3D2F",
+  dim: "#4F5359",
+  line: "#E2DDD1",
 };
 
 const styles = StyleSheet.create({

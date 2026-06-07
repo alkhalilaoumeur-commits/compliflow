@@ -28,7 +28,7 @@ const SITE_URL = "https://compliflow.de";
 const SITE_NAME = "Compliflow";
 const TITLE = "Compliflow — DSGVO-Tools für deutsche Selbstständige";
 const DESCRIPTION =
-  "AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner in einer Suite. DSGVO-konforme Pflichtdokumente in Minuten statt Tagen. Launch Tool 1 am 17. Juni 2026.";
+  "AVV-Generator und Verarbeitungsverzeichnis kostenlos nutzen. DSGVO-konforme Pflichtdokumente nach Art. 28 und Art. 30 in Minuten — anwaltlich geprüft, kein Account nötig.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -135,9 +135,9 @@ function buildJsonLd() {
         description:
           "Erstelle DSGVO-konforme Auftragsverarbeitungs-Verträge nach Art. 28 in 2 Minuten — mit Live-Vorschau, PDF-Export und Custom-Branding.",
         offers: [
-          { "@type": "Offer", name: "Free", price: "0", priceCurrency: "EUR", availability: "https://schema.org/PreOrder", url: `${SITE_URL}/avv` },
-          { "@type": "Offer", name: "Pro Single", price: "29", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
-          { "@type": "Offer", name: "Pro Agency", price: "19", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
+          { "@type": "Offer", name: "Free", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: `${SITE_URL}/avv` },
+          { "@type": "Offer", name: "Pro Single", price: "29", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Pro Agency", price: "19", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
         ],
       },
       {
@@ -149,7 +149,7 @@ function buildJsonLd() {
         inLanguage: "de-DE",
         description:
           "Verarbeitungsverzeichnis nach Art. 30 DSGVO erstellen — strukturiert, prüfungssicher, mit Branchen-Vorlagen.",
-        offers: { "@type": "Offer", price: "29", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
+        offers: { "@type": "Offer", price: "29", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
       },
       {
         "@type": "SoftwareApplication",

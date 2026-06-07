@@ -257,7 +257,7 @@ export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
         {/* Legal Warning */}
         <View style={styles.warningBox}>
           <Text style={styles.warningText}>
-            ⚠ Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine
+            Hinweis: Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine
             Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten.
             Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024.
           </Text>

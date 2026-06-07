@@ -34,7 +34,7 @@ export default async function og() {
           }}
         >
           <span>Compliflow · DSGVO-Suite</span>
-          <span>Launch · 17. Juni 2026</span>
+          <span>Tool 1 + 2 jetzt live</span>
         </div>
 
         <div
