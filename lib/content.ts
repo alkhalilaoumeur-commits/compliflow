@@ -13,7 +13,7 @@ export const PRIMER = [
       "Wann der Vertrag endet und Daten gelöscht werden",
     ],
     duration: "2 Min statt 45 Min",
-    launch: "17. Juni 2026",
+    launch: "Live seit Juni 2026",
   },
   {
     id: "vvt",
@@ -28,8 +28,8 @@ export const PRIMER = [
       "Wer als Auftragsverarbeiter dranhängt",
       "Wann gelöscht oder anonymisiert wird",
     ],
-    duration: "Stunden statt Tage",
-    launch: "15. Juli 2026",
+    duration: "10 Min statt 2 Tage",
+    launch: "Live seit Juni 2026",
   },
   {
     id: "cookie-banner",
@@ -52,11 +52,11 @@ export const PRIMER = [
 export const FAQS = [
   {
     q: "Was ist Compliflow?",
-    a: "Compliflow ist eine Suite aus drei Tools, die DSGVO-Pflicht-Dokumente für deutsche Selbstständige und Agenturen automatisch erstellen: AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner. Alles auf einer Domain, mit gemeinsamem Account.",
+    a: "Compliflow ist eine Suite aus drei Tools, die DSGVO-Pflicht-Dokumente für deutsche Selbstständige und Agenturen automatisch erstellen: AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner. Kein Account nötig, keine Daten-Upload, alles läuft lokal in deinem Browser.",
   },
   {
-    q: "Wann startet das erste Tool?",
-    a: "Tool 1 (AVV-Generator) launcht am 17. Juni 2026. Tool 2 (VVT) folgt am 15. Juli, Tool 3 (Cookie-Banner) am 19. August. Wartelisten-Anmelder bekommen 34 % Early-Bird-Rabatt in der Launch-Woche.",
+    q: "Welche Tools sind live?",
+    a: "Tool 1 (AVV-Generator nach Art. 28 DSGVO) und Tool 2 (Verarbeitungsverzeichnis nach Art. 30 DSGVO) sind jetzt live und komplett kostenlos nutzbar. Tool 3 (Cookie-Banner) kommt am 19. August 2026. Wartelisten-Anmelder bekommen 34 % Early-Bird-Rabatt.",
   },
   {
     q: "Brauche ich als Solo-Selbstständiger wirklich einen AVV?",

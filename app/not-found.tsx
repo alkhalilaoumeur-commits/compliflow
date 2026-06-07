@@ -30,33 +30,45 @@ export default function NotFound() {
             Diese Seite gibt&apos;s nicht.
           </h1>
           <p className="text-ink-dim text-lg leading-relaxed mb-10 max-w-lg">
-            Vielleicht hast du dich vertippt, vielleicht ist sie noch nicht gebaut.
-            Tool 2 (VVT) launcht am 15. Juli, Tool 3 (Cookie-Banner) am 19. August.
+            Vielleicht hast du dich vertippt, oder die Seite ist noch nicht gebaut.
+            Tool 3 (Cookie-Banner) kommt am 19. August 2026.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-4 max-w-md">
+          <div className="grid sm:grid-cols-3 gap-4 max-w-2xl">
             <Link
               href="/"
               className="border border-line bg-bg-soft p-5 hover:border-accent transition group"
             >
               <p className="font-mono text-[10px] uppercase tracking-widest text-ink-dim mb-2">
-                Start
+                Startseite
               </p>
               <p className="font-display font-bold text-lg group-hover:text-accent transition">
                 Compliflow Suite
               </p>
-              <p className="text-sm text-ink-dim mt-1">Worum es geht</p>
+              <p className="text-sm text-ink-dim mt-1">Alle Tools im Überblick</p>
             </Link>
             <Link
               href="/avv"
               className="border border-accent bg-accent-soft p-5 hover:bg-accent hover:text-bg transition group"
             >
-              <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
-                Live
+              <p className="font-mono text-[10px] uppercase tracking-widest text-accent group-hover:text-bg mb-2">
+                Live · Tool 01
               </p>
               <p className="font-display font-bold text-lg">AVV-Generator</p>
               <p className="text-sm text-ink-dim mt-1 group-hover:text-[rgba(246,242,234,0.7)] transition">
-                In 2 Minuten fertig
+                Art. 28 DSGVO
+              </p>
+            </Link>
+            <Link
+              href="/vvt"
+              className="border border-accent bg-accent-soft p-5 hover:bg-accent hover:text-bg transition group"
+            >
+              <p className="font-mono text-[10px] uppercase tracking-widest text-accent group-hover:text-bg mb-2">
+                Live · Tool 02
+              </p>
+              <p className="font-display font-bold text-lg">VVT-Generator</p>
+              <p className="text-sm text-ink-dim mt-1 group-hover:text-[rgba(246,242,234,0.7)] transition">
+                Art. 30 DSGVO
               </p>
             </Link>
           </div>
