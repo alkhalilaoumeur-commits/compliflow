@@ -309,7 +309,7 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
 
   blocks.push({
     id: "schluss",
-    number: anInDrittland ? "§ 14" : "§ 13",
+    number: "§ 13",
     title: "Schlussbestimmungen",
     paragraphs: [
       `(1) Sollten einzelne Bestimmungen dieses Vertrags unwirksam sein oder werden, so bleibt die Wirksamkeit der übrigen Bestimmungen hiervon unberührt. An die Stelle der unwirksamen Bestimmung tritt eine wirksame Bestimmung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt.`,

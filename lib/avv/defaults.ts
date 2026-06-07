@@ -75,15 +75,25 @@ export const TOM_KATEGORIE_LABELS: Record<TomKategorie, { label: string; beschre
 };
 
 export const DRITTLAND_TOP20 = [
+  // EU/EWR — immer ohne Schrems-II-Problematik
   { code: "DE", land: "Deutschland", inEU: true },
   { code: "AT", land: "Österreich", inEU: true },
+  { code: "IE", land: "Irland", inEU: true },
+  { code: "LU", land: "Luxemburg", inEU: true },
+  { code: "EE", land: "Estland", inEU: true },
+  { code: "FR", land: "Frankreich", inEU: true },
+  { code: "NL", land: "Niederlande", inEU: true },
+  { code: "SE", land: "Schweden", inEU: true },
+  { code: "FI", land: "Finnland", inEU: true },
+  // Angemessenheitsbeschluss — Art. 45 DSGVO
   { code: "CH", land: "Schweiz", angemessenheit: true },
   { code: "GB", land: "Vereinigtes Königreich", angemessenheit: true },
-  { code: "US", land: "USA", schremsII: true },
   { code: "CA", land: "Kanada", angemessenheit: true },
   { code: "JP", land: "Japan", angemessenheit: true },
   { code: "KR", land: "Südkorea", angemessenheit: true },
   { code: "IL", land: "Israel", angemessenheit: true },
+  // Drittland — Schrems-II-Zusatzmaßnahmen erforderlich
+  { code: "US", land: "USA", schremsII: true },
   { code: "IN", land: "Indien", schremsII: true },
   { code: "BR", land: "Brasilien", schremsII: true },
   { code: "AU", land: "Australien", schremsII: true },
