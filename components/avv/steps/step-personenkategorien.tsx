@@ -40,7 +40,7 @@ export function StepPersonenkategorien() {
                 className={
                   "text-left p-4 border transition font-display font-bold " +
                   (active
-                    ? "border-accent bg-accent/10"
+                    ? "border-accent bg-accent-soft"
                     : "border-line bg-bg-soft hover:border-accent")
                 }
               >

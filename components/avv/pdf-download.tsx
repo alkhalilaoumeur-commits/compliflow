@@ -69,15 +69,46 @@ export function PdfDownload() {
       {({ loading }: { loading: boolean }) => (
         <span
           className={
-            "inline-block px-7 py-4 font-mono text-xs uppercase tracking-widest transition " +
+            "inline-flex h-14 w-full items-center justify-center gap-3 font-mono text-[13px] uppercase tracking-widest transition " +
             (loading
               ? "bg-bg-soft border border-line text-ink-dim cursor-wait"
               : "bg-accent text-bg hover:bg-ink cursor-pointer")
           }
         >
-          {loading ? "PDF wird erstellt …" : "📄 AVV als PDF herunterladen"}
+          {loading ? (
+            <>
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[rgba(246,242,234,1)] border-t-[rgba(246,242,234,0.3)]" />
+              PDF wird erstellt …
+            </>
+          ) : (
+            <>
+              <DownloadIcon />
+              AVV als PDF herunterladen
+            </>
+          )}
         </span>
       )}
     </PDFDownloadLink>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M8 2v8M5 7l3 3 3-3M2 12h12"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

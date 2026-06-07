@@ -235,7 +235,7 @@ function DienstCard({
   link: string;
 }) {
   return (
-    <div className="border border-line bg-bg-soft/40 p-4 my-3">
+    <div className="border border-line bg-[rgba(240,236,226,0.4)] p-4 my-3">
       <p className="font-display font-bold text-ink">{name}</p>
       <div className="grid sm:grid-cols-3 gap-2 text-xs mt-2">
         <p>

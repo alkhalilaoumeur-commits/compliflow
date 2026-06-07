@@ -44,7 +44,7 @@ export function VvtPdfDownload({ data, disabled }: Props) {
       >
         {state === "loading" ? (
           <>
-            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-bg border-t-bg/30" />
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-bg border-t-[rgba(246,242,234,0.3)]" />
             PDF wird erstellt …
           </>
         ) : state === "error" ? (

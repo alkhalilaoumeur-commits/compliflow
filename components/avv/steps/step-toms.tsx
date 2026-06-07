@@ -65,7 +65,7 @@ export function StepToms() {
       </p>
 
       {fehlend.length > 0 ? (
-        <div className="border-l-2 border-accent bg-accent/5 p-3">
+        <div className="border-l-2 border-accent bg-accent-soft p-3">
           <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-1">
             Noch unvollständig — fehlende Kategorien:
           </p>
@@ -94,7 +94,7 @@ export function StepToms() {
           }}
           className="px-4 py-2 font-mono text-[11px] uppercase tracking-widest bg-accent text-bg hover:bg-ink transition"
         >
-          ⚡ Empfohlenes Standard-Set aktivieren (16 TOMs)
+          Standard-Set aktivieren (16 TOMs)
         </button>
         <button
           type="button"
@@ -147,11 +147,11 @@ function ToMSection({
   const meta = TOM_KATEGORIE_LABELS[kategorie];
 
   return (
-    <div className="border border-line bg-bg-soft/30">
+    <div className="border border-line bg-[rgba(240,236,226,0.3)]">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-bg-soft/60 transition"
+        className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-[rgba(240,236,226,0.6)] transition"
       >
         <div>
           <div className="font-display font-bold text-lg">{meta.label}</div>
@@ -172,7 +172,7 @@ function ToMSection({
             return (
               <label
                 key={s.beschreibung}
-                className="flex items-start gap-3 cursor-pointer p-2 hover:bg-bg-soft/50 transition"
+                className="flex items-start gap-3 cursor-pointer p-2 hover:bg-[rgba(240,236,226,0.5)] transition"
               >
                 <input
                   type="checkbox"
@@ -188,7 +188,7 @@ function ToMSection({
           {aktive.filter((a) => a.custom).map((a) => (
             <div
               key={a.id}
-              className="flex items-start gap-3 p-2 bg-accent/5 border-l-2 border-accent"
+              className="flex items-start gap-3 p-2 bg-accent-soft border-l-2 border-accent"
             >
               <span className="text-sm flex-1">{a.beschreibung}</span>
               <button

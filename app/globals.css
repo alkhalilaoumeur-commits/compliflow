@@ -250,3 +250,33 @@ details[open] .faq-icon {
 .deco {
   user-select: none;
 }
+
+/* Wizard-specific: disabled btn-primary override */
+.btn-primary:disabled,
+.btn-primary[disabled] {
+  background: var(--color-bg-soft);
+  color: var(--color-ink-faded);
+  border: 1px solid var(--color-line);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Scrollbar — subtle */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-faded);
+}

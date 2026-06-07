@@ -60,7 +60,7 @@ function ParteiCard({ side, label, hint }: { side: Side; label: string; hint: st
   const plzError = validatePlz(value.plz ?? "");
 
   return (
-    <div className="border border-line bg-bg-soft/50 p-7 flex flex-col gap-5">
+    <div className="border border-line bg-[rgba(240,236,226,0.5)] p-7 flex flex-col gap-5">
       <div>
         <h2 className="font-display font-bold text-2xl" style={{ letterSpacing: "-0.02em" }}>
           {label}

@@ -10,7 +10,7 @@ export function StepUnternehmen() {
   return (
     <div className="grid gap-10 md:grid-cols-2">
       {/* Hauptangaben */}
-      <div className="border border-line bg-bg-soft/50 p-7 flex flex-col gap-5">
+      <div className="border border-line bg-[rgba(240,236,226,0.5)] p-7 flex flex-col gap-5">
         <div>
           <h2
             className="font-display font-bold text-2xl"
@@ -132,7 +132,7 @@ export function StepUnternehmen() {
 
       {/* DSB */}
       <div className="flex flex-col gap-6">
-        <div className="border border-line bg-bg-soft/50 p-7">
+        <div className="border border-line bg-[rgba(240,236,226,0.5)] p-7">
           <h2
             className="font-display font-bold text-xl mb-1"
             style={{ letterSpacing: "-0.02em" }}

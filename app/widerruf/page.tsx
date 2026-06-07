@@ -60,7 +60,7 @@ export default function WiderrufPage() {
       </LegalSection>
 
       <LegalSection title="Erlöschen des Widerrufsrechts bei digitalen Inhalten">
-        <p className="bg-accent/5 border-l-2 border-accent p-4">
+        <p className="bg-[rgba(31,61,47,0.05)] border-l-2 border-accent p-4">
           <strong className="text-ink">Wichtig:</strong> Das Widerrufsrecht{" "}
           <strong className="text-ink">erlischt vorzeitig</strong> bei einem Vertrag zur
           Lieferung von nicht auf einem körperlichen Datenträger befindlichen digitalen

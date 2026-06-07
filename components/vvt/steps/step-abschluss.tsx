@@ -24,7 +24,7 @@ export function StepAbschluss() {
         {/* Verantwortlicher Summary */}
         <section>
           <SectionLabel>Verantwortliche Stelle</SectionLabel>
-          <div className="border border-line bg-bg-soft/40 p-5 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+          <div className="border border-line bg-[rgba(240,236,226,0.4)] p-5 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
             <DataRow label="Unternehmen" value={v.bezeichnung ?? "—"} />
             <DataRow label="Vertreter" value={v.name ?? "—"} />
             <DataRow
@@ -55,7 +55,7 @@ export function StepAbschluss() {
           ) : (
             <div className="flex flex-col gap-4">
               {data.taetigkeiten.map((t, idx) => (
-                <div key={t.id} className="border border-line bg-bg-soft/30 p-5">
+                <div key={t.id} className="border border-line bg-[rgba(240,236,226,0.3)] p-5">
                   <div className="flex items-baseline gap-3 mb-3 pb-3 border-b border-line">
                     <span className="font-mono text-[10px] text-accent">
                       VVT-{String(idx + 1).padStart(2, "0")}
@@ -199,11 +199,11 @@ export function StepAbschluss() {
             </p>
           )}
 
-          <div className="mt-6 flex flex-col gap-3 border-t border-line pt-4">
-            <InfoRow icon="📄" text="Art. 30 DSGVO konform" />
-            <InfoRow icon="⚖" text="Anwaltlich geprüfte Struktur" />
-            <InfoRow icon="🔒" text="Kein Datenspeichern auf Server" />
-            <InfoRow icon="♻" text="Daten bleiben lokal im Browser" />
+          <div className="mt-6 flex flex-col gap-2.5 border-t border-line pt-4">
+            <InfoRow text="Art. 30 DSGVO konform" />
+            <InfoRow text="Anwaltlich geprüfte Struktur" />
+            <InfoRow text="Kein Datenspeichern auf Server" />
+            <InfoRow text="Daten bleiben lokal im Browser" />
           </div>
 
           <div className="mt-5 border-t border-line pt-4">
@@ -268,10 +268,10 @@ function DataRow({
   );
 }
 
-function InfoRow({ icon, text }: { icon: string; text: string }) {
+function InfoRow({ text }: { text: string }) {
   return (
-    <div className="flex items-center gap-2.5 text-sm text-ink-dim">
-      <span aria-hidden="true">{icon}</span>
+    <div className="flex items-center gap-2.5 font-body text-[13px] text-ink-dim">
+      <span className="flex-shrink-0 font-mono text-[11px] text-accent" aria-hidden="true">✓</span>
       <span>{text}</span>
     </div>
   );

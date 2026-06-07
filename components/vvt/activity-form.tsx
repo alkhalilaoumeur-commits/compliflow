@@ -138,7 +138,7 @@ export function ActivityForm({ value, onChange }: Props) {
                 className={`flex items-start gap-3 border p-3 text-left text-[13px] transition ${
                   active
                     ? "border-accent bg-accent-soft text-ink"
-                    : "border-line hover:border-accent/50 text-ink-dim"
+                    : "border-line hover:border-[rgba(31,61,47,0.5)] text-ink-dim"
                 }`}
               >
                 <span
@@ -234,7 +234,7 @@ export function ActivityForm({ value, onChange }: Props) {
                 className={`border px-3 py-1.5 text-[13px] transition font-body ${
                   active
                     ? "border-accent bg-accent-soft text-ink"
-                    : "border-line hover:border-accent/50 text-ink-dim"
+                    : "border-line hover:border-[rgba(31,61,47,0.5)] text-ink-dim"
                 }`}
               >
                 {item}
@@ -291,7 +291,7 @@ export function ActivityForm({ value, onChange }: Props) {
                 className={`border px-3 py-1.5 text-[13px] transition font-body ${
                   active
                     ? "border-accent bg-accent-soft text-ink"
-                    : "border-line hover:border-accent/50 text-ink-dim"
+                    : "border-line hover:border-[rgba(31,61,47,0.5)] text-ink-dim"
                 } ${isBesonders ? "border-dashed" : ""}`}
               >
                 {item}
@@ -375,7 +375,7 @@ export function ActivityForm({ value, onChange }: Props) {
                   className={`flex items-start gap-3 border p-3 text-left text-[13px] transition ${
                     active
                       ? "border-accent bg-accent-soft text-ink"
-                      : "border-line hover:border-accent/50 text-ink-dim"
+                      : "border-line hover:border-[rgba(31,61,47,0.5)] text-ink-dim"
                   }`}
                 >
                   <span
@@ -443,7 +443,7 @@ export function ActivityForm({ value, onChange }: Props) {
           }
           className="mt-2 font-mono text-[10px] uppercase tracking-widest text-accent hover:text-ink-dim transition"
         >
-          ⚡ Standard-TOMs einfügen
+          Standard-TOMs einfügen
         </button>
       </section>
 
@@ -491,7 +491,7 @@ function EmpfaengerRow({
   onRemove: () => void;
 }) {
   return (
-    <div className="border border-line bg-bg-soft/60 p-4">
+    <div className="border border-line bg-[rgba(240,236,226,0.6)] p-4">
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Name des Empfängers / Diensts">
           <TextInput

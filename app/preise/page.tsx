@@ -18,7 +18,7 @@ export default function PreisePage() {
 
 function Header() {
   return (
-    <header className="border-b border-line/70">
+    <header className="border-b border-[rgba(226,221,209,0.7)]">
       <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">
         <a href="/" className="flex items-baseline gap-2.5">
           <span className="font-display text-[20px] font-semibold tracking-tight text-ink">
@@ -69,7 +69,7 @@ function Hero() {
           </div>
           <div className="col-span-12 lg:col-span-5 lg:flex lg:items-end">
             <div
-              className="rise border border-line/60 bg-accent/5 p-6 border-l-2 border-l-accent"
+              className="rise border border-[rgba(226,221,209,0.6)] bg-[rgba(31,61,47,0.05)] p-6 border-l-2 border-l-accent"
               style={{ animationDelay: "120ms" }}
             >
               <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
@@ -234,7 +234,7 @@ function ProTier() {
         </p>
       </div>
 
-      <ul className="flex flex-col gap-3 border-t border-accent/20 pt-6">
+      <ul className="flex flex-col gap-3 border-t border-[rgba(31,61,47,0.2)] pt-6">
         {[
           "Alles aus Kostenlos",
           "PDF ohne Compliflow-Branding",

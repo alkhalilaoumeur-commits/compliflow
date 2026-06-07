@@ -121,7 +121,7 @@ function SubCard({
   const isSchremsII = landMeta?.schremsII;
 
   return (
-    <div className="border border-line bg-bg-soft/40 p-5 flex flex-col gap-4">
+    <div className="border border-line bg-[rgba(240,236,226,0.4)] p-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">
           Subverarbeiter #{index + 1}
@@ -177,7 +177,7 @@ function SubCard({
       </div>
 
       {isSchremsII && (
-        <div className="border-l-2 border-accent bg-accent/5 p-3">
+        <div className="border-l-2 border-accent bg-accent-soft p-3">
           <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-1">
             Schrems-II-Hinweis
           </p>

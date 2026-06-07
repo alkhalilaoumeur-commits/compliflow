@@ -51,7 +51,7 @@ export function StepDatenkategorien() {
                 className={
                   "text-left p-4 border transition " +
                   (active
-                    ? "border-accent bg-accent/10"
+                    ? "border-accent bg-accent-soft"
                     : "border-line bg-bg-soft hover:border-accent")
                 }
               >
@@ -71,7 +71,7 @@ export function StepDatenkategorien() {
       </Field>
 
       {hatBesondere && (
-        <div className="border-l-2 border-accent bg-accent/5 p-4">
+        <div className="border-l-2 border-accent bg-accent-soft p-4">
           <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
             Warnung — Besondere Datenkategorien (Art. 9 DSGVO)
           </p>

@@ -53,7 +53,7 @@ export function StepVerarbeitung() {
           {(["vertragslaufzeit", "unbefristet", "befristet"] as const).map((typ) => (
             <label
               key={typ}
-              className="flex items-center gap-3 cursor-pointer p-3 border border-line bg-bg-soft/50 hover:border-accent transition"
+              className="flex items-center gap-3 cursor-pointer p-3 border border-line bg-[rgba(240,236,226,0.5)] hover:border-accent transition"
             >
               <input
                 type="radio"

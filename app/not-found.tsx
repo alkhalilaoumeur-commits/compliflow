@@ -49,13 +49,13 @@ export default function NotFound() {
             </Link>
             <Link
               href="/avv"
-              className="border border-accent bg-accent/10 p-5 hover:bg-accent hover:text-bg transition group"
+              className="border border-accent bg-accent-soft p-5 hover:bg-accent hover:text-bg transition group"
             >
               <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
                 Live
               </p>
               <p className="font-display font-bold text-lg">AVV-Generator</p>
-              <p className="text-sm text-ink-dim mt-1 group-hover:text-bg/70 transition">
+              <p className="text-sm text-ink-dim mt-1 group-hover:text-[rgba(246,242,234,0.7)] transition">
                 In 2 Minuten fertig
               </p>
             </Link>

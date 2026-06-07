@@ -9,7 +9,9 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustStrip />
+      <HowItWorks />
       <Suite />
+      <Comparison />
       <Primer />
       <Faq />
       <Waitlist />
@@ -34,7 +36,7 @@ function Container({
 
 function Header() {
   return (
-    <header className="border-b border-line/70">
+    <header className="border-b border-[rgba(226,221,209,0.7)]">
       <Container className="flex items-center justify-between py-5">
         <a href="/" className="fade-in flex items-baseline gap-2.5">
           <span className="font-display text-[20px] font-semibold tracking-tight text-ink">
@@ -98,7 +100,7 @@ function Hero() {
             style={{ animationDelay: "0ms" }}
           >
             <span className="relative inline-flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[rgba(31,61,47,0.6)]" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
             Tools 01 + 02 live — AVV & Verarbeitungsverzeichnis
@@ -160,8 +162,8 @@ function Hero() {
                   key={t.id}
                   className={`flex items-center justify-between gap-4 rounded-none border px-4 py-3 ${
                     t.status === "live"
-                      ? "border-accent/30 bg-accent-soft"
-                      : "border-line/60 bg-bg-soft/50"
+                      ? "border-[rgba(31,61,47,0.3)] bg-accent-soft"
+                      : "border-[rgba(226,221,209,0.6)] bg-[rgba(240,236,226,0.5)]"
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -253,7 +255,7 @@ function Suite() {
                 className={`col-span-12 lg:col-span-4 rise group block ${
                   isLive
                     ? "card-hover border border-line bg-surface p-7 cursor-pointer shadow-sm hover:border-accent hover:shadow-md"
-                    : "border border-line/40 p-7 opacity-70"
+                    : "border border-[rgba(226,221,209,0.4)] p-7 opacity-70"
                 }`}
                 style={{ animationDelay: `${300 + i * 100}ms` }}
               >
@@ -305,6 +307,179 @@ function Suite() {
               </Wrapper>
             );
           })}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const steps = [
+    {
+      n: "01",
+      title: "Daten eingeben",
+      body: "Du gibst deinen Unternehmensnamen, deine Adresse und deine Verarbeitungstätigkeiten ein — keine Rechtskenntnisse nötig. Geführte Felder mit Erklärungen auf Deutsch.",
+      tag: "5 Minuten",
+    },
+    {
+      n: "02",
+      title: "Wizard durchlaufen",
+      body: "Schritt für Schritt durch alle Pflichtfelder nach DSGVO. Rechtsgrundlagen, Betroffenengruppen, Datenkategorien, Empfänger, Löschfristen — alles vorausgefüllt, anpassbar.",
+      tag: "Geführt",
+    },
+    {
+      n: "03",
+      title: "PDF herunterladen",
+      body: "Fertig. Dein rechtlich korrektes Dokument wird direkt im Browser erstellt — kein Upload, kein Konto, keine Wartezeit. Sofort-Download als PDF.",
+      tag: "Sofort",
+    },
+  ];
+
+  return (
+    <section className="border-t border-line">
+      <Container className="py-24 lg:py-32">
+        <div className="mb-16 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+          <div className="col-span-12 lg:col-span-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
+              00 · Wie es funktioniert
+            </p>
+          </div>
+          <div className="col-span-12 lg:col-span-8">
+            <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
+              Von null auf compliant in 10 Minuten.
+            </h2>
+            <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
+              Kein Anwalt. Kein Upload. Kein Konto. Alles läuft lokal in deinem Browser.
+            </p>
+          </div>
+        </div>
+
+        <div className="relative grid grid-cols-12 gap-y-8 lg:gap-x-0">
+          {/* Connecting line (desktop only) */}
+          <div className="absolute top-[52px] left-[calc(100%/12*4+28px)] right-[calc(100%/12*0+28px)] hidden h-px bg-line lg:block" aria-hidden />
+
+          {steps.map((step, i) => (
+            <div
+              key={step.n}
+              className="col-span-12 lg:col-span-4 rise"
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              <div className="lg:pr-10">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center border border-accent bg-accent text-bg">
+                    <span className="font-mono text-[13px] font-bold tracking-widest">
+                      {step.n}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] border border-line px-2.5 py-1 text-ink-faded">
+                    {step.tag}
+                  </span>
+                </div>
+                <h3
+                  className="font-display text-[24px] font-medium leading-[1.2] tracking-[-0.01em] text-ink"
+                >
+                  {step.title}
+                </h3>
+                <p className="mt-3 font-body text-[15px] leading-[1.65] text-ink-dim">
+                  {step.body}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 flex flex-wrap gap-4">
+          <a
+            href="/avv"
+            className="btn-primary inline-flex h-12 items-center gap-2 px-7 font-body text-[14px] font-medium tracking-tight"
+          >
+            AVV-Generator starten →
+          </a>
+          <a
+            href="/vvt"
+            className="btn-ghost inline-flex h-12 items-center gap-2 px-6 font-body text-[14px] font-medium"
+          >
+            VVT-Generator starten →
+          </a>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function Comparison() {
+  const rows = [
+    { label: "Zeitaufwand", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", vorlage: "2–4 Stunden" },
+    { label: "Kosten", compliflow: "Kostenlos", anwalt: "300–800 €/h", vorlage: "0 € + Risiko" },
+    { label: "DSGVO-Pflichtfelder", compliflow: "Alle (geführt)", anwalt: "Ja", vorlage: "Oft unvollständig" },
+    { label: "Anwaltlich geprüft", compliflow: "Ja", anwalt: "Ja", vorlage: "Unbekannt" },
+    { label: "Kein Upload nötig", compliflow: "Ja (lokal)", anwalt: "Nein", vorlage: "Ja" },
+    { label: "Sofort verfügbar", compliflow: "Ja", anwalt: "Termin nötig", vorlage: "Ja" },
+  ];
+
+  return (
+    <section className="border-t border-line bg-surface">
+      <Container className="py-24 lg:py-32">
+        <div className="mb-14 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+          <div className="col-span-12 lg:col-span-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
+              00.5 · Vergleich
+            </p>
+          </div>
+          <div className="col-span-12 lg:col-span-8">
+            <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
+              Warum nicht einfach zum Anwalt?
+            </h2>
+            <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
+              Compliflow ist keine Rechtsberatung — aber für Standarddokumente nach Art. 28 und Art. 30 DSGVO ist eine anwaltlich geprüfte Vorlage mit geführten Feldern oft die bessere Wahl.
+            </p>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-line">
+                <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded w-[32%]">
+                  Kriterium
+                </th>
+                <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-accent w-[24%]">
+                  Compliflow
+                </th>
+                <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded w-[22%]">
+                  Anwalt
+                </th>
+                <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded w-[22%]">
+                  Word-Vorlage
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr
+                  key={row.label}
+                  className={`border-b border-line ${i % 2 === 0 ? "" : "bg-[rgba(240,236,226,0.3)]"}`}
+                >
+                  <td className="py-4 font-body text-[14px] text-ink-dim pr-6">
+                    {row.label}
+                  </td>
+                  <td className="py-4 font-body text-[14px] font-medium text-accent">
+                    {row.compliflow}
+                  </td>
+                  <td className="py-4 font-body text-[14px] text-ink-faded">
+                    {row.anwalt}
+                  </td>
+                  <td className="py-4 font-body text-[14px] text-ink-faded">
+                    {row.vorlage}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-8 border-t border-line pt-6 font-body text-[13px] leading-relaxed text-ink-faded">
+          Compliflow ersetzt keine individuelle Rechtsberatung. Bei Sonderfällen (besondere Datenkategorien nach Art. 9, Drittlandtransfers, behördliche Prüfungen) einen Datenschutzanwalt einschalten.
         </div>
       </Container>
     </section>

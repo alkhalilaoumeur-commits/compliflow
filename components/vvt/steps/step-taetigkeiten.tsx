@@ -72,7 +72,7 @@ export function StepTaetigkeiten() {
     return (
       <div className="flex flex-col gap-6">
         {taetigkeiten.length === 0 ? (
-          <EmptyState onAddTemplate={() => setMode("add-choose")} onAddBlank={startAddBlank} />
+          <EmptyState onAddTemplate={() => setMode("add-choose")} onAddBlank={startAddBlank} startAddFromTemplate={startAddFromTemplate} />
         ) : (
           <>
             {/* List */}
@@ -233,7 +233,7 @@ export function StepTaetigkeiten() {
 
       {/* Save button */}
       <div className="sticky bottom-16 z-10">
-        <div className="bg-bg/95 backdrop-blur border-t border-line p-4 -mx-6">
+        <div className="bg-[rgba(246,242,234,0.97)] backdrop-blur border-t border-line p-4 -mx-6">
           <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
             <div className="text-sm text-ink-dim">
               {!isDraftValid && (
@@ -284,7 +284,7 @@ function TaetigkeitCard({
   onRemove: () => void;
 }) {
   return (
-    <div className="border border-line bg-bg-soft/40 p-5 group">
+    <div className="border border-line bg-[rgba(240,236,226,0.4)] p-5 group">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-3">
@@ -359,9 +359,11 @@ const RG_SHORT: Record<string, string> = {
 function EmptyState({
   onAddTemplate,
   onAddBlank,
+  startAddFromTemplate,
 }: {
   onAddTemplate: () => void;
   onAddBlank: () => void;
+  startAddFromTemplate: (id: string) => void;
 }) {
   return (
     <div className="flex flex-col items-center gap-8 py-12 text-center">
@@ -386,7 +388,7 @@ function EmptyState({
           onClick={onAddTemplate}
           className="btn-primary inline-flex h-11 items-center px-6 font-mono text-[12px] uppercase tracking-widest gap-2"
         >
-          ⚡ Aus Vorlage starten
+          Aus Vorlage starten
         </button>
         <button
           type="button"
@@ -411,11 +413,7 @@ function EmptyState({
                 <button
                   key={id}
                   type="button"
-                  onClick={() => {
-                    const a = createActivityFromTemplate(id);
-                    // Store action handled by parent via callback
-                    onAddBlank(); // trigger the flow
-                  }}
+                  onClick={() => startAddFromTemplate(id)}
                   className="border border-line px-4 py-2 text-sm text-ink-dim hover:border-accent hover:text-ink transition"
                 >
                   + {tmpl.bezeichnung}

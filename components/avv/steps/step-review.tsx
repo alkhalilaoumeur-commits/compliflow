@@ -183,7 +183,7 @@ export function StepReview() {
           </div>
         </Section>
 
-        <div className="border-l-2 border-accent bg-accent/5 p-5">
+        <div className="border-l-2 border-accent bg-accent-soft p-5">
           <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
             Wichtiger Hinweis (Disclaimer)
           </p>
@@ -228,7 +228,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-line bg-bg-soft/30 p-5">
+    <div className="border border-line bg-[rgba(240,236,226,0.3)] p-5">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-display font-bold text-lg" style={{ letterSpacing: "-0.02em" }}>
           {title}
