@@ -8,13 +8,14 @@ type Status =
   | { kind: "ok"; msg: string }
   | { kind: "err"; msg: string };
 
-export function WaitlistForm() {
+export function WaitlistForm({ source = "coming-soon" }: { source?: string }) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [pending, startTransition] = useTransition();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    fd.set("source", source);
     startTransition(async () => {
       const res = await joinWaitlist(fd);
       setStatus(res.ok ? { kind: "ok", msg: res.message } : { kind: "err", msg: res.message });
