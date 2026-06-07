@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { VvtFormData } from "@/lib/vvt/types";
 
 type Props = {
@@ -10,13 +10,18 @@ type Props = {
 
 export function VvtPdfDownload({ data, disabled }: Props) {
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    setIsPro(!!localStorage.getItem("compliflow_pro_vvt"));
+  }, []);
 
   const handleDownload = async () => {
     if (state === "loading" || disabled) return;
     setState("loading");
     try {
       const { renderVvtPdf } = await import("@/lib/vvt/pdf/vvt-document");
-      const blob = await renderVvtPdf(data);
+      const blob = await renderVvtPdf(data, isPro);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -35,7 +40,15 @@ export function VvtPdfDownload({ data, disabled }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
+      {isPro && (
+        <div className="flex items-center gap-2 bg-accent-soft border border-[rgba(31,61,47,0.3)] px-4 py-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
+            Pro aktiv
+          </span>
+          <span className="font-body text-[12px] text-ink-dim">— PDF ohne Compliflow-Branding</span>
+        </div>
+      )}
       <button
         type="button"
         onClick={handleDownload}
@@ -56,10 +69,20 @@ export function VvtPdfDownload({ data, disabled }: Props) {
           </>
         )}
       </button>
-      <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-faded">
-        Art. 30 DSGVO · {data.taetigkeiten.length} Tätigkeit
-        {data.taetigkeiten.length !== 1 ? "en" : ""} · Erstellt mit Compliflow
-      </p>
+      {!isPro && (
+        <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-faded">
+          Kostenlos · mit Compliflow-Branding ·{" "}
+          <a href="/preise" className="text-accent hover:text-ink transition">
+            Pro ohne Branding →
+          </a>
+        </p>
+      )}
+      {isPro && (
+        <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-faded">
+          Art. 30 DSGVO · {data.taetigkeiten.length} Tätigkeit
+          {data.taetigkeiten.length !== 1 ? "en" : ""}
+        </p>
+      )}
     </div>
   );
 }

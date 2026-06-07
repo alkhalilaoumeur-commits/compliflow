@@ -5,7 +5,7 @@ import { RECHTSGRUNDLAGEN_LABELS, DRITTLAND_GARANTIE_LABELS } from "../types";
 
 // Diese Datei wird lazy geladen (import("@react-pdf/renderer")) — nur client-side
 
-export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
+export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promise<Blob> {
   const { Document, Page, Text, View, StyleSheet, pdf, Font } = await import(
     "@react-pdf/renderer"
   );
@@ -225,7 +225,7 @@ export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
   const doc = (
     <Document
       title={`Verarbeitungsverzeichnis — ${v.bezeichnung || "Unbekannt"}`}
-      author="Compliflow · compliflow.de"
+      author={noBranding ? (v.bezeichnung || "Unbekannt") : "Compliflow · compliflow.de"}
       subject="Verarbeitungsverzeichnis nach Art. 30 DSGVO"
       language="de"
     >
@@ -257,9 +257,9 @@ export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
         {/* Legal Warning */}
         <View style={styles.warningBox}>
           <Text style={styles.warningText}>
-            Hinweis: Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine
-            Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten.
-            Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024.
+            {noBranding
+              ? "Hinweis: Dieses Verzeichnis ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024."
+              : "Hinweis: Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024."}
           </Text>
         </View>
 

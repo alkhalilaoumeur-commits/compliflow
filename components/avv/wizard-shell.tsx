@@ -22,10 +22,20 @@ export function WizardShell() {
   const reset = useAvvStore((s) => s.reset);
   const data = useAvvStore((s) => s.data);
   const [hydrated, setHydrated] = useState(false);
+  const [successBanner, setSuccessBanner] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
-  }, []);
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "true") {
+      const sessionId = params.get("session_id");
+      if (sessionId) localStorage.setItem("compliflow_pro_avv", sessionId);
+      setSuccessBanner(true);
+      window.history.replaceState({}, "", "/avv");
+      setStep("review");
+      setTimeout(() => setSuccessBanner(false), 8000);
+    }
+  }, [setStep]);
 
   const stepIdx = getStepIndex(currentStep);
   const progress = getProgress(currentStep);
@@ -109,6 +119,26 @@ export function WizardShell() {
           />
         </div>
       </header>
+
+      {/* Pro Success Banner */}
+      {successBanner && (
+        <div className="bg-accent text-bg px-6 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[11px] uppercase tracking-widest">Pro aktiviert</span>
+            <span className="font-body text-[13px]">
+              AVV Pro freigeschaltet — dein Download enthält kein Compliflow-Branding.
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSuccessBanner(false)}
+            className="font-mono text-[11px] opacity-70 hover:opacity-100 transition flex-shrink-0"
+            aria-label="Schließen"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Step Title */}
       <div className="max-w-5xl mx-auto px-6 pt-14 pb-2 w-full" key={`title-${currentStep}`}>

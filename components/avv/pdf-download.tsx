@@ -10,8 +10,10 @@ export function PdfDownload() {
   const data = useAvvStore((s) => s.data);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [PDFDownloadLink, setComp] = useState<any>(null);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
+    setIsPro(!!localStorage.getItem("compliflow_pro_avv"));
     let active = true;
     import("@react-pdf/renderer").then((mod) => {
       if (active) setComp(() => mod.PDFDownloadLink);
@@ -65,30 +67,48 @@ export function PdfDownload() {
   }
 
   return (
-    <PDFDownloadLink document={<AvvPdfDocument data={data} />} fileName={filename}>
-      {({ loading }: { loading: boolean }) => (
-        <span
-          className={
-            "inline-flex h-14 w-full items-center justify-center gap-3 font-mono text-[13px] uppercase tracking-widest transition " +
-            (loading
-              ? "bg-bg-soft border border-line text-ink-dim cursor-wait"
-              : "bg-accent text-bg hover:bg-ink cursor-pointer")
-          }
-        >
-          {loading ? (
-            <>
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[rgba(246,242,234,1)] border-t-[rgba(246,242,234,0.3)]" />
-              PDF wird erstellt …
-            </>
-          ) : (
-            <>
-              <DownloadIcon />
-              AVV als PDF herunterladen
-            </>
-          )}
-        </span>
+    <div className="flex flex-col gap-2">
+      {isPro && (
+        <div className="flex items-center gap-2 bg-accent-soft border border-[rgba(31,61,47,0.3)] px-4 py-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
+            Pro aktiv
+          </span>
+          <span className="font-body text-[12px] text-ink-dim">— PDF ohne Compliflow-Branding</span>
+        </div>
       )}
-    </PDFDownloadLink>
+      <PDFDownloadLink document={<AvvPdfDocument data={data} noBranding={isPro} />} fileName={filename}>
+        {({ loading }: { loading: boolean }) => (
+          <span
+            className={
+              "inline-flex h-14 w-full items-center justify-center gap-3 font-mono text-[13px] uppercase tracking-widest transition " +
+              (loading
+                ? "bg-bg-soft border border-line text-ink-dim cursor-wait"
+                : "bg-accent text-bg hover:bg-ink cursor-pointer")
+            }
+          >
+            {loading ? (
+              <>
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[rgba(246,242,234,1)] border-t-[rgba(246,242,234,0.3)]" />
+                PDF wird erstellt …
+              </>
+            ) : (
+              <>
+                <DownloadIcon />
+                AVV als PDF herunterladen
+              </>
+            )}
+          </span>
+        )}
+      </PDFDownloadLink>
+      {!isPro && (
+        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded text-center">
+          Kostenlos · mit Compliflow-Branding ·{" "}
+          <a href="/preise" className="text-accent hover:text-ink transition">
+            Pro ohne Branding →
+          </a>
+        </p>
+      )}
+    </div>
   );
 }
 

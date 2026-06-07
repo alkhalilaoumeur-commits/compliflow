@@ -50,33 +50,46 @@ export function StepVerarbeitung() {
 
       <Field label="Dauer der Verarbeitung" required>
         <div className="flex flex-col gap-2">
-          {(["vertragslaufzeit", "unbefristet", "befristet"] as const).map((typ) => (
-            <label
-              key={typ}
-              className="flex items-center gap-3 cursor-pointer p-3 border border-line bg-[rgba(240,236,226,0.5)] hover:border-accent transition"
-            >
-              <input
-                type="radio"
-                name="dauer"
-                checked={data.dauer?.typ === typ}
-                onChange={() => set({ dauer: typ === "befristet" ? { typ, bis: "" } : { typ } })}
-                className="accent-accent"
-              />
-              <span className="text-sm">
-                {typ === "vertragslaufzeit" && "Für die Dauer des Hauptvertrags"}
-                {typ === "unbefristet" && "Unbefristet (bis zur Kündigung)"}
-                {typ === "befristet" && "Befristet bis zu einem konkreten Datum"}
-              </span>
-              {typ === "befristet" && data.dauer?.typ === "befristet" && (
-                <input
-                  type="date"
-                  value={data.dauer.bis}
-                  onChange={(e) => set({ dauer: { typ: "befristet", bis: e.target.value } })}
-                  className="ml-auto bg-bg border border-line px-3 py-2 text-sm text-ink"
-                />
-              )}
-            </label>
-          ))}
+          {(["vertragslaufzeit", "unbefristet", "befristet"] as const).map((typ) => {
+            const isSelected = data.dauer?.typ === typ;
+            return (
+              <button
+                key={typ}
+                type="button"
+                onClick={() => set({ dauer: typ === "befristet" ? { typ, bis: "" } : { typ } })}
+                className={
+                  "flex items-center gap-3 p-4 border text-left transition w-full " +
+                  (isSelected
+                    ? "border-accent bg-accent-soft"
+                    : "border-line bg-bg-soft hover:border-accent")
+                }
+              >
+                <span
+                  className={`flex-shrink-0 inline-flex h-4 w-4 rounded-full border items-center justify-center transition ${
+                    isSelected ? "border-accent bg-accent" : "border-line"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {isSelected && (
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" />
+                  )}
+                </span>
+                <span className="text-sm text-ink">
+                  {typ === "vertragslaufzeit" && "Für die Dauer des Hauptvertrags"}
+                  {typ === "unbefristet" && "Unbefristet (bis zur Kündigung)"}
+                  {typ === "befristet" && "Befristet bis zu einem konkreten Datum"}
+                </span>
+              </button>
+            );
+          })}
+          {data.dauer?.typ === "befristet" && (
+            <input
+              type="date"
+              value={data.dauer.bis}
+              onChange={(e) => set({ dauer: { typ: "befristet", bis: e.target.value } })}
+              className="bg-bg-soft border border-line px-4 py-3 text-sm text-ink outline-none focus:border-accent transition"
+            />
+          )}
         </div>
       </Field>
 

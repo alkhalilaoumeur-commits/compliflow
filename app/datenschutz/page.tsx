@@ -75,38 +75,31 @@ export default function DatenschutzPage() {
         </p>
 
         <DienstCard
-          name="Vercel Inc."
-          land="USA / EU-Hosting (Frankfurt)"
-          zweck="Hosting der Website"
-          garantie="EU-Region · Standardvertragsklauseln"
-          link="https://vercel.com/legal/privacy-policy"
-        />
-        <DienstCard
-          name="Supabase Inc."
-          land="USA / EU-Region (Frankfurt)"
-          zweck="Datenbank, Auth, Storage"
-          garantie="EU-Region · Standardvertragsklauseln + Schrems-II-Maßnahmen"
-          link="https://supabase.com/privacy"
+          name="Hetzner Online GmbH"
+          land="Deutschland (EU)"
+          zweck="Hosting der Website und Anwendung (VPS-Server)"
+          garantie="EU-DE · AVV abgeschlossen"
+          link="https://www.hetzner.com/de/legal/privacy-policy"
         />
         <DienstCard
           name="Stripe Payments Europe Ltd."
           land="Irland (EU)"
-          zweck="Zahlungsabwicklung (sobald Pro-Tier aktiv)"
-          garantie="EU-EWR"
+          zweck="Zahlungsabwicklung für kostenpflichtige Leistungen (Pro-Download)"
+          garantie="EU-EWR · AVV abgeschlossen"
           link="https://stripe.com/privacy"
         />
         <DienstCard
           name="Resend Inc."
           land="USA"
-          zweck="Versand von Transaktions- und Newsletter-E-Mails"
-          garantie="Standardvertragsklauseln"
+          zweck="Versand von Transaktions-E-Mails"
+          garantie="Standardvertragsklauseln (SCCs)"
           link="https://resend.com/legal/privacy-policy"
         />
         <DienstCard
           name="Plausible Insights OÜ"
           land="Estland (EU)"
-          zweck="Cookie-lose Web-Analytics (DSGVO-konform)"
-          garantie="EU-EWR · keine personenbezogenen Daten"
+          zweck="Cookie-lose Web-Analytics (DSGVO-konform, kein Tracking)"
+          garantie="EU-EWR · keine personenbezogenen Daten gespeichert"
           link="https://plausible.io/privacy"
         />
       </LegalSection>
@@ -128,17 +121,24 @@ export default function DatenschutzPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="Vom AVV-Generator verarbeitete Daten" number="§ 6">
+      <LegalSection title="Von den Generatoren verarbeitete Daten" number="§ 6">
         <p>
-          Wenn du den AVV-Generator nutzt, werden die von dir eingegebenen Vertragsdaten
-          (Firmen- und Adressdaten, Vertretungsberechtigte, TOMs etc.){" "}
+          Wenn du den <strong className="text-ink">AVV-Generator</strong> oder den{" "}
+          <strong className="text-ink">VVT-Generator</strong> nutzt, werden die von dir
+          eingegebenen Daten (Firmen- und Adressdaten, Vertretungsberechtigte, TOMs,
+          Verarbeitungstätigkeiten etc.){" "}
           <strong className="text-ink">ausschließlich lokal in deinem Browser</strong>{" "}
-          gespeichert (localStorage). Wir übertragen diese Daten nicht an unsere Server,
-          solange du nicht aktiv einen Pro-Account anlegst.
+          gespeichert (localStorage). Wir übertragen diese Daten zu keinem Zeitpunkt an
+          unsere Server.
         </p>
         <p>
-          Die generierte PDF-Datei wird ebenfalls lokal in deinem Browser erstellt und
-          heruntergeladen. Wir haben keinen Zugriff darauf.
+          Die generierten PDF-Dateien werden lokal in deinem Browser erstellt und
+          direkt heruntergeladen. Wir haben keinen Zugriff darauf.
+        </p>
+        <p>
+          <strong className="text-ink">Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO
+          (Vertragserfüllung). Mangels Serverübertragung findet keine Auftragsverarbeitung
+          durch uns statt.
         </p>
       </LegalSection>
 

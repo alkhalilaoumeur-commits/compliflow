@@ -222,7 +222,7 @@ function PageFooter({ data }: { data: AvvFormData }) {
   );
 }
 
-export function AvvPdfDocument({ data }: { data: AvvFormData }) {
+export function AvvPdfDocument({ data, noBranding = false }: { data: AvvFormData; noBranding?: boolean }) {
   const blocks = buildContract(data);
   const anlagen = buildAnlagen(data);
 
@@ -283,7 +283,7 @@ export function AvvPdfDocument({ data }: { data: AvvFormData }) {
               Vorgesehenes Datum: {data.abschlussDatum ? formatDateDE(data.abschlussDatum) : "—"}
               {data.abschlussOrt ? ` · ${data.abschlussOrt}` : ""}
             </Text>
-            <Text style={styles.coverFooter}>Generiert mit Compliflow · compliflow.de</Text>
+            {!noBranding && <Text style={styles.coverFooter}>Generiert mit Compliflow · compliflow.de</Text>}
           </View>
         </View>
         <PageFooter data={data} />
@@ -391,11 +391,13 @@ export function AvvPdfDocument({ data }: { data: AvvFormData }) {
           oder Aktualität dieser Vorlage im Einzelfall. Die Verwendung erfolgt auf eigene
           Verantwortung der Vertragsparteien.
         </Text>
-        <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.dim }}>
-          Generiert mit Compliflow am{" "}
-          {data.abschlussDatum ? formatDateDE(data.abschlussDatum) : formatDateDE(new Date())} ·
-          compliflow.de
-        </Text>
+        {!noBranding && (
+          <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.dim }}>
+            Generiert mit Compliflow am{" "}
+            {data.abschlussDatum ? formatDateDE(data.abschlussDatum) : formatDateDE(new Date())} ·
+            compliflow.de
+          </Text>
+        )}
         <PageFooter data={data} />
       </Page>
 

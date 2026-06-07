@@ -57,6 +57,8 @@ export function StepToms() {
     update("toms", toms.filter((t) => t.id !== id));
   };
 
+  const completedCount = KATEGORIEN.length - fehlend.length;
+
   return (
     <div className="flex flex-col gap-4 max-w-4xl">
       <p className="text-ink-dim text-sm">
@@ -64,24 +66,27 @@ export function StepToms() {
         Eigene Maßnahmen kannst du je Kategorie ergänzen.
       </p>
 
-      {fehlend.length > 0 ? (
-        <div className="border-l-2 border-accent bg-accent-soft p-3">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-1">
-            Noch unvollständig — fehlende Kategorien:
-          </p>
-          <p className="text-sm text-ink">
-            {fehlend.map((k) => TOM_KATEGORIE_LABELS[k].label).join(" · ")}
-          </p>
+      {/* Status bar */}
+      <div className="flex items-center gap-4 py-3 border-b border-line">
+        <div className="flex gap-1.5">
+          {KATEGORIEN.map((k) => {
+            const done = tomsInKategorie(k).length > 0;
+            return (
+              <div
+                key={k}
+                title={TOM_KATEGORIE_LABELS[k].label}
+                className={`h-1.5 w-8 transition-colors ${done ? "bg-accent" : "bg-line"}`}
+              />
+            );
+          })}
         </div>
-      ) : (
-        <div className="border-l-2 p-3" style={{ borderColor: "#4D8B5A", background: "rgba(77,139,90,0.06)" }}>
-          <p className="font-mono text-[10px] uppercase tracking-widest" style={{ color: "#4D8B5A" }}>
-            ✓ Alle 8 Kategorien abgedeckt
-          </p>
-        </div>
-      )}
+        <span className="font-mono text-[10px] uppercase tracking-widest text-ink-faded ml-auto">
+          {completedCount} / 8 Kategorien · {toms.length} Maßnahme{toms.length !== 1 ? "n" : ""}
+        </span>
+      </div>
 
-      <div className="flex flex-wrap gap-2 items-center pb-2 border-b border-line">
+      {/* Action bar */}
+      <div className="flex flex-wrap gap-2 items-center">
         <button
           type="button"
           onClick={() => {
@@ -94,7 +99,7 @@ export function StepToms() {
           }}
           className="px-4 py-2 font-mono text-[11px] uppercase tracking-widest bg-accent text-bg hover:bg-ink transition"
         >
-          Standard-Set aktivieren (16 TOMs)
+          Standard-Set (16 TOMs)
         </button>
         <button
           type="button"
@@ -107,11 +112,9 @@ export function StepToms() {
         >
           Alle abwählen
         </button>
-        <span className="font-mono text-[10px] text-ink-faded ml-auto">
-          {toms.length} aktive Maßnahme{toms.length !== 1 ? "n" : ""}
-        </span>
       </div>
 
+      {/* Category sections */}
       {KATEGORIEN.map((k) => (
         <ToMSection
           key={k}
@@ -145,63 +148,114 @@ function ToMSection({
   const [open, setOpen] = useState(aktive.length === 0);
   const [customInput, setCustomInput] = useState("");
   const meta = TOM_KATEGORIE_LABELS[kategorie];
+  const isDone = aktive.length > 0;
 
   return (
-    <div className="border border-line bg-[rgba(240,236,226,0.3)]">
+    <div
+      className={`border transition-colors ${
+        isDone ? "border-[rgba(31,61,47,0.35)]" : "border-line"
+      } bg-[rgba(240,236,226,0.3)]`}
+    >
       <button
         type="button"
         onClick={() => setOpen(!open)}
         className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-[rgba(240,236,226,0.6)] transition"
       >
-        <div>
-          <div className="font-display font-bold text-lg">{meta.label}</div>
-          <div className="text-xs text-ink-dim mt-1">{meta.beschreibung}</div>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
-            {aktive.length} aktiv
+        <div className="flex items-center gap-4">
+          {/* Done indicator */}
+          <span
+            className={`flex-shrink-0 inline-flex h-6 w-6 items-center justify-center border transition ${
+              isDone
+                ? "bg-accent border-accent text-bg"
+                : "border-line text-ink-faded"
+            }`}
+            aria-hidden="true"
+          >
+            {isDone ? (
+              <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            ) : (
+              <span className="font-mono text-[10px]" />
+            )}
           </span>
-          <span className="text-ink-dim">{open ? "−" : "+"}</span>
+          <div>
+            <div className="font-display font-bold text-[17px]">{meta.label}</div>
+            <div className="text-xs text-ink-dim mt-0.5">{meta.beschreibung}</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+          {isDone && (
+            <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
+              {aktive.length} aktiv
+            </span>
+          )}
+          <span className={`font-mono text-[16px] transition ${open ? "rotate-45" : ""} inline-block text-ink-dim`}>
+            +
+          </span>
         </div>
       </button>
 
       {open && (
-        <div className="px-5 pb-5 flex flex-col gap-2">
+        <div className="border-t border-line px-5 pb-5 pt-4 flex flex-col gap-2">
           {standards.map((s) => {
             const isActive = aktive.some((a) => a.beschreibung === s.beschreibung);
             return (
-              <label
+              <button
                 key={s.beschreibung}
-                className="flex items-start gap-3 cursor-pointer p-2 hover:bg-[rgba(240,236,226,0.5)] transition"
+                type="button"
+                onClick={() => onToggle(s.beschreibung)}
+                className={
+                  "w-full text-left px-4 py-3 border transition flex items-start gap-3 " +
+                  (isActive
+                    ? "border-accent bg-accent-soft"
+                    : "border-line bg-bg-soft hover:border-accent")
+                }
               >
-                <input
-                  type="checkbox"
-                  checked={isActive}
-                  onChange={() => onToggle(s.beschreibung)}
-                  className="mt-1 accent-accent"
-                />
-                <span className="text-sm">{s.beschreibung}</span>
-              </label>
+                <span
+                  className={`flex-shrink-0 mt-0.5 inline-flex h-4 w-4 items-center justify-center border transition ${
+                    isActive ? "bg-accent border-accent text-bg" : "border-line"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {isActive && (
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                      <path d="M1 3l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </span>
+                <span className="text-sm text-ink">{s.beschreibung}</span>
+              </button>
             );
           })}
 
+          {/* Custom TOMs */}
           {aktive.filter((a) => a.custom).map((a) => (
             <div
               key={a.id}
-              className="flex items-start gap-3 p-2 bg-accent-soft border-l-2 border-accent"
+              className="flex items-start gap-3 px-4 py-3 bg-accent-soft border border-accent"
             >
-              <span className="text-sm flex-1">{a.beschreibung}</span>
+              <span
+                className="flex-shrink-0 mt-0.5 inline-flex h-4 w-4 items-center justify-center bg-accent border-accent border text-bg"
+                aria-hidden="true"
+              >
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                  <path d="M1 3l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <span className="text-sm flex-1 text-ink">{a.beschreibung}</span>
               <button
                 type="button"
                 onClick={() => onRemove(a.id)}
-                className="text-ink-faded hover:text-accent text-sm"
+                className="font-mono text-[10px] uppercase tracking-widest text-ink-faded hover:text-accent transition flex-shrink-0"
               >
                 Entfernen
               </button>
             </div>
           ))}
 
-          <div className="flex gap-2 mt-2">
+          {/* Add custom */}
+          <div className="flex gap-2 mt-2 pt-3 border-t border-line">
             <input
               type="text"
               value={customInput}
@@ -214,7 +268,7 @@ function ToMSection({
                 }
               }}
               placeholder="Eigene Maßnahme hinzufügen …"
-              className="flex-1 bg-bg-soft border border-line px-3 py-2 text-sm text-ink outline-none focus:border-accent"
+              className="flex-1 bg-bg-soft border border-line px-3 py-2 text-sm text-ink outline-none focus:border-accent transition"
             />
             <button
               type="button"
