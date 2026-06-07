@@ -151,7 +151,7 @@ export function StepReview() {
           )}
         </Section>
 
-        <Section title="Unterschrift" onEdit={() => {}}>
+        <Section title="Unterschrift">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
               <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">
@@ -236,7 +236,7 @@ function Section({
   children,
 }: {
   title: string;
-  onEdit: () => void;
+  onEdit?: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -245,13 +245,15 @@ function Section({
         <h3 className="font-display font-bold text-lg" style={{ letterSpacing: "-0.02em" }}>
           {title}
         </h3>
-        <button
-          type="button"
-          onClick={onEdit}
-          className="font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:text-accent transition"
-        >
-          Bearbeiten →
-        </button>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:text-accent transition"
+          >
+            Bearbeiten →
+          </button>
+        )}
       </div>
       {children}
     </div>
