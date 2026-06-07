@@ -690,39 +690,27 @@ function Footer() {
 
           <div className="col-span-6 md:col-span-2">
             <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-              Themen
+              Mehr
             </p>
             <ul className="space-y-2 font-body text-[14px] text-ink-dim">
               <li>
-                <a
-                  href="/blog/avv-dsgvo-leitfaden"
-                  className="link-underline hover:text-ink"
-                >
-                  AVV nach Art. 28
+                <a href="/preise" className="link-underline hover:text-ink">
+                  Preise
                 </a>
               </li>
               <li>
-                <a
-                  href="/blog/verarbeitungsverzeichnis"
-                  className="link-underline hover:text-ink"
-                >
-                  Verarbeitungsverzeichnis
+                <a href="/#suite" className="link-underline hover:text-ink">
+                  Die Suite
                 </a>
               </li>
               <li>
-                <a
-                  href="/blog/cookie-banner-dsgvo"
-                  className="link-underline hover:text-ink"
-                >
-                  Cookie-Banner & TTDSG
+                <a href="/#faq" className="link-underline hover:text-ink">
+                  FAQ
                 </a>
               </li>
               <li>
-                <a
-                  href="/blog/schrems-ii"
-                  className="link-underline hover:text-ink"
-                >
-                  Schrems II
+                <a href="/#warteliste" className="link-underline hover:text-ink">
+                  Cookie-Banner Warteliste
                 </a>
               </li>
             </ul>
