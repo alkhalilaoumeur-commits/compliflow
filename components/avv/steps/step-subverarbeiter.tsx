@@ -177,15 +177,21 @@ function SubCard({
         </Field>
         <Field label="DSGVO-Garantie">
           <div
-            className={`flex items-center px-4 py-3 border text-sm ${
+            className={`flex items-center px-4 py-3 border font-mono text-[11px] uppercase tracking-widest ${
               item.sicherheitsgarantie === "EU-EWR"
-                ? "border-[rgba(31,61,47,0.3)] bg-accent-soft text-accent font-mono text-[11px] uppercase tracking-widest"
+                ? "border-[rgba(31,61,47,0.3)] bg-accent-soft text-accent"
+                : item.sicherheitsgarantie === "Keine"
+                ? "border-[rgba(154,93,26,0.4)] bg-[rgba(154,93,26,0.05)] text-warn"
                 : "border-line bg-bg-soft text-ink-dim"
             }`}
           >
-            {item.sicherheitsgarantie === "EU-EWR" && "Innerhalb EU/EWR"}
-            {item.sicherheitsgarantie === "Angemessenheitsbeschluss" && "Angemessenheitsbeschluss"}
-            {item.sicherheitsgarantie === "Standardvertragsklauseln" && "Standardvertragsklauseln (SCCs)"}
+            {{
+              "EU-EWR": "Innerhalb EU/EWR",
+              "Angemessenheitsbeschluss": "Angemessenheitsbeschluss",
+              "Standardvertragsklauseln": "Standardvertragsklauseln (SCCs)",
+              "BindendeUnternehmensregeln": "Bindende interne Regeln (BCR)",
+              "Keine": "Keine geeignete Garantie — Prüfen!",
+            }[item.sicherheitsgarantie]}
           </div>
         </Field>
       </div>
