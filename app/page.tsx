@@ -1,5 +1,6 @@
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Countdown } from "@/components/countdown";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { tools } from "@/lib/tools";
 import { PRIMER, FAQS } from "@/lib/content";
 
@@ -223,15 +224,14 @@ function Suite() {
             const Wrapper = isLive && tool.href ? "a" : "article";
             const wrapperProps = isLive && tool.href ? { href: tool.href } : {};
             return (
+              <ScrollReveal key={tool.id} delay={i * 100} className="col-span-12 lg:col-span-4">
               <Wrapper
-                key={tool.id}
                 {...wrapperProps}
-                className={`col-span-12 lg:col-span-4 rise group block ${
+                className={`group block w-full h-full ${
                   isLive
                     ? "card-hover border border-line bg-surface p-7 cursor-pointer shadow-sm hover:border-accent hover:shadow-md"
                     : "border border-[rgba(226,221,209,0.4)] p-7 opacity-70"
                 }`}
-                style={{ animationDelay: `${300 + i * 100}ms` }}
               >
                 <div className="flex items-baseline justify-between border-b border-line pb-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
@@ -279,6 +279,7 @@ function Suite() {
                   </div>
                 )}
               </Wrapper>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -300,16 +301,18 @@ function TrustAndStats() {
   return (
     <section className="border-y border-line bg-surface">
       <Container className="grid grid-cols-3 gap-y-8 gap-x-6 py-10 md:grid-cols-6 md:py-12">
-        {rows.map((r) => (
-          <div key={r.label} className="flex flex-col">
-            <span className="font-display text-[22px] font-medium tracking-[-0.02em] text-ink leading-tight">
-              {r.value}
-            </span>
-            <span className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-ink">
-              {r.label}
-            </span>
-            <span className="font-body text-[11px] text-ink-faded">{r.meta}</span>
-          </div>
+        {rows.map((r, i) => (
+          <ScrollReveal key={r.label} delay={i * 60}>
+            <div className="flex flex-col">
+              <span className="font-display text-[22px] font-medium tracking-[-0.02em] text-ink leading-tight">
+                {r.value}
+              </span>
+              <span className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-ink">
+                {r.label}
+              </span>
+              <span className="font-body text-[11px] text-ink-faded">{r.meta}</span>
+            </div>
+          </ScrollReveal>
         ))}
       </Container>
     </section>
@@ -359,10 +362,10 @@ function HowItWorks() {
 
         <div className="grid grid-cols-12 gap-y-8 lg:gap-x-10">
           {steps.map((step, i) => (
-            <div
+            <ScrollReveal
               key={step.n}
-              className="col-span-12 lg:col-span-4 rise"
-              style={{ animationDelay: `${i * 80}ms` }}
+              delay={i * 100}
+              className="col-span-12 lg:col-span-4"
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center bg-accent text-bg">
@@ -385,7 +388,7 @@ function HowItWorks() {
               <p className="mt-3 font-body text-[15px] leading-[1.65] text-ink-dim">
                 {step.body}
               </p>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
@@ -437,6 +440,7 @@ function Comparison() {
           </div>
         </div>
 
+        <ScrollReveal>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
@@ -478,6 +482,7 @@ function Comparison() {
             </tbody>
           </table>
         </div>
+        </ScrollReveal>
 
         <div className="mt-8 border-t border-line pt-6 font-body text-[13px] leading-relaxed text-ink-faded">
           Compliflow ersetzt keine individuelle Rechtsberatung. Bei Sonderfällen (besondere Datenkategorien nach Art. 9, Drittlandtransfers, behördliche Prüfungen) einen Datenschutzanwalt einschalten.
@@ -506,8 +511,8 @@ function Primer() {
 
         <div className="space-y-20 lg:space-y-28">
           {PRIMER.map((p) => (
+            <ScrollReveal key={p.id}>
             <article
-              key={p.id}
               className="grid grid-cols-12 gap-y-8 lg:gap-x-12"
             >
               <div className="col-span-12 lg:col-span-4">
@@ -552,6 +557,7 @@ function Primer() {
                 </ul>
               </div>
             </article>
+            </ScrollReveal>
           ))}
         </div>
       </Container>

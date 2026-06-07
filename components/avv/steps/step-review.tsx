@@ -210,8 +210,20 @@ export function StepReview() {
           <span>Live-Vorschau</span>
           <span className="text-accent">aktualisiert sich beim Bearbeiten</span>
         </div>
-        <div className="border border-line shadow-[0_20px_60px_-30px_rgba(255,77,0,0.25)] max-h-[78vh] overflow-y-auto">
-          <ContractPreview />
+        <div className="relative border border-line shadow-[0_20px_60px_-30px_rgba(31,61,47,0.2)]">
+          <div className="max-h-[78vh] overflow-y-auto">
+            <ContractPreview />
+          </div>
+          <div
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-16"
+            style={{ background: "linear-gradient(to bottom, transparent, rgba(21,23,27,0.6))" }}
+            aria-hidden="true"
+          />
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-[rgba(246,242,234,0.6)]">
+              Scrollen für mehr
+            </span>
+          </div>
         </div>
       </div>
     </div>
