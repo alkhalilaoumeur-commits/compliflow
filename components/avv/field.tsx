@@ -43,7 +43,7 @@ export function TextInput(
       {...rest}
       aria-invalid={invalid || undefined}
       className={cn(
-        "w-full bg-bg-soft border px-4 py-3 text-ink placeholder:text-ink-faded font-body text-base outline-none transition focus-visible:ring-2 focus-visible:ring-accent/40",
+        "w-full bg-bg-soft border px-4 py-3 text-ink placeholder:text-ink-faded font-body text-base outline-none transition focus-visible:ring-2 focus-visible:ring-[rgba(31,61,47,0.4)]",
         invalid ? "border-accent" : "border-line focus:border-accent",
         className,
       )}
@@ -60,7 +60,7 @@ export function TextArea(
       {...rest}
       aria-invalid={invalid || undefined}
       className={cn(
-        "w-full bg-bg-soft border px-4 py-3 text-ink placeholder:text-ink-faded font-body text-base outline-none transition resize-y min-h-[100px] focus-visible:ring-2 focus-visible:ring-accent/40",
+        "w-full bg-bg-soft border px-4 py-3 text-ink placeholder:text-ink-faded font-body text-base outline-none transition resize-y min-h-[100px] focus-visible:ring-2 focus-visible:ring-[rgba(31,61,47,0.4)]",
         invalid ? "border-accent" : "border-line focus:border-accent",
         className,
       )}

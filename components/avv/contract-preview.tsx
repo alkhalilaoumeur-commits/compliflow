@@ -13,7 +13,7 @@ export function ContractPreview() {
     <div className="bg-ink text-bg p-8 max-w-3xl mx-auto font-body text-sm leading-relaxed">
       {/* Deckblatt */}
       <header className="text-center pb-8 mb-8 border-b-2 border-[rgba(246,242,234,0.8)]">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-bg/60 mb-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[rgba(246,242,234,0.6)] mb-3">
           Auftragsverarbeitungsvertrag
         </p>
         <h1
@@ -26,7 +26,7 @@ export function ContractPreview() {
           Zwischen <strong>{data.auftraggeber.firma || "—"}</strong> und{" "}
           <strong>{data.auftragnehmer.firma || "—"}</strong>
         </p>
-        <p className="text-xs text-bg/50 mt-2">
+        <p className="text-xs text-[rgba(246,242,234,0.5)] mt-2">
           Erstellt: {formatDateDE(new Date())}
         </p>
       </header>
@@ -120,7 +120,7 @@ export function ContractPreview() {
       {/* Unterschrift */}
       <section className="mt-12 pt-8 border-t-2 border-[rgba(246,242,234,0.8)] grid grid-cols-2 gap-12">
         <div>
-          <p className="text-[10px] text-bg/60 mb-2">
+          <p className="text-[10px] text-[rgba(246,242,234,0.6)] mb-2">
             {data.abschlussOrt || "—"}, den {data.abschlussDatum ? formatDateDE(data.abschlussDatum) : "—"}
           </p>
           <div className="border-b border-[rgba(246,242,234,0.6)] pb-1 mb-2 h-8">&nbsp;</div>
@@ -133,7 +133,7 @@ export function ContractPreview() {
           </p>
         </div>
         <div>
-          <p className="text-[10px] text-bg/60 mb-2">
+          <p className="text-[10px] text-[rgba(246,242,234,0.6)] mb-2">
             {data.abschlussOrt || "—"}, den {data.abschlussDatum ? formatDateDE(data.abschlussDatum) : "—"}
           </p>
           <div className="border-b border-[rgba(246,242,234,0.6)] pb-1 mb-2 h-8">&nbsp;</div>
@@ -148,7 +148,7 @@ export function ContractPreview() {
       </section>
 
       <footer className="mt-10 pt-4 border-t border-[rgba(246,242,234,0.3)] text-center">
-        <p className="font-mono text-[9px] uppercase tracking-widest text-bg/50">
+        <p className="font-mono text-[9px] uppercase tracking-widest text-[rgba(246,242,234,0.5)]">
           Erstellt mit Compliflow · compliflow.de
         </p>
       </footer>
