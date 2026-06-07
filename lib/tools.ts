@@ -21,9 +21,9 @@ export const tools: Tool[] = [
     pitch:
       "Mehrstufiger Wizard für Auftragsverarbeitungs-Verträge. Live-Vorschau, PDF-Export, Schrems-II-Klauseln automatisch, Custom-Branding in Pro.",
     bullets: [
-      "Vorlagen für Google Workspace, Mailchimp, ChatGPT, Stripe",
-      "Optional digitaler Versand via DocuSign",
-      "Mehrere AVVs zentral verwalten (Agentur-Tier)",
+      "Quick-Add für Stripe, Google, Hetzner, Plausible & mehr",
+      "Schrems-II-Klauseln automatisch bei Drittland-Transfers",
+      "Live-PDF-Vorschau, kein Upload, kein Account",
     ],
     launchLabel: "Live · kostenlos starten",
     span: "lg:col-span-4",
