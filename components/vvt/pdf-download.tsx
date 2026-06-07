@@ -28,7 +28,8 @@ export function VvtPdfDownload({ data, disabled }: Props) {
       const name = (data.verantwortlicher.bezeichnung ?? "Unternehmen")
         .replace(/\s+/g, "-")
         .toLowerCase();
-      a.download = `VVT-${name}-${data.letztAktualisiert}.pdf`;
+      const dateStr = data.letztAktualisiert.slice(0, 10);
+      a.download = `VVT-${name}-${dateStr}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
       setState("idle");
