@@ -59,10 +59,28 @@ function Header() {
           </a>
           <a
             href="/avv"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+          >
+            AVV
+          </a>
+          <a
+            href="/vvt"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+          >
+            VVT
+          </a>
+          <a
+            href="/preise"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+          >
+            Preise
+          </a>
+          <a
+            href="/avv"
             className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
-            AVV-Generator
+            Kostenlos starten
           </a>
         </nav>
       </Container>
@@ -83,7 +101,7 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            Tool 01 ist live — AVV-Generator
+            Tools 01 + 02 live — AVV & Verarbeitungsverzeichnis
           </p>
 
           <h1
@@ -116,13 +134,14 @@ function Hero() {
               <span aria-hidden="true">→</span>
             </a>
             <a
-              href="#warteliste"
-              className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-body text-[14px] font-medium"
+              href="/vvt"
+              className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-body text-[14px] font-medium gap-2"
             >
-              Tool 2 + 3: Warteliste
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+              Verarbeitungsverzeichnis starten
             </a>
             <span className="hidden font-body text-[13px] text-ink-faded md:inline">
-              <Countdown variant="compact" /> bis Tool 2
+              <Countdown variant="compact" /> bis Cookie-Banner
             </span>
           </div>
         </div>
@@ -132,31 +151,42 @@ function Hero() {
           style={{ animationDelay: "360ms" }}
         >
           <div className="border border-line bg-surface p-7 shadow-sm">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-              Launchplan
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded mb-5">
+              Tool-Status
             </p>
-            <ul className="mt-5 space-y-4">
+            <ul className="space-y-3">
               {tools.map((t) => (
                 <li
                   key={t.id}
-                  className="flex items-start justify-between gap-4 border-b border-line pb-4 last:border-0 last:pb-0"
+                  className={`flex items-center justify-between gap-4 rounded-none border px-4 py-3 ${
+                    t.status === "live"
+                      ? "border-accent/30 bg-accent-soft"
+                      : "border-line/60 bg-bg-soft/50"
+                  }`}
                 >
-                  <div>
-                    <div className="font-display text-[16px] font-semibold leading-tight text-ink">
-                      {t.name}
-                    </div>
-                    <div className="mt-0.5 font-body text-[13px] text-ink-faded">
-                      {t.tag}
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {t.status === "live" ? (
+                      <span className="relative flex-shrink-0 inline-flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                      </span>
+                    ) : (
+                      <span className="flex-shrink-0 h-2 w-2 rounded-full border border-line-strong bg-bg-soft" />
+                    )}
+                    <div className="min-w-0">
+                      <div className={`font-display text-[14px] font-semibold leading-tight truncate ${t.status === "live" ? "text-ink" : "text-ink-dim"}`}>
+                        {t.name}
+                      </div>
                     </div>
                   </div>
-                  <div className="whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.12em] text-ink-dim">
-                    {t.launchLabel}
+                  <div className={`flex-shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] ${t.status === "live" ? "text-accent font-semibold" : "text-ink-faded"}`}>
+                    {t.status === "live" ? "Live" : t.launchLabel}
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="mt-6 border-t border-line pt-4 font-body text-[13px] text-ink-faded">
-              <Countdown variant="compact" /> bis Tool 1
+            <div className="mt-5 border-t border-line pt-4 font-body text-[12px] text-ink-faded">
+              <Countdown variant="compact" /> bis Cookie-Banner
             </div>
           </div>
         </aside>
@@ -222,47 +252,50 @@ function Suite() {
                 {...wrapperProps}
                 className={`col-span-12 lg:col-span-4 rise group block ${
                   isLive
-                    ? "transition hover:-translate-y-1 hover:border-accent border border-line bg-bg-soft/40 p-6 cursor-pointer"
-                    : "border border-line/40 p-6"
+                    ? "card-hover border border-line bg-surface p-7 cursor-pointer shadow-sm hover:border-accent hover:shadow-md"
+                    : "border border-line/40 p-7 opacity-70"
                 }`}
                 style={{ animationDelay: `${300 + i * 100}ms` }}
               >
-                <div className="flex items-baseline justify-between border-b border-line pb-3">
+                <div className="flex items-baseline justify-between border-b border-line pb-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
                     {tool.idx}
                   </span>
                   <span
-                    className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
-                      isLive ? "text-accent font-bold" : "text-ink-faded"
+                    className={`font-mono text-[10px] uppercase tracking-[0.15em] ${
+                      isLive ? "text-accent font-semibold" : "text-ink-faded"
                     }`}
                   >
                     {isLive && (
                       <span
-                        className="inline-block h-1.5 w-1.5 rounded-full bg-accent mr-1.5 align-middle"
+                        className="relative inline-flex h-1.5 w-1.5 mr-1.5 align-middle"
                         aria-hidden="true"
-                      />
+                      >
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                      </span>
                     )}
                     {tool.launchLabel}
                   </span>
                 </div>
-                <h3 className="mt-6 font-display text-[26px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[30px]">
+                <h3 className="mt-6 font-display text-[26px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[28px]">
                   {tool.name}
                 </h3>
-                <p className="mt-4 font-body text-[15px] leading-[1.6] text-ink-dim">
+                <p className="mt-4 font-body text-[15px] leading-[1.65] text-ink-dim">
                   {tool.pitch}
                 </p>
                 <ul className="mt-6 space-y-2.5 border-t border-line pt-5 font-body text-[14px] text-ink-dim">
                   {tool.bullets.map((b) => (
                     <li key={b} className="flex gap-3">
-                      <span className="text-accent" aria-hidden="true">
-                        —
+                      <span className="text-accent mt-0.5 flex-shrink-0" aria-hidden="true">
+                        ›
                       </span>
                       <span>{b}</span>
                     </li>
                   ))}
                 </ul>
                 {isLive && (
-                  <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent group-hover:text-ink transition">
+                  <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent group-hover:gap-3 transition-all">
                     Jetzt öffnen
                     <span aria-hidden="true" className="transition group-hover:translate-x-1">
                       →
@@ -411,12 +444,12 @@ function Waitlist() {
             04 · Vor dem Launch
           </p>
           <h2 className="mt-5 balance font-display text-[40px] font-medium leading-[1.05] tracking-[-0.02em] text-ink md:text-[56px]">
-            Sei beim Launch dabei.
+            Cookie-Banner ist in Arbeit.
           </h2>
           <p className="mx-auto mt-5 max-w-xl font-body text-[16px] leading-[1.6] text-ink-dim">
-            Eine Mail beim Launch von Tool 1. Anmelder bekommen{" "}
-            <span className="text-ink">34 % Rabatt</span> auf die Pro-Versionen
-            in der Launch-Woche und Zugang zur Closed-Beta zwei Tage vorher.
+            Tool 1 (AVV) und Tool 2 (VVT) sind live. Trag dich ein — Anmelder bekommen{" "}
+            <span className="text-ink">34 % Rabatt</span> auf den Cookie-Banner Pro
+            in der Launch-Woche und Early-Access zwei Tage vorher.
           </p>
 
           <div className="mt-10 border border-line bg-surface-alt p-6 shadow-md md:p-8">
@@ -446,7 +479,7 @@ function Footer() {
               Stuttgart.
             </p>
             <p className="mt-6 font-body text-[14px] text-ink-faded">
-              <Countdown variant="compact" /> bis Launch Tool 1.
+              <Countdown variant="compact" /> bis Cookie-Banner (Tool 3).
             </p>
           </div>
 

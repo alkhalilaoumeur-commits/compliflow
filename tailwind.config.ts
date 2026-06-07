@@ -8,7 +8,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "var(--color-bg)",
+        bg: {
+          DEFAULT: "var(--color-bg)",
+          soft: "var(--color-bg-soft)",
+        },
         surface: {
           DEFAULT: "var(--color-surface)",
           alt: "var(--color-surface-alt)",

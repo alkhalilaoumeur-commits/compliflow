@@ -4,6 +4,7 @@
 
 :root {
   --color-bg: #f6f2ea;
+  --color-bg-soft: #f0ece2;
   --color-surface: #fdfbf6;
   --color-surface-alt: #ffffff;
   --color-ink: #15171b;
@@ -123,23 +124,74 @@ body {
   isolation: isolate;
   background: var(--color-accent);
   color: var(--color-bg);
-  transition: background 200ms ease;
+  transition: background 220ms ease, transform 150ms ease, box-shadow 220ms ease;
+  box-shadow: 0 1px 3px rgba(31, 61, 47, 0.2), 0 1px 2px rgba(31, 61, 47, 0.1);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
 }
 
 .btn-primary:hover {
   background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(31, 61, 47, 0.25), 0 2px 4px rgba(31, 61, 47, 0.12);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(31, 61, 47, 0.2);
 }
 
 .btn-ghost {
   border: 1px solid var(--color-line-strong);
   background: transparent;
   color: var(--color-ink);
-  transition: border-color 200ms ease, color 200ms ease;
+  transition: border-color 220ms ease, color 220ms ease, background 220ms ease, transform 150ms ease;
 }
 
 .btn-ghost:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+  background: var(--color-accent-soft);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+  transform: translateY(0);
+}
+
+/* Premium Card hover */
+.card-hover {
+  transition: transform 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 250ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(21, 23, 27, 0.08);
+}
+
+/* Focus ring premium */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Input premium states */
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 /* A11y: User-Setting "reduce motion" respektieren */

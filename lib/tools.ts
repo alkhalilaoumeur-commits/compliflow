@@ -37,16 +37,17 @@ export const tools: Tool[] = [
     name: "Verarbeitungsverzeichnis",
     tag: "Pflichtregister · Art. 30 DSGVO",
     pitch:
-      "Strukturierte Aufnahme aller Verarbeitungstätigkeiten — mit Branchen-Vorlagen, Multi-Mandant für Agenturen und Export für deinen Steuerberater.",
+      "Strukturierte Aufnahme aller Verarbeitungstätigkeiten — mit 10 Branchen-Vorlagen, Rechtsgrundlagen-Auswahl und PDF-Export.",
     bullets: [
-      "PDF, Excel und CSV-Export",
-      "Automatische Jahres-Erinnerung",
-      "Aggregation aller Auftragsverarbeiter",
+      "10 Standard-Vorlagen für DACH-KMU",
+      "Rechtsgrundlagen Art. 6 / 9 DSGVO",
+      "Vollständige PDF nach Art. 30 Abs. 1",
     ],
-    launchLabel: "15. Juli 2026",
+    launchLabel: "Live · kostenlos starten",
     span: "lg:col-span-4",
     offset: 0,
-    status: "soon",
+    status: "live",
+    href: "/vvt",
   },
   {
     id: "cookie-banner",
