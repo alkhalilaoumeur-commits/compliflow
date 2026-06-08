@@ -2,7 +2,9 @@
 
 > **Projekt:** DSGVO-Compliance-Tool-Suite für DACH-Markt
 > **Domain:** compliflow.de
-> **Status:** Build-Phase Tool 1 (AVV-Generator), Launch 17.06.2026
+> **Status:** PRODUCTION READY — Launch 17.06.2026 (Code vollständig, Coolify-Deploy ausstehend)
+> **Hosting:** Hetzner VPS (IP: 178.104.147.61) + Coolify + Traefik — KEIN Vercel!
+> **Auth:** KEINE Login-Pflicht. Daten in localStorage. Pro-Status via Stripe Session ID im localStorage.
 
 ---
 
@@ -44,16 +46,14 @@ Komponenten-Wiederverwendung über alle Tools maximieren — Wizard-Engine, PDF-
 |---|---|
 | Frontend | Next.js 14 (App Router) + TypeScript |
 | Styling | Tailwind CSS + shadcn/ui |
-| DB | Supabase (EU-Region Frankfurt) |
-| Auth | Supabase Auth (Magic-Link, kein Passwort) |
-| Storage | Supabase Storage für PDFs |
-| Payment | Stripe (Live, Stripe Tax aktiviert) |
-| PDF-Gen | React-PDF oder Puppeteer (server-side) |
-| Email | Resend (verifizierte Domain) |
-| Analytics | Plausible (DSGVO-konform aus Prinzip — wir sind DSGVO-Tool!) |
-| Heatmaps | PostHog EU |
-| Hosting | Vercel |
-| Error-Tracking | Sentry oder Vercel-Logs |
+| DB | KEIN Supabase in MVP. Waitlist optional mit Supabase, Fallback auf .data/waitlist.jsonl + Resend-Email |
+| Auth | KEIN Login/Auth. Pro-Status = Stripe Session ID in localStorage. Keine Accounts. |
+| Payment | Stripe Checkout Sessions (redirect-based). price_xxx IDs in ENV-Vars. card only. |
+| PDF-Gen | @react-pdf/renderer (client-side im Browser). KEINE server-side Generierung. |
+| Email | Resend (hello@compliflow.de). Nur: Zahlungsbestätigung + Waitlist-Notification. |
+| Analytics | Plausible (compliflow.de konfiguriert, DSGVO-konform) |
+| Hosting | Hetzner VPS (178.104.147.61) + Coolify + Traefik. KEIN Vercel. |
+| Healthcheck | Docker HEALTHCHECK via wget auf Port 3000 |
 
 ---
 
@@ -61,23 +61,30 @@ Komponenten-Wiederverwendung über alle Tools maximieren — Wizard-Engine, PDF-
 
 Quelle: `~/vault/agency/intern/brand-identity.md` + `~/.claude/design-rules.md`
 
-### Farben
+### Farben (ACTUAL — Light Cream Theme)
 
 ```css
---color-bg: #0A0906;        /* Espresso, dominant 70% */
---color-bg-soft: #14110D;
---color-bg-card: #1A1612;
---color-ink: #F4EFE8;       /* Hell-creme, 20% */
---color-ink-dim: #A89F92;
---color-accent: #FF4D00;    /* Vermillion, 10% scharf */
---color-line: #2A241D;
+/* globals.css und tailwind.config.ts */
+--color-bg: #f6f2ea;         /* Cream/Beige, Haupthintergrund */
+--color-bg-soft: #f0ece3;    /* Leicht dunkler */
+--color-surface: #fdfbf6;    /* Für Cards */
+--color-ink: #15171B;        /* Fast schwarz */
+--color-ink-dim: #4F5359;
+--color-ink-faded: #8B8E94;
+--color-accent: #1F3D2F;     /* Dunkelgrün (DSGVO-Vertrauensfarbe) */
+--color-accent-soft: #E8F0EC;
+--color-line: #E2DDD1;
+--color-warn: #D4A445;
 ```
+
+**NICHT die alten DRVN-Farben (#0A0906 Espresso / #FF4D00 Vermillion)!**
+Compliflow hat ein eigenes Design: hellcreme Hintergrund + dunkelgrüner Akzent.
 
 ### Typografie
 
-- **Display:** Syne (700/800) — für Headlines
-- **Body:** DM Sans (400/500) — für Text
-- **Mono (Code/Daten):** JetBrains Mono
+- **Display:** Fraunces (nicht Syne!) — für Headlines (serif, editorial)
+- **Body:** DM Sans (400/500/700) — für Text
+- **Mono:** JetBrains Mono (für Labels, Chips, Tags)
 
 ### Tonalität
 
@@ -167,13 +174,13 @@ Wir bauen ein DSGVO-Tool — unsere Seite muss 110% sauber sein.
 
 ---
 
-## Pricing (Tool 1 — AVV)
+## Pricing (AKTUELL LIVE)
 
-- **Free:** AVV mit "Powered by Compliflow"-Footer + Email-Capture
-- **Pro Single:** 29€ One-Time (Custom-Branding, kein Footer)
-- **Pro Agency:** 19€/Monat (DocuSign + Multi-AVV-Mgmt)
-- **Launch-Discount:** 19€ Early Bird in Woche 1
-- **Bundle:** 49€ (AVV+VVT) ab 15.07.; 99€ Lifetime (alle 3) ab 19.08.
+- **Free:** AVV/VVT kostenlos mit Compliflow-Branding-Footer
+- **Pro Single:** 29€ einmalig pro Dokument (AVV oder VVT separat) — LIVE via Stripe
+- **Pro Agency:** 19€/Monat — Button geht zu mailto:hello@compliflow.de (NOCH NICHT BUCHBAR)
+- Widerruf-Consent-Modal vor Checkout (§ 356 Abs. 5 BGB — gesetzlich Pflicht) ✅
+- Stripe Price IDs: `STRIPE_PRICE_AVV_PRO` und `STRIPE_PRICE_VVT_PRO` (beide in Coolify setzen)
 
 ---
 
