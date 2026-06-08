@@ -157,6 +157,78 @@ In der Praxis: Die meisten Verfahren gegen Kleinunternehmer enden mit **500–5.
 Wenn du auch nur einen Dienst aus dieser Liste nutzt — und fast jeder tut das — brauchst du einen AVV. Compliflow erstellt ihn kostenlos, in 10 Minuten, direkt im Browser.
     `.trim(),
   },
+  {
+    slug: "verarbeitungsverzeichnis-vorlage-kostenlos",
+    title: "Verarbeitungsverzeichnis Vorlage — kostenlos, DSGVO Art. 30 konform",
+    excerpt:
+      "Was ein Verarbeitungsverzeichnis ist, wer es braucht, welche 8 Pflichtangaben rein müssen — und wie du es in 10 Minuten kostenlos erstellen kannst.",
+    category: "Verarbeitungsverzeichnis",
+    date: "2026-06-05",
+    readingTime: 7,
+    content: `
+## Was ist ein Verarbeitungsverzeichnis?
+
+Das Verarbeitungsverzeichnis (VVT) ist ein internes Dokument, das alle Prozesse in deinem Unternehmen listet, bei denen personenbezogene Daten verarbeitet werden — von der Kundenverwaltung über die Buchhaltung bis zum Newsletter.
+
+Die Pflicht kommt aus **Art. 30 Abs. 1 DSGVO** und gilt seit 2018. Bei einer Datenschutz-Prüfung wird es als Erstes verlangt.
+
+## Wer braucht ein Verarbeitungsverzeichnis?
+
+**Kurzantwort: Fast jeder Selbstständige und jedes Unternehmen.**
+
+Ausnahme: Betriebe mit weniger als 250 Mitarbeitern müssen keins führen — aber NUR wenn sie keine Daten verarbeiten, die ein Risiko für betroffene Personen darstellen. In der Praxis trifft diese Ausnahme kaum jemanden:
+
+- Wenn du Kundendaten führst → Pflicht
+- Wenn du einen Newsletter betreibst → Pflicht
+- Wenn du Mitarbeiter hast → Pflicht
+- Wenn du Stripe, Google Analytics oder ein CRM nutzt → Pflicht
+
+## Die 8 Pflichtangaben nach Art. 30 Abs. 1 DSGVO
+
+Jede Verarbeitungstätigkeit in deinem VVT muss diese Angaben enthalten:
+
+1. **Name und Kontakt des Verantwortlichen** (du oder dein Unternehmen)
+2. **Zweck der Verarbeitung** (z.B. "Rechnungsstellung und Kundenpflege")
+3. **Kategorien betroffener Personen** (z.B. Kunden, Mitarbeiter, Interessenten)
+4. **Kategorien personenbezogener Daten** (z.B. Name, E-Mail, Bankverbindung)
+5. **Empfänger der Daten** (wer bekommt die Daten: Steuerberater, Cloud-Anbieter etc.)
+6. **Übermittlung in Drittländer** (USA, Indien etc. — erfordert Schrems-II-Garantien)
+7. **Geplante Löschfristen** (z.B. Rechnungen 10 Jahre nach HGB)
+8. **Technische und organisatorische Maßnahmen (TOMs)** (wie die Daten geschützt werden)
+
+## Beispiel: Was gehört in ein VVT für einen Freelancer?
+
+Typische Verarbeitungstätigkeiten für einen Solo-Selbstständigen:
+
+**1. Kundenverwaltung / CRM**
+- Zweck: Vertragsabschluss und -abwicklung
+- Daten: Name, Adresse, E-Mail, Vertragsdaten
+- Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung)
+- Löschfrist: 3 Jahre nach Vertragsende (§ 195 BGB)
+
+**2. Buchhaltung**
+- Zweck: Rechnungsstellung, Steuerrecht
+- Daten: Name, Adresse, Bankverbindung, Rechnungsbeträge
+- Rechtsgrundlage: Art. 6 Abs. 1 lit. c DSGVO (gesetzliche Pflicht)
+- Löschfrist: 10 Jahre (§ 257 HGB, § 147 AO)
+
+**3. E-Mail-Marketing**
+- Zweck: Newsletter, Angebote
+- Daten: E-Mail-Adresse, Opt-In-Datum
+- Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung)
+- Löschfrist: Bis Widerruf der Einwilligung
+
+## Was passiert ohne Verarbeitungsverzeichnis?
+
+Bußgelder nach Art. 83 Abs. 4 DSGVO bis **10 Mio. € oder 2 % des weltweiten Jahresumsatzes**. In der Praxis bei Kleinunternehmern: 500–5.000 € — meist bei Kombination mit anderen Verstößen.
+
+Wichtiger: Die Datenschutzbehörde fragt das VVT als Erstes bei einer Prüfung ab. Ohne es gilt die gesamte Datenschutzorganisation als mangelhaft.
+
+## Fazit
+
+Ein Verarbeitungsverzeichnis braucht niemand monatelang zu erstellen. Compliflow führt dich in 10 Minuten durch alle 8 Pflichtangaben — kostenlos, kein Account, Daten bleiben in deinem Browser.
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
