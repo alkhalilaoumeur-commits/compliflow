@@ -88,6 +88,12 @@ export default function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   const others = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const isVvtPost = post.category === "Verarbeitungsverzeichnis";
+  const ctaHref = isVvtPost ? "/vvt" : "/avv";
+  const ctaLabel = isVvtPost ? "VVT jetzt erstellen →" : "AVV jetzt erstellen →";
+  const ctaSidebarText = isVvtPost
+    ? "Verarbeitungsverzeichnis kostenlos erstellen — Art. 30 DSGVO, kein Account nötig."
+    : "AVV kostenlos generieren — in 10 Minuten, kein Account nötig.";
 
   return (
     <main className="relative z-10 min-h-screen">
@@ -155,10 +161,10 @@ export default function BlogPostPage({ params }: Props) {
                 </div>
               </div>
               <a
-                href="/avv"
+                href={ctaHref}
                 className="mt-5 block w-full btn-primary text-center h-10 leading-10 font-body text-[13px] font-medium tracking-tight"
               >
-                AVV jetzt erstellen →
+                {ctaLabel}
               </a>
             </div>
           </div>
@@ -174,10 +180,10 @@ export default function BlogPostPage({ params }: Props) {
                 Direkt loslegen
               </p>
               <p className="font-body text-[14px] text-ink-dim leading-relaxed mb-4">
-                AVV kostenlos generieren — in 10 Minuten, kein Account nötig.
+                {ctaSidebarText}
               </p>
               <a
-                href="/avv"
+                href={ctaHref}
                 className="btn-primary inline-flex h-10 items-center justify-center px-5 font-body text-[13px] font-medium tracking-tight w-full"
               >
                 Jetzt generieren
