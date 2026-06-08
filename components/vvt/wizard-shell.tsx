@@ -30,11 +30,24 @@ export function VvtWizardShell() {
     const params = new URLSearchParams(window.location.search);
     if (params.get("success") === "true") {
       const sessionId = params.get("session_id");
-      if (sessionId) localStorage.setItem("compliflow_pro_vvt", sessionId);
-      setSuccessBanner(true);
       window.history.replaceState({}, "", "/vvt");
       setStep("abschluss");
-      setTimeout(() => setSuccessBanner(false), 8000);
+
+      if (sessionId) {
+        fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
+          .then((r) => r.json())
+          .then((d: { valid?: boolean }) => {
+            if (d.valid) localStorage.setItem("compliflow_pro_vvt", sessionId);
+          })
+          .catch(() => {})
+          .finally(() => {
+            setSuccessBanner(true);
+            setTimeout(() => setSuccessBanner(false), 8000);
+          });
+      } else {
+        setSuccessBanner(true);
+        setTimeout(() => setSuccessBanner(false), 8000);
+      }
     }
   }, [setStep]);
 

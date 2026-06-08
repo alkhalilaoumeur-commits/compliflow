@@ -3,6 +3,87 @@
 import { useState } from "react";
 
 type CheckoutState = "idle" | "loading" | "error";
+type ToolType = "avv" | "vvt";
+
+function ConsentModal({
+  tool,
+  onConfirm,
+  onCancel,
+  isLoading,
+}: {
+  tool: ToolType;
+  onConfirm: () => void;
+  onCancel: () => void;
+  isLoading: boolean;
+}) {
+  const [checked, setChecked] = useState(false);
+  const label = tool === "avv" ? "AVV-Vertrag" : "Verarbeitungsverzeichnis";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="consent-title"
+    >
+      <div
+        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
+        onClick={onCancel}
+        aria-hidden
+      />
+      <div className="relative w-full max-w-lg bg-surface border border-line shadow-lg p-8 flex flex-col gap-6">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+            Pflichthinweis · § 356 Abs. 5 BGB
+          </p>
+          <h2
+            id="consent-title"
+            className="font-display text-[22px] font-medium leading-snug tracking-[-0.01em] text-ink"
+          >
+            Sofort-Download — Widerrufsrecht
+          </h2>
+          <p className="mt-3 font-body text-[14px] leading-[1.65] text-ink-dim">
+            Du bestellst einen digitalen Inhalt ({label}) zum sofortigen Download. Nach
+            Zahlungseingang wird die Datei sofort bereitgestellt. Dabei erlischt dein
+            gesetzliches Widerrufsrecht.
+          </p>
+        </div>
+
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+            className="mt-1 h-4 w-4 flex-shrink-0 accent-accent cursor-pointer"
+          />
+          <span className="font-body text-[13px] leading-[1.6] text-ink-dim group-hover:text-ink transition">
+            Ich stimme ausdrücklich zu, dass die Ausführung des Vertrags sofort beginnt,
+            und bestätige, dass ich dadurch mein Widerrufsrecht verliere
+            (§ 356 Abs. 5 BGB).
+          </span>
+        </label>
+
+        <div className="flex flex-col-reverse sm:flex-row gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="btn-ghost h-11 flex-1 font-mono text-[11px] uppercase tracking-widest"
+          >
+            Abbrechen
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={!checked || isLoading}
+            className="btn-primary h-11 flex-1 font-mono text-[11px] uppercase tracking-widest disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Weiterleitung …" : `${label} kaufen — 29 €`}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PreisePage() {
   return (
@@ -117,7 +198,7 @@ function Tiers() {
       </div>
 
       <p className="mt-8 font-mono text-[10px] uppercase tracking-widest text-ink-faded">
-        Alle Preise inkl. MwSt. · Keine versteckten Kosten · Sofortiger Download
+        Kleinunternehmer § 19 UStG — keine MwSt. ausgewiesen · Keine versteckten Kosten · Sofortiger Download
       </p>
     </section>
   );
@@ -181,11 +262,13 @@ function FreeTier() {
 }
 
 function ProTier() {
-  const [avvState, setAvvState] = useState<CheckoutState>("idle");
-  const [vvtState, setVvtState] = useState<CheckoutState>("idle");
+  const [modal, setModal] = useState<ToolType | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleCheckout = async (tool: "avv" | "vvt", setState: (s: CheckoutState) => void) => {
-    setState("loading");
+  const handleCheckout = async (tool: ToolType) => {
+    setIsLoading(true);
+    setError(false);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -196,87 +279,97 @@ function ProTier() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        setState("error");
-        setTimeout(() => setState("idle"), 4000);
+        setIsLoading(false);
+        setError(true);
+        setModal(null);
+        setTimeout(() => setError(false), 4000);
       }
     } catch {
-      setState("error");
-      setTimeout(() => setState("idle"), 4000);
+      setIsLoading(false);
+      setError(true);
+      setModal(null);
+      setTimeout(() => setError(false), 4000);
     }
   };
 
   return (
-    <div className="col-span-12 lg:col-span-4 lg:-mt-6 lg:-mb-6 border-2 border-accent bg-surface shadow-lg p-8 flex flex-col gap-6 relative">
-      <div className="absolute -top-px left-8 right-8 h-[2px] bg-accent" aria-hidden />
-      <div className="absolute -top-[26px] left-8">
-        <span className="bg-accent text-bg font-mono text-[10px] uppercase tracking-widest px-3 py-1">
-          Empfohlen
-        </span>
-      </div>
+    <>
+      {modal && (
+        <ConsentModal
+          tool={modal}
+          onConfirm={() => handleCheckout(modal)}
+          onCancel={() => { setModal(null); setIsLoading(false); }}
+          isLoading={isLoading}
+        />
+      )}
 
-      <div>
-        <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
-          02 / 03
-        </p>
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
-            29 €
+      <div className="col-span-12 lg:col-span-4 lg:-mt-6 lg:-mb-6 border-2 border-accent bg-surface shadow-lg p-8 flex flex-col gap-6 relative">
+        <div className="absolute -top-px left-8 right-8 h-[2px] bg-accent" aria-hidden />
+        <div className="absolute -top-[26px] left-8">
+          <span className="bg-accent text-bg font-mono text-[10px] uppercase tracking-widest px-3 py-1">
+            Empfohlen
           </span>
-          <span className="font-body text-[14px] text-ink-faded">einmalig pro Dokument</span>
         </div>
-        <h2
-          className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2"
-        >
-          Pro Dokument
-        </h2>
-        <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
-          Ein professionelles Dokument ohne Branding — für Mandanten, Geschäftspartner oder behördliche Einreichungen.
-        </p>
-      </div>
 
-      <ul className="flex flex-col gap-3 border-t border-[rgba(31,61,47,0.2)] pt-6">
-        {[
-          "Alles aus Kostenlos",
-          "PDF ohne Compliflow-Branding",
-          "DSGVO-konformes Deckblatt",
-          "Sofort-Download nach Zahlung",
-          "Einmalige Zahlung — kein Abo",
-          "Gültig für ein Dokument (AVV oder VVT)",
-        ].map((item) => (
-          <li key={item} className="flex items-start gap-3 text-[14px] text-ink-dim">
-            <span className="text-accent mt-0.5" aria-hidden>—</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
+            02 / 03
+          </p>
+          <div className="flex items-baseline gap-2">
+            <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
+              29 €
+            </span>
+            <span className="font-body text-[14px] text-ink-faded">einmalig pro Dokument</span>
+          </div>
+          <h2 className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2">
+            Pro Dokument
+          </h2>
+          <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
+            Ein professionelles Dokument ohne Branding — für Mandanten, Geschäftspartner oder behördliche Einreichungen.
+          </p>
+        </div>
 
-      <div className="mt-auto flex flex-col gap-3">
-        <button
-          type="button"
-          onClick={() => handleCheckout("avv", setAvvState)}
-          disabled={avvState !== "idle"}
-          className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
-        >
-          {avvState === "loading"
-            ? "Weiterleitung …"
-            : avvState === "error"
-            ? "Fehler — erneut versuchen"
-            : "AVV Pro kaufen — 29 €"}
-        </button>
-        <button
-          type="button"
-          onClick={() => handleCheckout("vvt", setVvtState)}
-          disabled={vvtState !== "idle"}
-          className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
-        >
-          {vvtState === "loading"
-            ? "Weiterleitung …"
-            : vvtState === "error"
-            ? "Fehler — erneut versuchen"
-            : "VVT Pro kaufen — 29 €"}
-        </button>
+        <ul className="flex flex-col gap-3 border-t border-[rgba(31,61,47,0.2)] pt-6">
+          {[
+            "Alles aus Kostenlos",
+            "PDF ohne Compliflow-Branding",
+            "DSGVO-konformes Deckblatt",
+            "Sofort-Download nach Zahlung",
+            "Einmalige Zahlung — kein Abo",
+            "Gültig für ein Dokument (AVV oder VVT)",
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-3 text-[14px] text-ink-dim">
+              <span className="text-accent mt-0.5" aria-hidden>—</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-col gap-3">
+          {error && (
+            <p className="font-mono text-[10px] uppercase tracking-widest text-warn text-center">
+              Fehler — bitte erneut versuchen
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={() => setModal("avv")}
+            disabled={isLoading}
+            className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
+          >
+            AVV Pro kaufen — 29 €
+          </button>
+          <button
+            type="button"
+            onClick={() => setModal("vvt")}
+            disabled={isLoading}
+            className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
+          >
+            VVT Pro kaufen — 29 €
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -354,7 +447,7 @@ function FAQ() {
     },
     {
       q: "Sind die Dokumente juristisch geprüft?",
-      a: "Ja — die Vorlagen wurden von einem Datenschutzanwalt geprüft und decken die Pflichtinhalte nach Art. 28 Abs. 3 und Art. 30 Abs. 1 DSGVO vollständig ab. Sie ersetzen keine individuelle Rechtsberatung in Sonderfällen.",
+      a: "Die Vorlagen decken alle gesetzlich vorgeschriebenen Pflichtinhalte nach Art. 28 Abs. 3 und Art. 30 Abs. 1 DSGVO ab — strukturiert und vollständig. Sie ersetzen keine individuelle Rechtsberatung in Sonderfällen (Art. 9-Daten, Drittlandtransfers, behördliche Prüfungen).",
     },
   ];
 

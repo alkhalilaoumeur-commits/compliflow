@@ -111,12 +111,23 @@ export function PdfDownload() {
         )}
       </PDFDownloadLink>
       {!isPro && (
-        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded text-center">
-          Kostenlos · mit Compliflow-Branding ·{" "}
-          <a href="/preise" className="text-accent hover:text-ink transition">
-            Pro ohne Branding →
+        <div className="mt-1 border border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.04)] p-4 flex flex-col gap-3">
+          <div className="flex items-start gap-2.5">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-accent mt-0.5">Pro</span>
+            <div>
+              <p className="font-body text-[13px] text-ink font-medium leading-snug">PDF ohne Compliflow-Branding</p>
+              <p className="font-body text-[12px] text-ink-dim mt-0.5">
+                Für Mandanten, Geschäftspartner oder behördliche Einreichungen — 29 € einmalig, kein Abo.
+              </p>
+            </div>
+          </div>
+          <a
+            href="/preise"
+            className="inline-flex h-10 w-full items-center justify-center gap-2 border border-accent font-mono text-[11px] uppercase tracking-widest text-accent hover:bg-accent hover:text-bg transition"
+          >
+            Pro kaufen — 29 €
           </a>
-        </p>
+        </div>
       )}
     </div>
   );
