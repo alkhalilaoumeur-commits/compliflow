@@ -655,7 +655,9 @@ function Primer() {
 }
 
 function BlogTeaser() {
-  const posts = BLOG_POSTS.slice(0, 3);
+  const posts = [...BLOG_POSTS]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
   return (
     <section className="border-t border-line">
       <Container className="py-20 lg:py-28">

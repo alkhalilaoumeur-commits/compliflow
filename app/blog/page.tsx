@@ -16,7 +16,10 @@ function formatDate(iso: string) {
 }
 
 export default function BlogPage() {
-  const [featured, ...rest] = BLOG_POSTS;
+  const sorted = [...BLOG_POSTS].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const [featured, ...rest] = sorted;
 
   return (
     <main className="relative z-10 min-h-screen">
@@ -151,6 +154,20 @@ export default function BlogPage() {
           </a>
         </div>
       </section>
+
+      <footer className="border-t border-line bg-bg">
+        <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-12 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
+            © 2026 Al-Khalil Aoumeur · Compliflow · Stuttgart
+          </span>
+          <nav className="flex items-center gap-5">
+            <a href="/impressum" className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faded hover:text-ink">Impressum</a>
+            <a href="/datenschutz" className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faded hover:text-ink">Datenschutz</a>
+            <a href="/agb" className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faded hover:text-ink">AGB</a>
+            <a href="/widerruf" className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faded hover:text-ink">Widerruf</a>
+          </nav>
+        </div>
+      </footer>
     </main>
   );
 }
