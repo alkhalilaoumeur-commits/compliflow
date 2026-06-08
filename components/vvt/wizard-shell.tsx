@@ -36,8 +36,8 @@ export function VvtWizardShell() {
       if (sessionId) {
         fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
           .then((r) => r.json())
-          .then((d: { valid?: boolean }) => {
-            if (d.valid) localStorage.setItem("compliflow_pro_vvt", sessionId);
+          .then((d: { valid?: boolean; tool?: string }) => {
+            if (d.valid && d.tool === "vvt") localStorage.setItem("compliflow_pro_vvt", sessionId);
           })
           .catch(() => {})
           .finally(() => {

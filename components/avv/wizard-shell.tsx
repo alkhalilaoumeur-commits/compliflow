@@ -35,8 +35,8 @@ export function WizardShell() {
       if (sessionId) {
         fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
           .then((r) => r.json())
-          .then((d: { valid?: boolean }) => {
-            if (d.valid) localStorage.setItem("compliflow_pro_avv", sessionId);
+          .then((d: { valid?: boolean; tool?: string }) => {
+            if (d.valid && d.tool === "avv") localStorage.setItem("compliflow_pro_avv", sessionId);
           })
           .catch(() => {})
           .finally(() => {
