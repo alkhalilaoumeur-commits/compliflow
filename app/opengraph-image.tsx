@@ -71,7 +71,7 @@ export default async function og() {
             }}
           >
             AVV-Generator · Verarbeitungsverzeichnis · Cookie-Banner — drei
-            Tools, eine Suite, anwaltlich geprüfte Vorlagen.
+            Tools, eine Suite, alle Pflichtfelder nach Art. 28 & 30 DSGVO.
           </div>
         </div>
 

@@ -89,7 +89,7 @@ export function ExitPopup() {
           </h2>
 
           <p className="font-body text-[15px] leading-relaxed text-ink-dim mb-7">
-            Kostenlos, kein Account, direkt im Browser. Anwaltlich geprüfte Vorlage nach Art. 28 DSGVO — sofort als PDF.
+            Kostenlos, kein Account, direkt im Browser. Alle Pflichtinhalte nach Art. 28 DSGVO — sofort als PDF, nichts verlässt deinen Browser.
           </p>
 
           {/* Checklist */}

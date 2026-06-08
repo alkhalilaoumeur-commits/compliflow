@@ -28,7 +28,7 @@ const SITE_URL = "https://compliflow.de";
 const SITE_NAME = "Compliflow";
 const TITLE = "Compliflow — DSGVO-Tools für deutsche Selbstständige";
 const DESCRIPTION =
-  "AVV-Generator und Verarbeitungsverzeichnis kostenlos nutzen. DSGVO-konforme Pflichtdokumente nach Art. 28 und Art. 30 in Minuten — anwaltlich geprüft, kein Account nötig.";
+  "AVV-Generator und Verarbeitungsverzeichnis kostenlos nutzen. Alle Pflichtinhalte nach Art. 28 und Art. 30 DSGVO — in Minuten, kein Account nötig, direkt im Browser.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

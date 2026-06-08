@@ -208,7 +208,7 @@ export function StepAbschluss() {
 
           <div className="mt-6 flex flex-col gap-2.5 border-t border-line pt-4">
             <InfoRow text="Art. 30 DSGVO konform" />
-            <InfoRow text="Anwaltlich geprüfte Struktur" />
+            <InfoRow text="Alle Pflichtfelder nach Art. 30 DSGVO" />
             <InfoRow text="Kein Datenspeichern auf Server" />
             <InfoRow text="Daten bleiben lokal im Browser" />
           </div>

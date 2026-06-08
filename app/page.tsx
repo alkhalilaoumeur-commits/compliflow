@@ -117,7 +117,7 @@ function UrgencyBar() {
         </span>
         <span className="hidden font-body text-[12px] text-ink-dim md:inline">·</span>
         <span className="hidden font-body text-[12px] text-ink-dim md:inline">
-          Anwaltlich geprüfte Vorlage — <strong className="text-ink">kostenlos</strong>
+          Alle Pflichtinhalte nach Art. 28 DSGVO — <strong className="text-ink">kostenlos</strong>
         </span>
         <a href="/avv" className="font-mono text-[11px] uppercase tracking-[0.12em] text-accent underline underline-offset-2">
           Jetzt absichern →
@@ -180,8 +180,8 @@ function Hero() {
           >
             Compliflow ist die DSGVO-Werkbank für deutsche Selbstständige und
             Agenturen: AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner —
-            drei Tools auf einer Domain, anwaltlich geprüfte Vorlagen, Sitz in
-            Stuttgart, Datenhaltung in Frankfurt.
+            drei Tools auf einer Domain, alle Pflichtfelder nach Art. 28 und Art. 30
+            DSGVO, Sitz in Stuttgart, Datenhaltung in Frankfurt.
           </p>
 
           <div
@@ -217,7 +217,7 @@ function Hero() {
             </span>
             <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
               <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-              Anwaltlich geprüfte Vorlage
+              Alle 13 Pflichtinhalte nach Art. 28
             </span>
             <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
               <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
@@ -335,7 +335,7 @@ function TrustAndStats() {
     { value: "0 €", label: "Kostenlos", meta: "für immer" },
     { value: "10 Min.", label: "Bis zum PDF", meta: "statt Anwaltstagen" },
     { value: "100%", label: "Im Browser", meta: "kein Upload, kein Konto" },
-    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "anwaltlich geprüfte Vorlage" },
+    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "alle Pflichtfelder abgedeckt" },
     { value: "EU", label: "Hosting", meta: "Frankfurt · kein US-Server" },
     { value: "20 Mio. €", label: "Bußgeld-Risiko", meta: "ohne AVV nach Art. 83" },
   ];
@@ -504,9 +504,9 @@ function Comparison() {
   const rows = [
     { label: "Zeitaufwand", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", vorlage: "2–4 Stunden" },
     { label: "Kosten", compliflow: "Kostenlos", anwalt: "300–800 €/h", vorlage: "0 € + Risiko" },
-    { label: "DSGVO-Pflichtfelder", compliflow: "Alle (geführt)", anwalt: "Ja", vorlage: "Oft unvollständig" },
-    { label: "Anwaltlich geprüft", compliflow: "Ja", anwalt: "Ja", vorlage: "Unbekannt" },
-    { label: "Kein Upload nötig", compliflow: "Ja (lokal)", anwalt: "Nein", vorlage: "Ja" },
+    { label: "Alle Pflichtfelder (Art. 28)", compliflow: "Ja — geführt", anwalt: "Ja", vorlage: "Oft unvollständig" },
+    { label: "Datenschutz", compliflow: "100 % lokal", anwalt: "Per E-Mail / Upload", vorlage: "Lokal" },
+    { label: "Kein Account nötig", compliflow: "Ja", anwalt: "Nein", vorlage: "Ja" },
     { label: "Sofort verfügbar", compliflow: "Ja", anwalt: "Termin nötig", vorlage: "Ja" },
   ];
 
@@ -524,7 +524,7 @@ function Comparison() {
               Warum nicht einfach zum Anwalt?
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
-              Compliflow ist keine Rechtsberatung — aber für Standarddokumente nach Art. 28 und Art. 30 DSGVO ist eine anwaltlich geprüfte Vorlage mit geführten Feldern oft die bessere Wahl.
+              Compliflow ist keine Rechtsberatung — aber für Standarddokumente nach Art. 28 und Art. 30 DSGVO sind geführte Vorlagen mit allen Pflichtfeldern für die meisten Selbstständigen die sinnvollere Wahl als Word-Vorlagen ohne Struktur.
             </p>
           </div>
         </div>

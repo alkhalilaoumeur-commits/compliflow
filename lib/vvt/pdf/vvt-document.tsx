@@ -260,8 +260,8 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
         <View style={styles.warningBox}>
           <Text style={styles.warningText}>
             {noBranding
-              ? "Hinweis: Dieses Verzeichnis ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024."
-              : "Hinweis: Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Anwaltlich geprüfte Vorlagen — Stand: Art. 30 DSGVO, Fassung 2024."}
+              ? "Hinweis: Dieses Verzeichnis ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Strukturiert nach Art. 30 DSGVO, Fassung 2024."
+              : "Hinweis: Dieses Verzeichnis wurde mit Compliflow (compliflow.de) erstellt. Es ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem Datenschutzexperten. Strukturiert nach Art. 30 DSGVO, Fassung 2024."}
           </Text>
         </View>
 

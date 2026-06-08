@@ -68,7 +68,7 @@ export const FAQS = [
   },
   {
     q: "Ist das hier rechtsverbindlich?",
-    a: "Compliflow stellt rechtssichere Vorlagen bereit, die auf den offiziellen Bitkom- und DSK-Mustern basieren und anwaltlich geprüft sind. Wir ersetzen jedoch keine Einzelfall-Rechtsberatung. Für komplexe Konstellationen empfehlen wir einen IT-Rechts-Anwalt hinzuzuziehen.",
+    a: "Compliflow generiert strukturierte Vorlagen, die alle Pflichtinhalte nach Art. 28 und Art. 30 DSGVO abdecken. Die Dokumente ersetzen keine individuelle Rechtsberatung — für Sonderfälle (Art. 9-Daten, Drittlandtransfers, behördliche Prüfungen) empfehlen wir einen Datenschutz-Anwalt.",
   },
   {
     q: "Wo werden meine Daten gespeichert?",
