@@ -3,17 +3,21 @@ import { Countdown } from "@/components/countdown";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { tools } from "@/lib/tools";
 import { PRIMER, FAQS } from "@/lib/content";
+import { BLOG_POSTS } from "@/lib/blog-posts";
 
 export default function Home() {
   return (
     <main className="relative z-10 min-h-screen">
       <Header />
+      <UrgencyBar />
       <Hero />
+      <ToolLogos />
       <TrustAndStats />
       <HowItWorks />
       <Suite />
       <Comparison />
       <Primer />
+      <BlogTeaser />
       <Faq />
       <Waitlist />
       <Footer />
@@ -79,6 +83,12 @@ function Header() {
             Preise
           </a>
           <a
+            href="/blog"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+          >
+            Blog
+          </a>
+          <a
             href="/avv"
             className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
@@ -88,6 +98,51 @@ function Header() {
         </nav>
       </Container>
     </header>
+  );
+}
+
+function UrgencyBar() {
+  return (
+    <div className="border-b border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.06)]">
+      <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1.5 py-2.5 text-center">
+        <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent font-semibold">
+          ⚠ DSGVO-Pflicht
+        </span>
+        <span className="hidden font-body text-[12px] text-ink-dim sm:inline">
+          Ohne AVV: Bußgeld bis <strong className="text-ink">20 Mio. €</strong> nach Art. 83 DSGVO
+        </span>
+        <span className="hidden font-body text-[12px] text-ink-dim md:inline">·</span>
+        <span className="hidden font-body text-[12px] text-ink-dim md:inline">
+          Anwaltlich geprüfte Vorlage — <strong className="text-ink">kostenlos</strong>
+        </span>
+        <a href="/avv" className="font-mono text-[11px] uppercase tracking-[0.12em] text-accent underline underline-offset-2">
+          Jetzt absichern →
+        </a>
+      </Container>
+    </div>
+  );
+}
+
+function ToolLogos() {
+  const tools = [
+    "Stripe", "Google Workspace", "AWS", "Vercel", "Mailchimp",
+    "HubSpot", "Zoom", "Calendly", "Notion", "Slack",
+  ];
+  return (
+    <section className="border-b border-line bg-surface">
+      <Container className="py-6">
+        <p className="mb-4 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faded">
+          Passende AVV-Klauseln für alle wichtigen Dienste
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {tools.map((name) => (
+            <span key={name} className="font-body text-[13px] font-medium text-ink-dim opacity-60 hover:opacity-100 transition-opacity">
+              {name}
+            </span>
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 }
 
@@ -145,6 +200,24 @@ function Hero() {
             </a>
             <span className="hidden font-body text-[13px] text-ink-faded md:inline">
               <Countdown variant="compact" /> bis Cookie-Banner
+            </span>
+          </div>
+
+          <div
+            className="rise mt-6 flex flex-wrap items-center gap-x-5 gap-y-2"
+            style={{ animationDelay: "320ms" }}
+          >
+            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
+              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+              Kein Account nötig
+            </span>
+            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
+              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+              Anwaltlich geprüfte Vorlage
+            </span>
+            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
+              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+              Daten verlassen nie deinen Browser
             </span>
           </div>
         </div>
@@ -290,12 +363,12 @@ function Suite() {
 
 function TrustAndStats() {
   const rows = [
-    { value: "10", label: "Branchen-Vorlagen", meta: "KMU-optimiert" },
     { value: "0 €", label: "Kostenlos", meta: "für immer" },
-    { value: "100%", label: "Lokal", meta: "kein Upload" },
-    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "anwaltlich geprüft" },
-    { value: "Frankfurt", label: "Hosting", meta: "EU-Server" },
-    { value: "Stuttgart", label: "Sitz", meta: "Deutschland" },
+    { value: "10 Min.", label: "Bis zum PDF", meta: "statt Anwaltstagen" },
+    { value: "100%", label: "Im Browser", meta: "kein Upload, kein Konto" },
+    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "anwaltlich geprüfte Vorlage" },
+    { value: "EU", label: "Hosting", meta: "Frankfurt · kein US-Server" },
+    { value: "20 Mio. €", label: "Bußgeld-Risiko", meta: "ohne AVV nach Art. 83" },
   ];
 
   return (
@@ -565,6 +638,65 @@ function Primer() {
   );
 }
 
+function BlogTeaser() {
+  const posts = BLOG_POSTS.slice(0, 3);
+  return (
+    <section className="border-t border-line">
+      <Container className="py-20 lg:py-28">
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
+              Blog
+            </p>
+            <h2 className="font-display text-[32px] font-medium leading-tight tracking-[-0.02em] text-ink sm:text-[40px]">
+              DSGVO-Wissen,<br />
+              <span className="italic">das hilft.</span>
+            </h2>
+          </div>
+          <a
+            href="/blog"
+            className="hidden md:inline font-mono text-[12px] uppercase tracking-[0.15em] text-ink border-b border-ink pb-0.5 hover:text-accent hover:border-accent transition-colors"
+          >
+            Alle Artikel →
+          </a>
+        </div>
+        <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
+          {posts.map((post, i) => (
+            <a
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className={`group block py-8 border-t border-line hover:opacity-80 transition-opacity ${
+                i < 2 ? "md:border-r md:border-line md:pr-8" : ""
+              } ${i > 0 ? "md:pl-8" : ""}`}
+            >
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-3">
+                {post.category}
+              </p>
+              <h3 className="font-display text-[19px] font-medium leading-snug tracking-tight text-ink group-hover:text-accent transition-colors">
+                {post.title}
+              </h3>
+              <p className="mt-3 font-body text-[13px] leading-relaxed text-ink-faded line-clamp-2">
+                {post.excerpt}
+              </p>
+              <p className="mt-4 font-mono text-[11px] text-ink-faded">
+                {post.readingTime} Min. Lesezeit
+              </p>
+            </a>
+          ))}
+        </div>
+        <div className="mt-6 md:hidden">
+          <a
+            href="/blog"
+            className="font-mono text-[12px] uppercase tracking-[0.15em] text-ink border-b border-ink pb-0.5"
+          >
+            Alle Artikel →
+          </a>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function Faq() {
   return (
     <section id="faq" className="border-t border-line">
@@ -696,6 +828,11 @@ function Footer() {
               <li>
                 <a href="/preise" className="link-underline hover:text-ink">
                   Preise
+                </a>
+              </li>
+              <li>
+                <a href="/blog" className="link-underline hover:text-ink">
+                  Blog
                 </a>
               </li>
               <li>

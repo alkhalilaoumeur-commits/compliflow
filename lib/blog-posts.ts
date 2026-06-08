@@ -1,0 +1,164 @@
+export type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readingTime: number;
+  content: string;
+};
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "avv-dsgvo-art-28-leitfaden-2026",
+    title: "AVV nach DSGVO Art. 28 — Vollständiger Leitfaden 2026",
+    excerpt:
+      "Was ein Auftragsverarbeitungsvertrag ist, wann er Pflicht ist, und welche 13 Mindestinhalte er enthalten muss. Mit konkreten Beispielen für Stripe, Google Workspace und Vercel.",
+    category: "DSGVO Grundlagen",
+    date: "2026-06-01",
+    readingTime: 8,
+    content: `
+## Was ist ein AVV?
+
+Ein Auftragsverarbeitungsvertrag (AVV) ist ein schriftlicher Vertrag zwischen einem Verantwortlichen (du) und einem Auftragsverarbeiter (z.B. Stripe, Google, Vercel). Er regelt, wie der Auftragsverarbeiter personenbezogene Daten in deinem Auftrag verarbeitet.
+
+Die Rechtsgrundlage ist **Art. 28 DSGVO**. Ohne AVV drohen Bußgelder bis zu 10 Mio. € oder 2 % des weltweiten Jahresumsatzes.
+
+## Wann brauchst du einen AVV?
+
+Immer wenn ein externer Dienstleister in deinem Auftrag personenbezogene Daten verarbeitet. Das betrifft fast jeden Online-Dienst:
+
+- **E-Mail-Marketing:** Mailchimp, Brevo, ActiveCampaign
+- **Payment:** Stripe, PayPal, Mollie
+- **Hosting:** AWS, Vercel, Hetzner, DigitalOcean
+- **Analytics:** Google Analytics, Plausible (auch wenn DSGVO-konform)
+- **CRM:** HubSpot, Salesforce, Pipedrive
+- **Kommunikation:** Slack, Microsoft Teams, Zoom
+
+## Die 13 Mindestinhalte nach Art. 28 Abs. 3 DSGVO
+
+Ein rechtlich wirksamer AVV muss mindestens enthalten:
+
+1. Gegenstand und Dauer der Verarbeitung
+2. Art und Zweck der Verarbeitung
+3. Art der personenbezogenen Daten
+4. Kategorien betroffener Personen
+5. Pflichten und Rechte des Verantwortlichen
+6. Weisungsgebundenheit des Auftragsverarbeiters
+7. Vertraulichkeitspflicht
+8. Technische und organisatorische Maßnahmen (TOM)
+9. Regelung zu Subauftragsverarbeitern
+10. Unterstützung bei Betroffenenanfragen
+11. Löschung oder Rückgabe nach Auftragsende
+12. Nachweis- und Prüfpflichten
+13. Drittlandübermittlungen (Schrems II)
+
+## Häufige Fehler
+
+**Fehler 1: Kein AVV mit US-Anbietern**
+Viele Selbstständige nutzen Stripe, Google Analytics oder AWS ohne AVV. Das ist ein DSGVO-Verstoß.
+
+**Fehler 2: Veraltete AVV-Vorlagen**
+Nach dem Schrems-II-Urteil (2020) und dem EU-US Data Privacy Framework (2023) müssen AVVs aktualisiert werden.
+
+**Fehler 3: Fehlende Subauftragsverarbeiter-Klausel**
+Stripe nutzt AWS als Infrastruktur — das muss im AVV stehen.
+
+## Fazit
+
+Ein AVV ist keine Formalität, sondern ein echtes rechtliches Dokument. Mit Compliflow generierst du in 10 Minuten einen DSGVO-konformen AVV — kostenlos, kein Account nötig.
+    `.trim(),
+  },
+  {
+    slug: "avv-google-workspace-pflicht",
+    title: "Brauche ich einen AVV mit Google Workspace? Ja — hier warum",
+    excerpt:
+      "Google Workspace verarbeitet E-Mails, Dokumente und Kontakte deiner Kunden. Warum das Pflicht ist, wie du ihn abschließt, und was das EU-US Data Privacy Framework 2023 ändert.",
+    category: "Praxis",
+    date: "2026-05-20",
+    readingTime: 5,
+    content: `
+## Google Workspace und die DSGVO
+
+Wenn du Google Workspace (Gmail, Drive, Docs, Meet) für dein Business nutzt, verarbeitet Google personenbezogene Daten in deinem Auftrag — E-Mail-Adressen, Inhalte von Nachrichten, Dokumente mit Kundendaten.
+
+Das ist klassische Auftragsverarbeitung nach Art. 28 DSGVO. Ein AVV ist Pflicht.
+
+## Wie schließt du den AVV mit Google ab?
+
+Google stellt einen AVV automatisch bereit. Du musst ihn aktiv akzeptieren:
+
+1. Google Admin Console öffnen
+2. Account → Rechtliche Grundlagen → Datenschutz
+3. "Datenverarbeitungsänderung" akzeptieren
+
+**Wichtig:** Das ist kein Kompromiss — du nimmst Googles AVV-Konditionen an, nicht die eigenen. Du brauchst aber trotzdem einen eigenen AVV für deine Datenschutzerklärung.
+
+## Was hat sich durch das EU-US DPF 2023 geändert?
+
+Seit Juli 2023 gilt das EU-US Data Privacy Framework (Nachfolger von Privacy Shield). Das bedeutet:
+
+- US-Anbieter mit DPF-Zertifizierung (darunter Google) sind wieder als sicher eingestuft
+- Drittlandübermittlungen zu zertifizierten US-Anbietern sind legal
+- Du musst im AVV trotzdem die Grundlage der Übermittlung angeben
+
+## Fazit
+
+Ja, du brauchst einen AVV mit Google. Compliflow generiert ihn in 10 Minuten — inklusive korrekter Drittland-Klausel für die USA.
+    `.trim(),
+  },
+  {
+    slug: "avv-steuerberater-pflicht-checkliste",
+    title: "AVV-Pflicht für Selbstständige — Die Checkliste für 2026",
+    excerpt:
+      "Welche Tools einen AVV erfordern, wer kontrolliert, und wie hoch die Bußgelder wirklich sind. Eine praktische Checkliste für Freelancer und kleine Unternehmen.",
+    category: "Checkliste",
+    date: "2026-05-10",
+    readingTime: 6,
+    content: `
+## Wer kontrolliert AVVs?
+
+In Deutschland sind die Landesdatenschutzbehörden (LfD) zuständig. Sie führen Stichproben durch und reagieren auf Beschwerden — auch von Mitbewerbern oder Kunden.
+
+## Die 10 häufigsten Dienste ohne AVV
+
+Laut DSGVO-Prüfungen der letzten Jahre fehlt bei diesen Diensten am häufigsten ein AVV:
+
+1. **Stripe** (Payment)
+2. **Google Analytics** (Analytics)
+3. **Mailchimp / Brevo** (E-Mail-Marketing)
+4. **Calendly** (Terminbuchung)
+5. **Notion** (Projektmanagement mit Kundendaten)
+6. **Slack** (interne Kommunikation mit Kundendaten)
+7. **Zoom** (Videokonferenzen)
+8. **HubSpot** (CRM)
+9. **Vercel / Netlify** (Hosting mit User-Daten)
+10. **Typeform / JotForm** (Formulare mit personenbezogenen Daten)
+
+## Was droht ohne AVV?
+
+Bußgelder nach Art. 83 Abs. 4 DSGVO: bis zu **10 Mio. € oder 2 % des weltweiten Jahresumsatzes** (der höhere Betrag gilt).
+
+In der Praxis: Die meisten Verfahren gegen Kleinunternehmer enden mit **500–5.000 €** — oft wegen fehlendem AVV kombiniert mit anderen Verstößen.
+
+## Checkliste: Hast du alle AVVs?
+
+- [ ] Stripe oder anderer Payment-Anbieter
+- [ ] E-Mail-Marketing-Tool (Mailchimp, Brevo etc.)
+- [ ] Hosting-Provider (Hetzner, Vercel, AWS etc.)
+- [ ] Cloud-Speicher (Google Drive, Dropbox etc.)
+- [ ] CRM oder Kundendatenbank
+- [ ] Analyse-Tool (auch DSGVO-konforme wie Plausible)
+- [ ] Buchungssystem (Calendly etc.)
+- [ ] Buchhaltungssoftware (Lexoffice, DATEV etc.)
+
+## Fazit
+
+Wenn du auch nur einen Dienst aus dieser Liste nutzt — und fast jeder tut das — brauchst du einen AVV. Compliflow erstellt ihn kostenlos, in 10 Minuten, direkt im Browser.
+    `.trim(),
+  },
+];
+
+export function getBlogPost(slug: string): BlogPost | undefined {
+  return BLOG_POSTS.find((p) => p.slug === slug);
+}
