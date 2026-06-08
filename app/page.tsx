@@ -203,7 +203,7 @@ function Hero() {
               Verarbeitungsverzeichnis starten
             </a>
             <span className="hidden font-body text-[13px] text-ink-faded md:inline">
-              <Countdown variant="compact" /> bis Cookie-Banner
+              <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner
             </span>
           </div>
 
@@ -232,7 +232,7 @@ function Hero() {
         >
           <DocumentMockup />
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-            <Countdown variant="compact" /> bis Cookie-Banner
+            <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner
           </p>
         </aside>
       </Container>
@@ -811,7 +811,7 @@ function Footer() {
               Stuttgart.
             </p>
             <p className="mt-6 font-body text-[14px] text-ink-faded">
-              <Countdown variant="compact" /> bis Cookie-Banner (Tool 3).
+              <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner (Tool 3).
             </p>
           </div>
 
