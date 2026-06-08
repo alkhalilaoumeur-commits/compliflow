@@ -1,6 +1,8 @@
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Countdown } from "@/components/countdown";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { DocumentMockup } from "@/components/document-mockup";
+import { ExitPopup } from "@/components/exit-popup";
 import { tools } from "@/lib/tools";
 import { PRIMER, FAQS } from "@/lib/content";
 import { BLOG_POSTS } from "@/lib/blog-posts";
@@ -8,12 +10,14 @@ import { BLOG_POSTS } from "@/lib/blog-posts";
 export default function Home() {
   return (
     <main className="relative z-10 min-h-screen">
+      <ExitPopup />
       <Header />
       <UrgencyBar />
       <Hero />
       <ToolLogos />
       <TrustAndStats />
       <HowItWorks />
+      <PhotoSection />
       <Suite />
       <Comparison />
       <Primer />
@@ -226,45 +230,10 @@ function Hero() {
           className="rise col-span-12 lg:col-span-4 lg:pt-2"
           style={{ animationDelay: "360ms" }}
         >
-          <div className="border border-line bg-surface p-7 shadow-sm">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded mb-5">
-              Tool-Status
-            </p>
-            <ul className="space-y-3">
-              {tools.map((t) => (
-                <li
-                  key={t.id}
-                  className={`flex items-center justify-between gap-4 rounded-none border px-4 py-3 ${
-                    t.status === "live"
-                      ? "border-[rgba(31,61,47,0.3)] bg-accent-soft"
-                      : "border-[rgba(226,221,209,0.6)] bg-[rgba(240,236,226,0.5)]"
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    {t.status === "live" ? (
-                      <span className="relative flex-shrink-0 inline-flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                      </span>
-                    ) : (
-                      <span className="flex-shrink-0 h-2 w-2 rounded-full border border-line-strong bg-bg-soft" />
-                    )}
-                    <div className="min-w-0">
-                      <div className={`font-display text-[14px] font-semibold leading-tight truncate ${t.status === "live" ? "text-ink" : "text-ink-dim"}`}>
-                        {t.name}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`flex-shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] ${t.status === "live" ? "text-accent font-semibold" : "text-ink-faded"}`}>
-                    {t.status === "live" ? "Live" : t.launchLabel}
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5 border-t border-line pt-4 font-body text-[12px] text-ink-faded">
-              <Countdown variant="compact" /> bis Cookie-Banner
-            </div>
-          </div>
+          <DocumentMockup />
+          <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
+            <Countdown variant="compact" /> bis Cookie-Banner
+          </p>
         </aside>
       </Container>
     </section>
@@ -480,6 +449,53 @@ function HowItWorks() {
           </a>
         </div>
       </Container>
+    </section>
+  );
+}
+
+function PhotoSection() {
+  return (
+    <section className="relative overflow-hidden" style={{ height: "480px" }}>
+      <img
+        src="/images/hero-desk.png"
+        alt="Auftragsverarbeitungsvertrag fertig auf Schreibtisch"
+        className="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(15,18,12,0.82) 0%, rgba(15,18,12,0.65) 45%, rgba(15,18,12,0.1) 100%)",
+        }}
+      />
+      <div className="relative z-10 flex h-full items-center">
+        <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-12">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-4">
+            Das Ergebnis
+          </p>
+          <h2
+            className="font-display font-medium leading-[1.05] tracking-[-0.02em] max-w-xl"
+            style={{ fontSize: "clamp(36px, 5vw, 56px)", color: "#fdfbf6" }}
+          >
+            Dein AVV.<br />
+            <em className="italic" style={{ color: "var(--color-accent)" }}>
+              Fertig. Sofort.
+            </em>
+          </h2>
+          <p className="mt-5 font-body text-[16px] leading-relaxed max-w-md" style={{ color: "rgba(253,251,246,0.65)" }}>
+            Kein Anwalt. Kein Upload. Kein Warten. Lokal in deinem Browser — das Dokument landet direkt bei dir.
+          </p>
+          <a
+            href="/avv"
+            className="mt-8 inline-flex h-12 items-center gap-2 px-7 font-body text-[14px] font-medium tracking-tight"
+            style={{ background: "var(--color-accent)", color: "var(--color-bg)" }}
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg opacity-60" aria-hidden="true" />
+            AVV kostenlos erstellen →
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
