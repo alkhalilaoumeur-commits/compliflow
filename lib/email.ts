@@ -3,6 +3,23 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = "Compliflow <hello@compliflow.de>";
+const OWNER_EMAIL = "alkhalilaoumeur@gmail.com";
+
+export async function sendWaitlistNotification({
+  email,
+  source,
+}: {
+  email: string;
+  source: string;
+}) {
+  if (!process.env.RESEND_API_KEY) return;
+  await resend.emails.send({
+    from: FROM,
+    to: [OWNER_EMAIL],
+    subject: `Neue Waitlist-Anmeldung — ${email}`,
+    html: `<p><strong>Email:</strong> ${email}<br><strong>Quelle:</strong> ${source}<br><strong>Zeit:</strong> ${new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })}</p>`,
+  });
+}
 
 export async function sendPaymentConfirmation({
   to,
@@ -19,7 +36,7 @@ export async function sendPaymentConfirmation({
 
   await resend.emails.send({
     from: FROM,
-    to,
+    to: [to],
     subject: `Dein ${toolLabel} ist bereit — compliflow.de`,
     html: `
 <!DOCTYPE html>

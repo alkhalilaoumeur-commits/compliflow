@@ -2,6 +2,7 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { sendWaitlistNotification } from "@/lib/email";
 
 type Result =
   | { ok: true; message: string }
@@ -49,10 +50,14 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
       const line = JSON.stringify({ email, source, ts: new Date().toISOString() }) + "\n";
       await fs.appendFile(file, line, "utf8");
     } catch {
-      // local fallback ist Nice-to-have, kein harter Fehler
+      // Fallback-Schreiben schlägt still fehl — Email-Notification ist die primäre Sicherung
     }
-    console.log("[waitlist:dev]", email, source);
   }
+
+  // Email-Benachrichtigung an Inhaber — läuft immer (Resend als Backup wenn kein Supabase)
+  sendWaitlistNotification({ email, source }).catch((err) =>
+    console.error("Waitlist notification failed:", err)
+  );
 
   return { ok: true, message: "Eingetragen. Du hörst von uns beim Launch." };
 }
