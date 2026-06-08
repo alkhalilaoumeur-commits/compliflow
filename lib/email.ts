@@ -1,9 +1,16 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM = "Compliflow <hello@compliflow.de>";
 const OWNER_EMAIL = "alkhalilaoumeur@gmail.com";
+
+function getResend() {
+  if (!process.env.RESEND_API_KEY) return null;
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
+function escHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
 export async function sendWaitlistNotification({
   email,
@@ -12,12 +19,13 @@ export async function sendWaitlistNotification({
   email: string;
   source: string;
 }) {
-  if (!process.env.RESEND_API_KEY) return;
+  const resend = getResend();
+  if (!resend) return;
   await resend.emails.send({
     from: FROM,
     to: [OWNER_EMAIL],
     subject: `Neue Waitlist-Anmeldung — ${email}`,
-    html: `<p><strong>Email:</strong> ${email}<br><strong>Quelle:</strong> ${source}<br><strong>Zeit:</strong> ${new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })}</p>`,
+    html: `<p><strong>Email:</strong> ${escHtml(email)}<br><strong>Quelle:</strong> ${escHtml(source)}<br><strong>Zeit:</strong> ${new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })}</p>`,
   });
 }
 
@@ -30,6 +38,9 @@ export async function sendPaymentConfirmation({
   tool: "avv" | "vvt";
   sessionId: string;
 }) {
+  const resend = getResend();
+  if (!resend) return;
+
   const toolLabel = tool === "avv" ? "AVV-Generator Pro" : "VVT-Generator Pro";
   const toolPath = tool === "avv" ? "avv" : "vvt";
   const returnUrl = `https://compliflow.de/${toolPath}?success=true&session_id=${sessionId}`;
