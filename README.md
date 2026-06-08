@@ -1,89 +1,88 @@
 # Compliflow
 
-> DSGVO-Compliance-Tool-Suite für DACH-Selbstständige.
+> Kostenlose DSGVO-Compliance-Tools für DACH-Selbstständige und Agenturen.
 
-**Domain:** [compliflow.de](https://compliflow.de)
-**Status:** Aktiv im Build · Launch Tool 1 am 17.06.2026
-**Betreiber:** Al-Khalil Aoumeur (DRVN)
-
----
-
-## Suite-Tools
-
-| Pfad | Tool | Status | Launch |
-|---|---|---|---|
-| `/avv` | AVV-Generator (Art. 28 DSGVO) | In Build | 17.06.2026 |
-| `/vvt` | Verarbeitungsverzeichnis | Geplant | 15.07.2026 |
-| `/cookie-banner` | Cookie-CMP / Consent-Manager | Geplant | 19.08.2026 |
+**Domain:** [compliflow.de](https://compliflow.de)  
+**Status:** Production Ready — Launch 17.06.2026  
+**Betreiber:** Al-Khalil Aoumeur
 
 ---
 
-## Tech-Stack
+## Tools
 
-- **Frontend:** Next.js 14 (App Router) + TypeScript
-- **Styling:** Tailwind CSS + shadcn/ui
-- **DB & Auth:** Supabase (EU-Region Frankfurt)
-- **Payments:** Stripe (Live DACH, Stripe Tax aktiv)
-- **PDFs:** React-PDF / Puppeteer (server-side)
-- **Email:** Resend
-- **Analytics:** Plausible (DSGVO-konform)
-- **Heatmaps:** PostHog EU
-- **Hosting:** Vercel
+| Pfad | Tool | Status |
+|---|---|---|
+| `/avv` | AVV-Generator nach Art. 28 DSGVO | **Live** |
+| `/vvt` | Verarbeitungsverzeichnis nach Art. 30 DSGVO | **Live** |
+| `/cookie-banner` | Cookie-CMP / Consent-Manager | Geplant August 2026 |
 
 ---
 
-## Brand-Identity
+## Tech-Stack (tatsächlich implementiert)
 
-Vollstaendige Guidelines: [`brand/BRAND.md`](./brand/BRAND.md)
+- **Framework:** Next.js 14 (App Router) + TypeScript — `output: standalone`
+- **Styling:** Tailwind CSS mit CSS Custom Properties (cream theme, grüner Akzent)
+- **PDF:** `@react-pdf/renderer` — vollständig client-side im Browser, KEIN Server-Side
+- **Auth:** KEINE Login-Pflicht. Pro-Status via Stripe Session ID in localStorage
+- **Payment:** Stripe Checkout Sessions (redirect-based), `payment_method_types: ["card"]`
+- **Email:** Resend — Zahlungsbestätigung + Waitlist-Notification
+- **Analytics:** Plausible (cookie-free, DSGVO-konform)
+- **Hosting:** Hetzner VPS + Coolify + Traefik (Port 3000)
+- **Docker:** Multi-Stage Build, non-root user, HEALTHCHECK via wget
 
-- Farben: Espresso `#0A0906` + Vermillion `#FF4D00` + Cream `#F4EFE8`
-- Display-Font: Syne · Body-Font: DM Sans · Mono: JetBrains Mono
-- Tonalitaet: Duzen, professionell-technisch
-- Logo-Konzept: Doppel-C / Channel (siehe `brand/`)
+---
 
-### Logo verwenden (React)
+## Design
 
-```tsx
-import { Logo } from "@/components/brand/logo";
+- **Hintergrund:** Cream `#f6f2ea` (kein Dark-Theme!)
+- **Akzent:** Dunkelgrün `#1F3D2F` (DSGVO-Vertrauensfarbe)
+- **Display-Font:** Fraunces (serif, editorial)
+- **Body-Font:** DM Sans
+- **Mono-Font:** JetBrains Mono (für Labels, Tags, Chips)
 
-<Logo variant="lockup" size={40} />   // Mark + Wordmark
-<Logo variant="mark" size={32} />     // nur Symbol
-<Logo variant="wordmark" size={28} /> // nur Text
+---
+
+## ENV-Variablen (für Coolify)
+
+```env
+STRIPE_SECRET_KEY=sk_live_xxx
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+STRIPE_PRICE_AVV_PRO=price_xxx
+STRIPE_PRICE_VVT_PRO=price_xxx
+RESEND_API_KEY=re_xxx
+NEXT_PUBLIC_APP_URL=https://compliflow.de
 ```
 
-### Logo-Dateien (SVG)
+---
 
-- [`brand/logo-mark.svg`](./brand/logo-mark.svg) — Mark, `currentColor`-adaptiv
-- [`brand/logo-mark-on-dark.svg`](./brand/logo-mark-on-dark.svg) — fuer dunklen BG
-- [`brand/logo-mark-on-light.svg`](./brand/logo-mark-on-light.svg) — fuer hellen BG
-- [`brand/logo-wordmark.svg`](./brand/logo-wordmark.svg) — nur "compliflow"
-- [`brand/logo-lockup-on-dark.svg`](./brand/logo-lockup-on-dark.svg) — Mark+Wordmark dunkel
-- [`brand/logo-lockup-on-light.svg`](./brand/logo-lockup-on-light.svg) — Mark+Wordmark hell
-- [`brand/favicon.svg`](./brand/favicon.svg) — Favicon mit BG-Square
-- [`app/icon.svg`](./app/icon.svg) — Next.js auto-Favicon
-- [`app/apple-icon.svg`](./app/apple-icon.svg) — iOS Home-Screen-Icon
+## Sicherheit
+
+- Content-Security-Policy: `default-src 'self'`, keine wildcards
+- X-Frame-Options: DENY (kein Clickjacking)
+- HSTS: 1 Jahr + includeSubDomains
+- Stripe Webhook: Signatur-Verifikation via `stripe.webhooks.constructEvent`
+- Rate-Limiting: 5 Checkout-Requests/min/IP (in-memory, MVP-tauglich)
+- Stripe Pro-Verifikation: Server-seitig via `/api/stripe/verify-session` (kein Client-Trust)
 
 ---
 
-## Projekt-Dokumentation
+## Deployment
 
-Alles direkt im Projekt-Ordner (statt verstreut im Vault):
+Schritt-für-Schritt Anleitung in [`docs/DEPLOY-JETZT.md`](./docs/DEPLOY-JETZT.md).
 
-- [`docs/launch-plan.md`](./docs/launch-plan.md) — AVV-Plan + Finanz-Modell + Pricing
-- [`docs/sommer-roadmap.md`](./docs/sommer-roadmap.md) — 8-Wochen-Roadmap Sommer 2026
-- [`docs/master-checkliste.html`](./docs/master-checkliste.html) — 500-Todo-Checkliste (im Browser oeffnen)
-- [`CLAUDE.md`](./CLAUDE.md) — Claude-Instruktionen fuer dieses Projekt
+---
 
-Vault-Versionen bleiben als Master erhalten und werden bei aenderungen weiter gepflegt.
+## Dokumentation
+
+- [`docs/DEPLOY-JETZT.md`](./docs/DEPLOY-JETZT.md) — Coolify + Stripe + Resend Setup
+- [`docs/launch-plan.md`](./docs/launch-plan.md) — Finanz-Modell + Marketing-Plan
+- [`CLAUDE.md`](./CLAUDE.md) — Projekt-Kontext für Claude Code Sessions
+- [`.env.example`](./.env.example) — Alle ENV-Variablen mit Beschreibung
 
 ---
 
 ## Sicherheits-Hinweis
 
-Niemals committen:
-- `.env.local`
-- Stripe-Live-Keys
-- Supabase-Service-Role-Keys
-- DocuSign-Credentials
-
-Alle Secrets in Vercel-Env-Vars oder lokal in `.env.local` (gitignored).
+Nicht committen: `.env.local`, Stripe-Live-Keys, Resend-Keys.  
+Alle Secrets gehören in Coolify-Env-Vars (Production) oder `.env.local` (lokal, gitignored).
