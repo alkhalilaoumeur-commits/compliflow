@@ -398,17 +398,20 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
               DRITTLAND_GARANTIE_LABELS[t.drittlandGarantie] || t.drittlandGarantie;
 
             return (
-              <View key={t.id} style={styles.activityCard} wrap={false}>
-                <View style={styles.activityHeader}>
-                  <View style={styles.activityHeaderLeft}>
-                    <Text style={styles.activityNumber}>
-                      VVT-{String(idx + 1).padStart(2, "0")} · Art. 30 Abs. 1 DSGVO
-                    </Text>
-                    <Text style={styles.activityTitle}>{t.bezeichnung}</Text>
+              <View key={t.id} style={styles.activityCard}>
+                {/* Header bleibt mit erstem Body-Abschnitt zusammen — verhindert Waisenkopf */}
+                <View wrap={false}>
+                  <View style={styles.activityHeader}>
+                    <View style={styles.activityHeaderLeft}>
+                      <Text style={styles.activityNumber}>
+                        VVT-{String(idx + 1).padStart(2, "0")} · Art. 30 Abs. 1 DSGVO
+                      </Text>
+                      <Text style={styles.activityTitle}>{t.bezeichnung}</Text>
+                    </View>
+                    {t.besondereKategorien && (
+                      <Text style={styles.activityBadge}>ART. 9 DSGVO</Text>
+                    )}
                   </View>
-                  {t.besondereKategorien && (
-                    <Text style={styles.activityBadge}>ART. 9 DSGVO</Text>
-                  )}
                 </View>
 
                 <View style={styles.activityBody}>
