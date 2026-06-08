@@ -443,7 +443,7 @@ function FAQ() {
     },
     {
       q: "Wie sicher ist die Zahlung?",
-      a: "Zahlung läuft über Stripe — PCI-DSS-zertifiziert, DSGVO-konform, SEPA-Lastschrift und alle gängigen Kreditkarten möglich. Wir sehen keine Zahlungsdaten.",
+      a: "Zahlung läuft über Stripe — PCI-DSS-zertifiziert, DSGVO-konform, alle gängigen Kreditkarten möglich (Visa, Mastercard, Amex). Wir sehen keine Zahlungsdaten.",
     },
     {
       q: "Sind die Dokumente juristisch geprüft?",
