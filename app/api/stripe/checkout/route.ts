@@ -52,13 +52,14 @@ export async function POST(req: NextRequest) {
       apiVersion: "2026-05-27.dahlia",
     });
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       locale: "de",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/${tool}?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/${tool}`,
+      success_url: `${baseUrl}/${tool}?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/${tool}`,
       metadata: { tool },
     });
 
