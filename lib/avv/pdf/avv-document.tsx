@@ -529,16 +529,22 @@ export function AvvPdfDocument({
       {/* ── Vertragstext ─────────────────────────────────────────── */}
       <Page size="A4" style={styles.page} wrap>
         {blocks.map((block, idx) => (
-          <View key={block.id} wrap={false} style={{ marginBottom: 2 }}>
+          <View key={block.id} style={{ marginBottom: 2 }}>
             {idx > 0 && <View style={styles.sectionBreak} />}
-            <View style={styles.blockHeader} wrap={false}>
-              {block.number && (
-                <Text style={styles.blockNum}>{block.number}</Text>
+            {/* Header bleibt zusammen mit erstem Absatz — verhindert verwaiste Überschrift */}
+            <View wrap={false}>
+              <View style={styles.blockHeader}>
+                {block.number && (
+                  <Text style={styles.blockNum}>{block.number}</Text>
+                )}
+                <Text style={styles.blockTitle}>{block.title}</Text>
+              </View>
+              {block.paragraphs[0] && (
+                <Text style={styles.blockPara}>{block.paragraphs[0]}</Text>
               )}
-              <Text style={styles.blockTitle}>{block.title}</Text>
             </View>
-            {block.paragraphs.map((p, i) => (
-              <Text key={i} style={styles.blockPara}>
+            {block.paragraphs.slice(1).map((p, i) => (
+              <Text key={i + 1} style={styles.blockPara}>
                 {p}
               </Text>
             ))}

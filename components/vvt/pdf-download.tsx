@@ -13,7 +13,19 @@ export function VvtPdfDownload({ data, disabled }: Props) {
   const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
-    setIsPro(!!localStorage.getItem("compliflow_pro_vvt"));
+    const stored = localStorage.getItem("compliflow_pro_vvt");
+    if (stored) {
+      fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(stored)}`)
+        .then((r) => r.json())
+        .then((d: { valid?: boolean; tool?: string }) => {
+          if (d.valid && d.tool === "vvt") {
+            setIsPro(true);
+          } else {
+            localStorage.removeItem("compliflow_pro_vvt");
+          }
+        })
+        .catch(() => setIsPro(true)); // Netzwerkfehler: Kauf bereits erfolgt, optimistisch erlauben
+    }
   }, []);
 
   const handleDownload = async () => {

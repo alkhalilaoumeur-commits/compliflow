@@ -23,7 +23,20 @@ export function PdfDownload() {
   const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
-    setIsPro(!!localStorage.getItem("compliflow_pro_avv"));
+    const stored = localStorage.getItem("compliflow_pro_avv");
+    if (stored) {
+      fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(stored)}`)
+        .then((r) => r.json())
+        .then((d: { valid?: boolean; tool?: string }) => {
+          if (d.valid && d.tool === "avv") {
+            setIsPro(true);
+          } else {
+            localStorage.removeItem("compliflow_pro_avv");
+          }
+        })
+        .catch(() => setIsPro(true)); // Netzwerkfehler: Kauf bereits erfolgt, optimistisch erlauben
+    }
+
     let active = true;
     import("@react-pdf/renderer").then((mod) => {
       if (active) setComp(() => mod.PDFDownloadLink);
