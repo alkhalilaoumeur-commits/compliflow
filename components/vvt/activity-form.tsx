@@ -16,6 +16,19 @@ type Props = {
   onChange: (partial: Partial<Verarbeitungstaetigkeit>) => void;
 };
 
+const EMPFAENGER_PRESETS: Omit<Empfaenger, "id">[] = [
+  { name: "Stripe", kategorie: "Zahlungsdienstleister", istAuftragsverarbeiter: true, land: "Irland", avvVorhanden: false },
+  { name: "Google Workspace", kategorie: "IT-Dienstleister / Hosting", istAuftragsverarbeiter: true, land: "Irland", avvVorhanden: false },
+  { name: "Hetzner", kategorie: "IT-Dienstleister / Hosting", istAuftragsverarbeiter: true, land: "Deutschland", avvVorhanden: false },
+  { name: "Mailchimp", kategorie: "E-Mail-Dienstleister", istAuftragsverarbeiter: true, land: "USA", avvVorhanden: false },
+  { name: "Brevo", kategorie: "E-Mail-Dienstleister", istAuftragsverarbeiter: true, land: "Frankreich", avvVorhanden: false },
+  { name: "Vercel", kategorie: "IT-Dienstleister / Hosting", istAuftragsverarbeiter: true, land: "USA", avvVorhanden: false },
+  { name: "AWS", kategorie: "IT-Dienstleister / Hosting", istAuftragsverarbeiter: true, land: "Luxemburg", avvVorhanden: false },
+  { name: "DATEV", kategorie: "Steuerberater / Buchhalter", istAuftragsverarbeiter: true, land: "Deutschland", avvVorhanden: false },
+  { name: "Lexoffice", kategorie: "Steuerberater / Buchhalter", istAuftragsverarbeiter: true, land: "Deutschland", avvVorhanden: false },
+  { name: "Zoom", kategorie: "IT-Dienstleister / Hosting", istAuftragsverarbeiter: true, land: "USA", avvVorhanden: false },
+];
+
 export function ActivityForm({ value, onChange }: Props) {
   const [customBetroffene, setCustomBetroffene] = useState("");
   const [customDaten, setCustomDaten] = useState("");
@@ -71,6 +84,19 @@ export function ActivityForm({ value, onChange }: Props) {
       avvVorhanden: false,
     };
     onChange({ empfaenger: [...value.empfaenger, emp] });
+  };
+
+  const addEmpfaengerFromPreset = (preset: Omit<Empfaenger, "id">) => {
+    const alreadyExists = value.empfaenger.some(
+      (e) => e.name.toLowerCase() === preset.name.toLowerCase()
+    );
+    if (alreadyExists) return;
+    onChange({
+      empfaenger: [
+        ...value.empfaenger,
+        { id: `emp-${Date.now()}`, ...preset },
+      ],
+    });
   };
 
   const updateEmpfaenger = (id: string, partial: Partial<Empfaenger>) => {
@@ -347,6 +373,36 @@ export function ActivityForm({ value, onChange }: Props) {
           Wer bekommt Zugriff auf die Daten? Auch Auftragsverarbeiter (Softwareanbieter, Dienstleister)
           gehören hier rein.
         </p>
+
+        {/* Quick-Add Presets */}
+        <div className="mb-4">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded mb-2">
+            Schnell hinzufügen
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {EMPFAENGER_PRESETS.map((preset) => {
+              const alreadyAdded = value.empfaenger.some(
+                (e) => e.name.toLowerCase() === preset.name.toLowerCase()
+              );
+              return (
+                <button
+                  key={preset.name}
+                  type="button"
+                  onClick={() => addEmpfaengerFromPreset(preset)}
+                  disabled={alreadyAdded}
+                  className={`border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest transition ${
+                    alreadyAdded
+                      ? "border-accent bg-accent-soft text-accent cursor-default"
+                      : "border-line bg-bg-soft text-ink-dim hover:border-accent hover:text-accent"
+                  }`}
+                >
+                  {alreadyAdded ? "✓ " : "+ "}{preset.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="flex flex-col gap-3">
           {value.empfaenger.map((emp) => (
             <EmpfaengerRow
@@ -362,7 +418,7 @@ export function ActivityForm({ value, onChange }: Props) {
             className="flex items-center gap-2 border border-dashed border-line px-4 py-3 text-sm text-ink-dim hover:border-accent hover:text-accent transition font-mono uppercase tracking-widest"
           >
             <span>+</span>
-            <span>Empfänger hinzufügen</span>
+            <span>Eigenen Empfänger hinzufügen</span>
           </button>
         </div>
       </section>
