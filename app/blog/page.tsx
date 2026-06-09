@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "Blog — DSGVO-Wissen für Selbstständige | Compliflow",
   description:
     "Praxisnahe Artikel zu AVV, Verarbeitungsverzeichnis, Cookie-Banner und DSGVO-Pflichten für Freelancer und kleine Unternehmen in Deutschland.",
+  alternates: { canonical: "https://compliflow.de/blog" },
+  openGraph: {
+    title: "DSGVO-Blog für Selbstständige — Compliflow",
+    description:
+      "Praxisnahe Artikel zu AVV, Verarbeitungsverzeichnis, Cookie-Banner und DSGVO-Pflichten für Freelancer und kleine Unternehmen in Deutschland.",
+    url: "https://compliflow.de/blog",
+    siteName: "Compliflow",
+    type: "website",
+  },
 };
 
 function formatDate(iso: string) {
@@ -22,8 +31,40 @@ export default function BlogPage() {
   );
   const [featured, ...rest] = sorted;
 
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": "https://compliflow.de/blog",
+    name: "Compliflow Blog — DSGVO-Wissen für Selbstständige",
+    description:
+      "Praxisnahe Artikel zu AVV, Verarbeitungsverzeichnis, Cookie-Banner und DSGVO-Pflichten für Freelancer und kleine Unternehmen.",
+    url: "https://compliflow.de/blog",
+    publisher: {
+      "@type": "Organization",
+      name: "Compliflow",
+      url: "https://compliflow.de",
+    },
+    blogPost: sorted.map((p) => ({
+      "@type": "BlogPosting",
+      "@id": `https://compliflow.de/blog/${p.slug}#article`,
+      headline: p.title,
+      description: p.excerpt,
+      url: `https://compliflow.de/blog/${p.slug}`,
+      datePublished: p.date,
+      dateModified: p.date,
+      author: { "@type": "Person", name: "Al-Khalil Aoumeur", url: "https://drvnautomatisations.com" },
+      publisher: { "@type": "Organization", name: "Compliflow", url: "https://compliflow.de" },
+      articleSection: p.category,
+      inLanguage: "de-DE",
+    })),
+  };
+
   return (
     <main id="main-content" className="relative z-10 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
       <header className="border-b border-[rgba(226,221,209,0.7)]">
         <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">
           <a href="/" className="flex items-baseline gap-2.5">
