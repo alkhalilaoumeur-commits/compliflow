@@ -11,7 +11,7 @@ import { BLOG_POSTS } from "@/lib/blog-posts";
 
 export default function Home() {
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       <ExitPopup />
       <Header />
       <UrgencyBar />

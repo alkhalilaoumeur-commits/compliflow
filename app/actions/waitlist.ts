@@ -2,7 +2,7 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { sendWaitlistNotification } from "@/lib/email";
+import { sendWaitlistNotification, sendWaitlistConfirmation } from "@/lib/email";
 
 type Result =
   | { ok: true; message: string }
@@ -54,9 +54,12 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
     }
   }
 
-  // Email-Benachrichtigung an Inhaber — läuft immer (Resend als Backup wenn kein Supabase)
+  // Benachrichtigung an Inhaber + Bestätigungs-Mail an Nutzer
   sendWaitlistNotification({ email, source }).catch((err) =>
     console.error("Waitlist notification failed:", err)
+  );
+  sendWaitlistConfirmation({ email, source }).catch((err) =>
+    console.error("Waitlist confirmation failed:", err)
   );
 
   return { ok: true, message: "Eingetragen. Du hörst von uns beim Launch." };

@@ -132,6 +132,14 @@ export function WizardShell() {
             aria-valuemax={100}
           />
         </div>
+        <div className="md:hidden border-t border-line bg-bg/50 px-6 py-2 flex items-center justify-between">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
+            {meta.label}
+          </span>
+          <span className="font-mono text-[10px] text-ink-faded">
+            {stepIdx + 1} / {WIZARD_STEPS.length}
+          </span>
+        </div>
       </header>
 
       {/* Pro Success Banner */}

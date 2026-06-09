@@ -198,6 +198,12 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-accent focus:text-bg focus:px-4 focus:py-2 focus:font-mono focus:text-[12px] focus:uppercase focus:tracking-widest focus:outline-none"
+        >
+          Zum Hauptinhalt
+        </a>
         {children}
         <Script
           src="https://plausible.io/js/script.js"
