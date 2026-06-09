@@ -877,6 +877,145 @@ Den AVV mit deinen eigenen Auftragsverarbeitern kannst du direkt hier erstellen 
 [AVV jetzt kostenlos generieren →](/avv)
     `.trim(),
   },
+  {
+    slug: "dsgvo-checkliste-2026-selbstaendige-freelancer",
+    title: "DSGVO-Checkliste 2026: Was Selbstständige und Freelancer jetzt erledigen müssen",
+    excerpt:
+      "Die vollständige DSGVO-Checkliste für Solo-Selbstständige, Freelancer und kleine Unternehmen in Deutschland. 12 Pflicht-Punkte, die du 2026 erledigt haben musst — mit direkten Links zu kostenlosen Tools.",
+    category: "DSGVO Grundlagen",
+    date: "2026-06-09",
+    readingTime: 7,
+    content: `
+## Warum diese Checkliste jetzt wichtig ist
+
+Die DSGVO gilt seit 2018 — aber Bußgelder werden erst seit 2022/2023 systematisch auch gegen kleine Unternehmen und Selbstständige verhängt. 2025/2026 hat sich das beschleunigt: Datenschutzbehörden gehen aktiver vor, und Abmahnkanzleien haben das Thema entdeckt.
+
+Kein Anwalt nötig für die Basics. Diese Checkliste zeigt dir genau, was Pflicht ist — und was du kostenfrei in 1-2 Tagen erledigen kannst.
+
+## Die 12-Punkte-DSGVO-Checkliste 2026
+
+### 1. Datenschutzerklärung auf der Website
+
+- [x] Datenschutzerklärung vorhanden und aktuell (nicht von 2018!)
+- [x] Jeder genutzte Dienst ist aufgelistet (Google Analytics, Mailchimp, Stripe, Hetzner etc.)
+- [ ] Datenschutzerklärung jährlich oder bei Änderungen aktualisieren
+
+**Was passiert ohne:** Abmahnung nach UWG wegen fehlender oder veralteter Datenschutzhinweise. Sehr häufig abgemahnt.
+
+### 2. AVV-Verträge mit allen Dienstleistern
+
+- [ ] Liste aller genutzten Dienste erstellt (mindestens 5-15 bei typischen Selbstständigen)
+- [ ] Für alle Dienste mit Datenzugriff einen AVV abgeschlossen oder deren Standard-DPA akzeptiert
+- [ ] AVVs dokumentiert und abrufbar
+
+**Typische Dienste die einen AVV brauchen:** Stripe, Google Workspace, Mailchimp, Vercel/Hetzner (Hosting), Zoom, HubSpot, Calendly, Notion.
+
+→ [AVV kostenlos generieren — Art. 28 DSGVO, in 10 Minuten](/avv)
+
+### 3. Verarbeitungsverzeichnis (VVT)
+
+- [ ] Verarbeitungsverzeichnis nach Art. 30 DSGVO erstellt
+- [ ] Alle Verarbeitungstätigkeiten mit Zweck, Rechtsgrundlage, Datenkategorien und Löschfristen dokumentiert
+- [ ] VVT bei Änderungen aktualisiert (neue Tools, neue Prozesse)
+
+**Wer braucht es:** Alle Unternehmen und Selbstständigen, die regelmäßig personenbezogene Daten verarbeiten — also praktisch alle.
+
+→ [VVT kostenlos erstellen — Art. 30 DSGVO, mit Branchen-Vorlagen](/vvt)
+
+### 4. Cookie-Banner (TTDSG + DSGVO)
+
+- [ ] Cookie-Banner vorhanden wenn Website Tracking-Cookies setzt
+- [ ] "Ablehnen"-Button gleichwertig prominent wie "Akzeptieren"
+- [ ] Kein Pre-Checked auf nicht-notwendige Cookies
+- [ ] Consent wird vor dem Laden von Google Analytics etc. eingeholt
+
+**Achtung:** Matomo/Plausible (cookieless) brauchen keinen Cookie-Banner. Google Analytics 4 braucht ihn immer.
+
+### 5. Impressum
+
+- [ ] Impressum vorhanden mit vollständiger Pflichtangabe nach §5 TMG
+- [ ] Name, Anschrift, E-Mail, ggf. USt-ID
+- [ ] Bei GmbH: Handelsregisternummer, Geschäftsführer
+- [ ] Für Freiberufler: Berufsbezeichnung und zuständige Kammer
+
+**Häufigster Fehler:** Nur Kontaktformular statt E-Mail-Adresse — das ist nicht ausreichend nach §5 TMG.
+
+### 6. E-Mail-Marketing (Newsletter)
+
+- [ ] Double-Opt-In für alle Newsletter-Anmeldungen
+- [ ] Anmelde-Zeitpunkt und IP-Adresse protokolliert (Beweissicherung)
+- [ ] Abmelde-Link in jeder E-Mail
+- [ ] AVV mit Newsletter-Dienstleister (Mailchimp, Brevo etc.) abgeschlossen
+
+### 7. Mitarbeiterdaten (falls relevant)
+
+- [ ] Datenschutzinfo an Mitarbeiter ausgegeben (Art. 13 DSGVO)
+- [ ] Lohnabrechnung: AVV mit Steuerberater oder Lohnbüro
+- [ ] Bewerbungsunterlagen nach Absage fristgerecht gelöscht (Faustregel: 6 Monate)
+
+### 8. Kundendaten
+
+- [ ] Löschkonzept vorhanden: wann werden Kundendaten gelöscht?
+- [ ] Datenpannen-Prozess definiert: Was tun wenn Kundendaten abhandenkommen?
+- [ ] Betroffenenrechte umsetzbar: Kannst du auf Auskunft/Lösch-Anfragen reagieren?
+
+### 9. Drittland-Transfers (USA etc.)
+
+- [ ] Dienste mit US-Servern identifiziert (Google, Meta, AWS, Cloudflare etc.)
+- [ ] Schrems-II-Absicherung: EU-SCC oder Angemessenheitsbeschluss
+- [ ] In Datenschutzerklärung kommuniziert
+
+**Seit 07.07.2023:** EU-US Data Privacy Framework (DPF) — viele US-Dienste sind wieder einfacher nutzbar wenn sie DPF-zertifiziert sind.
+
+### 10. Technische und organisatorische Maßnahmen (TOMs)
+
+- [ ] TOMs dokumentiert: Passwortrichtlinie, Backup, Zugangskontrolle, Verschlüsselung
+- [ ] Für externe Dienstleister prüfen ob ausreichende TOMs vorhanden (ISO 27001, SOC 2 etc.)
+- [ ] TOMs im Verarbeitungsverzeichnis und in AVVs referenziert
+
+### 11. Datenpannen-Meldung
+
+- [ ] Prozess definiert: Wer meldet, wie schnell (72-Stunden-Frist!), an wen
+- [ ] Zuständige Datenschutzbehörde bekannt (je Bundesland unterschiedlich — in Baden-Württemberg: LfDI BW)
+- [ ] Kontakt-E-Mail der Behörde gespeichert
+
+### 12. Jahres-Review
+
+- [ ] DSGVO-Dokumentation mindestens einmal jährlich überprüfen
+- [ ] Neue Dienste oder Prozesse nachpflegen
+- [ ] Mitarbeiter bei Änderungen informieren
+
+---
+
+## Priorisierung: Was zuerst?
+
+Wenn du gerade startest, in dieser Reihenfolge:
+
+**Sofort (heute):**
+1. Datenschutzerklärung prüfen / aktualisieren
+2. Impressum prüfen
+3. AVV mit Stripe, Hosting und E-Mail-Dienst abschließen
+
+**Diese Woche:**
+4. Verarbeitungsverzeichnis erstellen
+5. Cookie-Banner prüfen
+6. TOMs dokumentieren
+
+**In den nächsten 30 Tagen:**
+7. Alle restlichen AVVs abschließen
+8. Datenpannen-Prozess definieren
+9. Löschkonzept festlegen
+
+---
+
+## Kostenlose Tools für die sofortige Umsetzung
+
+Für Punkt 2 (AVV) und Punkt 3 (VVT) gibt es direkte kostenlose Tools — kein Account, kein Upload, PDF-Export in 10 Minuten:
+
+- [AVV-Generator nach Art. 28 DSGVO](/avv) — für Stripe, Google, Vercel und alle weiteren Dienste
+- [Verarbeitungsverzeichnis nach Art. 30 DSGVO](/vvt) — mit 10 Branchen-Vorlagen (Agentur, Freelancer, Online-Shop, Handwerker etc.)
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
