@@ -691,10 +691,10 @@ Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator
     `.trim(),
   },
   {
-    slug: "cookie-banner-dsgvo-ttdsg-pflicht-2026",
-    title: "Cookie-Banner 2026: Was ist nach TTDSG und DSGVO wirklich Pflicht?",
+    slug: "cookie-banner-5-fehler-dsgvo-2026",
+    title: "5 Cookie-Banner-Fehler die 2026 zu Abmahnungen führen — mit Checkliste",
     excerpt:
-      "Welche Cookies brauchen Einwilligung, welche nicht? Was der EuGH-Urteil Planet49 bedeutet, warum Pre-checked Boxen illegal sind — und welche technischen Anforderungen euer Cookie-Banner 2026 erfüllen muss.",
+      "Pre-Checked Checkboxen, Google Analytics ohne Consent Mode, ungleiche Buttons: Die 5 häufigsten Cookie-Banner-Fehler und wie du sie mit der DSGVO+TTDSG-Checkliste prüfst.",
     category: "Cookie-Banner",
     date: "2026-06-09",
     readingTime: 9,
