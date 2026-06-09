@@ -45,12 +45,14 @@
 ## ENV-Variablen (für Coolify)
 
 ```env
+# Stripe (Server-Side-Redirect — Publishable Key wird NICHT benötigt)
 STRIPE_SECRET_KEY=sk_live_xxx
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_xxx
 STRIPE_WEBHOOK_SECRET=whsec_xxx
 STRIPE_PRICE_AVV_PRO=price_xxx
 STRIPE_PRICE_VVT_PRO=price_xxx
+# Email
 RESEND_API_KEY=re_xxx
+# App (KRITISCH: Stripe success_url nutzt diesen Wert)
 NEXT_PUBLIC_APP_URL=https://compliflow.de
 ```
 

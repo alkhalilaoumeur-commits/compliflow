@@ -34,7 +34,7 @@ export function PdfDownload() {
             localStorage.removeItem("compliflow_pro_avv");
           }
         })
-        .catch(() => setIsPro(true)); // Netzwerkfehler: Kauf bereits erfolgt, optimistisch erlauben
+        .catch(() => {}); // Netzwerkfehler: kein Pro-Zugang — sicherer als optimistisch zu erlauben
     }
 
     let active = true;

@@ -24,7 +24,7 @@ export function VvtPdfDownload({ data, disabled }: Props) {
             localStorage.removeItem("compliflow_pro_vvt");
           }
         })
-        .catch(() => setIsPro(true)); // Netzwerkfehler: Kauf bereits erfolgt, optimistisch erlauben
+        .catch(() => {}); // Netzwerkfehler: kein Pro-Zugang — sicherer als optimistisch zu erlauben
     }
   }, []);
 

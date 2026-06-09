@@ -11,9 +11,19 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const post = getBlogPost(params.slug);
   if (!post) return {};
+  const url = `https://compliflow.de/blog/${post.slug}`;
   return {
     title: `${post.title} | Compliflow Blog`,
     description: post.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url,
+      type: "article",
+      publishedTime: post.date,
+      siteName: "Compliflow",
+    },
   };
 }
 
