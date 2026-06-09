@@ -100,27 +100,40 @@ export default function BlogPostPage({ params }: Props) {
 
   const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
-    author: {
-      "@type": "Person",
-      name: "Al-Khalil Aoumeur",
-      url: "https://drvnautomatisations.com",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Compliflow",
-      url: "https://compliflow.de",
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://compliflow.de/blog/${post.slug}`,
-    },
-    inLanguage: "de-DE",
-    articleSection: post.category,
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `https://compliflow.de/blog/${post.slug}#article`,
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: {
+          "@type": "Person",
+          name: "Al-Khalil Aoumeur",
+          url: "https://drvnautomatisations.com",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Compliflow",
+          url: "https://compliflow.de",
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://compliflow.de/blog/${post.slug}`,
+        },
+        inLanguage: "de-DE",
+        articleSection: post.category,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Startseite", item: "https://compliflow.de" },
+          { "@type": "ListItem", position: 2, name: "Blog", item: "https://compliflow.de/blog" },
+          { "@type": "ListItem", position: 3, name: post.title, item: `https://compliflow.de/blog/${post.slug}` },
+        ],
+      },
+    ],
   };
 
   const others = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);

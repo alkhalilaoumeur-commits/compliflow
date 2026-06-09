@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAvvStore } from "@/lib/avv/store";
-import { WIZARD_STEPS } from "@/lib/avv/types";
 import { STANDARD_DATENKATEGORIEN, STANDARD_PERSONENKATEGORIEN } from "@/lib/avv/defaults";
 import { ContractPreview } from "../contract-preview";
 
