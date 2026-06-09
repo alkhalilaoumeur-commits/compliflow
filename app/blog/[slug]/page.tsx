@@ -100,6 +100,9 @@ function renderContent(content: string) {
           <span dangerouslySetInnerHTML={{ __html: inlineHtml(text) }} />
         </div>
       );
+    } else if (line.trim() === "---") {
+      flushList(`list-${i}`);
+      elements.push(<hr key={i} className="my-8 border-t border-line" />);
     } else if (line.startsWith("- ") || line.startsWith("* ")) {
       listItems.push(line);
     } else if (line.match(/^\d+\.\s/)) {
