@@ -44,6 +44,9 @@ export function VvtPdfDownload({ data, disabled }: Props) {
       a.download = `VVT-${name}-${dateStr}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
+      if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+        (window as any).plausible("PDF Downloaded", { props: { tool: "vvt", tier: isPro ? "pro" : "free" } });
+      }
       setState("idle");
     } catch (err) {
       console.error("VVT PDF error:", err);
@@ -95,6 +98,11 @@ export function VvtPdfDownload({ data, disabled }: Props) {
           </div>
           <a
             href="/preise"
+            onClick={() => {
+              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+                (window as any).plausible("Pro Upgrade Click", { props: { tool: "vvt" } });
+              }
+            }}
             className="inline-flex h-10 w-full items-center justify-center gap-2 border border-accent font-mono text-[11px] uppercase tracking-widest text-accent hover:bg-accent hover:text-bg transition"
           >
             Pro kaufen — 29 €

@@ -99,30 +99,38 @@ export function PdfDownload() {
           <span className="font-body text-[12px] text-ink-dim">— PDF ohne Compliflow-Branding</span>
         </div>
       )}
-      <PDFDownloadLink document={<AvvPdfDocument data={data} noBranding={isPro} />} fileName={filename}>
-        {({ loading }: { loading: boolean }) => (
-          <span
-            className={
-              "inline-flex h-14 w-full items-center justify-center gap-3 font-mono text-[13px] uppercase tracking-widest transition " +
-              (loading
-                ? "bg-bg-soft border border-line text-ink-dim cursor-wait"
-                : "bg-accent text-bg hover:bg-ink cursor-pointer")
-            }
-          >
-            {loading ? (
-              <>
-                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[rgba(246,242,234,1)] border-t-[rgba(246,242,234,0.3)]" />
-                PDF wird erstellt …
-              </>
-            ) : (
-              <>
-                <DownloadIcon />
-                AVV als PDF herunterladen
-              </>
-            )}
-          </span>
-        )}
-      </PDFDownloadLink>
+      <div
+        onClick={() => {
+          if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+            (window as any).plausible("PDF Downloaded", { props: { tool: "avv", tier: isPro ? "pro" : "free" } });
+          }
+        }}
+      >
+        <PDFDownloadLink document={<AvvPdfDocument data={data} noBranding={isPro} />} fileName={filename}>
+          {({ loading }: { loading: boolean }) => (
+            <span
+              className={
+                "inline-flex h-14 w-full items-center justify-center gap-3 font-mono text-[13px] uppercase tracking-widest transition " +
+                (loading
+                  ? "bg-bg-soft border border-line text-ink-dim cursor-wait"
+                  : "bg-accent text-bg hover:bg-ink cursor-pointer")
+              }
+            >
+              {loading ? (
+                <>
+                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[rgba(246,242,234,1)] border-t-[rgba(246,242,234,0.3)]" />
+                  PDF wird erstellt …
+                </>
+              ) : (
+                <>
+                  <DownloadIcon />
+                  AVV als PDF herunterladen
+                </>
+              )}
+            </span>
+          )}
+        </PDFDownloadLink>
+      </div>
       {!isPro && (
         <div className="mt-1 border border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.04)] p-4 flex flex-col gap-3">
           <div className="flex items-start gap-2.5">
@@ -136,6 +144,11 @@ export function PdfDownload() {
           </div>
           <a
             href="/preise"
+            onClick={() => {
+              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+                (window as any).plausible("Pro Upgrade Click", { props: { tool: "avv" } });
+              }
+            }}
             className="inline-flex h-10 w-full items-center justify-center gap-2 border border-accent font-mono text-[11px] uppercase tracking-widest text-accent hover:bg-accent hover:text-bg transition"
           >
             Pro kaufen — 29 €

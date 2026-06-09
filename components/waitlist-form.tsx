@@ -19,7 +19,12 @@ export function WaitlistForm({ source = "coming-soon" }: { source?: string }) {
     startTransition(async () => {
       const res = await joinWaitlist(fd);
       setStatus(res.ok ? { kind: "ok", msg: res.message } : { kind: "err", msg: res.message });
-      if (res.ok) e.currentTarget?.reset?.();
+      if (res.ok) {
+        e.currentTarget?.reset?.();
+        if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+          (window as any).plausible("Waitlist Signup", { props: { source } });
+        }
+      }
     });
   }
 
