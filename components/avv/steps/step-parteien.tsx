@@ -1,9 +1,79 @@
 "use client";
 
+import { useState } from "react";
 import { useAvvStore } from "@/lib/avv/store";
 import type { Vertragspartei } from "@/lib/avv/types";
 import { validateEmail, validatePlz } from "@/lib/avv/schema";
 import { Field, TextInput } from "../field";
+
+type ServicePreset = Pick<Vertragspartei, "firma" | "strasse" | "plz" | "ort" | "land" | "email">;
+
+const SERVICE_PRESETS: Record<string, ServicePreset> = {
+  "Stripe": {
+    firma: "Stripe Technology Europe Limited",
+    strasse: "The One Building, 1 Grand Canal Street Lower",
+    plz: "D02 H210",
+    ort: "Dublin 2",
+    land: "Irland",
+    email: "privacy@stripe.com",
+  },
+  "Google Workspace": {
+    firma: "Google Ireland Limited",
+    strasse: "Gordon House, Barrow Street",
+    plz: "D04 E5W5",
+    ort: "Dublin 4",
+    land: "Irland",
+    email: "privacy@google.com",
+  },
+  "Hetzner": {
+    firma: "Hetzner Online GmbH",
+    strasse: "Industriestraße 25",
+    plz: "91710",
+    ort: "Gunzenhausen",
+    land: "Deutschland",
+    email: "privacy@hetzner.com",
+  },
+  "Mailchimp": {
+    firma: "The Rocket Science Group LLC d/b/a Mailchimp",
+    strasse: "675 Ponce de Leon Ave NE, Suite 5000",
+    plz: "30308",
+    ort: "Atlanta, GA",
+    land: "USA",
+    email: "privacy@mailchimp.com",
+  },
+  "Vercel": {
+    firma: "Vercel Inc.",
+    strasse: "340 S Lemon Ave #4133",
+    plz: "91789",
+    ort: "Walnut, CA",
+    land: "USA",
+    email: "privacy@vercel.com",
+  },
+  "Brevo": {
+    firma: "Sendinblue SAS",
+    strasse: "7 rue de Madrid",
+    plz: "75008",
+    ort: "Paris",
+    land: "Frankreich",
+    email: "privacy@brevo.com",
+  },
+  "Plausible": {
+    firma: "Plausible Insights OÜ",
+    strasse: "Väike-Paala 1",
+    plz: "11415",
+    ort: "Tallinn",
+    land: "Estland",
+    email: "privacy@plausible.io",
+  },
+  "AWS": {
+    firma: "Amazon Web Services EMEA SARL",
+    strasse: "38 Avenue John F. Kennedy",
+    plz: "L-1855",
+    ort: "Luxemburg",
+    land: "Luxemburg",
+    email: "aws-privacy@amazon.com",
+  },
+};
 
 type Side = "auftraggeber" | "auftragnehmer";
 
@@ -51,9 +121,16 @@ export function StepParteien() {
 function ParteiCard({ side, label, hint }: { side: Side; label: string; hint: string }) {
   const value = useAvvStore((s) => s.data[side]);
   const update = useAvvStore((s) => s.update);
+  const [showPresets, setShowPresets] = useState(false);
 
   const set = <K extends keyof Vertragspartei>(key: K, v: Vertragspartei[K]) => {
     update(side, { ...value, [key]: v });
+  };
+
+  const applyPreset = (name: string) => {
+    const preset = SERVICE_PRESETS[name];
+    update(side, { ...value, ...preset });
+    setShowPresets(false);
   };
 
   const emailError = validateEmail(value.email ?? "");
@@ -67,6 +144,33 @@ function ParteiCard({ side, label, hint }: { side: Side; label: string; hint: st
         </h2>
         <p className="text-ink-dim text-sm mt-1">{hint}</p>
       </div>
+
+      {side === "auftragnehmer" && (
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowPresets((p) => !p)}
+            className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-accent hover:text-ink transition"
+          >
+            <span aria-hidden="true">{showPresets ? "−" : "+"}</span>
+            Bekannten Dienst auswählen (Stripe, Google, Hetzner …)
+          </button>
+          {showPresets && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {Object.keys(SERVICE_PRESETS).map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => applyPreset(name)}
+                  className="border border-line bg-bg-soft px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-ink-dim hover:border-accent hover:text-accent transition"
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <Field label="Firma / Name" required>
         <TextInput

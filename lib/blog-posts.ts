@@ -306,6 +306,170 @@ Der **Compliflow Cookie-Banner** (Launch: 19. August 2026) adressiert genau dies
 Bis zum Launch kannst du dich auf die Warteliste eintragen und bekommst 34 % Early-Bird-Rabatt.
     `.trim(),
   },
+  {
+    slug: "avv-mailchimp-newsletter-dienste-dsgvo",
+    title: "AVV für Mailchimp & Newsletter-Dienste — Pflicht und Muster 2026",
+    excerpt:
+      "Wer Mailchimp, Brevo, CleverReach oder Klaviyo nutzt, braucht zwingend einen AVV. Wie du ihn abschließt, was er enthalten muss — und wo der Haken bei US-Anbietern liegt.",
+    category: "AVV",
+    date: "2026-06-09",
+    readingTime: 7,
+    content: `
+## Brauche ich für Mailchimp einen AVV?
+
+Ja — zwingend. Wenn du Mailchimp, Brevo, CleverReach, Klaviyo oder einen anderen E-Mail-Marketing-Dienst nutzt, verarbeitet dieser personenbezogene Daten (mindestens: E-Mail-Adressen, Versandverhalten) in deinem Auftrag. Das löst nach **Art. 28 DSGVO** die Pflicht zum Abschluss eines Auftragsverarbeitungsvertrags aus.
+
+Es spielt dabei keine Rolle, ob du fünf Abonnenten oder fünfzigtausend hast.
+
+## Was ist bei US-Anbietern zu beachten?
+
+Mailchimp, Klaviyo und viele andere Dienste sind US-Unternehmen. Seit dem **Schrems-II-Urteil** (EuGH 2020) und dem Wegfall des Privacy Shield reicht ein einfacher AVV alleine nicht mehr. Du benötigst zusätzlich:
+
+- **EU-Standardvertragsklauseln (SCC)** der EU-Kommission (2021er Fassung)
+- Ein **Transfer Impact Assessment (TIA)**: Bewertung ob das SCC-Niveau im Zielland tatsächlich gewährleistet ist
+- Ggf. zusätzliche technische Maßnahmen (Verschlüsselung, Pseudonymisierung)
+
+Das klingt komplex — in der Praxis stellen die meisten großen Anbieter die SCC als Standard-Vertragszusatz bereit.
+
+## Wo findest du den AVV für gängige Newsletter-Dienste?
+
+**Mailchimp (Intuit):** Unter _Account → Legal → Data Processing Agreement_ im Mailchimp-Dashboard. Mailchimp stellt DPA + SCC als vorkonfiguriertes Dokument bereit.
+
+**Brevo (ehem. Sendinblue):** Unter _Einstellungen → Mein Unternehmen → Rechtliches_. Brevo hat EU-Server-Option (Frankfurt), was die Drittland-Problematik entschärft.
+
+**CleverReach:** DPA direkt im Dashboard unter _Einstellungen → Datenschutz_. Hosting in Deutschland (Oldenburg).
+
+**Klaviyo:** Unter _Settings → Privacy & Compliance → Data Processing Agreement_.
+
+**ActiveCampaign:** DPA im Kundenkonto unter _Settings → Privacy_.
+
+## Was muss der AVV mit dem Newsletter-Dienst enthalten?
+
+Nach **Art. 28 Abs. 3 DSGVO** mindestens:
+
+- Gegenstand und Dauer der Verarbeitung
+- Art und Zweck der Verarbeitung (E-Mail-Marketing, Tracking)
+- Art der personenbezogenen Daten (E-Mail, Name, IP-Adresse, Klickverhalten)
+- Betroffenengruppen (Newsletter-Abonnenten, Kunden)
+- Pflichten und Rechte des Verantwortlichen
+
+Zusätzlich: Weisungsgebundenheit, Vertraulichkeit, Sicherheitsmaßnahmen (TOMs), Subauftragsverarbeiter (z.B. AWS hinter Mailchimp), Unterstützungspflichten, Rückgabe/Löschung nach Vertragsende.
+
+## Subauftragsverarbeiter: Das vergessen die meisten
+
+Mailchimp selbst nutzt AWS als Cloud-Infrastruktur. Damit ist AWS ein **Sub-Auftragsverarbeiter** — du musst im AVV prüfen, ob der Hauptanbieter seine Sub-AV listet und dir widersprechungsrecht einräumt. Der Mailchimp-DPA enthält eine Liste aller Sub-Prozessoren.
+
+## Einen eigenen AVV mit deinem Dienstleister abschließen?
+
+In manchen Fällen — z.B. wenn du einen deutschen IT-Dienstleister mit Newsletter-Versand beauftragst statt Mailchimp direkt zu nutzen — musst du einen **eigenen AVV** abschließen. Der Dienstleister ist dann dein Auftragsverarbeiter, nicht Mailchimp.
+
+Für diesen Fall kannst du den [Compliflow AVV-Generator](/avv) nutzen: alle 13 Pflichtinhalte nach Art. 28 DSGVO, Live-Vorschau, PDF-Download — kostenlos und ohne Account.
+
+## Checkliste: AVV für Newsletter-Dienste
+
+- [ ] Anbieter identifizieren (Mailchimp, Brevo etc.)
+- [ ] DPA/AVV im Kundenkonto abschließen oder hochladen
+- [ ] Prüfen: EU-Hosting oder US-Hosting?
+- [ ] Bei US-Hosting: SCC + TIA vorhanden?
+- [ ] Sub-Auftragsverarbeiter-Liste des Anbieters dokumentieren
+- [ ] AVV in Datenschutzdokumentation aufnehmen
+- [ ] Im Verarbeitungsverzeichnis (Art. 30) eintragen
+
+## Fazit
+
+Newsletter-Marketing ohne AVV ist in Deutschland ein bekanntes Bußgeld-Risiko. Die gute Nachricht: Alle gängigen Dienste stellen fertige DPAs bereit. Du musst sie nur abrufen und abschließen — oder für individuelle Dienstleister einen eigenen AVV erstellen.
+    `.trim(),
+  },
+  {
+    slug: "welche-dienste-brauchen-avv-dsgvo-liste",
+    title: "Welche Dienste brauchen einen AVV? Die vollständige Liste für Selbstständige",
+    excerpt:
+      "Stripe, Google Analytics, Notion, Zoom, Calendly — welche deiner Tools lösen die AVV-Pflicht aus? Eine praxisnahe Übersicht für Freelancer und kleine Unternehmen.",
+    category: "DSGVO Grundlagen",
+    date: "2026-06-09",
+    readingTime: 6,
+    content: `
+## Die Grundregel: Wann ist ein AVV Pflicht?
+
+Ein Auftragsverarbeitungsvertrag ist immer dann Pflicht, wenn ein externer Dienstleister **in deinem Auftrag** personenbezogene Daten verarbeitet. Die Schlüsselfrage: Nutzt du ein Tool, das dabei Daten von deinen Kunden, Interessenten oder Mitarbeitern anfasst?
+
+Ist die Antwort ja → AVV Pflicht.
+
+## Zahlungsabwicklung
+
+**Stripe:** Pflicht. Stripe verarbeitet Zahlungsdaten deiner Kunden (Name, E-Mail, IBAN/Karte). Stripe stellt einen fertigen DPA bereit — im Stripe-Dashboard unter _Settings → Legal → Data Processing Agreement_. SCC für US-Transfer enthalten.
+
+**PayPal:** Pflicht. Ähnlich wie Stripe. Im PayPal-Account unter _Rechtliches → DPA_ verfügbar.
+
+**Mollie / Klarna / Adyen:** Pflicht. Alle stellen fertige DPAs bereit.
+
+## E-Mail & Kommunikation
+
+**Google Workspace (Gmail, Drive, Docs):** Pflicht. Google verarbeitet E-Mail-Inhalte, Dokumente und Kontaktdaten. Google stellt einen DPA bereit; Google Cloud Frankfurt ist als EU-Datenstandort verfügbar.
+
+**Microsoft 365 / Outlook:** Pflicht. Microsoft stellt Data Processing Addendum bereit.
+
+**Zoom:** Pflicht. Teilnehmerdaten, Aufnahmen, Chat-Verläufe — alles personenbezogen.
+
+**Slack:** Pflicht. Kommunikationsinhalte, Nutzerdaten, Integration mit anderen Tools.
+
+**Calendly:** Pflicht. Bucher-Daten (Name, E-Mail) werden in Calendly-Systemen gespeichert.
+
+## Marketing & Analytics
+
+**Google Analytics (GA4):** Pflicht. IP-Adressen und Nutzungsverhalten sind personenbezogen. Ohne Cookie-Banner und AVV ist GA4 in Deutschland abmahnfähig.
+
+**Plausible Analytics:** Kein AVV nötig. Plausible verarbeitet keine personenbezogenen Daten und ist cookieless DSGVO-konform.
+
+**Mailchimp / Brevo / CleverReach:** Pflicht. E-Mail-Adressen, Klickverhalten, Versandhistorie.
+
+**HubSpot / Salesforce:** Pflicht. CRM-Daten sind per Definition personenbezogen.
+
+## Projektmanagement & Ablage
+
+**Notion:** Pflicht — wenn du dort Kundendaten, Mitarbeiterdaten oder personenbezogene Informationen speicherst. Notion ist ein US-Dienst (Cloudflare/AWS-Infrastruktur).
+
+**Airtable / Monday.com / Trello:** Pflicht bei Kundendaten.
+
+**Dropbox / Google Drive:** Pflicht wenn Kundendokumente oder personenbezogene Dateien gespeichert werden.
+
+## Buchhaltung & Rechnungen
+
+**Lexoffice / sevDesk / FastBill:** Pflicht. Diese Tools verarbeiten Kundenstammdaten und Rechnungsdaten.
+
+**DATEV:** Pflicht — und hier oft vergessen: Auch der Steuerberater braucht einen AVV mit dir, wenn er deine Kundendaten in DATEV verarbeitet.
+
+## Hosting & Infrastruktur
+
+**Hetzner / Strato / IONOS:** Pflicht. Jeder Hosting-Anbieter der Zugriff auf deine Kundendaten hat. Hetzner (Deutschland) stellt eine fertige DPA bereit.
+
+**Vercel / Netlify / AWS:** Pflicht. Log-Dateien enthalten IP-Adressen = personenbezogen.
+
+**Cloudflare:** Pflicht. CDN verarbeitet technisch personenbezogene Daten (IPs).
+
+## Support & Chat
+
+**Freshdesk / Zendesk / Intercom:** Pflicht. Kundensupport-Anfragen mit Namen, E-Mails, Beschreibungen.
+
+**Typeform / JotForm:** Pflicht wenn Formulare personenbezogene Daten erfassen (fast immer).
+
+## Wann ist kein AVV nötig?
+
+- **Gemeinsame Verantwortlichkeit**: Wenn zwei Firmen gemeinsam über Zweck und Mittel entscheiden → statt AVV eine _Joint Controller Agreement_ nach Art. 26 DSGVO
+- **Auftragsverarbeiter als eigenständig Verantwortliche**: Wenn ein Dienstleister Daten für eigene Zwecke nutzt → er ist dann selbst Verantwortlicher, kein Auftragsverarbeiter
+- **Reine Leitungsträger**: Telekommunikationsanbieter haben eine eigene Rechtsgrundlage
+
+## So gehst du vor
+
+1. Liste alle Tools auf, die du in deinem Unternehmen nutzt
+2. Filtere: Welche verarbeiten personenbezogene Daten?
+3. Für jeden Dienst: DPA im Kundenkonto abrufen und abschließen
+4. Für eigene Dienstleister ohne fertigen DPA: [Eigenen AVV erstellen](/avv)
+5. Alle AVVs im Verarbeitungsverzeichnis dokumentieren ([VVT erstellen](/vvt))
+
+Die meisten großen US-Dienste haben fertige DPAs. Bei kleineren Dienstleistern oder lokalen Anbietern musst du oft selbst einen AVV aufsetzen — genau dafür ist der Compliflow AVV-Generator da.
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
