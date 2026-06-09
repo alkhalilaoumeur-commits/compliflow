@@ -690,6 +690,101 @@ Das Gesetz sagt: Immer wenn sich die Verarbeitungstätigkeit ändert. In der Pra
 Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator](/vvt) erledigst du es in 10 Minuten — kostenlos, kein Account, alle Pflichtfelder vorausgefüllt. Danach hast du ein rechtssicheres Dokument, das du bei Behördenanfragen vorlegen kannst.
     `.trim(),
   },
+  {
+    slug: "cookie-banner-dsgvo-ttdsg-pflicht-2026",
+    title: "Cookie-Banner 2026: Was ist nach TTDSG und DSGVO wirklich Pflicht?",
+    excerpt:
+      "Welche Cookies brauchen Einwilligung, welche nicht? Was der EuGH-Urteil Planet49 bedeutet, warum Pre-checked Boxen illegal sind — und welche technischen Anforderungen euer Cookie-Banner 2026 erfüllen muss.",
+    category: "Cookie-Banner",
+    date: "2026-06-09",
+    readingTime: 9,
+    content: `
+## TTDSG, DSGVO und das Cookie-Chaos
+
+Seit dem **Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz (TTDSG)** vom 1. Dezember 2021 ist die Rechtslage für Cookie-Banner in Deutschland endlich klar geregelt — aber in der Praxis setzt das kaum jemand korrekt um. Das kostet: Die österreichische Datenschutzbehörde (DSB) hat 2022 Google Analytics für rechtswidrig erklärt. Die französische CNIL hat Meta, Google und TikTok mit Millionenbußgeldern belegt.
+
+In diesem Artikel erkläre ich was wirklich Pflicht ist — ohne Juristen-Sprache.
+
+## Was ist das TTDSG?
+
+Das TTDSG hat § 25 als zentralen Paragraphen für Cookies und Tracker. Er setzt die ePrivacy-Richtlinie (EU) um. Kernregel:
+
+**Das Speichern von Informationen auf dem Endgerät eines Nutzers oder der Zugriff auf dort gespeicherte Informationen ist nur mit Einwilligung erlaubt — es sei denn, es ist technisch unbedingt erforderlich (§ 25 Abs. 2 TTDSG).**
+
+Das bedeutet: Cookies brauchen grundsätzlich eine aktive Einwilligung **vor** dem Setzen. Ausnahmen gibt es nur für technisch notwendige Cookies.
+
+## Welche Cookies brauchen keine Einwilligung?
+
+Cookies, die technisch unbedingt erforderlich sind, dürfen ohne Einwilligung gesetzt werden:
+
+- [ ] Session-Cookie (Login-Status halten)
+- [ ] Warenkorb-Cookie (E-Commerce)
+- [ ] CSRF-Token (Sicherheit)
+- [ ] Load-Balancer-Cookie (technische Infrastruktur)
+- [ ] Cookie zum Speichern der Cookie-Präferenz selbst
+
+**Nicht befreit:** Analytics-Cookies (Google Analytics, Matomo mit vollständiger IP), Marketing-Cookies (Meta Pixel, Google Ads), A/B-Test-Cookies, Social-Media-Embeds.
+
+## Was der EuGH in "Planet49" entschieden hat
+
+Im **EuGH-Urteil C-673/17 (Planet49, Oktober 2019)** wurde festgestellt:
+
+1. **Vormarkierte Checkboxen** für Cookies sind keine wirksame Einwilligung.
+2. Die Einwilligung muss **aktiv und freiwillig** sein.
+3. **"Cookie-Walls"** (Zugang nur nach Consent) sind nur in engen Grenzen zulässig.
+4. Die Einwilligung muss **informiert** sein — User müssen wissen, welche Cookies zu welchem Zweck.
+
+Das bestätigte der Bundesgerichtshof (BGH) in seinem Planet49-Urteil vom 28. Mai 2020 (I ZR 7/16) für Deutschland.
+
+## Die 5 häufigsten Fehler beim Cookie-Banner
+
+### Fehler 1: "Akzeptieren" ist größer als "Ablehnen"
+
+Das ist dark pattern und rechtswidrig. Beide Buttons müssen gleich prominent sein — gleiche Größe, gleiche Farbe, gleiche Position. Die CNIL hat 2022 explizit erklärt: Wenn "Alles akzeptieren" ein Button ist, muss "Alles ablehnen" ebenfalls ein gleichwertiger Button sein (nicht nur ein Textlink).
+
+### Fehler 2: Voreingestellte Checkboxen
+
+Wenn Kategorien wie "Marketing" oder "Analytics" vorausgewählt sind, ist das keine wirksame Einwilligung nach DSGVO Art. 7 Abs. 2 und TTDSG § 25. Die Einwilligung muss durch eine aktive Handlung gegeben werden.
+
+### Fehler 3: Google Analytics läuft schon beim Seitenaufruf
+
+Technisch häufig: Das Analytics-Script lädt sofort beim Seitenaufruf — bevor der User überhaupt einen Banner sieht. Das ist ein klarer Verstoß. Google Analytics darf erst nach Consent aktiv werden.
+
+**Lösung:** Google Consent Mode V2 + Banner-Integration, die das Script erst nach Einwilligung aktiviert.
+
+### Fehler 4: Kein Audit-Trail
+
+Wenn eine Aufsichtsbehörde fragt: "Wann hat Nutzer X seine Einwilligung gegeben, und für was genau?" — können die meisten Banner das nicht beantworten. Ein rechtssicherer Banner muss Einwilligungen protokollieren (Zeitstempel, Version des Banners, gewählte Kategorien).
+
+### Fehler 5: Keine Widerrufsmöglichkeit
+
+Nach Art. 7 Abs. 3 DSGVO muss der Widerruf einer Einwilligung so einfach sein wie deren Erteilung. Das bedeutet: Ein permanenter Link (meist im Footer) der den Cookie-Banner erneut öffnet, ist Pflicht.
+
+## Was muss ein rechtssicherer Cookie-Banner 2026 können?
+
+- [ ] Einwilligung **vor** dem Laden von Tracking-Scripts einholen
+- [ ] "Akzeptieren" und "Ablehnen" gleich prominent
+- [ ] Granulare Kategorien (technisch / Analytics / Marketing)
+- [ ] Audit-Trail: Einwilligungen protokolliert und exportierbar
+- [ ] Google Consent Mode V2 Integration
+- [ ] Widerruf jederzeit möglich (Footer-Link)
+- [ ] Keine voreingestellten Kategorien außer technisch notwendigen
+- [ ] WCAG 2.1 AA: Tastaturnavigation, ausreichender Kontrast
+- [ ] Korrekte Rechtsgrundlage im Hinweistext
+- [ ] Datenschutzerklärung verlinkt
+
+## Compliflow Cookie-Banner — Launch 19. August 2026
+
+Der [Compliflow Cookie-Banner](/cookie-banner) erfüllt alle diese Anforderungen. Fünf Designstile (Bar, Modal, Floating Corner, Drawer, Minimal), Google Consent Mode V2 out-of-the-box, vollständiger Audit-Trail als CSV-Export.
+
+**Early-Bird-Rabatt:** 34 % in der Launch-Woche für alle die sich jetzt vormerken lassen.
+
+Alle anderen DSGVO-Tools sind schon heute verfügbar:
+
+- [AVV-Generator](/avv) — Auftragsverarbeitungsvertrag nach Art. 28, kostenlos
+- [Verarbeitungsverzeichnis](/vvt) — VVT nach Art. 30, kostenlos, 10 Vorlagen
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
