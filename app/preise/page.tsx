@@ -274,6 +274,9 @@ function ProTier() {
   const handleCheckout = async (tool: ToolType) => {
     setIsLoading(true);
     setError(false);
+    if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+      (window as any).plausible("Checkout Started", { props: { tool } });
+    }
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",

@@ -111,7 +111,12 @@ export function ExitPopup() {
           {/* CTA */}
           <a
             href="/avv"
-            onClick={dismiss}
+            onClick={() => {
+              dismiss();
+              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+                (window as any).plausible("Exit Popup CTA Click");
+              }
+            }}
             className="btn-primary flex h-13 items-center justify-center gap-2 font-body text-[15px] font-medium tracking-tight w-full"
             style={{ height: "52px" }}
           >
