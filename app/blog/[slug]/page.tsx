@@ -79,6 +79,27 @@ function renderContent(content: string) {
           {line.replace("### ", "")}
         </h3>
       );
+    } else if (line.startsWith("- [ ] ") || line.startsWith("- [x] ") || line.startsWith("- [X] ")) {
+      flushList(`list-${i}`);
+      const checked = line.startsWith("- [x] ") || line.startsWith("- [X] ");
+      const text = line.replace(/^- \[[xX ]\] /, "");
+      elements.push(
+        <div key={i} className="flex items-start gap-3 py-1.5 font-body text-[15px] leading-relaxed text-ink-dim">
+          <span
+            className={`mt-0.5 flex-shrink-0 inline-flex h-4 w-4 items-center justify-center border transition ${
+              checked ? "bg-accent border-accent text-bg" : "bg-bg-soft border-line text-ink-faded"
+            }`}
+            aria-hidden="true"
+          >
+            {checked && (
+              <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                <path d="M1 3l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+          </span>
+          <span dangerouslySetInnerHTML={{ __html: inlineHtml(text) }} />
+        </div>
+      );
     } else if (line.startsWith("- ") || line.startsWith("* ")) {
       listItems.push(line);
     } else if (line.match(/^\d+\.\s/)) {
