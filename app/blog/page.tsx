@@ -13,7 +13,14 @@ export const metadata: Metadata = {
       "Praxisnahe Artikel zu AVV, Verarbeitungsverzeichnis, Cookie-Banner und DSGVO-Pflichten für Freelancer und kleine Unternehmen in Deutschland.",
     url: "https://compliflow.de/blog",
     siteName: "Compliflow",
+    locale: "de_DE",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DSGVO-Blog für Selbstständige — Compliflow",
+    description:
+      "Praxisnahe Artikel zu AVV, Verarbeitungsverzeichnis, Cookie-Banner und DSGVO-Pflichten für Freelancer und kleine Unternehmen in Deutschland.",
   },
 };
 
