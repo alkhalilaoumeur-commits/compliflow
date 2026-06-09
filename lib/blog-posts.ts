@@ -1060,11 +1060,9 @@ Freelancer die über Plattformen arbeiten (Malt, Fiverr, Upwork, etc.) oder mit 
 
 ## Die Mathematik des Risikos
 
-| Szenario | Wahrscheinlichkeit | Kostenschaden |
-|---|---|---|
-| Behördliches Bußgeld (kleines Unternehmen) | 1-5% / Jahr | 500–10.000 € |
-| Abmahnung (fehlende Datenschutzerklärung) | 3-8% / Jahr | 500–3.000 € |
-| Verlorener B2B-Auftrag (kein AVV nachweisbar) | Steigt rapide | Projektabhängig |
+- **Behördliches Bußgeld** (kleines Unternehmen): 1–5 % Wahrscheinlichkeit pro Jahr, Schaden 500–10.000 €
+- **Abmahnung** (fehlende Datenschutzerklärung): 3–8 % Wahrscheinlichkeit pro Jahr, Schaden 500–3.000 €
+- **Verlorener B2B-Auftrag** (kein AVV nachweisbar): Risiko steigt rapide, Schaden projektabhängig
 
 AVV-Abschluss: 10 Minuten, kostenlos.
 
