@@ -24,6 +24,12 @@ export function generateMetadata({ params }: Props): Metadata {
       type: "article",
       publishedTime: post.date,
       siteName: "Compliflow",
+      locale: "de_DE",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
     },
   };
 }
