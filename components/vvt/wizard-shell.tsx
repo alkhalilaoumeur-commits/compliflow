@@ -24,6 +24,7 @@ export function VvtWizardShell() {
   const data = useVvtStore((s) => s.data);
   const [hydrated, setHydrated] = useState(false);
   const [successBanner, setSuccessBanner] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
@@ -222,15 +223,34 @@ export function VvtWizardShell() {
                 {missingHint(currentStep, data)}
               </span>
             )}
-            <button
-              type="button"
-              onClick={() => {
-                if (confirm("Alle Eingaben verwerfen und neu starten?")) reset();
-              }}
-              className="font-mono text-[10px] uppercase tracking-widest text-ink-faded hover:text-warn transition"
-            >
-              Zurücksetzen
-            </button>
+            {confirmReset ? (
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">Sicher?</span>
+                <button
+                  type="button"
+                  onClick={() => { reset(); setConfirmReset(false); }}
+                  className="font-mono text-[10px] uppercase tracking-widest text-warn hover:underline transition"
+                >
+                  Ja
+                </button>
+                <span className="font-mono text-[10px] text-ink-faded">·</span>
+                <button
+                  type="button"
+                  onClick={() => setConfirmReset(false)}
+                  className="font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:text-ink transition"
+                >
+                  Nein
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmReset(true)}
+                className="font-mono text-[10px] uppercase tracking-widest text-ink-faded hover:text-warn transition"
+              >
+                Zurücksetzen
+              </button>
+            )}
           </div>
 
           {!isLast && (

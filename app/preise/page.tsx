@@ -372,6 +372,18 @@ function ProTier() {
           >
             VVT Pro kaufen — 29 €
           </button>
+          <div className="flex items-center justify-center gap-3 pt-2">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-ink-faded">Zahlung via</span>
+            {["Visa", "Mastercard", "Amex", "SEPA"].map((m) => (
+              <span key={m} className="border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-ink-faded bg-bg">
+                {m}
+              </span>
+            ))}
+            <span className="font-mono text-[9px] uppercase tracking-widest text-ink-faded">· Stripe</span>
+          </div>
+          <p className="text-center font-mono text-[10px] text-ink-faded">
+            Einmalige Zahlung · Kein Abo · Sofort-Download
+          </p>
         </div>
       </div>
     </>

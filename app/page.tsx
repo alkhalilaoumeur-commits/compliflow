@@ -101,7 +101,7 @@ function UrgencyBar() {
     <div className="border-b border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.06)]">
       <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1.5 py-2.5 text-center">
         <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent font-semibold">
-          ⚠ DSGVO-Pflicht
+          <svg className="inline-block mr-1.5 mb-0.5 h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>DSGVO-Pflicht
         </span>
         <span className="hidden font-body text-[12px] text-ink-dim sm:inline">
           Ohne AVV: Bußgeld bis <strong className="text-ink">20 Mio. €</strong> nach Art. 83 DSGVO

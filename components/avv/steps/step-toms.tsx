@@ -57,6 +57,7 @@ export function StepToms() {
     update("toms", toms.filter((t) => t.id !== id));
   };
 
+  const [confirmClear, setConfirmClear] = useState(false);
   const completedCount = KATEGORIEN.length - fehlend.length;
 
   return (
@@ -101,17 +102,34 @@ export function StepToms() {
         >
           Standard-Set (16 TOMs)
         </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (toms.length > 0 && confirm("Alle aktivierten TOMs entfernen?")) {
-              update("toms", []);
-            }
-          }}
-          className="px-4 py-2 font-mono text-[11px] uppercase tracking-widest border border-line text-ink-dim hover:border-accent hover:text-accent transition"
-        >
-          Alle abwählen
-        </button>
+        {confirmClear ? (
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-ink-dim">Alle entfernen?</span>
+            <button
+              type="button"
+              onClick={() => { update("toms", []); setConfirmClear(false); }}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest border border-warn text-warn hover:bg-warn hover:text-bg transition"
+            >
+              Ja
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmClear(false)}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest border border-line text-ink-dim hover:border-accent transition"
+            >
+              Nein
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => toms.length > 0 && setConfirmClear(true)}
+            disabled={toms.length === 0}
+            className="px-4 py-2 font-mono text-[11px] uppercase tracking-widest border border-line text-ink-dim hover:border-accent hover:text-accent transition disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Alle abwählen
+          </button>
+        )}
       </div>
 
       {/* Category sections */}

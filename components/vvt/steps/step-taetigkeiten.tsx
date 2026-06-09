@@ -83,11 +83,7 @@ export function StepTaetigkeiten() {
                   index={idx}
                   value={t}
                   onEdit={() => startEdit(t.id)}
-                  onRemove={() => {
-                    if (confirm(`"${t.bezeichnung}" wirklich löschen?`)) {
-                      removeTaetigkeit(t.id);
-                    }
-                  }}
+                  onRemove={() => removeTaetigkeit(t.id)}
                 />
               ))}
             </div>
@@ -283,6 +279,7 @@ function TaetigkeitCard({
   onEdit: () => void;
   onRemove: () => void;
 }) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   return (
     <div className="border border-line bg-[rgba(240,236,226,0.4)] p-5 group">
       <div className="flex items-start justify-between gap-4">
@@ -329,13 +326,32 @@ function TaetigkeitCard({
           >
             Bearbeiten
           </button>
-          <button
-            type="button"
-            onClick={onRemove}
-            className="border border-line px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:border-accent hover:text-accent transition"
-          >
-            ×
-          </button>
+          {confirmDelete ? (
+            <>
+              <button
+                type="button"
+                onClick={onRemove}
+                className="border border-warn px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-warn hover:bg-warn hover:text-bg transition"
+              >
+                Löschen
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(false)}
+                className="border border-line px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:border-accent transition"
+              >
+                Nein
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(true)}
+              className="border border-line px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-ink-dim hover:border-accent hover:text-accent transition"
+            >
+              ×
+            </button>
+          )}
         </div>
       </div>
     </div>
