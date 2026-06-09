@@ -37,7 +37,12 @@ export function WizardShell() {
         fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
           .then((r) => r.json())
           .then((d: { valid?: boolean; tool?: string }) => {
-            if (d.valid && d.tool === "avv") localStorage.setItem("compliflow_pro_avv", sessionId);
+            if (d.valid && d.tool === "avv") {
+              localStorage.setItem("compliflow_pro_avv", sessionId);
+              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
+                (window as any).plausible("Pro Purchase Confirmed", { props: { tool: "avv" } });
+              }
+            }
           })
           .catch(() => {})
           .finally(() => {
