@@ -561,6 +561,135 @@ Aber: Der Reputationsschaden kann größer sein als das Bußgeld. Kunden die wis
 DSGVO als Freelancer ist kein Monster. Die drei wichtigsten Schritte: Datenschutzerklärung, AVVs mit Tools abschließen, VVT anlegen. Mit Compliflow erledigst du AVV und VVT kostenlos in 15 Minuten.
     `.trim(),
   },
+  {
+    slug: "verarbeitungsverzeichnis-erstellen-anleitung-art-30-dsgvo",
+    title: "Verarbeitungsverzeichnis erstellen — Schritt-für-Schritt-Anleitung (Art. 30 DSGVO)",
+    excerpt:
+      "Was ein VVT ist, wer es braucht, wie du es korrekt aufbaust — und welche 10 Tätigkeiten typische Unternehmen führen. Mit Vorlage und kostenlosem Generator.",
+    category: "Verarbeitungsverzeichnis",
+    date: "2026-06-09",
+    readingTime: 8,
+    content: `
+## Was ist ein Verarbeitungsverzeichnis?
+
+Das Verarbeitungsverzeichnis (VVT) nach Art. 30 DSGVO ist eine interne Dokumentation aller Vorgänge, bei denen personenbezogene Daten verarbeitet werden. Es ist kein öffentliches Dokument — du führst es intern und legst es auf Anfrage der Datenschutzbehörde vor.
+
+Ohne VVT: Bußgeld nach Art. 83 Abs. 4 DSGVO bis zu **10 Mio. € oder 2 % des weltweiten Jahresumsatzes**.
+
+## Wer muss ein VVT führen?
+
+**Grundsatz:** Jede natürliche oder juristische Person, Behörde, Einrichtung oder Stelle, die personenbezogene Daten verarbeitet.
+
+**Die Ausnahme** (Art. 30 Abs. 5 DSGVO): Unternehmen mit weniger als 250 Mitarbeitern KÖNNEN auf das VVT verzichten — aber nur wenn die Verarbeitung kein Risiko für die Betroffenen darstellt, nicht regelmäßig erfolgt und keine besonderen Datenkategorien (Art. 9) verarbeitet werden.
+
+**Praktisch:** Diese Ausnahme greift für die meisten KMU und Selbstständigen nicht, weil fast immer mindestens eine Verarbeitung regelmäßig erfolgt (Kundendaten, Newsletter, Buchhaltung). Führe ein VVT — du bist damit auf der sicheren Seite.
+
+## Was muss ins VVT? (Art. 30 Abs. 1 DSGVO)
+
+Für jede Verarbeitungstätigkeit benötigst du:
+
+1. **Bezeichnung der Tätigkeit** (z.B. "Kundenverwaltung", "Newsletter-Versand")
+2. **Zweck der Verarbeitung** (wozu werden die Daten verwendet?)
+3. **Rechtsgrundlage** (Art. 6 DSGVO — Einwilligung, Vertrag, berechtigtes Interesse etc.)
+4. **Kategorien betroffener Personen** (Kunden, Mitarbeiter, Bewerber, Website-Besucher)
+5. **Kategorien personenbezogener Daten** (Name, E-Mail, Adresse, Zahlungsdaten etc.)
+6. **Empfänger der Daten** (interne Stellen und externe Dienstleister)
+7. **Drittlandtransfers** (Daten außerhalb der EU — Garantien nach Art. 44 ff.)
+8. **Löschfristen** (wann werden die Daten gelöscht oder archiviert?)
+9. **Technische und organisatorische Maßnahmen** (TOMs nach Art. 32 DSGVO)
+10. **Datenschutzbeauftragter** (falls vorhanden)
+
+## Die 10 häufigsten Verarbeitungstätigkeiten im KMU
+
+### 1. Kundenverwaltung
+**Daten:** Name, Adresse, E-Mail, Telefon, Kaufhistorie
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b (Vertragserfüllung)
+**Löschfrist:** 3 Jahre nach letztem Kontakt, Rechnungen 10 Jahre (§ 257 HGB)
+
+### 2. Buchhaltung und Rechnungswesen
+**Daten:** Name, Adresse, IBAN, Betrag, Steuer-ID
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. c (rechtliche Verpflichtung)
+**Löschfrist:** 10 Jahre (§ 147 AO, § 257 HGB)
+
+### 3. Newsletter-Marketing
+**Daten:** E-Mail-Adresse, Name, Opt-in-Datum, Klickverhalten
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. a (Einwilligung — Double Opt-in Pflicht!)
+**Löschfrist:** Sofort nach Widerruf der Einwilligung
+
+### 4. Mitarbeiterverwaltung
+**Daten:** Personalstammdaten, Gehalt, Bankverbindung, Krankenfehlzeiten
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b + § 26 BDSG
+**Löschfrist:** 3 Monate nach Austritt für Bewerbungsunterlagen; Lohnunterlagen 10 Jahre
+
+### 5. Website-Betrieb (Logfiles)
+**Daten:** IP-Adressen, Browser-Typ, aufgerufene Seiten, Timestamps
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. f (berechtigtes Interesse — IT-Sicherheit)
+**Löschfrist:** Maximal 7 Tage (Orientierung: BSI-Empfehlung)
+
+### 6. Kontaktformulare / Anfragen
+**Daten:** Name, E-Mail, Nachrichteninhalt
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b (vorvertragliche Maßnahmen) oder lit. f
+**Löschfrist:** 6 Monate nach Abschluss der Kommunikation
+
+### 7. Bewerbermanagement
+**Daten:** Lebenslauf, Zeugnisse, Foto, Kontaktdaten
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b + § 26 BDSG
+**Löschfrist:** 3 Monate nach Absage (§ 15 AGG), sofern keine Einwilligung zur längeren Speicherung
+
+### 8. Web-Analytics
+**Daten:** IP-Adressen (ggf. anonymisiert), Seitenaufrufe, Verhalten
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. a (Einwilligung) bei Tracking mit Cookies; lit. f bei cookielosem Analytics (z.B. Plausible)
+**Löschfrist:** Je nach Tool — Plausible 2 Jahre, GA4 konfigurierbar (Standard 14 Monate)
+
+### 9. E-Mail-Kommunikation
+**Daten:** E-Mail-Adressen, Nachrichteninhalte, Anhänge
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b (Vertragsdurchführung) oder lit. f
+**Löschfrist:** 3 Jahre nach Abschluss des Geschäftsvorgangs, Handelsbriefe 6 Jahre (§ 257 HGB)
+
+### 10. Zahlungsabwicklung
+**Daten:** Name, IBAN, Kreditkartendaten (via Stripe), Betrag
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b (Vertragserfüllung)
+**Löschfrist:** 10 Jahre (steuerrechtliche Aufbewahrungspflicht)
+
+## Typische Empfänger im VVT
+
+Für jede Tätigkeit musst du die Empfänger (intern und extern) angeben:
+
+- **IT-Hosting:** Hetzner, AWS, Vercel
+- **E-Mail:** Google Workspace, Outlook/Microsoft 365
+- **Payment:** Stripe, PayPal
+- **Newsletter:** Mailchimp, Brevo
+- **Buchhaltung:** Lexoffice, DATEV, Steuerberater
+- **Analytics:** Plausible, GA4
+- **CRM:** HubSpot, Salesforce
+
+Für alle externen Dienstleister, die personenbezogene Daten verarbeiten: [AVV abschließen](/avv).
+
+## So erstellst du dein VVT in 10 Minuten
+
+1. **Starte den VVT-Generator** auf [compliflow.de/vvt](/vvt)
+2. **Gib dein Unternehmen ein** (Name, Adresse, Vertreter, E-Mail)
+3. **Wähle deine Tätigkeiten** aus 10 vorbereiteten Vorlagen (Kundenverwaltung, Newsletter, Buchhaltung etc.)
+4. **Passe die Felder an** (Löschfristen, Empfänger, Rechtsgrundlage)
+5. **PDF herunterladen** — fertig.
+
+Das generierte PDF enthält alle Pflichtfelder nach Art. 30 DSGVO. Kostenlos, kein Account nötig.
+
+## Wie oft muss das VVT aktualisiert werden?
+
+Das Gesetz sagt: Immer wenn sich die Verarbeitungstätigkeit ändert. In der Praxis: **Mindestens einmal jährlich** überprüfen. Anlass für Updates:
+
+- Neue Tools eingeführt (neues CRM, neuer Hoster)
+- Neue Mitarbeiter oder Tätigkeiten
+- Änderung bei Löschfristen
+- Neuer Dienstleister (neues AVV nötig)
+- Behördliche Vorgabe geändert
+
+## Fazit
+
+Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator](/vvt) erledigst du es in 10 Minuten — kostenlos, kein Account, alle Pflichtfelder vorausgefüllt. Danach hast du ein rechtssicheres Dokument, das du bei Behördenanfragen vorlegen kannst.
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
