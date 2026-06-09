@@ -98,6 +98,31 @@ export default function BlogPostPage({ params }: Props) {
   const post = getBlogPost(params.slug);
   if (!post) notFound();
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: "Al-Khalil Aoumeur",
+      url: "https://drvnautomatisations.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Compliflow",
+      url: "https://compliflow.de",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://compliflow.de/blog/${post.slug}`,
+    },
+    inLanguage: "de-DE",
+    articleSection: post.category,
+  };
+
   const others = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
   const isVvtPost = post.category === "Verarbeitungsverzeichnis";
   const ctaHref = isVvtPost ? "/vvt" : "/avv";
@@ -108,6 +133,10 @@ export default function BlogPostPage({ params }: Props) {
 
   return (
     <main className="relative z-10 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <header className="border-b border-[rgba(226,221,209,0.7)]">
         <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">
           <a href="/" className="flex items-baseline gap-2.5">

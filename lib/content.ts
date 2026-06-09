@@ -82,4 +82,16 @@ export const FAQS = [
     q: "Wer steht hinter Compliflow?",
     a: "Al-Khalil Aoumeur, Solo-Builder aus Stuttgart, Mitte zwanzig, baut SaaS-Produkte für deutsche KMU. Compliflow ist das dritte Produkt unter der DRVN-Marke, nach ServeFlow (Restaurant-Software) und BookBase (Buchungssystem).",
   },
+  {
+    q: "Gilt der AVV auch für Österreich und die Schweiz?",
+    a: "AVV und VVT basieren auf der EU-DSGVO, die in allen EU-Mitgliedstaaten gilt — also auch in Österreich. In der Schweiz gilt seit 2023 das revidierte Datenschutzgesetz (revDSG), das der DSGVO weitgehend entspricht. Die Pflichtinhalte eines AVV sind in beiden Ländern kompatibel. Compliflow ist auf deutsches Recht (DE) optimiert; bei AT- oder CH-spezifischen Anforderungen empfiehlt sich eine lokale Prüfung.",
+  },
+  {
+    q: "Verliere ich meine Eingaben wenn ich die Seite neu lade?",
+    a: "Nein. Alle Eingaben werden automatisch in deinem Browser (localStorage) gespeichert — auch nach einem Seiten-Reload, Tab-Wechsel oder Browser-Neustart sind alle Felder noch da. Nichts wird an unsere Server übertragen. Nur wenn du explizit auf 'Zurücksetzen' klickst oder den Browser-Verlauf löschst, werden die Daten entfernt.",
+  },
+  {
+    q: "In welchem Format erhalte ich das fertige Dokument?",
+    a: "Als PDF-Datei, direkt aus deinem Browser generiert — ohne Upload, ohne E-Mail, ohne Wartezeit. Die kostenlose Version enthält einen kleinen 'Erstellt mit Compliflow'-Footer. Pro (29 € einmalig) entfernt diesen. Das PDF ist zum Ausdrucken, digitalen Unterzeichnen (z. B. mit DocuSign oder Adobe Sign) oder zur Ablage geeignet.",
+  },
 ];
