@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MobileNav } from "@/components/mobile-nav";
 
 type CheckoutState = "idle" | "loading" | "error";
 type ToolType = "avv" | "vvt";
@@ -116,13 +117,17 @@ function Header() {
           <a href="/vvt" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
             VVT-Generator
           </a>
+          <a href="/blog" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
+            Blog
+          </a>
           <a
             href="/avv"
-            className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
+            className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
             Kostenlos starten
           </a>
+          <MobileNav />
         </nav>
       </div>
     </header>
@@ -375,16 +380,21 @@ function ProTier() {
 
 function AgencyTier() {
   return (
-    <div className="col-span-12 lg:col-span-4 border border-line bg-surface p-8 flex flex-col gap-6">
+    <div className="col-span-12 lg:col-span-4 border border-dashed border-line bg-[rgba(240,236,226,0.4)] p-8 flex flex-col gap-6 opacity-80">
       <div>
-        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded mb-2">
-          03 / 03
-        </p>
+        <div className="flex items-center gap-2 mb-3">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded">
+            03 / 03
+          </p>
+          <span className="font-mono text-[9px] uppercase tracking-widest bg-[rgba(154,93,26,0.1)] text-warn px-2 py-0.5">
+            In Entwicklung
+          </span>
+        </div>
         <div className="flex items-baseline gap-2">
           <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
             19 €
           </span>
-          <span className="font-body text-[14px] text-ink-faded">/ Monat</span>
+          <span className="font-body text-[14px] text-ink-faded">/ Monat · ab Sep 2026</span>
         </div>
         <h2
           className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2"
@@ -392,21 +402,20 @@ function AgencyTier() {
           Agency
         </h2>
         <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
-          Für Datenschutzberater, Agenturen und alle, die regelmäßig Dokumente für Mandanten erstellen.
+          Für Datenschutzberater und Agenturen, die regelmäßig Dokumente für Mandanten erstellen.
         </p>
       </div>
 
       <ul className="flex flex-col gap-3 border-t border-line pt-6">
         {[
-          "Alles aus Pro",
           "Unbegrenzte Dokumente ohne Branding",
           "Multi-Mandanten-Verwaltung",
           "Prioritäts-Support per E-Mail",
           "Jahresrechnung auf Anfrage",
-          "Bald: DATEV-Export",
+          "Geplant: DATEV-Export",
         ].map((item) => (
-          <li key={item} className="flex items-start gap-3 text-[14px] text-ink-dim">
-            <span className="text-accent mt-0.5" aria-hidden>—</span>
+          <li key={item} className="flex items-start gap-3 text-[14px] text-ink-faded">
+            <span className="text-ink-faded mt-0.5" aria-hidden>—</span>
             <span>{item}</span>
           </li>
         ))}
@@ -414,13 +423,13 @@ function AgencyTier() {
 
       <div className="mt-auto">
         <a
-          href="mailto:hello@compliflow.de?subject=Agency-Plan-Anfrage"
-          className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full"
+          href="mailto:hello@compliflow.de?subject=Agency-Plan-Interesse"
+          className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full opacity-70"
         >
-          Kontakt aufnehmen
+          Interesse melden
         </a>
         <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-ink-faded text-center">
-          Bald buchbar — jetzt per Mail anfragen
+          Noch nicht buchbar · Launch September 2026
         </p>
       </div>
     </div>

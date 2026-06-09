@@ -1,6 +1,7 @@
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog-posts";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { MobileNav } from "@/components/mobile-nav";
 
 type Props = { params: { slug: string } };
 
@@ -129,11 +130,12 @@ export default function BlogPostPage({ params }: Props) {
             </a>
             <a
               href="/avv"
-              className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
+              className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
             >
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
               Kostenlos starten
             </a>
+            <MobileNav />
           </nav>
         </div>
       </header>

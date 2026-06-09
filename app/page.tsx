@@ -1,8 +1,10 @@
+import Image from "next/image";
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Countdown } from "@/components/countdown";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { DocumentMockup } from "@/components/document-mockup";
 import { ExitPopup } from "@/components/exit-popup";
+import { MobileNav } from "@/components/mobile-nav";
 import { tools } from "@/lib/tools";
 import { PRIMER, FAQS } from "@/lib/content";
 import { BLOG_POSTS } from "@/lib/blog-posts";
@@ -57,18 +59,6 @@ function Header() {
         </a>
         <nav className="fade-in flex items-center gap-5 md:gap-7">
           <a
-            href="#suite"
-            className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline"
-          >
-            Tools
-          </a>
-          <a
-            href="#faq"
-            className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline"
-          >
-            Fragen
-          </a>
-          <a
             href="/avv"
             className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
           >
@@ -94,11 +84,12 @@ function Header() {
           </a>
           <a
             href="/avv"
-            className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
+            className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
             Kostenlos starten
           </a>
+          <MobileNav />
         </nav>
       </Container>
     </header>
@@ -128,22 +119,28 @@ function UrgencyBar() {
 }
 
 function ToolLogos() {
-  const tools = [
+  const services = [
     "Stripe", "Google Workspace", "AWS", "Vercel", "Mailchimp",
-    "HubSpot", "Zoom", "Calendly", "Notion", "Slack",
+    "HubSpot", "Zoom", "Calendly", "Notion", "Slack", "Dropbox", "GitHub",
   ];
   return (
     <section className="border-b border-line bg-surface">
-      <Container className="py-6">
-        <p className="mb-4 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faded">
+      <Container className="py-7">
+        <p className="mb-5 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faded">
           Passende AVV-Klauseln für alle wichtigen Dienste
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {tools.map((name) => (
-            <span key={name} className="font-body text-[13px] font-medium text-ink-dim opacity-60 hover:opacity-100 transition-opacity">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {services.map((name) => (
+            <span
+              key={name}
+              className="border border-line bg-bg px-3 py-1 font-mono text-[11px] tracking-wide text-ink-dim hover:border-accent hover:text-ink transition-colors"
+            >
               {name}
             </span>
           ))}
+          <span className="border border-dashed border-line px-3 py-1 font-mono text-[11px] tracking-wide text-ink-faded">
+            + alle anderen
+          </span>
         </div>
       </Container>
     </section>
@@ -456,11 +453,13 @@ function HowItWorks() {
 function PhotoSection() {
   return (
     <section className="relative overflow-hidden" style={{ height: "480px" }}>
-      <img
+      <Image
         src="/images/hero-desk.png"
         alt="Auftragsverarbeitungsvertrag fertig auf Schreibtisch"
-        className="absolute inset-0 h-full w-full object-cover"
-        loading="lazy"
+        fill
+        className="object-cover"
+        quality={85}
+        sizes="100vw"
       />
       <div
         className="absolute inset-0"

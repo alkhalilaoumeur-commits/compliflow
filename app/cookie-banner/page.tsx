@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { WaitlistForm } from "@/components/waitlist-form";
+import { MobileNav } from "@/components/mobile-nav";
 
 export const metadata: Metadata = {
   title: "Cookie-Banner · Compliflow",
@@ -56,13 +57,17 @@ export default function CookieBannerPage() {
             <a href="/vvt" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
               VVT-Generator
             </a>
+            <a href="/preise" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
+              Preise
+            </a>
             <a
               href="/avv"
-              className="btn-primary inline-flex h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
+              className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
             >
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
               Kostenlos starten
             </a>
+            <MobileNav />
           </nav>
         </div>
       </header>
