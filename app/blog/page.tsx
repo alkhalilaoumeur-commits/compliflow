@@ -23,7 +23,7 @@ export default function BlogPage() {
   const [featured, ...rest] = sorted;
 
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       <header className="border-b border-[rgba(226,221,209,0.7)]">
         <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">
           <a href="/" className="flex items-baseline gap-2.5">

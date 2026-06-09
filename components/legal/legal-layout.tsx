@@ -11,7 +11,7 @@ export function LegalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       <header className="border-b border-line">
         <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-5 flex items-center justify-between">
           <Link href="/" className="opacity-90 hover:opacity-100 transition">

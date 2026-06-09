@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAvvStore } from "@/lib/avv/store";
 import { WIZARD_STEPS } from "@/lib/avv/types";
@@ -25,6 +26,13 @@ const PdfDownload = dynamic(
 export function StepReview() {
   const data = useAvvStore((s) => s.data);
   const setStep = useAvvStore((s) => s.setStep);
+
+  useEffect(() => {
+    if (!data.abschlussDatum) {
+      const today = new Date().toISOString().slice(0, 10);
+      useAvvStore.getState().patch({ abschlussDatum: today });
+    }
+  }, []);
 
   const labelOfDatenkategorie = (id: string) =>
     STANDARD_DATENKATEGORIEN.find((c) => c.id === id)?.label ?? id;

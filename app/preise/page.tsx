@@ -88,7 +88,7 @@ function ConsentModal({
 
 export default function PreisePage() {
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       <Header />
       <Hero />
       <Tiers />

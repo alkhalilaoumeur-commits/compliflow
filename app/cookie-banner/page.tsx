@@ -38,7 +38,7 @@ const FEATURES = [
 
 export default function CookieBannerPage() {
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       {/* Header */}
       <header className="border-b border-[rgba(226,221,209,0.7)]">
         <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">

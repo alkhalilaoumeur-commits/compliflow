@@ -139,7 +139,7 @@ export default function BlogPostPage({ params }: Props) {
     : "AVV kostenlos generieren — in 10 Minuten, kein Account nötig.";
 
   return (
-    <main className="relative z-10 min-h-screen">
+    <main id="main-content" className="relative z-10 min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}

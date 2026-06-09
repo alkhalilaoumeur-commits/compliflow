@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="relative z-10 min-h-screen flex flex-col">
+    <main id="main-content" className="relative z-10 min-h-screen flex flex-col">
       <header className="border-b border-line">
         <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-5">
           <Link href="/" className="opacity-90 hover:opacity-100 transition inline-block">
