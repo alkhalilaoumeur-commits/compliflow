@@ -229,6 +229,83 @@ Wichtiger: Die Datenschutzbehörde fragt das VVT als Erstes bei einer Prüfung a
 Ein Verarbeitungsverzeichnis braucht niemand monatelang zu erstellen. Compliflow führt dich in 10 Minuten durch alle 8 Pflichtangaben — kostenlos, kein Account, Daten bleiben in deinem Browser.
     `.trim(),
   },
+  {
+    slug: "ttdsg-cookie-banner-pflicht-2026",
+    title: "TTDSG und DSGVO: Cookie-Banner Pflicht 2026 — Was Selbstständige wissen müssen",
+    excerpt:
+      "Seit dem TTDSG 2021 gelten für Cookies strengere Regeln als unter der alten DSGVO-Auslegung. Warum ein einfaches 'OK'-Banner nicht ausreicht, was technische Cookies sind, und wann der Consent wirklich freiwillig ist.",
+    category: "Cookie-Banner",
+    date: "2026-06-08",
+    readingTime: 6,
+    content: `
+## Was ist das TTDSG?
+
+Das **Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG)** trat am 1. Dezember 2021 in Kraft und ergänzt die DSGVO im Bereich Cookies und digitale Dienste. Während die DSGVO allgemein für personenbezogene Daten gilt, regelt das TTDSG speziell den Zugriff auf Endgeräte — also das Setzen und Auslesen von Cookies, Local Storage und ähnlicher Technologien.
+
+**Kurzfassung:** Ohne ausdrückliche Einwilligung dürfen keine nicht-notwendigen Cookies gesetzt werden. Das gilt seit dem TTDSG noch strenger als vorher.
+
+## Welche Cookies brauchen keinen Consent?
+
+Nach § 25 Abs. 2 TTDSG sind Cookies ohne Einwilligung erlaubt, wenn sie:
+
+- **Technisch notwendig** sind, um einen ausdrücklich angeforderten Dienst bereitzustellen (z.B. Session-Cookies für den Login, Warenkorb-Cookies)
+- **Ausschließlich zur Übertragung einer Nachricht** über ein Netz verwendet werden
+
+Alles andere — Analytics, Marketing, Retargeting, Social-Media-Plugins — braucht aktiven Consent.
+
+## Was macht einen Cookie-Banner DSGVO-konform?
+
+**1. Kein "Dark Pattern" beim Ablehnen**
+Die Datenschutzbehörden haben klargestellt: Der "Ablehnen"-Button muss genauso prominent sein wie der "Akzeptieren"-Button. Ein kleines Kreuzchen versteckt im Footer reicht nicht.
+
+**2. Kein Pre-Checked**
+Checkboxen müssen leer sein. Vorausgewählte Einwilligungen sind unwirksam.
+
+**3. Granularität**
+Nutzer müssen einzelne Zwecke (Analytics, Marketing, etc.) separat ein- und ausschalten können.
+
+**4. Widerruf so einfach wie Einwilligung**
+Ein Consent-Button oben, kein Widerruf zu finden: Das ist nicht konform. Nutzer müssen ihre Einwilligung jederzeit widerrufen können.
+
+**5. Kein Consent-Gating**
+Inhalte dürfen nicht hinter einer Consent-Mauer versteckt werden, wenn die Nutzung des Dienstes nicht von Tracking abhängt.
+
+## Reicht Google Analytics mit Consent noch?
+
+Ja — aber nur mit echtem Opt-in und aktiviertem **Google Consent Mode V2**. Ohne Consent Mode schickt Google Analytics Daten auch ohne Cookie. Consent Mode verhindert das: Bei abgelehntem Consent werden nur anonymisierte Ping-Daten gesendet (Conversion Modeling, kein personenbezogenes Tracking).
+
+**Praktische Umsetzung:**
+- Google Tag Manager: Consent Mode V2 konfigurieren
+- Analytics-Skript erst nach Consent laden
+- "Grundlegende Einwilligungen" korrekt taggen
+
+## Was kostet ein nicht-konformer Cookie-Banner?
+
+Die deutschen Datenschutzbehörden verhängen bei Cookie-Verstößen typischerweise:
+
+- **Kleinunternehmer / Selbstständige:** 500–5.000 € (Ermessen)
+- **Mittelständische Unternehmen:** 10.000–100.000 €
+- **Konzerne:** Bis 20 Mio. € oder 4 % weltweiter Jahresumsatz (DSGVO-Maximum)
+
+Wichtig: Cookie-Beschwerden können von jedem eingereicht werden — auch von Mitbewerbern.
+
+## Checkliste: Ist dein Cookie-Banner konform?
+
+- [ ] Akzeptieren und Ablehnen gleich prominent
+- [ ] Keine vorausgewählten Checkboxen
+- [ ] Granulare Zwecke (Analytics, Marketing getrennt)
+- [ ] Widerruf jederzeit möglich (z.B. Einstellungen-Link im Footer)
+- [ ] Technische Cookies ausgenommen (kein Consent-Erfordernis)
+- [ ] Google Consent Mode V2 aktiv (bei Google Analytics)
+- [ ] Audit-Trail vorhanden (wer hat wann was akzeptiert?)
+
+## Was Compliflow anbietet
+
+Der **Compliflow Cookie-Banner** (Launch: 19. August 2026) adressiert genau diese Anforderungen: fünf Banner-Stile, Google Consent Mode V2 direkt integriert, vollständiger Audit-Trail, gleich prominente Buttons — und ein Snippet pro Domain ohne Plugin-Installation.
+
+Bis zum Launch kannst du dich auf die Warteliste eintragen und bekommst 34 % Early-Bird-Rabatt.
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

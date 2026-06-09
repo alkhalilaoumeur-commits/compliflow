@@ -111,7 +111,7 @@ export default function BlogPage() {
               key={post.slug}
               href={`/blog/${post.slug}`}
               className={`group block py-10 hover:opacity-90 transition-opacity ${
-                i === 0 ? "md:border-r md:border-line md:pr-10" : "md:pl-10"
+                i % 2 === 0 ? "md:border-r md:border-line md:pr-10" : "md:pl-10"
               } border-b border-line`}
             >
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-3">

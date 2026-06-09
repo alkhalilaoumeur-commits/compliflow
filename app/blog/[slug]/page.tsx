@@ -124,10 +124,17 @@ export default function BlogPostPage({ params }: Props) {
   };
 
   const others = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const isCookiePost = post.category === "Cookie-Banner";
   const isVvtPost = post.category === "Verarbeitungsverzeichnis";
-  const ctaHref = isVvtPost ? "/vvt" : "/avv";
-  const ctaLabel = isVvtPost ? "VVT jetzt erstellen →" : "AVV jetzt erstellen →";
-  const ctaSidebarText = isVvtPost
+  const ctaHref = isCookiePost ? "/cookie-banner" : isVvtPost ? "/vvt" : "/avv";
+  const ctaLabel = isCookiePost
+    ? "Cookie-Banner Warteliste →"
+    : isVvtPost
+    ? "VVT jetzt erstellen →"
+    : "AVV jetzt erstellen →";
+  const ctaSidebarText = isCookiePost
+    ? "Cookie-Banner kommt am 19. August 2026 — jetzt eintragen, 34 % Early-Bird-Rabatt sichern."
+    : isVvtPost
     ? "Verarbeitungsverzeichnis kostenlos erstellen — Art. 30 DSGVO, kein Account nötig."
     : "AVV kostenlos generieren — in 10 Minuten, kein Account nötig.";
 
