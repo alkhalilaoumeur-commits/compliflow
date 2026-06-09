@@ -114,4 +114,9 @@ export const QUICK_SUBVERARBEITER = [
   { firma: "Mailchimp / Intuit Inc.", anschrift: "Atlanta, USA", land: "US", zweck: "Newsletter-Versand" },
   { firma: "Hetzner Online GmbH", anschrift: "Gunzenhausen, Deutschland", land: "DE", zweck: "Hosting" },
   { firma: "Plausible Insights OÜ", anschrift: "Tallinn, Estland", land: "EE", zweck: "Web-Analytics" },
+  { firma: "Zoom Video Communications, Inc.", anschrift: "San Jose, USA", land: "US", zweck: "Video-Konferenzen" },
+  { firma: "Sendinblue SAS (Brevo)", anschrift: "Paris, Frankreich", land: "FR", zweck: "Newsletter-Versand" },
+  { firma: "Cloudflare, Inc.", anschrift: "San Francisco, USA", land: "US", zweck: "CDN / DDoS-Schutz" },
+  { firma: "Notion Labs, Inc.", anschrift: "San Francisco, USA", land: "US", zweck: "Projektmanagement / Dokumentation" },
+  { firma: "Haufe-Lexware GmbH & Co. KG (Lexoffice)", anschrift: "Freiburg, Deutschland", land: "DE", zweck: "Buchhaltung / Rechnungen" },
 ];

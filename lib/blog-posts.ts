@@ -470,6 +470,97 @@ Ist die Antwort ja → AVV Pflicht.
 Die meisten großen US-Dienste haben fertige DPAs. Bei kleineren Dienstleistern oder lokalen Anbietern musst du oft selbst einen AVV aufsetzen — genau dafür ist der Compliflow AVV-Generator da.
     `.trim(),
   },
+  {
+    slug: "dsgvo-freelancer-selbstaendige-pflichten-2026",
+    title: "DSGVO für Freelancer und Selbstständige — was ist wirklich Pflicht?",
+    excerpt:
+      "Als Freelancer bist du selbst Verantwortlicher nach DSGVO — auch ohne Angestellte. Welche Pflichten du hast, was du sofort tun solltest, und was du dir sparen kannst.",
+    category: "DSGVO Grundlagen",
+    date: "2026-06-09",
+    readingTime: 7,
+    content: `
+## Die kurze Antwort
+
+Ja, auch Freelancer und Soloselbstständige unterliegen der DSGVO — sobald sie personenbezogene Daten von Dritten (Kunden, Interessenten) verarbeiten. Das gilt ab dem ersten Angebots-E-Mail.
+
+Die gute Nachricht: Als Einzelperson ohne Angestellte entfällt ein Teil der Pflichten. Aber der Kern bleibt.
+
+## Was Freelancer definitiv brauchen
+
+### 1. Datenschutzerklärung auf der Website
+
+Pflicht ab dem ersten Tag. Inhalt: Welche Daten, zu welchem Zweck, auf welcher Rechtsgrundlage. Kontaktformulare, Analytics, Newsletter — alles muss transparent erklärt sein.
+
+### 2. Auftragsverarbeitungsverträge (AVV) mit Tools
+
+Jedes Tool das du für Kundendaten nutzt, benötigt einen AVV:
+
+- **E-Mail:** Google Workspace, Outlook/Microsoft 365, Fastmail
+- **Projektmanagement:** Notion, Asana, ClickUp, Trello
+- **Buchhaltung:** Lexoffice, Billomat, FastBill, DATEV
+- **Kommunikation:** Slack, Zoom, Microsoft Teams
+- **Dateiablage:** Google Drive, Dropbox, OneDrive
+- **Newsletter:** Mailchimp, Brevo, ActiveCampaign
+
+[Hier kostenlos einen AVV erstellen →](/avv)
+
+### 3. Verarbeitungsverzeichnis (VVT) nach Art. 30 DSGVO
+
+Auch Selbstständige müssen ein VVT führen — die Ausnahme für Unternehmen unter 250 Mitarbeitern gilt nicht pauschal. Sie gilt nur, wenn die Verarbeitung kein Risiko für Betroffene darstellt. Praktisch: Führe es einfach, dann bist du auf der sicheren Seite.
+
+[VVT kostenlos erstellen →](/vvt)
+
+### 4. Betroffenenrechte ermöglichen
+
+Kunden können jederzeit Auskunft, Löschung oder Berichtigung ihrer Daten verlangen. Du musst innerhalb von einem Monat antworten. Tipp: Speichere Daten nur so lange wie nötig.
+
+## Was Freelancer NICHT brauchen
+
+**Datenschutzbeauftragter:** Erst Pflicht ab 20 Mitarbeitern, die regelmäßig personenbezogene Daten verarbeiten (seit 2020: 20 statt 10). Als Solo-Freelancer: nicht nötig.
+
+**Datenschutz-Folgenabschätzung (DSFA):** Nur bei hochriskanter Verarbeitung (z.B. medizinische Daten, biometrische Erkennung, systematische Überwachung). Für normale Freelancer irrelevant.
+
+**Aufzeichnung von Verarbeitungen in Subunternehmen:** Nur relevant wenn du selbst Auftragsverarbeiter bist (z.B. als Datenschutzberater, der für andere Firmen tätig wird).
+
+## Die 5 häufigsten DSGVO-Fehler von Freelancern
+
+**Fehler 1: Kein AVV mit dem E-Mail-Anbieter**
+Du bearbeitest Kunden-E-Mails über Gmail oder Outlook. Beide verarbeiten personenbezogene Daten für dich. Ohne AVV: Verstoß.
+
+**Fehler 2: Google Analytics ohne Datenschutzerklärung**
+Jeder Website-Besucher wird getrackt. Kein Tracking ohne Disclosure — oder DSGVO-konformes Analytics ohne Consent nutzen (z.B. Plausible).
+
+**Fehler 3: Kein Impressum und keine Datenschutzerklärung auf der Website**
+Pflicht für jede geschäftliche Website, auch Freelancer-Portfolios.
+
+**Fehler 4: Kundendaten unbegrenzt lang aufbewahren**
+Nach Abschluss eines Projekts dürfen Kontaktdaten nicht für immer gespeichert bleiben. Handelsrechtliche Aufbewahrungspflicht: 6–10 Jahre für Rechnungen, aber nicht für alle Daten.
+
+**Fehler 5: Tools ohne Prüfung nutzen**
+Neues Projektmanagement-Tool eingeführt? Erstmal prüfen: Wo liegen die Server? Gibt es eine DPA? Gehört der Anbieter zu einem US-Konzern?
+
+## Konkrete Checkliste für Freelancer
+
+- [ ] Datenschutzerklärung auf Website vorhanden und aktuell
+- [ ] Impressum vorhanden (§ 5 TMG)
+- [ ] AVV mit allen Drittanbietern abgeschlossen ([jetzt erstellen](/avv))
+- [ ] Verarbeitungsverzeichnis angelegt ([jetzt erstellen](/vvt))
+- [ ] Kontaktformular-Einträge: Speicherdauer festgelegt
+- [ ] Newsletter: Double-Opt-In, Abmeldefunktion, AVV mit E-Mail-Anbieter
+- [ ] Rechnungen: 10 Jahre aufbewahren (§ 147 AO), danach löschen
+- [ ] Anfragen von Betroffenen: Prozess festgelegt (Antwort in 30 Tagen)
+
+## Was kostet ein DSGVO-Verstoß als Freelancer?
+
+Die Aufsichtsbehörden haben die Verhältnismäßigkeit im Blick — ein Soloselbstständiger wird anders behandelt als ein Konzern. Typische Bußgelder für kleine Verstöße: 1.000–10.000 €.
+
+Aber: Der Reputationsschaden kann größer sein als das Bußgeld. Kunden die wissen dass du DSGVO-konform arbeitest, vertrauen dir mehr — besonders B2B.
+
+## Fazit
+
+DSGVO als Freelancer ist kein Monster. Die drei wichtigsten Schritte: Datenschutzerklärung, AVVs mit Tools abschließen, VVT anlegen. Mit Compliflow erledigst du AVV und VVT kostenlos in 15 Minuten.
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
