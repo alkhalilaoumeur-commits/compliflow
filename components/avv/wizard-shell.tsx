@@ -183,7 +183,7 @@ export function WizardShell() {
       </div>
 
       {/* Step Content */}
-      <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
+      <main id="main-content" className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
         <div key={currentStep} className="rise" style={{ animationDelay: "120ms" }}>
           {currentStep === "parteien" && <StepParteien />}
           {currentStep === "verarbeitung" && <StepVerarbeitung />}

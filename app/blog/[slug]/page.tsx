@@ -41,6 +41,13 @@ function renderContent(content: string) {
   const elements: React.ReactNode[] = [];
   let listItems: string[] = [];
 
+  const inlineHtml = (text: string) =>
+    text
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, '<a href="$2" class="text-accent hover:text-ink underline underline-offset-2">$1</a>')
+      .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2" class="text-accent hover:text-ink underline underline-offset-2" target="_blank" rel="noopener noreferrer">$1</a>');
+
   const flushList = (key: string) => {
     if (listItems.length > 0) {
       elements.push(
@@ -48,7 +55,7 @@ function renderContent(content: string) {
           {listItems.map((item, i) => (
             <li key={i} className="flex gap-3 font-body text-[16px] leading-relaxed text-ink-dim">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-              <span>{item.replace(/^[-*]\s*/, "").replace(/\*\*(.*?)\*\*/g, "$1")}</span>
+              <span dangerouslySetInnerHTML={{ __html: inlineHtml(item.replace(/^[-*\d.]\s*/, "")) }} />
             </li>
           ))}
         </ul>
@@ -65,6 +72,13 @@ function renderContent(content: string) {
           {line.replace("## ", "")}
         </h2>
       );
+    } else if (line.startsWith("### ")) {
+      flushList(`list-${i}`);
+      elements.push(
+        <h3 key={i} className="mt-7 mb-3 font-display text-[20px] font-medium leading-snug tracking-[-0.01em] text-ink sm:text-[22px]">
+          {line.replace("### ", "")}
+        </h3>
+      );
     } else if (line.startsWith("- ") || line.startsWith("* ")) {
       listItems.push(line);
     } else if (line.match(/^\d+\.\s/)) {
@@ -80,12 +94,9 @@ function renderContent(content: string) {
       );
     } else if (line.trim()) {
       flushList(`list-${i}`);
-      const html = line
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/_(.*?)_/g, "<em>$1</em>");
       elements.push(
         <p key={i} className="my-4 font-body text-[16px] leading-[1.75] text-ink-dim"
-           dangerouslySetInnerHTML={{ __html: html }} />
+           dangerouslySetInnerHTML={{ __html: inlineHtml(line) }} />
       );
     }
   });
