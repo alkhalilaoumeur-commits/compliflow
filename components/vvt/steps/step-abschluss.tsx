@@ -109,8 +109,9 @@ export function StepAbschluss() {
         {avMissing.length > 0 && (
           <section>
             <div className="border border-[rgba(154,93,26,0.4)] bg-[rgba(154,93,26,0.05)] p-5">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-warn mb-2">
-                ⚠ Fehlende AVV-Verträge
+              <p className="font-mono text-[10px] uppercase tracking-widest text-warn mb-2 flex items-center gap-1.5">
+                <svg className="h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                Fehlende AVV-Verträge
               </p>
               <p className="text-sm text-ink-dim mb-3">
                 Folgende Auftragsverarbeiter benötigen einen AVV nach Art. 28 DSGVO:
