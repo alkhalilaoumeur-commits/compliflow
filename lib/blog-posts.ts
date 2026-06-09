@@ -1084,12 +1084,12 @@ AGB ≠ AVV. Die AGB regeln den kommerziellen Vertrag. Der AVV ist ein separates
 
 ## Was du jetzt tun solltest
 
-1. Liste alle externen Dienste auf die personenbezogene Daten verarbeiten
-2. Für die häufigsten (Stripe, Google, Mailchimp, Hetzner) → AVV direkt im Anbieter-Dashboard akzeptieren oder selbst generieren
-3. Datenschutzerklärung aktualisieren: alle Auftragsverarbeiter müssen namentlich genannt werden
-4. Verarbeitungsverzeichnis erstellen: dokumentiert welche Daten du warum verarbeitest
+- Liste alle externen Dienste auf die personenbezogene Daten verarbeiten
+- Für die häufigsten (Stripe, Google, Mailchimp, Hetzner) → AVV direkt im Anbieter-Dashboard akzeptieren oder selbst generieren
+- Datenschutzerklärung aktualisieren: alle Auftragsverarbeiter müssen namentlich genannt werden
+- Verarbeitungsverzeichnis erstellen: dokumentiert welche Daten du warum verarbeitest
 
-Alles was du für Schritte 2-4 brauchst, gibt es kostenlos und ohne Account:
+Alles was du für die letzten drei Schritte brauchst, gibt es kostenlos und ohne Account:
 
 [AVV-Generator starten — kostenlos, in 10 Minuten](/avv)
 
