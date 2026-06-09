@@ -785,6 +785,98 @@ Alle anderen DSGVO-Tools sind schon heute verfügbar:
 - [Verarbeitungsverzeichnis](/vvt) — VVT nach Art. 30, kostenlos, 10 Vorlagen
     `.trim(),
   },
+  {
+    slug: "avv-stripe-selbstaendige-online-shop-pflicht",
+    title: "AVV mit Stripe — Pflicht für Selbstständige und Online-Shops",
+    excerpt:
+      "Stripe verarbeitet Zahlungsdaten deiner Kunden in deinem Auftrag — das macht Stripe zum Auftragsverarbeiter. Ohne AVV drohen Bußgelder. Hier erfährst du, was du beachten musst.",
+    category: "AVV",
+    date: "2026-06-09",
+    readingTime: 6,
+    content: `
+## Stripe ist ein Auftragsverarbeiter — und du brauchst einen AVV
+
+Wer Stripe in sein Checkout einbindet, gibt Zahlungsdaten von Kunden an Stripe weiter: Namen, E-Mail-Adressen, Lieferadressen — alles personenbezogene Daten nach Art. 4 Nr. 1 DSGVO.
+
+Stripe verarbeitet diese Daten **in deinem Auftrag** — nicht auf Basis einer eigenen Entscheidung, sondern um dir die Zahlungsabwicklung zu ermöglichen. Das macht Stripe zum **Auftragsverarbeiter** im Sinne von Art. 28 DSGVO.
+
+Die logische Konsequenz: Du brauchst einen **Auftragsverarbeitungsvertrag (AVV)** mit Stripe.
+
+## Hält Stripe automatisch einen AVV bereit?
+
+Ja — Stripe stellt einen standardisierten AVV bereit, dem alle Nutzer bei der Registrierung zustimmen. Dieser ist unter [stripe.com/de/legal/dpa](https://stripe.com/legal/dpa) einsehbar und basiert auf den EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
+
+**Das Problem:** Dieser AVV von Stripe regelt ausschließlich, was Stripe mit deinen Daten macht. Er sagt nichts darüber aus, welche Daten du im Rahmen deiner eigenen Prozesse verarbeitest und wie du dabei vorgehst.
+
+Wenn du also Rechnungen verschickst, Kundendaten in einem CRM speicherst oder Newsletter versendest — all das erfordert einen eigenen AVV zwischen **dir und deinem Kunden** oder zwischen **dir und deinen Dienstleistern** (z.B. Mailchimp, Google Workspace, Vercel).
+
+## Welche Daten fließen durch Stripe?
+
+Jede Stripe-Zahlung überträgt typischerweise folgende Datenkategorien:
+
+- **Kontaktdaten:** Name, E-Mail-Adresse, Telefonnummer
+- **Zahlungsdaten:** Karteninformationen (tokenisiert), IBAN (bei SEPA-Lastschrift)
+- **Rechnungsadresse:** Straße, PLZ, Ort, Land
+- **Gerätedaten:** IP-Adresse, Browser-Fingerprint (für Betrugsprävention)
+- **Transaktionsdaten:** Bestellnummer, Betrag, Währung, Zeitstempel
+
+All das sind personenbezogene Daten — auch tokenisierte Zahlungsdaten, solange sie einer natürlichen Person zugeordnet werden können.
+
+## Stripe hat seinen Sitz in den USA — Schrems II
+
+Stripe Technology Europe Limited (Dublin, Irland) ist seit 2019 der europäische Vertragspartner für alle EU-Nutzer. **Die Verarbeitung erfolgt im EWR** — Schrems-II-Problematik ist daher grundsätzlich nicht relevant, solange du keine US-spezifischen Stripe-Features nutzt.
+
+Wenn du dennoch auf Nummer sicher gehen willst: Strikte enthält in seinem DPA explizit die **EU-Standardvertragsklauseln (SCC)** als Transfergarantie.
+
+## Deine eigene Datenschutzerklärung muss Stripe erwähnen
+
+Neben dem AVV musst du Stripe in deiner **Datenschutzerklärung** als Auftragsverarbeiter benennen — inkl. Rechtsgrundlage, Zweck der Verarbeitung, Speicherort und Link zum Stripe-Datenschutz.
+
+Fehlt dieser Hinweis, riskierst du eine Abmahnung — nicht von Behörden, sondern von Mitbewerbern nach UWG. Gerade im E-Commerce wird das aktiv abgemahnt.
+
+## Checkliste: AVV und Stripe korrekt umsetzen
+
+- [ ] Stripe-DPA bei Registrierung akzeptiert (automatisch für alle Nutzer)
+- [ ] Stripe in Datenschutzerklärung als Auftragsverarbeiter aufgeführt
+- [ ] Zweck der Datenverarbeitung beschrieben (Zahlungsabwicklung)
+- [ ] Rechtsgrundlage angegeben (Art. 6 Abs. 1 lit. b DSGVO — Vertragserfüllung)
+- [ ] Hinweis auf Datenspeicherung bei Stripe (Irland / EWR)
+- [ ] Verlinkung zur Stripe-Datenschutzerklärung
+- [ ] Eigene AVV mit anderen Dienstleistern abgeschlossen (Hosting, E-Mail, CRM)
+
+## Andere Dienste die du vergisst — und die genauso Pflicht sind
+
+Stripe ist nur einer von vielen Auftragsverarbeitern. Viele Selbstständige vergessen:
+
+**Hosting und Infrastruktur:**
+- Vercel, Netlify, Hetzner — jedes Hosting das Logfiles mit IP-Adressen speichert
+- AWS, Google Cloud, Azure — sofern du eigene Services darauf betreibst
+
+**Kommunikation:**
+- Mailchimp, Brevo (Sendinblue) — Newsletter-Dienste
+- Resend, Postmark — transaktionale E-Mails
+- Zoom, Teams — Videokommunikation mit Kunden
+
+**CRM und Tools:**
+- HubSpot, Pipedrive — CRM mit Kundendaten
+- Notion — wenn du dort Kundendaten speicherst
+- Google Workspace — E-Mails und Dokumente
+
+Für alle diese Dienste brauchst du einen AVV. Die meisten großen Anbieter stellen ihn in ihren Einstellungen bereit — oder du kannst einen eigenen AVV generieren.
+
+## Fazit
+
+Stripe ist DSGVO-konform und stellt selbst einen AVV bereit. Deine Aufgabe:
+
+1. Stripe in deiner Datenschutzerklärung korrekt aufführen
+2. Eigene AVV mit allen anderen Dienstleistern (Hosting, E-Mail, CRM) abschließen
+3. Deinen eigenen Kunden gegenüber transparent kommunizieren
+
+Den AVV mit deinen eigenen Auftragsverarbeitern kannst du direkt hier erstellen — kostenlos, in 10 Minuten, kein Account nötig:
+
+[AVV jetzt kostenlos generieren →](/avv)
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
