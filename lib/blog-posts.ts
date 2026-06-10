@@ -1181,6 +1181,82 @@ Ein kostenloser AVV Mustervertrag ist für die meisten Selbstständigen vollkomm
 [AVV Mustervertrag jetzt kostenlos generieren →](/avv)
     `.trim(),
   },
+  {
+    slug: "avv-chatgpt-claude-ki-tools-dsgvo-2026",
+    title: "AVV mit KI-Tools: ChatGPT, Claude & Co. — Was Selbstständige 2026 wissen müssen",
+    excerpt:
+      "ChatGPT, Claude, Midjourney — wer diese Tools beruflich nutzt und dabei Kundendaten eingibt, braucht einen AVV. Was du tun musst, was OpenAI & Anthropic dazu sagen, und ob ein Muster-AVV reicht.",
+    category: "AVV",
+    date: "2026-06-10",
+    readingTime: 7,
+    content: `
+KI-Tools sind aus dem Arbeitsalltag kaum noch wegzudenken. Doch wer sie beruflich einsetzt und dabei — auch versehentlich — personenbezogene Daten eingibt, hat ein DSGVO-Problem: er ist Verantwortlicher, und das KI-Tool wird zum Auftragsverarbeiter.
+
+## Wann brauchst du einen AVV mit einem KI-Tool?
+
+Sobald du **personenbezogene Daten** in ein KI-Tool eingibst, und das Tool diese Daten verarbeitet. Personenbezogen bedeutet: alles, womit man eine Person direkt oder indirekt identifizieren kann.
+
+Konkrete Beispiele, die in der Praxis häufig passieren:
+
+- Du fragst ChatGPT nach einem Antwort-Entwurf für eine Kundenanfrage — und kopierst dabei Name + E-Mail-Adresse hinein
+- Du bittest Claude, ein Angebot zu formulieren — mit Name, Firma, Projektdetails des Kunden
+- Du verwendest ein KI-Transkriptions-Tool für Kundentelefonate
+- Du nutzt Midjourney oder DALL·E mit Fotos von Personen aus deinem Kundenstamm
+
+In all diesen Fällen verarbeitest **du** die Daten im Auftrag deiner eigenen geschäftlichen Tätigkeit — und beauftragst dafür technisch das KI-Tool. Das macht das KI-Tool zum Auftragsverarbeiter nach Art. 28 DSGVO.
+
+## Was sagen OpenAI, Anthropic und Co. zum AVV?
+
+Die großen KI-Anbieter sind sich der Rechtslage bewusst:
+
+**OpenAI (ChatGPT):** Stellt einen Datenverarbeitungszusatz (DPA) bereit — unter [platform.openai.com](https://platform.openai.com). Wichtig: Das gilt für die **API-Nutzung** und für Business-/Enterprise-Pläne. Die kostenlose ChatGPT-Nutzung auf chat.openai.com fällt **nicht** unter diesen DPA.
+
+**Anthropic (Claude):** Bietet einen DPA für gewerbliche Nutzer an, verfügbar bei Nutzung über die API oder Claude Pro/Teams-Pläne. Nicht für kostenlose Nutzung.
+
+**Google (Gemini):** DPA für Workspace-Nutzer vorhanden. Kostenlose Gmail/Google-Konten sind nicht abgedeckt.
+
+**Midjourney:** Kein Standard-DPA bisher — Drittlandübermittlung ohne SCC. Für die Verarbeitung von Personendaten (z. B. Porträtfotos echter Personen) datenschutzrechtlich kritisch.
+
+**Fazit:** Wer KI-Tools beruflich nutzt, sollte auf **Business- oder API-Pläne** setzen und den jeweiligen DPA/AVV des Anbieters abschließen.
+
+## Reicht der DPA des Anbieters — oder brauchst du einen eigenen AVV?
+
+Bei großen Anbietern (OpenAI, Anthropic, Google) ist der vorbereitete DPA in der Regel ausreichend für Standard-Nutzungsfälle. Du musst ihn:
+
+1. Abrufen (meist im Kunden-Dashboard unter "Legal" oder "Data Processing")
+2. Akzeptieren/unterschreiben
+3. In deinem Verarbeitungsverzeichnis (Art. 30 DSGVO) als Auftragsverarbeiter eintragen
+
+Wenn der Anbieter **keinen DPA stellt** (z. B. kleinere KI-Tools, Nischen-APIs), musst du einen eigenen AVV-Mustervertrag erstellen und vom Anbieter gegenzeichnen lassen — oder den Dienst für personenbezogene Daten meiden.
+
+## US-Anbieter und Schrems II — was gilt für ChatGPT & Claude?
+
+OpenAI und Anthropic sind US-Unternehmen. Nach Schrems II und dem EU-US Data Privacy Framework (DPF) gilt:
+
+- OpenAI ist **DPF-zertifiziert** — Datentransfer in die USA ist damit legal, solange OpenAI die Zertifizierung aufrechterhält
+- Anthropic: Prüfe den aktuellen Status auf [dataprivacyframework.gov](https://www.dataprivacyframework.gov)
+- Standard-Vertragsklauseln (SCCs) als Fallback, falls DPF wegfällt
+
+Im AVV muss die Rechtsgrundlage für den Drittlandtransfer angegeben werden — entweder "DPF-Zertifizierung" oder "SCCs nach Art. 46 Abs. 2 lit. c DSGVO".
+
+## Praktische Checkliste: KI-Tools DSGVO-konform nutzen
+
+- [ ] Nur KI-Tools mit Business/API-Plan nutzen, wenn Kundendaten eingegeben werden
+- [ ] DPA/AVV des Anbieters abschließen (im Kunden-Dashboard)
+- [ ] Anbieter im Verarbeitungsverzeichnis als Auftragsverarbeiter eintragen
+- [ ] Drittland-Rechtsgrundlage im AVV angeben (DPF oder SCCs)
+- [ ] Mitarbeiter oder Auftragnehmer informieren, welche KI-Tools erlaubt sind
+- [ ] Interne Richtlinie: "Keine echten Kundendaten in kostenlose KI-Tools"
+
+## Fazit
+
+Wer ChatGPT oder Claude beruflich nutzt, muss einen AVV abschließen — entweder mit dem Anbieter (wenn dieser einen DPA bereitstellt) oder als eigenen Mustervertrag. Der entscheidende Punkt: Die kostenlose Nutzung reicht für DSGVO-Compliance nicht aus.
+
+Den AVV für KI-Tools und alle anderen Auftragsverarbeiter kannst du direkt hier erstellen:
+
+[AVV für ChatGPT & Co. jetzt kostenlos generieren →](/avv)
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
