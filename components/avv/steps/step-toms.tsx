@@ -91,12 +91,21 @@ export function StepToms() {
         <button
           type="button"
           onClick={() => {
-            const empfohlen = STANDARD_TOMS.slice(0, 16).map((s) => ({
+            // Alle 8 Kategorien abdecken — je die erste Maßnahme pro Kategorie
+            const KATEGORIEN_REIHENFOLGE: TomKategorie[] = [
+              "zutritt", "zugang", "zugriff", "weitergabe",
+              "eingabe", "auftrag", "verfuegbarkeit", "trennung",
+            ];
+            const empfohlen: { kategorie: TomKategorie; beschreibung: string }[] = [];
+            for (const kat of KATEGORIEN_REIHENFOLGE) {
+              const items = STANDARD_TOMS.filter((s) => s.kategorie === kat).slice(0, 2);
+              empfohlen.push(...items);
+            }
+            update("toms", empfohlen.map((s) => ({
               id: crypto.randomUUID(),
               kategorie: s.kategorie,
               beschreibung: s.beschreibung,
-            }));
-            update("toms", empfohlen);
+            })));
           }}
           className="px-4 py-2 font-mono text-[11px] uppercase tracking-widest bg-accent text-bg hover:bg-ink transition"
         >
