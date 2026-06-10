@@ -66,7 +66,7 @@ Stripe nutzt AWS als Infrastruktur — das muss im AVV stehen.
 
 ## Fazit
 
-Ein AVV ist keine Formalität, sondern ein echtes rechtliches Dokument. Mit Compliflow generierst du in 10 Minuten einen DSGVO-konformen AVV — kostenlos, kein Account nötig.
+Ein AVV ist keine Formalität, sondern ein echtes rechtliches Dokument. Mit Compliflow generierst du in 10 Minuten ein AVV-Musterdokument mit allen Pflichtangaben nach Art. 28 Abs. 3 DSGVO — kostenlos, kein Account nötig.
     `.trim(),
   },
   {
@@ -104,7 +104,7 @@ Seit Juli 2023 gilt das EU-US Data Privacy Framework (Nachfolger von Privacy Shi
 
 ## Fazit
 
-Ja, du brauchst einen AVV mit Google. Compliflow generiert ihn in 10 Minuten — inklusive korrekter Drittland-Klausel für die USA.
+Ja, du brauchst einen AVV mit Google. Compliflow generiert ihn in 10 Minuten — inklusive Drittland-Klausel nach Art. 46 DSGVO für US-Anbieter. Für komplexe Drittlandszenarien (Art. 9-Daten, behördliche Prüfungen) empfehlen wir zusätzlich eine anwaltliche Prüfung.
     `.trim(),
   },
   {
