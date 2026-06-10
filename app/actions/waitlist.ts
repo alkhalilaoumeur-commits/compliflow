@@ -9,6 +9,22 @@ type Result =
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Rate-limit: max 1 DOI-Email pro Adresse alle 10 Minuten
+const doiCooldown = new Map<string, number>();
+const DOI_COOLDOWN_MS = 10 * 60 * 1000;
+
+function isEmailRateLimited(email: string): boolean {
+  const last = doiCooldown.get(email);
+  if (last && Date.now() - last < DOI_COOLDOWN_MS) return true;
+  doiCooldown.set(email, Date.now());
+  if (doiCooldown.size > 500) {
+    // Älteste Einträge löschen wenn Map zu groß wird
+    const oldest = [...doiCooldown.entries()].sort((a, b) => a[1] - b[1]).slice(0, 100);
+    oldest.forEach(([k]) => doiCooldown.delete(k));
+  }
+  return false;
+}
+
 // Stateless Double Opt-In via HMAC-SHA256
 // Token = HMAC(email:source, DOI_SECRET) — serverseitig verifizierbar ohne DB-Eintrag
 function buildDoiToken(email: string, source: string): string {
@@ -22,6 +38,10 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
 
   if (!email || !EMAIL_RX.test(email)) {
     return { ok: false, message: "Bitte gib eine gültige Email-Adresse ein." };
+  }
+
+  if (isEmailRateLimited(email)) {
+    return { ok: true, message: "Fast dabei — bitte bestätige deine Anmeldung per E-Mail." };
   }
 
   // DOI-Email senden — Nutzer erscheint erst nach Klick auf Bestätigungs-Link in der confirmed-Liste
