@@ -239,7 +239,7 @@ export async function sendPaymentConfirmation({
                 Jetzt PDF herunterladen →
               </a>
               <p style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#8b8e94;margin:24px 0 0;line-height:1.5;">
-                Dieser Link aktiviert deinen Pro-Zugang direkt im Browser. Du kannst ihn jederzeit erneut aufrufen — der Link bleibt 30 Tage gültig.
+                Dieser Link aktiviert deinen Pro-Zugang direkt im Browser. Du kannst ihn jederzeit erneut aufrufen — speichere diese E-Mail für späteren Zugriff.
               </p>
             </td>
           </tr>
