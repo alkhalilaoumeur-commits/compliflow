@@ -147,4 +147,22 @@ Jeden Punkt abhaken bevor Launch-Posts:
 
 ---
 
-*Erstellt von Claude Code · 08.06.2026*
+---
+
+## Sicherheits-Checkliste (automatisch geprüft, nur zur Übersicht)
+
+Diese Punkte sind bereits im Code implementiert — nur bei Problemen prüfen:
+
+| Schicht | Status | Beschreibung |
+|---|---|---|
+| Rate-Limiting Checkout | ✅ | Max 5 Stripe-Checkouts pro IP pro Minute |
+| Rate-Limiting verify-session | ✅ | Max 20 Verifyings pro IP pro Minute |
+| Rate-Limiting Waitlist DOI | ✅ | Max 1 DOI-Email pro Adresse pro 10 Min |
+| Stripe Webhook Signatur | ✅ | `stripe.webhooks.constructEvent()` — keine Bypass-Möglichkeit |
+| DOI-Token HMAC | ✅ | SHA-256 mit DOI_SECRET, timing-safe comparison |
+| DOI_SECRET Pflicht Prod | ✅ | Server-Error wenn nicht gesetzt (kein Fallback mehr) |
+| Keine Server-Datenspeicherung | ✅ | Wizard-Daten nur localStorage — kein DSGVO-Problem |
+| CSP-Header | ✅ | script-src, connect-src, frame-src konfiguriert |
+| HSTS | ✅ | max-age=31536000 in Production |
+
+*Zuletzt aktualisiert von Claude Code · 10.06.2026*
