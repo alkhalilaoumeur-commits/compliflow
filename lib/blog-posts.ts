@@ -1157,12 +1157,10 @@ Der [Compliflow AVV-Generator](/avv) erstellt dir ein vollständiges Musterdokum
 
 ## Kostenlos vs. Pro — was ist der Unterschied?
 
-| | Kostenlos | Pro (29 € einmalig) |
-|---|---|---|
-| Alle Pflichtfelder Art. 28 | ✓ | ✓ |
-| PDF-Download | ✓ | ✓ |
-| Compliflow-Footer im PDF | Ja | Nein |
-| Kein Account nötig | ✓ | ✓ |
+Beide Versionen enthalten alle Pflichtfelder nach Art. 28, PDF-Download ohne Account:
+
+- **Kostenlos:** Vollständiger Mustervertrag mit Compliflow-Footer im PDF
+- **Pro (29 € einmalig):** Identischer Inhalt, aber ohne Footer — relevant bei Übergabe an Kunden oder Behörden
 
 Der kostenlose Mustervertrag ist rechtlich gleichwertig. Der Pro-Version entfernt lediglich den Branding-Footer — relevant wenn du das Dokument an Kunden oder Behörden übergibst und kein externes Branding möchtest.
 
