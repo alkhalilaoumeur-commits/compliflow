@@ -11,7 +11,7 @@ const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Stateless Double Opt-In via HMAC-SHA256
 // Token = HMAC(email:source, DOI_SECRET) — serverseitig verifizierbar ohne DB-Eintrag
-export function buildDoiToken(email: string, source: string): string {
+function buildDoiToken(email: string, source: string): string {
   const secret = process.env.DOI_SECRET ?? "compliflow-doi-fallback-secret";
   return createHmac("sha256", secret).update(`${email}:${source}`).digest("hex");
 }
