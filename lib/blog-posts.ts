@@ -1257,6 +1257,123 @@ Den AVV für KI-Tools und alle anderen Auftragsverarbeiter kannst du direkt hier
 [AVV für ChatGPT & Co. jetzt kostenlos generieren →](/avv)
     `.trim(),
   },
+  {
+    slug: "datenschutz-website-pflichten-2026-selbstaendige",
+    title: "Website & DSGVO 2026: Alle Pflichten für Selbstständige und KMU",
+    excerpt:
+      "Datenschutzerklärung, Cookie-Banner, AVV, Verarbeitungsverzeichnis — welche DSGVO-Pflichten hat deine Website wirklich? Checkliste für Selbstständige und kleine Unternehmen.",
+    category: "DSGVO",
+    date: "2026-06-10",
+    readingTime: 8,
+    content: `
+Du hast eine Website. Du nimmst Anfragen an, hast vielleicht ein Kontaktformular, nutzt Google Analytics oder Stripe — und weißt nicht genau, was die DSGVO von dir verlangt? Diese Checkliste bringt Klarheit.
+
+## Wer ist betroffen?
+
+Jede natürliche oder juristische Person, die eine Website betreibt und dabei personenbezogene Daten verarbeitet. Kurz: **alle.** Schon ein Kontaktformular, ein Newsletter-Anmeldefeld oder Google Analytics macht dich zum Verantwortlichen im Sinne von Art. 4 Nr. 7 DSGVO.
+
+Die gute Nachricht: Der Aufwand ist überschaubar, wenn du weißt, was tatsächlich nötig ist.
+
+## Pflicht 1: Datenschutzerklärung (§ 13 TMG + Art. 13/14 DSGVO)
+
+Jede Website mit Besucherinteraktion braucht eine Datenschutzerklärung. Sie muss enthalten:
+
+- Wer der Verantwortliche ist (Name, Adresse, E-Mail)
+- Welche Daten erhoben werden (IP-Adressen, Kontaktdaten, Analytics-Daten)
+- Auf welcher Rechtsgrundlage (Art. 6 DSGVO) — z. B. berechtigtes Interesse für Server-Logs, Einwilligung für Analytics
+- Ob Daten an Dritte weitergegeben werden (Hoster, Analytics-Tool, Zahlungsanbieter)
+- Welche Betroffenenrechte bestehen (Auskunft, Löschung, Widerspruch)
+
+**Häufiger Fehler:** Datenschutzerklärung kopiert, aber die eigenen Dienste nicht angepasst. Wenn du Stripe nutzt, muss Stripe drin stehen. Wenn du Mailchimp nutzt, muss Mailchimp drin stehen.
+
+## Pflicht 2: Cookie-Banner (TTDSG § 25)
+
+Seit dem Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG) gilt in Deutschland: **Cookies und ähnliche Technologien, die nicht technisch notwendig sind, dürfen nur mit aktiver Einwilligung gesetzt werden.**
+
+Betroffen sind:
+- Marketing-Cookies (Facebook Pixel, Google Ads)
+- Analytics-Cookies (Google Analytics mit Personenbezug)
+- Social-Media-Einbettungen (YouTube-Videos, Twitter-Widgets)
+
+Nicht betroffen (keine Einwilligung nötig):
+- Technisch notwendige Cookies (Session-Cookie, CSRF-Token, Warenkorb)
+- **Cookie-lose Analytics-Lösungen** wie Plausible.io — diese sammeln keine personenbezogenen Daten
+
+**Tipp:** Wer auf datenschutzkonforme Analytics (Plausible, Fathom) umsteigt, braucht für Analytics keinen Cookie-Banner mehr.
+
+## Pflicht 3: Auftragsverarbeitungsverträge (AVV nach Art. 28 DSGVO)
+
+Wann immer du einen externen Dienstleister einsetzt, der in deinem Auftrag personenbezogene Daten verarbeitet, brauchst du einen **AVV (Auftragsverarbeitungsvertrag)**.
+
+Das trifft auf die meisten Website-Betreiber zu — konkrete Beispiele:
+
+| Dienst | AVV nötig? |
+|---|---|
+| Hoster (Hetzner, Strato, IONOS) | Ja |
+| E-Mail-Marketing (Mailchimp, Brevo) | Ja |
+| Zahlungsanbieter (Stripe, PayPal) | Ja |
+| Kontaktformular-Tool (Typeform, Tally) | Ja |
+| Cookie-less Analytics (Plausible) | Ja (Plausible stellt DPA bereit) |
+| Google Analytics | Ja + Consent Management nötig |
+| CDN (Cloudflare, Fastly) | Ja |
+
+Ohne AVV: **bis zu 4% des Jahresumsatzes oder 20 Mio. Euro Bußgeld** (Art. 83 Abs. 4 DSGVO). In der Praxis werden Abmahnungen häufiger, wenn AVVs fehlen.
+
+## Pflicht 4: Verarbeitungsverzeichnis (Art. 30 DSGVO)
+
+Jedes Unternehmen mit mehr als 250 Mitarbeitern ist verpflichtet, ein Verarbeitungsverzeichnis (VVT) zu führen. **Aber:** Auch kleinere Unternehmen und Selbstständige müssen es führen, wenn sie personenbezogene Daten nicht nur gelegentlich verarbeiten.
+
+Das VVT dokumentiert:
+- Welche Daten du verarbeitest (Kundendaten, Bewerberdaten, Newsletter-Abonnenten)
+- Zu welchem Zweck (Vertragsabwicklung, Marketing, Support)
+- Auf welcher Rechtsgrundlage
+- Wer Zugriff hat (intern + externe Auftragsverarbeiter)
+- Wie lange die Daten gespeichert werden (Löschfristen)
+
+Ein VVT ist keine einmalige Aufgabe — es muss aktuell gehalten werden.
+
+## Pflicht 5: Impressum (§ 5 TMG)
+
+Technisch kein DSGVO-Thema, aber eng verknüpft: **Jede Website mit geschäftlichem Zweck** braucht ein vollständiges Impressum:
+
+- Vollständiger Name / Firmenname
+- Anschrift (keine Postfach!)
+- Kontakt (Telefonnummer oder E-Mail-Formular)
+- Umsatzsteuer-ID oder Wirtschafts-Identifikationsnummer (wenn vorhanden)
+- Handelsregisternummer (wenn vorhanden)
+
+Ohne Impressum: Abmahnrisiko. Impressums-Abmahnungen sind ein reales Geschäftsmodell von manchen Kanzleien.
+
+## Die schnelle Checkliste für Website-Betreiber
+
+- [ ] Datenschutzerklärung vorhanden und auf alle genutzten Dienste aktualisiert
+- [ ] Impressum vollständig (§ 5 TMG)
+- [ ] Cookie-Banner für nicht-notwendige Cookies (oder: auf notwendige Cookies verzichten)
+- [ ] AVV mit Hoster abgeschlossen
+- [ ] AVV mit E-Mail-Marketing-Dienst abgeschlossen
+- [ ] AVV mit Zahlungsanbieter abgeschlossen
+- [ ] Verarbeitungsverzeichnis (VVT) angelegt und gepflegt
+- [ ] Drittlandsübermittlungen dokumentiert (US-Dienste = Drittland → DPF oder SCCs nötig)
+- [ ] Einwilligungen für Cookies dokumentierbar (Screenshot oder Consent-Log)
+
+## Was wirklich wichtig ist
+
+Die häufigsten Bußgelder und Abmahnungen betreffen:
+1. **Fehlender oder falscher Cookie-Banner** — besonders für GA4 ohne Consent
+2. **Fehlende AVVs** — ein Brief von der Datenschutzbehörde reicht für Unruhe
+3. **Datenpannen ohne Meldung** — 72-Stunden-Frist nach Art. 33 DSGVO
+
+Kein Einzelanwalt prüft jede kleine Website täglich. Aber: Mitbewerber können abmahnen, Kunden können sich beschweren, und Aufsichtsbehörden führen immer häufiger Stichproben durch.
+
+## Fazit
+
+Datenschutz für Websites ist mehr als eine Datenschutzerklärung kopieren. Die drei wichtigsten Dokumente, die du brauchst: **AVV** (für jeden externen Dienstleister), **Verarbeitungsverzeichnis** (für die interne Dokumentation) und ein **Cookie-Consent-Management** (für alle nicht-notwendigen Technologien).
+
+Du kannst AVV und VVT direkt hier erstellen:
+
+[AVV jetzt kostenlos erstellen →](/avv) · [Verarbeitungsverzeichnis erstellen →](/vvt)
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
