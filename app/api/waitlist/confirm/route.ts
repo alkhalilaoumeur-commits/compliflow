@@ -8,7 +8,8 @@ const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_SOURCES = ["coming-soon", "avv", "vvt", "cookie-banner"] as const;
 
 function verifyDoiToken(email: string, source: string, token: string): boolean {
-  const secret = process.env.DOI_SECRET ?? "compliflow-doi-fallback-secret";
+  const secret = process.env.DOI_SECRET ?? (process.env.NODE_ENV === "production" ? null : "dev-only-fallback");
+  if (!secret) return false;
   const expected = createHmac("sha256", secret).update(`${email}:${source}`).digest("hex");
   // Timing-safe comparison
   if (expected.length !== token.length) return false;

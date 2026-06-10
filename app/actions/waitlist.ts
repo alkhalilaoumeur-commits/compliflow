@@ -28,8 +28,12 @@ function isEmailRateLimited(email: string): boolean {
 // Stateless Double Opt-In via HMAC-SHA256
 // Token = HMAC(email:source, DOI_SECRET) — serverseitig verifizierbar ohne DB-Eintrag
 function buildDoiToken(email: string, source: string): string {
-  const secret = process.env.DOI_SECRET ?? "compliflow-doi-fallback-secret";
-  return createHmac("sha256", secret).update(`${email}:${source}`).digest("hex");
+  const secret = process.env.DOI_SECRET;
+  if (!secret && process.env.NODE_ENV === "production") {
+    console.error("CRITICAL: DOI_SECRET ist nicht gesetzt — Waitlist DOI deaktiviert");
+    throw new Error("DOI_SECRET missing");
+  }
+  return createHmac("sha256", secret ?? "dev-only-fallback").update(`${email}:${source}`).digest("hex");
 }
 
 export async function joinWaitlist(formData: FormData): Promise<Result> {
