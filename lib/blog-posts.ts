@@ -1260,7 +1260,7 @@ Den AVV für KI-Tools und alle anderen Auftragsverarbeiter kannst du direkt hier
     title: "Website & DSGVO 2026: Alle Pflichten für Selbstständige und KMU",
     excerpt:
       "Datenschutzerklärung, Cookie-Banner, AVV, Verarbeitungsverzeichnis — welche DSGVO-Pflichten hat deine Website wirklich? Checkliste für Selbstständige und kleine Unternehmen.",
-    category: "DSGVO",
+    category: "DSGVO Grundlagen",
     date: "2026-06-10",
     readingTime: 8,
     content: `
