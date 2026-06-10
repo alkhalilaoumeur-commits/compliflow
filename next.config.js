@@ -15,7 +15,7 @@ const securityHeaders = [
       "default-src 'self'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "script-src 'self' 'unsafe-inline' https://plausible.io",
+      `script-src 'self' 'unsafe-inline' https://plausible.io${!isProd ? " 'unsafe-eval'" : ""}`,
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "connect-src 'self' https://plausible.io https://api.stripe.com",
       "img-src 'self' data: https:",
