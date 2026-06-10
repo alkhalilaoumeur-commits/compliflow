@@ -1307,15 +1307,13 @@ Wann immer du einen externen Dienstleister einsetzt, der in deinem Auftrag perso
 
 Das trifft auf die meisten Website-Betreiber zu — konkrete Beispiele:
 
-| Dienst | AVV nötig? |
-|---|---|
-| Hoster (Hetzner, Strato, IONOS) | Ja |
-| E-Mail-Marketing (Mailchimp, Brevo) | Ja |
-| Zahlungsanbieter (Stripe, PayPal) | Ja |
-| Kontaktformular-Tool (Typeform, Tally) | Ja |
-| Cookie-less Analytics (Plausible) | Ja (Plausible stellt DPA bereit) |
-| Google Analytics | Ja + Consent Management nötig |
-| CDN (Cloudflare, Fastly) | Ja |
+- **Hoster** (Hetzner, Strato, IONOS) → AVV nötig
+- **E-Mail-Marketing** (Mailchimp, Brevo) → AVV nötig
+- **Zahlungsanbieter** (Stripe, PayPal) → AVV nötig
+- **Kontaktformular-Tools** (Typeform, Tally) → AVV nötig
+- **Cookie-less Analytics** (Plausible) → AVV nötig (Plausible stellt DPA bereit)
+- **Google Analytics** → AVV + Consent Management nötig
+- **CDN** (Cloudflare, Fastly) → AVV nötig
 
 Ohne AVV: **bis zu 4% des Jahresumsatzes oder 20 Mio. Euro Bußgeld** (Art. 83 Abs. 4 DSGVO). In der Praxis werden Abmahnungen häufiger, wenn AVVs fehlen.
 
