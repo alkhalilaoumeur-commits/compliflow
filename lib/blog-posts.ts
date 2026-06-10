@@ -1104,6 +1104,83 @@ Alles was du für die letzten drei Schritte brauchst, gibt es kostenlos und ohne
 [Verarbeitungsverzeichnis erstellen — Art. 30 DSGVO, mit Branchen-Vorlagen](/vvt)
     `.trim(),
   },
+  {
+    slug: "avv-mustervertrag-kostenlos-dsgvo-vorlage-2026",
+    title: "AVV Mustervertrag kostenlos — DSGVO-Vorlage 2026 mit allen Pflichtfeldern",
+    excerpt:
+      "Ein kostenloser AVV Mustervertrag nach Art. 28 DSGVO: Was er enthalten muss, wo du ihn findest und warum Word-Vorlagen riskant sind. Mit direktem Link zur kostenlosen PDF-Generierung.",
+    category: "AVV",
+    date: "2026-06-10",
+    readingTime: 6,
+    content: `
+## Was ist ein AVV Mustervertrag?
+
+Ein **AVV Mustervertrag** (Auftragsverarbeitungsvertrag) ist ein standardisierter Vertragstext, der die Anforderungen von Art. 28 DSGVO erfüllt. Du brauchst ihn immer dann, wenn ein Dienstleister in deinem Auftrag personenbezogene Daten verarbeitet — also quasi bei jedem Cloud-Dienst, den du beruflich nutzt.
+
+Der Begriff "Mustervertrag" bedeutet: Es ist ein vorbereiteter Text, den du mit deinen konkreten Angaben füllen musst. Ein leerer Muster-Text allein ist noch kein wirksamer AVV — er muss mit den echten Daten der Vertragsparteien ausgefüllt werden.
+
+## Was muss ein AVV Mustervertrag nach Art. 28 DSGVO enthalten?
+
+Art. 28 Abs. 3 DSGVO definiert 8 Pflichtinhalte (lit. a–h), die in jedem AVV stehen müssen:
+
+- **Gegenstand und Dauer** der Verarbeitung
+- **Art und Zweck** der verarbeiteten Daten
+- **Art der Daten** und betroffene Personen
+- **Weisungsgebundenheit** des Auftragsverarbeiters (nur auf Weisung des Verantwortlichen)
+- **Vertraulichkeitspflicht** aller Mitarbeiter des Auftragsverarbeiters
+- **Technische und organisatorische Maßnahmen** (TOMs nach Art. 32 DSGVO)
+- **Subunternehmer-Regelung** (Einbindung weiterer Auftragsverarbeiter)
+- **Datenlöschung oder -rückgabe** nach Vertragsende
+
+Fehlt auch nur einer dieser Punkte, ist der AVV unvollständig — und ein lückenhafter AVV schützt dich bei einer Datenschutzprüfung nicht.
+
+## Warum kostenlose Word-Vorlagen riskant sind
+
+Viele Selbstständige laden sich AVV-Vorlagen als Word-Dokument aus dem Internet herunter. Das Problem:
+
+- **Veraltete Texte:** DSGVO, Schrems-II und nationale Ausführungsgesetze haben sich seit 2018 mehrfach entwickelt. Viele kostenlose Vorlagen von 2018–2021 sind nicht mehr aktuell.
+- **Fehlende Subverarbeiter-Klauseln:** Art. 28 Abs. 4 DSGVO verlangt eine explizite Regelung zur Haftung bei Sub-Auftragsverarbeitern — in vielen alten Vorlagen fehlt das.
+- **Falsche Drittland-Regelungen:** Nach Schrems II gelten für US-Dienste Standardvertragsklauseln (SCCs) — Word-Vorlagen vor 2021 kennen das oft nicht.
+- **Kein Abschlussdatum, kein Ort:** Ein AVV ohne Unterschriftsdatum und -ort ist zivilrechtlich schwächer.
+
+## Kostenloser AVV Mustervertrag mit allen Pflichtfeldern
+
+Der [Compliflow AVV-Generator](/avv) erstellt dir ein vollständiges Musterdokument nach Art. 28 Abs. 3 DSGVO — kostenlos, direkt im Browser, ohne Account:
+
+- Alle 8 Pflichtklauseln (lit. a–h) enthalten
+- Schrems-II-Klausel für US-Anbieter optional einblendbar
+- Art. 9-DSGVO-Klausel für besondere Datenkategorien
+- Subverarbeiter-Haftung nach Art. 28 Abs. 4 Satz 2
+- Ausgefülltes PDF mit Unterschriftsblock zum direkten Ausdrucken
+
+**Das Ergebnis:** Ein Musterdokument mit deinen konkreten Firmendaten, Verarbeitungszwecken und TOMs — nicht nur ein leerer Blanko-Text.
+
+## Kostenlos vs. Pro — was ist der Unterschied?
+
+| | Kostenlos | Pro (29 € einmalig) |
+|---|---|---|
+| Alle Pflichtfelder Art. 28 | ✓ | ✓ |
+| PDF-Download | ✓ | ✓ |
+| Compliflow-Footer im PDF | Ja | Nein |
+| Kein Account nötig | ✓ | ✓ |
+
+Der kostenlose Mustervertrag ist rechtlich gleichwertig. Der Pro-Version entfernt lediglich den Branding-Footer — relevant wenn du das Dokument an Kunden oder Behörden übergibst und kein externes Branding möchtest.
+
+## Für wen reicht ein kostenloser AVV Mustervertrag?
+
+- Selbstständige und Freelancer mit Standarddiensten (Google Workspace, Stripe, Vercel, Mailchimp)
+- Kleinunternehmer ohne besondere Datenkategorien (Art. 9 DSGVO)
+- Gründer, die schnell compliant werden müssen
+
+**Wann solltest du zusätzlich einen Anwalt hinzuziehen:** Bei der Verarbeitung besonderer Datenkategorien (Gesundheitsdaten, politische Überzeugungen), bei Drittlandübermittlungen außerhalb EU/EWR ohne SCCs, oder bei behördlichen Prüfungsverfahren.
+
+## Fazit
+
+Ein kostenloser AVV Mustervertrag ist für die meisten Selbstständigen vollkommen ausreichend — vorausgesetzt, er enthält alle Pflichtinhalte nach Art. 28 DSGVO und ist auf dem aktuellen Stand (2025/2026). Word-Vorlagen von 2018 sind das in der Regel nicht mehr.
+
+[AVV Mustervertrag jetzt kostenlos generieren →](/avv)
+    `.trim(),
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
