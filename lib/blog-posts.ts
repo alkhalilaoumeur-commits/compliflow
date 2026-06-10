@@ -311,7 +311,9 @@ Wichtig: Cookie-Beschwerden können von jedem eingereicht werden — auch von Mi
 
 Der **Compliflow Cookie-Banner** (Launch: 19. August 2026) adressiert genau diese Anforderungen: fünf Banner-Stile, Google Consent Mode V2 direkt integriert, vollständiger Audit-Trail, gleich prominente Buttons — und ein Snippet pro Domain ohne Plugin-Installation.
 
-Bis zum Launch kannst du dich auf die Warteliste eintragen und bekommst 34 % Early-Bird-Rabatt.
+Bis zum Launch kannst du dich auf die Warteliste eintragen und bekommst 34 % Early-Bird-Rabatt:
+
+[Cookie-Banner Warteliste → 34% Early-Bird sichern](/cookie-banner)
     `.trim(),
   },
   {
