@@ -177,7 +177,8 @@ export default function BlogPostPage({ params }: Props) {
     ],
   };
 
-  const others = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const sameCat = BLOG_POSTS.filter((p) => p.slug !== post.slug && p.category === post.category);
+  const others = (sameCat.length >= 2 ? sameCat : BLOG_POSTS.filter((p) => p.slug !== post.slug)).slice(0, 2);
   const isCookiePost = post.category === "Cookie-Banner";
   const isVvtPost = post.category === "Verarbeitungsverzeichnis";
   const ctaHref = isCookiePost ? "/cookie-banner" : isVvtPost ? "/vvt" : "/avv";
