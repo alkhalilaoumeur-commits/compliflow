@@ -358,6 +358,7 @@ const styles = StyleSheet.create({
     right: 52,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     borderTopWidth: 0.5,
     borderTopColor: COLOR.line,
     paddingTop: 6,
@@ -367,25 +368,58 @@ const styles = StyleSheet.create({
     color: COLOR.faded,
     letterSpacing: 0.5,
   },
+  footerBranding: {
+    fontSize: 7,
+    color: COLOR.accent,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    opacity: 0.55,
+  },
   footerPage: {
     fontSize: 7.5,
     color: COLOR.faded,
   },
+  // Wasserzeichen
+  watermark: {
+    position: "absolute",
+    top: "38%",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 52,
+    fontFamily: "Helvetica-Bold",
+    color: COLOR.accent,
+    opacity: 0.035,
+    letterSpacing: 8,
+    textTransform: "uppercase",
+    transform: "rotate(-35deg)",
+  },
 });
 
-function PageFooter({ data }: { data: AvvFormData }) {
+function PageFooter({ data, noBranding }: { data: AvvFormData; noBranding?: boolean }) {
   const ag = data.auftraggeber.firma || "—";
   const an = data.auftragnehmer.firma || "—";
   return (
-    <View style={styles.footer} fixed>
-      <Text style={styles.footerText}>
-        AVV · {ag} × {an} · {formatDateDE(new Date())}
-      </Text>
-      <Text
-        style={styles.footerPage}
-        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-      />
-    </View>
+    <>
+      {/* Diagonales Wasserzeichen — auf jeder Seite, nicht entfernbar ohne Quellcode */}
+      {!noBranding && (
+        <Text style={styles.watermark} fixed>
+          Compliflow
+        </Text>
+      )}
+      <View style={styles.footer} fixed>
+        <Text style={styles.footerText}>
+          AVV · {ag} × {an} · {formatDateDE(new Date())}
+        </Text>
+        {!noBranding && (
+          <Text style={styles.footerBranding}>compliflow.de</Text>
+        )}
+        <Text
+          style={styles.footerPage}
+          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        />
+      </View>
+    </>
   );
 }
 
@@ -495,7 +529,7 @@ export function AvvPdfDocument({
             </Text>
           </View>
         )}
-        <PageFooter data={data} />
+        <PageFooter data={data} noBranding={noBranding} />
       </Page>
 
       {/* ── Inhaltsverzeichnis ───────────────────────────────────── */}
@@ -523,7 +557,7 @@ export function AvvPdfDocument({
           </>
         )}
 
-        <PageFooter data={data} />
+        <PageFooter data={data} noBranding={noBranding} />
       </Page>
 
       {/* ── Vertragstext ─────────────────────────────────────────── */}
@@ -588,7 +622,7 @@ export function AvvPdfDocument({
           </View>
         </View>
 
-        <PageFooter data={data} />
+        <PageFooter data={data} noBranding={noBranding} />
       </Page>
 
       {/* ── Wichtiger Hinweis ─────────────────────────────────────── */}
@@ -634,7 +668,7 @@ export function AvvPdfDocument({
             · compliflow.de
           </Text>
         )}
-        <PageFooter data={data} />
+        <PageFooter data={data} noBranding={noBranding} />
       </Page>
 
       {/* ── Anlagen ──────────────────────────────────────────────── */}
@@ -719,7 +753,7 @@ export function AvvPdfDocument({
             </View>
           )}
 
-          <PageFooter data={data} />
+          <PageFooter data={data} noBranding={noBranding} />
         </Page>
       ))}
     </Document>
