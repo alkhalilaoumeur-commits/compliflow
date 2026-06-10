@@ -185,6 +185,15 @@ export function WizardShell() {
           {meta.sub}
         </p>
         <div className="mt-6 h-px bg-line rise" style={{ animationDelay: "100ms" }} />
+
+        {/* RDG-Disclaimer: Kein Rechtsrat — einmalig auf Schritt 1 */}
+        {currentStep === "parteien" && (
+          <p className="mt-4 text-[12px] text-ink-faded rise" style={{ animationDelay: "110ms" }}>
+            Dieses Tool erstellt Vertragsmuster nach Art. 28 DSGVO (Bitkom/GDD) —{" "}
+            <strong className="text-ink-dim">kein Rechtsrat</strong>. Bei komplexen Fällen
+            bitte anwaltliche Prüfung einholen.
+          </p>
+        )}
       </div>
 
       {/* Step Content */}

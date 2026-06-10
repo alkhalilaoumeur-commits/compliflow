@@ -47,12 +47,34 @@
 2. DNS-Einträge bei Namecheap eintragen (Resend zeigt sie dir)
 3. Domain verifizieren (dauert 10-60 min)
 4. **API Key erstellen** → kopieren
+5. **DPA abschließen:** resend.com → Settings → Legal → "Data Processing Agreement" akzeptieren
+
+---
+
+## SCHRITT 3b: DSGVO-Pflicht — AVV mit Dienstleistern abschließen
+
+**Diese Schritte sind rechtlich Pflicht vor dem ersten Nutzer.**
+
+### Hetzner AVV:
+1. https://accounts.hetzner.com → Verwaltung → Bestellformular Auftragsverarbeitung
+2. Formular ausfüllen + zurückschicken (oder online signieren)
+3. Bestätigung als PDF speichern
+
+### Stripe AVV:
+1. https://dashboard.stripe.com → Einstellungen → Datenschutz → "Auftragsverarbeitungsvertrag"
+2. Online anklicken/bestätigen — dauert 30 Sekunden
+
+### Resend DPA (siehe Schritt 3 oben)
+
+### Supabase DPA (falls Supabase genutzt):
+1. https://supabase.com/legal/dpa → herunterladen oder online akzeptieren
+2. EU-Region in Supabase-Projekt aktivieren: Frankfurt (eu-central-1)
 
 ---
 
 ## SCHRITT 4: Coolify — ENV-Variablen eintragen
 
-**Alle 6 Variablen müssen eingetragen sein:**
+**Alle Variablen müssen eingetragen sein:**
 
 ```
 STRIPE_SECRET_KEY=sk_live_xxxxx
@@ -62,6 +84,17 @@ STRIPE_PRICE_AVV_PRO=price_1Rxxxxx
 STRIPE_PRICE_VVT_PRO=price_1Rxxxxx
 RESEND_API_KEY=re_xxxxx
 NEXT_PUBLIC_APP_URL=https://compliflow.de
+
+# Double Opt-In (PFLICHT — verhindert gefälschte Bestätigungs-Links)
+# Generieren mit: openssl rand -hex 32
+DOI_SECRET=<hier_32_zufällige_bytes_hex>
+
+# Optional: Supabase für Waitlist-Speicherung
+# Wenn nicht gesetzt → Fallback auf .data/waitlist-confirmed.jsonl im Container
+# Supabase-Schema einrichten: docs/supabase-schema.sql ausführen!
+# ANON-Key (nicht Service-Role-Key!) verwenden
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
 ```
 
 > **Stripe Keys:** Dashboard → Entwickler → API-Schlüssel (Live-Modus!)
@@ -88,7 +121,9 @@ Jeden Punkt abhaken bevor Launch-Posts:
 - [ ] Stripe Testkauf: Karte `4242 4242 4242 4242`, beliebiges Datum, CVC `123`
 - [ ] Nach Testkauf: E-Mail-Bestätigung kommt an (alkhalilaoumeur@gmail.com)
 - [ ] PDF nach Zahlung: "Pro aktiv" wird angezeigt, kein Branding-Footer
-- [ ] Waitlist-Formular auf Homepage: Email eintragen → Benachrichtigung kommt an
+- [ ] Waitlist-Formular auf Homepage: Email eintragen → DOI-Mail kommt an (Betreff: "Bitte bestätige deine Wartelisten-Anmeldung")
+- [ ] DOI-Mail: Bestätigungs-Link klicken → /waitlist/confirmed Seite öffnet
+- [ ] /preise → "AVV Pro kaufen" → Consent-Modal zeigt AGB + Widerruf-Links → Checkbox → Stripe-Checkout öffnet mit Einwilligungstext
 
 ---
 

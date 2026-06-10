@@ -207,6 +207,15 @@ export function VvtWizardShell() {
           {meta.sub}
         </p>
         <div className="mt-6 h-px bg-line rise" style={{ animationDelay: "100ms" }} />
+
+        {/* RDG-Disclaimer: Kein Rechtsrat — einmalig auf Schritt 1 */}
+        {currentStep === "unternehmen" && (
+          <p className="mt-4 text-[12px] text-ink-faded rise" style={{ animationDelay: "110ms" }}>
+            Dieses Tool erstellt das Verarbeitungsverzeichnis nach Art. 30 DSGVO —{" "}
+            <strong className="text-ink-dim">kein Rechtsrat</strong>. Bei komplexen Verarbeitungen
+            bitte Datenschutzbeauftragten hinzuziehen.
+          </p>
+        )}
       </div>
 
       {/* Step Content */}

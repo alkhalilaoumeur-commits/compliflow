@@ -102,6 +102,13 @@ export default function DatenschutzPage() {
           garantie="EU-EWR · keine personenbezogenen Daten gespeichert"
           link="https://plausible.io/privacy"
         />
+        <DienstCard
+          name="Supabase Inc."
+          land="USA (Datenspeicherung: EU-West, Frankfurt)"
+          zweck="Speicherung von Wartelisten-E-Mail-Adressen (nur wenn Supabase konfiguriert)"
+          garantie="Standardvertragsklauseln (SCCs) · EU-Region (Frankfurt)"
+          link="https://supabase.com/privacy"
+        />
       </LegalSection>
 
       <LegalSection title="Wartelisten- und Kontakt-Formular" number="§ 5">

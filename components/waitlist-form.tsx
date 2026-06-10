@@ -51,7 +51,7 @@ export function WaitlistForm({ source = "coming-soon" }: { source?: string }) {
           disabled={pending || done}
           className="btn-primary inline-flex h-12 items-center justify-center rounded-none px-7 font-body text-[14px] font-medium tracking-tight disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {pending ? "Speichere…" : done ? "Eingetragen" : "Auf die Warteliste"}
+          {pending ? "Sende E-Mail…" : done ? "E-Mail gesendet ✓" : "Auf die Warteliste"}
         </button>
       </div>
 

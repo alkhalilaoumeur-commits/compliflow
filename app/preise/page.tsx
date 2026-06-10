@@ -58,8 +58,12 @@ function ConsentModal({
             className="mt-1 h-4 w-4 flex-shrink-0 accent-accent cursor-pointer"
           />
           <span className="font-body text-[13px] leading-[1.6] text-ink-dim group-hover:text-ink transition">
-            Ich stimme ausdrücklich zu, dass die Ausführung des Vertrags sofort beginnt,
-            und bestätige, dass ich dadurch mein Widerrufsrecht verliere
+            Ich habe die{" "}
+            <a href="/agb" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">AGB</a>
+            {" "}und die{" "}
+            <a href="/widerruf" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">Widerrufsbelehrung</a>
+            {" "}gelesen. Ich stimme ausdrücklich zu, dass die Ausführung des Vertrags
+            sofort beginnt, und bestätige, dass ich dadurch mein Widerrufsrecht verliere
             (§ 356 Abs. 5 BGB).
           </span>
         </label>

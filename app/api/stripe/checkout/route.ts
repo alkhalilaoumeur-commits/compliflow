@@ -61,6 +61,17 @@ export async function POST(req: NextRequest) {
       success_url: `${baseUrl}/${tool}?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/${tool}`,
       metadata: { tool },
+      // Widerrufsrecht: Einwilligung zum sofortigen Beginn der digitalen Leistung
+      // erforderlich nach § 356 Abs. 5 BGB damit Widerrufsrecht bei Download erlischt
+      consent_collection: {
+        terms_of_service: "required",
+      },
+      custom_text: {
+        terms_of_service_acceptance: {
+          message:
+            "Ich habe die [AGB](https://compliflow.de/agb) und [Widerrufsbelehrung](https://compliflow.de/widerruf) gelesen. Ich stimme ausdrücklich zu, dass die Ausführung des Vertrags sofort beginnt und ich mein Widerrufsrecht mit Beginn der Ausführung verliere (§ 356 Abs. 5 BGB).",
+        },
+      },
     });
 
     return NextResponse.json({ url: session.url });

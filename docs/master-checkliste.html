@@ -814,24 +814,28 @@ th {
 <div class="subsection-title">Security</div>
 <ul class="todo-list">
 <li class="todo"><input type="checkbox" id="t135"><label for="t135">SSL-Test auf <a href="https://www.ssllabs.com/ssltest/">ssllabs.com</a> → A oder A+</label></li>
-<li class="todo"><input type="checkbox" id="t136"><label for="t136">HTTP Security Headers (CSP, X-Frame-Options, HSTS) via Vercel-Config</label></li>
-<li class="todo"><input type="checkbox" id="t137"><label for="t137">Supabase RLS Policies durchtesten (kann User fremde Daten sehen?)</label></li>
-<li class="todo"><input type="checkbox" id="t138"><label for="t138">SQL-Injection-Test (Wizard-Inputs)</label></li>
-<li class="todo"><input type="checkbox" id="t139"><label for="t139">XSS-Test (Special Chars in Eingabefeldern)</label></li>
-<li class="todo"><input type="checkbox" id="t140"><label for="t140">Rate-Limiting auf API-Routes (max 10 PDF/Stunde pro IP)</label></li>
-<li class="todo"><input type="checkbox" id="t141"><label for="t141">Stripe-Webhook-Signatur-Verifikation aktiv</label></li>
-<li class="todo"><input type="checkbox" id="t142"><label for="t142">Env-Vars NICHT im Frontend exposed (.env.local nur server-seitig)</label></li>
+<li class="todo"><input type="checkbox" id="t136" checked><label for="t136">HTTP Security Headers (CSP, X-Frame-Options, HSTS) — via next.config.js implementiert ✓</label></li>
+<li class="todo"><input type="checkbox" id="t137"><label for="t137">Supabase RLS Policies durchtesten — docs/supabase-schema.sql mit 3 Policies (anon insert/update, auth select)</label></li>
+<li class="todo"><input type="checkbox" id="t138"><label for="t138">SQL-Injection-Test (Wizard-Inputs) — Zod-Validierung auf allen Inputs, kein direktes SQL</label></li>
+<li class="todo"><input type="checkbox" id="t139"><label for="t139">XSS-Test (Special Chars in Eingabefeldern) — PDF client-side, kein Server-Rendering der Inputs</label></li>
+<li class="todo"><input type="checkbox" id="t140" checked><label for="t140">Rate-Limiting auf API-Routes — Checkout (5/min) + verify-session (20/min) implementiert ✓</label></li>
+<li class="todo"><input type="checkbox" id="t141" checked><label for="t141">Stripe-Webhook-Signatur-Verifikation aktiv — stripe.webhooks.constructEvent() ✓</label></li>
+<li class="todo"><input type="checkbox" id="t142" checked><label for="t142">Env-Vars NICHT im Frontend — STRIPE_SECRET_KEY, RESEND_API_KEY, DOI_SECRET server-only ✓</label></li>
+<li class="todo"><input type="checkbox" id="t142b"><label for="t142b">⚠️ CSP unsafe-inline: Next.js benötigt das für Hydration — bekannte Einschränkung, keine einfache Alternative ohne Nonces</label></li>
 </ul>
 </div>
 
 <div class="subsection">
 <div class="subsection-title">DSGVO + Legal Final Check</div>
 <ul class="todo-list">
-<li class="todo"><input type="checkbox" id="t143"><label for="t143">Impressum vollständig (alle Pflichtangaben §5 TMG)</label></li>
-<li class="todo"><input type="checkbox" id="t144"><label for="t144">Datenschutzerklärung deckt alle eingesetzten Dienste ab</label></li>
-<li class="todo"><input type="checkbox" id="t145"><label for="t145">Cookie-Banner (oder Plausible-Hinweis) korrekt</label></li>
-<li class="todo"><input type="checkbox" id="t146"><label for="t146">Widerrufsbelehrung-Klausel für Digitalprodukte korrekt</label></li>
-<li class="todo"><input type="checkbox" id="t147"><label for="t147">Echter Friend macht 1× Live-Test komplett vor Launch</label></li>
+<li class="todo"><input type="checkbox" id="t143" checked><label for="t143">Impressum vollständig (§5 TMG) — Name, Adresse, E-Mail, Einzelunternehmer §19 UStG ✓</label></li>
+<li class="todo"><input type="checkbox" id="t144" checked><label for="t144">Datenschutzerklärung: Hetzner, Stripe, Resend, Plausible, Supabase — alle eingetragen ✓</label></li>
+<li class="todo"><input type="checkbox" id="t145" checked><label for="t145">Plausible cookieless — kein Cookie-Banner nötig, in Datenschutz dokumentiert ✓</label></li>
+<li class="todo"><input type="checkbox" id="t146" checked><label for="t146">Widerrufsbelehrung §356 Abs. 5 BGB — Einwilligung via Checkbox + Stripe consent_collection ✓</label></li>
+<li class="todo"><input type="checkbox" id="t146b"><label for="t146b">Double Opt-In für Waitlist — HMAC-stateless, /api/waitlist/confirm, Bestätigungs-Pages ✓</label></li>
+<li class="todo"><input type="checkbox" id="t146c"><label for="t146c">⚠️ MANUELL: Hetzner AVV + Stripe DPA + Resend DPA + Supabase DPA abschließen (Schritt 3b in DEPLOY-JETZT.md)</label></li>
+<li class="todo"><input type="checkbox" id="t146d"><label for="t146d">⚠️ OPTIONAL: Anwaltlicher RDG-Review (~200€) für AVV/VVT-Generator — empfohlen nach ersten Kunden</label></li>
+<li class="todo"><input type="checkbox" id="t147"><label for="t147">Echter Friend macht 1× Live-Test komplett vor Launch (inkl. DOI-Email + Stripe-Checkout-Consent)</label></li>
 </ul>
 </div>
 </section>

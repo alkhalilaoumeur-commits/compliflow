@@ -1,14 +1,20 @@
 "use server";
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { sendWaitlistNotification, sendWaitlistConfirmation } from "@/lib/email";
+import { createHmac } from "node:crypto";
+import { sendWaitlistDoiEmail } from "@/lib/email";
 
 type Result =
   | { ok: true; message: string }
   | { ok: false; message: string };
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Stateless Double Opt-In via HMAC-SHA256
+// Token = HMAC(email:source, DOI_SECRET) — serverseitig verifizierbar ohne DB-Eintrag
+export function buildDoiToken(email: string, source: string): string {
+  const secret = process.env.DOI_SECRET ?? "compliflow-doi-fallback-secret";
+  return createHmac("sha256", secret).update(`${email}:${source}`).digest("hex");
+}
 
 export async function joinWaitlist(formData: FormData): Promise<Result> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
@@ -18,49 +24,14 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
     return { ok: false, message: "Bitte gib eine gültige Email-Adresse ein." };
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // DOI-Email senden — Nutzer erscheint erst nach Klick auf Bestätigungs-Link in der confirmed-Liste
+  const token = buildDoiToken(email, source);
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de";
+  const confirmUrl = `${baseUrl}/api/waitlist/confirm?email=${encodeURIComponent(email)}&source=${encodeURIComponent(source)}&token=${token}`;
 
-  if (supabaseUrl && supabaseKey) {
-    try {
-      const res = await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
-        method: "POST",
-        headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
-          "Content-Type": "application/json",
-          Prefer: "resolution=ignore-duplicates",
-        },
-        body: JSON.stringify([{ email, source }]),
-      });
-      if (!res.ok && res.status !== 409) {
-        const text = await res.text();
-        console.error("Supabase waitlist insert failed", res.status, text);
-        return { ok: false, message: "Konnten dich nicht speichern — versuch es bitte gleich nochmal." };
-      }
-    } catch (err) {
-      console.error("Supabase request errored", err);
-      return { ok: false, message: "Konnten dich nicht speichern — versuch es bitte gleich nochmal." };
-    }
-  } else {
-    try {
-      const dataDir = path.join(process.cwd(), ".data");
-      await fs.mkdir(dataDir, { recursive: true });
-      const file = path.join(dataDir, "waitlist.jsonl");
-      const line = JSON.stringify({ email, source, ts: new Date().toISOString() }) + "\n";
-      await fs.appendFile(file, line, "utf8");
-    } catch {
-      // Fallback-Schreiben schlägt still fehl — Email-Notification ist die primäre Sicherung
-    }
-  }
-
-  // Benachrichtigung an Inhaber + Bestätigungs-Mail an Nutzer
-  sendWaitlistNotification({ email, source }).catch((err) =>
-    console.error("Waitlist notification failed:", err)
-  );
-  sendWaitlistConfirmation({ email, source }).catch((err) =>
-    console.error("Waitlist confirmation failed:", err)
+  sendWaitlistDoiEmail({ email, source, confirmUrl }).catch((err) =>
+    console.error("Waitlist DOI email failed:", err)
   );
 
-  return { ok: true, message: "Eingetragen. Du hörst von uns beim Launch." };
+  return { ok: true, message: "Fast dabei — bitte bestätige deine Anmeldung per E-Mail." };
 }

@@ -247,11 +247,11 @@ Pflicht-Artikel (Titel + Keyword):
 
 ## 11. Sofort-Todos (Stand 2026-06-06)
 
-- [ ] **Domain-Kandidaten checken** (Sa-So): compliflow.de, compliflow.de, drvn-avv.de, avv-tool.de
-- [ ] **Pricing-Modell entscheiden** (Mo 08.06.): A/B/C
-- [ ] **Repo + Vercel + Stripe-Test-Mode** (Mo 08.06.): Skeleton
-- [ ] **Wizard-UI bauen** (Di-Do 09.-11.06.)
-- [ ] **PDF-Generierung** (Fr 12.06.)
-- [ ] **Free-Tier komplett + Email-Capture** (Mo-Di 15.-16.06.)
+- [x] **Domain compliflow.de** registriert
+- [x] **Pricing-Modell C Hybrid** entschieden
+- [x] **Wizard-UI, PDF-Generierung, Free-Tier, Stripe** fertig
+- [x] **Security-Fixes (2026-06-10):** Widerrufs-Consent im Checkout, Rate-Limit verify-session, Supabase in Datenschutz, Double-Opt-In Waitlist (HMAC), Supabase UPSERT-Bug, RDG-Disclaimer auf Schritt 1
+- [ ] **MANUELL VOR LAUNCH:** Hetzner AVV + Stripe DPA + Resend DPA + Supabase DPA (→ DEPLOY-JETZT.md Schritt 3b)
+- [ ] **DOI_SECRET** generieren + in Coolify eintragen (openssl rand -hex 32)
 - [ ] **Landing-Page SEO-optimiert** (Mi 17.06. vormittags)
 - [ ] **LAUNCH 17.06.** abends → Product Hunt + Indie Hackers + Hacker News
