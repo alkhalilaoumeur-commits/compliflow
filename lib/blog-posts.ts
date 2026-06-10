@@ -687,7 +687,7 @@ Das Gesetz sagt: Immer wenn sich die Verarbeitungstätigkeit ändert. In der Pra
 
 ## Fazit
 
-Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator](/vvt) erledigst du es in 10 Minuten — kostenlos, kein Account, alle Pflichtfelder vorausgefüllt. Danach hast du ein rechtssicheres Dokument, das du bei Behördenanfragen vorlegen kannst.
+Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator](/vvt) erledigst du es in 10 Minuten — kostenlos, kein Account, alle Pflichtfelder vorausgefüllt. Das Ergebnis ist ein vollständiges Musterdokument nach Art. 30 DSGVO, das du bei Behördenanfragen vorlegen kannst. Bei komplexen Verarbeitungstätigkeiten empfehlen wir eine Prüfung durch einen Datenschutzbeauftragten.
     `.trim(),
   },
   {

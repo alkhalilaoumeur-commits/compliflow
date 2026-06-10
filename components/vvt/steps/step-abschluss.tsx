@@ -235,7 +235,7 @@ export function StepAbschluss() {
             ) : (
               "Auftragsverarbeiter"
             )}
-            . Erstelle rechtskonforme Verträge im AVV-Generator.
+            . Erstelle AVV-Musterdokumente nach Art. 28 DSGVO im AVV-Generator.
           </p>
           <a
             href="/avv"

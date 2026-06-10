@@ -46,11 +46,11 @@ Komponenten-Wiederverwendung über alle Tools maximieren — Wizard-Engine, PDF-
 |---|---|
 | Frontend | Next.js 14 (App Router) + TypeScript |
 | Styling | Tailwind CSS + shadcn/ui |
-| DB | KEIN Supabase in MVP. Waitlist optional mit Supabase, Fallback auf .data/waitlist.jsonl + Resend-Email |
-| Auth | KEIN Login/Auth. Pro-Status = Stripe Session ID in localStorage. Keine Accounts. |
-| Payment | Stripe Checkout Sessions (redirect-based). price_xxx IDs in ENV-Vars. card only. |
+| DB | Waitlist: Double-Opt-In via HMAC-Token. Supabase optional (ANON-Key + RLS), Fallback: .data/waitlist-confirmed.jsonl |
+| Auth | KEIN Login/Auth. Pro-Status = Stripe Session ID in localStorage (verify-session bei jedem Load). Keine Accounts. |
+| Payment | Stripe Checkout Sessions + consent_collection (Widerrufsrecht §356 BGB). price_xxx IDs in ENV-Vars. |
 | PDF-Gen | @react-pdf/renderer (client-side im Browser). KEINE server-side Generierung. |
-| Email | Resend (hello@compliflow.de). Nur: Zahlungsbestätigung + Waitlist-Notification. |
+| Email | Resend (hello@compliflow.de). 3 Typen: Zahlungsbestätigung, DOI-Bestätigung, DOI-Confirmed. |
 | Analytics | Plausible (compliflow.de konfiguriert, DSGVO-konform) |
 | Hosting | Hetzner VPS (178.104.147.61) + Coolify + Traefik. KEIN Vercel. |
 | Healthcheck | Docker HEALTHCHECK via wget auf Port 3000 |

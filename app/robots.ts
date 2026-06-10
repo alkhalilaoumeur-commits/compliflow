@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/api/", "/waitlist/confirmed", "/waitlist/invalid"],
     },
     sitemap: "https://compliflow.de/sitemap.xml",
     host: "https://compliflow.de",
