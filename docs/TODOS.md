@@ -12,7 +12,7 @@
 Wir laufen den **Vollständigkeits-Audit aller 7 Generatoren** Schritt für Schritt durch.
 Pro Generator: Coverage gegen geltendes Recht prüfen → CRITICAL/HIGH/MEDIUM/LOW Findings → Sprint A (nur CRITICAL+HIGH) ODER B (CRITICAL+HIGH) ODER C (alles) entscheiden → Fixes implementieren → Type-Check + Build.
 
-**Stand 2026-06-17 abends:** 5 von 7 Generatoren auf Sprint-C-Niveau (~99 % Coverage). 2 Generatoren noch offen.
+**Stand 2026-06-17 abends:** 6 von 7 Generatoren auf Sprint-C-Niveau (~99 % Coverage). 1 Generator noch offen (Cookie-Banner).
 
 ---
 
@@ -40,22 +40,12 @@ Was drin: § 312j Button-Lösung in B2C-Shop + Buchung, § 312k Kündigungsbutto
 
 ---
 
+### 6. Datenschutz-Generator — Sprint C (~99 % Coverage)
+Status: **fertig** (Audit 6/7 am 2026-06-17)
+Startstand war faktisch ~88 % (frühere CRITICAL/HIGH-Fixes #1/#2/#3/#4/#9/#17/#18/#19 schon drin), nicht 63 %.
+Sprint-C-Fixes (11 Findings): **H1** Kern-Bestellklausel (Vertragsabwicklung Art. 6 b + § 147 AO) — fehlte; **H2** Newsletter § 7 Abs. 3 UWG Bestandskundenwerbung; **H3** Art.-9-Allgemeinklausel wenn keine Branchen-Klausel greift; **M1** Payment Rechtsgrundlage + Datenkategorien; **M2** Profiling-Rechtsgrundlage; **M3** Art. 13 Abs. 2 lit. e (Bereitstellungspflicht); **M4** Treueprogramm + BNPL gerendert; **M5** Kontaktformular-Datenkategorien; **L1** Server-Side-Tracking; **L2** YouTube-nocookie-Flag respektiert; **L3** AI Act Art. 50 Abs. 2 (KI-generierte Inhalte).
+
 ## 🟡 Generatoren — Audit noch ausstehend
-
-### 6. Datenschutz-Generator — Sprint C ausstehend
-**Letzter bekannter Coverage-Stand:** ~63 % (aus DSGVO-Audit vor Sprint-Fixes)
-**Was muss geprüft werden:**
-- Art. 13 / 14 DSGVO Pflichtangaben vollständig?
-- Rechtsgrundlagen je Modul korrekt?
-- TDDDG § 25 Cookie-Klauseln 2026-konform (statt TTDSG)
-- AI Act Art. 50 Transparenzpflicht ab 02.08.2026
-- SCHUFA-EuGH-C-634/21 + freiwillige SCHUFA-Score-Reform (gleicher Hinweis wie VVT)
-- Branchen-Sonderklauseln (Arzt § 22 BDSG, Anwalt § 203 StGB)
-- Joint-Controller-Klausel Meta Pixel nach Art. 26 DSGVO
-- Newsletter-Bestandskundenprivileg § 7 Abs. 3 UWG + EuGH C-654/23
-- Drittland-Transfer DPF/SCCs Doppelabsicherung
-
-**Erwartete Findings:** mehrere CRITICAL + HIGH (analog AVV-Niveau).
 
 ### 7. Cookie-Banner-Generator — Audit ausstehend
 **Was muss geprüft werden:**
@@ -111,13 +101,15 @@ Was drin: § 312j Button-Lösung in B2C-Shop + Buchung, § 312k Kündigungsbutto
 - AGB Sprint C (Audit 5/7) — 3 CRITICAL + 5 HIGH + 7 MEDIUM + 3 LOW
 - SCHUFA-Hinweis im VVT geschärft (EuGH C-634/21 bleibt verbindlich, SCHUFA-Score-Reform als freiwillig markiert, § 31 BDSG-Reform als Entwurf gekennzeichnet)
 - AI-Act-Status mit Ilias durchgesprochen (Hochrisiko trifft nicht zu; Art. 4 Memo offen; Art. 50 ab 02.08.2026 nur für Higgsfield-Bilder + ggf. Chatbot)
+- Security-TODO #2/#3/#6 gefixt (Stripe-Production-Guards + Supabase-Timeout), 20 Commits gepusht (CVE live)
+- Datenschutz Sprint C (Audit 6/7) — 3 HIGH + 5 MEDIUM + 3 LOW, tsc+build clean
 
 ---
 
 ## 📍 Nächster konkreter Schritt
 
-**Audit 6/7 — Datenschutz-Generator starten.**
+**Audit 7/7 — Cookie-Banner-Generator starten.**
 
-User-Trigger: „weiter" → ich liefere zuerst den Coverage-Bericht, dann Sprint-A/B/C-Auswahl.
+User-Trigger: „weiter" → ich liefere zuerst den Coverage-Bericht (TDDDG § 25, Granularität, „Alle ablehnen" gleichrangig, Dark-Pattern, Pre-Checked verboten, TCF 2.2), dann Sprint-A/B/C-Auswahl.
 
-Wenn Datenschutz fertig: **Audit 7/7 Cookie-Banner**, dann **Pre-Launch-Verification-Playbook** abarbeiten und Production-Deploy.
+Wenn Cookie-Banner fertig: **Pre-Launch-Verification-Playbook** abarbeiten und Production-Deploy (inkl. Coolify-Redeploy für die heute gepushten Commits).

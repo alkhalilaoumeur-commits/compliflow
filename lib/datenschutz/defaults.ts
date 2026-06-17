@@ -893,7 +893,9 @@ Im Rahmen unserer Webseite/Dienstleistung verwenden wir automatisierte Verfahren
 - Widerspruchsrecht gegen Profiling (Art. 21 Abs. 2 DSGVO)
 - Recht auf menschliche Überprüfung automatisierter Entscheidungen (Art. 22 Abs. 3 DSGVO)
 - Recht auf Darlegung des eigenen Standpunkts
-- Recht auf Anfechtung der Entscheidung`,
+- Recht auf Anfechtung der Entscheidung
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. a DSGVO (Einwilligung), soweit das Profiling auf Cookies/Tracking beruht (i.V.m. § 25 Abs. 1 TDDDG); andernfalls Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Optimierung unserer Angebote), gegen das Sie nach Art. 21 Abs. 2 DSGVO jederzeit Widerspruch einlegen können.`,
 
   automatisierteEntscheidung: `## Automatisierte Einzelentscheidungen (Art. 22 DSGVO)
 
@@ -1264,3 +1266,58 @@ export const JOINT_CONTROLLER_WESENTLICHES = `## Wesentliche Inhalte der Joint-C
 export const DSFA_PFLICHT_HINWEIS = `## Datenschutz-Folgenabschätzung (Art. 35 DSGVO)
 
 Aufgrund der Kombination der von uns durchgeführten Verarbeitungen (insbesondere automatisierte Entscheidungen mit Rechtswirkung, Profiling und/oder Verarbeitung besonderer Datenkategorien im großen Umfang) haben wir gemäß Art. 35 DSGVO eine **Datenschutz-Folgenabschätzung** durchgeführt. Diese ist intern dokumentiert und kann auf Anfrage in Auszügen eingesehen werden.`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Sprint C — Audit 6/7 (2026-06-17)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// H1: Kern-Verarbeitung der Bestellung (Vertragsabwicklung) — fehlte komplett
+export const BESTELLUNG_KLAUSEL = `## Bestellung und Vertragsabwicklung
+
+Wenn Sie bei uns eine Bestellung aufgeben, verarbeiten wir Ihre Daten zur Durchführung des Kaufvertrags (Bearbeitung der Bestellung, Lieferung, Rechnungsstellung, Bearbeitung von Widerruf und Gewährleistung).
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie für die Aufbewahrung Art. 6 Abs. 1 lit. c DSGVO (gesetzliche Aufbewahrungspflicht).
+
+**Speicherdauer:** Rechnungs- und Buchungsdaten werden aufgrund handels- und steuerrechtlicher Pflichten 10 Jahre aufbewahrt (§ 147 AO, § 257 HGB). Nach Ablauf der Aufbewahrungsfristen werden die Daten gelöscht.`;
+
+// H2: Bestandskundenwerbung per E-Mail ohne separate Einwilligung
+export const NEWSLETTER_BESTANDSKUNDEN_HINWEIS = `**Werbung an Bestandskunden (§ 7 Abs. 3 UWG):** Haben Sie bei uns eine Ware oder Dienstleistung erworben und dabei Ihre E-Mail-Adresse angegeben, können wir Ihnen auch ohne gesonderte Einwilligung E-Mail-Werbung für eigene, ähnliche Produkte senden. Dies stützt sich auf unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO i.V.m. § 7 Abs. 3 UWG). Sie können dieser Nutzung jederzeit widersprechen, ohne dass hierfür andere als die Übermittlungskosten nach den Basistarifen entstehen — sowohl bei Erhebung der Adresse als auch in jeder einzelnen Nachricht (Abmelde-Link).`;
+
+// H3: Besondere Kategorien (Art. 9) — allgemeine Klausel, wenn keine Branchen-Klausel greift
+export const ART9_ALLGEMEIN_KLAUSEL = `## Verarbeitung besonderer Kategorien personenbezogener Daten (Art. 9 DSGVO)
+
+Im Rahmen unserer Tätigkeit verarbeiten wir besondere Kategorien personenbezogener Daten nach Art. 9 Abs. 1 DSGVO (z.B. Gesundheitsdaten, Daten zu religiöser/weltanschaulicher Überzeugung, Gewerkschaftszugehörigkeit oder Sexualleben).
+
+**Rechtsgrundlage:** Die Verarbeitung erfolgt nur, wenn eine der Voraussetzungen des Art. 9 Abs. 2 DSGVO vorliegt — insbesondere Ihre ausdrückliche Einwilligung (lit. a) oder eine gesetzliche Grundlage (lit. b–j i.V.m. § 22 BDSG).
+
+**Schutzmaßnahmen:** Für diese Daten gelten erhöhte technische und organisatorische Schutzmaßnahmen (Zugriffsbeschränkung, Verschlüsselung, gesonderte Protokollierung). Eine Weitergabe erfolgt nur, soweit gesetzlich erlaubt oder von Ihnen ausdrücklich eingewilligt.`;
+
+// M3: Art. 13 Abs. 2 lit. e — Pflicht zur Bereitstellung + Folgen der Nichtbereitstellung
+export const BEREITSTELLUNGSPFLICHT_HINWEIS = `## Erforderlichkeit der Bereitstellung
+
+Die Bereitstellung Ihrer personenbezogenen Daten ist weder gesetzlich noch vertraglich generell vorgeschrieben. Für den Abschluss und die Durchführung eines Vertrags mit uns sind jedoch bestimmte Daten erforderlich (z.B. Name, Kontakt- und ggf. Zahlungsdaten). Ohne diese Daten können wir den Vertrag nicht abschließen oder erfüllen. In gesetzlich geregelten Fällen (z.B. steuer- oder meldepflichtige Vorgänge) kann zusätzlich eine gesetzliche Bereitstellungspflicht bestehen. Soweit Daten freiwillig sind, weisen wir Sie an der jeweiligen Erhebungsstelle darauf hin.`;
+
+// M4: Treueprogramm + BNPL
+export const TREUEPROGRAMM_KLAUSEL = `## Kundenbindungs-/Treueprogramm
+
+Wenn Sie an unserem Treue- oder Bonusprogramm teilnehmen, verarbeiten wir Ihre Stammdaten sowie Ihre Kauf- und Punktehistorie, um Prämien, Rabatte und personalisierte Vorteile bereitzustellen. Dabei kann eine Auswertung Ihres Kaufverhaltens (Profiling) stattfinden.
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b DSGVO (Durchführung des Teilnahmeverhältnisses) bzw. Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für die personalisierte Auswertung.
+
+**Speicherdauer:** für die Dauer Ihrer Teilnahme; nach Beendigung Löschung vorbehaltlich gesetzlicher Aufbewahrungsfristen.`;
+
+export const BNPL_KLAUSEL = `## "Buy Now, Pay Later" (Kauf auf Rechnung / Ratenzahlung)
+
+Bei Wahl einer "Buy Now, Pay Later"-Zahlungsart (spätere Zahlung oder Ratenkauf) übermitteln wir die für die Zahlungsabwicklung erforderlichen Daten an den jeweiligen Zahlungsdienstleister. Dieser führt in der Regel eine eigene Bonitätsprüfung durch und ist hierfür datenschutzrechtlich eigenständig verantwortlich; es gelten zusätzlich dessen Datenschutzhinweise.
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Absicherung des Zahlungsausfallrisikos).`;
+
+// L1: Server-Side-Tracking
+export const SERVER_SIDE_TRACKING_HINWEIS = `## Serverseitiges Tracking (Server-Side Tagging)
+
+Wir setzen serverseitiges Tracking (z.B. über einen Server-Side Google Tag Manager) ein. Dabei werden Messdaten nicht direkt aus Ihrem Browser an die Tool-Anbieter gesendet, sondern zunächst über unseren eigenen Server geleitet. Dies ermöglicht uns, übertragene Daten zu kontrollieren und zu minimieren. Die Einwilligungspflicht nach § 25 Abs. 1 TDDDG bleibt hiervon unberührt: Auch beim serverseitigen Tracking holen wir Ihre Einwilligung über unser Cookie-Banner ein, soweit erforderlich.
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) i.V.m. § 25 Abs. 1 TDDDG.`;
+
+// L3: AI Act Art. 50 Abs. 2 — Kennzeichnung KI-generierter Inhalte
+export const AI_ACT_CONTENT_HINWEIS = `**Hinweis zu KI-generierten Inhalten (Art. 50 Abs. 2 AI Act):** Soweit auf dieser Webseite künstlich erzeugte oder bearbeitete Bilder, Audio- oder Videoinhalte ("synthetische Inhalte") eingesetzt werden, sind diese als KI-generiert gekennzeichnet. Die Pflicht zur maschinenlesbaren Kennzeichnung gilt ab dem 02.08.2026.`;

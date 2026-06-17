@@ -64,6 +64,14 @@ import {
   AI_ACT_TOUCHPOINT_WARNING,
   JOINT_CONTROLLER_WESENTLICHES,
   DSFA_PFLICHT_HINWEIS,
+  BESTELLUNG_KLAUSEL,
+  NEWSLETTER_BESTANDSKUNDEN_HINWEIS,
+  ART9_ALLGEMEIN_KLAUSEL,
+  BEREITSTELLUNGSPFLICHT_HINWEIS,
+  TREUEPROGRAMM_KLAUSEL,
+  BNPL_KLAUSEL,
+  SERVER_SIDE_TRACKING_HINWEIS,
+  AI_ACT_CONTENT_HINWEIS,
 } from "./defaults";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -392,13 +400,18 @@ function renderMarketing(d: DatenschutzData): string {
 function renderNewsletter(d: DatenschutzData): string {
   if (!d.newsletter.aktiv || !d.newsletter.provider) return "";
   const k = NEWSLETTER_KLAUSELN[d.newsletter.provider];
-  return [
+  const parts = [
     heading(2, `Newsletter (${NEWSLETTER_LABELS[d.newsletter.provider].name})`),
     para(k.text),
     infoLine("Datenkategorien", DATENKATEGORIEN.newsletter),
     infoLine("Rechtsgrundlage", k.rechtsgrundlage),
     infoLine("Speicherdauer", SPEICHERDAUERN.newsletter_einwilligung),
-  ].join("\n");
+  ];
+  // H2: Bestandskundenwerbung nach § 7 Abs. 3 UWG nur relevant, wenn ein Shop besteht
+  if (d.ecommerce.bestellungen) {
+    parts.push(para(NEWSLETTER_BESTANDSKUNDEN_HINWEIS.replace(/\*\*/g, "")));
+  }
+  return parts.join("\n");
 }
 
 function renderPayment(d: DatenschutzData): string {
@@ -408,12 +421,22 @@ function renderPayment(d: DatenschutzData): string {
     parts.push(heading(3, PAYMENT_LABELS[p]));
     parts.push(para(PAYMENT_KLAUSELN[p]));
   }
+  // M1: Rechtsgrundlage + Datenkategorien für alle Zahlungsarten gebündelt
+  parts.push(infoLine("Datenkategorien", DATENKATEGORIEN.zahlung));
+  parts.push(infoLine(
+    "Rechtsgrundlage",
+    "Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung); bei Maßnahmen gegen Zahlungsausfall zusätzlich Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)."
+  ));
   return parts.join("\n");
 }
 
 function renderEcommerce(d: DatenschutzData): string {
   if (!d.ecommerce.bestellungen) return "";
   const parts: string[] = [];
+
+  // Kern-Verarbeitung der Bestellung (H1)
+  parts.push(mdSectionToHtml(BESTELLUNG_KLAUSEL));
+  parts.push(infoLine("Datenkategorien", DATENKATEGORIEN.bestellung));
 
   // Versand
   if (d.ecommerce.versand.length > 0) {
@@ -456,6 +479,16 @@ function renderEcommerce(d: DatenschutzData): string {
     parts.push(para(`Rechtsgrundlage: ${b.rechtsgrundlage}`));
   }
 
+  // Buy Now Pay Later (M4)
+  if (d.ecommerce.bnpl_aktiv) {
+    parts.push(mdSectionToHtml(BNPL_KLAUSEL));
+  }
+
+  // Treue-/Bonusprogramm (M4)
+  if (d.ecommerce.treueprogramm) {
+    parts.push(mdSectionToHtml(TREUEPROGRAMM_KLAUSEL));
+  }
+
   return parts.join("\n");
 }
 
@@ -463,10 +496,19 @@ function renderSocial(d: DatenschutzData): string {
   if (d.social.length === 0 && d.embedded.length === 0) return "";
   const parts: string[] = [heading(2, "Social Media und eingebettete Inhalte")];
 
+  // L2: YouTube-Klauseltext an den tatsächlich genutzten Modus anpassen
+  const ytAdjust = (text: string): string =>
+    d.embedOptionen.youtubeNoCookieMode
+      ? text
+      : text.replace(
+          /Wir verwenden den erweiterten Datenschutzmodus \(youtube-nocookie\.com\)\.\s*/,
+          "Wir verwenden den Standard-Einbettungsmodus; bereits beim Laden des Videos werden Cookies gesetzt und eine Verbindung zu Google-Servern aufgebaut. "
+        );
+
   for (const s of d.social) {
     const k = SOCIAL_KLAUSELN[s];
     parts.push(heading(3, SOCIAL_LABELS[s]));
-    parts.push(para(k.text));
+    parts.push(para(s === "youtube_embed" ? ytAdjust(k.text) : k.text));
     parts.push(para(`Rechtsgrundlage: ${k.rechtsgrundlage}`));
   }
 
@@ -478,7 +520,7 @@ function renderSocial(d: DatenschutzData): string {
     }
     const k = EMBEDDED_KLAUSELN[e];
     parts.push(heading(3, EMBEDDED_LABELS[e]));
-    parts.push(para(k.text));
+    parts.push(para(e === "youtube_iframe" ? ytAdjust(k.text) : k.text));
     parts.push(para(`Rechtsgrundlage: ${k.rechtsgrundlage}`));
   }
 
@@ -491,6 +533,7 @@ function renderKommunikation(d: DatenschutzData): string {
   // Kontaktformular
   if (d.kommunikation.kontaktformular || d.funktionen.kontaktformular) {
     parts.push(mdSectionToHtml(STANDARD_TEXTE.kontaktformular));
+    parts.push(infoLine("Datenkategorien", DATENKATEGORIEN.kontaktformular));
   }
 
   // Live-Chat (klassisch)
@@ -579,7 +622,23 @@ function renderHR(d: DatenschutzData): string {
 function renderBranche(d: DatenschutzData): string {
   const text = BRANCHEN_KLAUSELN[d.branche];
   if (!text) return "";
-  return mdSectionToHtml(text);
+  let out = mdSectionToHtml(text);
+  // L3: Kennzeichnungs-Hinweis für KI-generierte Inhalte (Art. 50 Abs. 2 AI Act)
+  if (d.branche === "ki_saas") {
+    out += "\n" + mdSectionToHtml(AI_ACT_CONTENT_HINWEIS);
+  }
+  return out;
+}
+
+/** L1: Serverseitiges Tracking — eigener Abschnitt, unabhängig von einzelnen Tools */
+function renderServerSideTracking(d: DatenschutzData): string {
+  if (!d.embedOptionen.serverSideTracking) return "";
+  return mdSectionToHtml(SERVER_SIDE_TRACKING_HINWEIS);
+}
+
+/** M3: Art. 13 Abs. 2 lit. e — Erforderlichkeit der Bereitstellung */
+function renderBereitstellung(): string {
+  return mdSectionToHtml(BEREITSTELLUNGSPFLICHT_HINWEIS);
 }
 
 function renderFunktionen(d: DatenschutzData): string {
@@ -591,6 +650,10 @@ function renderFunktionen(d: DatenschutzData): string {
 
 function renderSpezial(d: DatenschutzData): string {
   const parts: string[] = [];
+  // H3: Art.-9-Klausel nur, wenn nicht bereits eine Branchen-Klausel (Arzt/Pflege) sie abdeckt
+  if (d.spezial.besondere_kategorien_art9 && d.branche !== "arzt" && d.branche !== "pflege") {
+    parts.push(mdSectionToHtml(ART9_ALLGEMEIN_KLAUSEL));
+  }
   if (d.spezial.profiling) parts.push(mdSectionToHtml(SPEZIAL_KLAUSELN.profiling));
   if (d.spezial.automatisierte_entscheidung) parts.push(mdSectionToHtml(SPEZIAL_KLAUSELN.automatisierteEntscheidung));
   if (hasJointController(d)) {
@@ -694,6 +757,7 @@ export function buildHtml(d: DatenschutzData, options: BuildOptions = {}): strin
     renderCookies(d),
     renderAnalytics(d),
     renderMarketing(d),
+    renderServerSideTracking(d),     // L1
     renderNewsletter(d),
     renderPayment(d),
     renderEcommerce(d),
@@ -704,6 +768,7 @@ export function buildHtml(d: DatenschutzData, options: BuildOptions = {}): strin
     renderSpezial(d),
     renderDsfa(d),                  // CRITICAL FIX #19
     renderEmpfaenger(),              // HIGH FIX #3
+    renderBereitstellung(),          // M3 — Art. 13 Abs. 2 lit. e
     renderDrittland(d),
     renderBetroffenenrechte(),
     renderAufsichtsbehoerde(d),      // CRITICAL FIX #1
