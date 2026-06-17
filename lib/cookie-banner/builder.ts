@@ -157,12 +157,18 @@ function buildBannerHtml(d: CookieBannerData, options: BuildOptions = {}): strin
     </div>`
     : "";
 
-  // BGH 2025: Reject-All gleich prominent wie Accept-All
+  // BGH 2025: Reject-All ist IMMER ein gleichwertiger Button (--secondary), nie ein
+  // dezenter Ghost-Link. Compliflow erzwingt die gleiche Prominenz hart im Code —
+  // ein Dark-Pattern-Banner lässt sich mit diesem Generator nicht erzeugen.
+  const weiterOhneTrackingHtml = d.verhalten.weiterOhneTracking
+    ? `<button type="button" class="compliflow-cb__btn compliflow-cb__btn--ghost" data-action="reject-all">${escapeHtml(d.sprache === "en" ? "Continue without tracking" : "Weiter ohne Tracking")}</button>`
+    : "";
   const buttonsHtml = `
     <div class="compliflow-cb__buttons">
       <button type="button" class="compliflow-cb__btn compliflow-cb__btn--primary" data-action="accept-all">${escapeHtml(t.acceptAll)}</button>
-      <button type="button" class="compliflow-cb__btn ${d.verhalten.rejectAllProminent ? "compliflow-cb__btn--secondary" : "compliflow-cb__btn--ghost"}" data-action="reject-all">${escapeHtml(t.rejectAll)}</button>
+      <button type="button" class="compliflow-cb__btn compliflow-cb__btn--secondary" data-action="reject-all">${escapeHtml(t.rejectAll)}</button>
       ${d.verhalten.settingsButton ? `<button type="button" class="compliflow-cb__btn compliflow-cb__btn--ghost" data-action="toggle-settings">${escapeHtml(t.settingsOeffnen)}</button>` : ""}
+      ${weiterOhneTrackingHtml}
     </div>`;
 
   const creditHtml = credit
@@ -291,7 +297,8 @@ function buildSingleToolLoad(t: TrackingTool): string {
 function buildJs(d: CookieBannerData): string {
   const cfg = {
     storageKey: d.storageKey,
-    consentLaufzeitMs: d.verhalten.consentLaufzeitMonate * 30 * 24 * 60 * 60 * 1000,
+    // Kalendergenau: ein Monat = 365/12 Tage (12 Monate = volle 365 Tage, nicht 360)
+    consentLaufzeitMs: Math.round(d.verhalten.consentLaufzeitMonate * (365 / 12) * 24 * 60 * 60 * 1000),
     autoOeffnen: d.verhalten.autoOeffnen,
     settingsButton: d.verhalten.settingsButton,
     aktiveKategorien: d.kategorien.filter((k) => k.aktiv).map((k) => k.id),
@@ -449,6 +456,7 @@ ${js}
  * Plaintext-Variante: nicht sinnvoll für Banner. Aber als Erklärung:
  */
 export function buildAnleitung(d: CookieBannerData): string {
+  const hatRecaptcha = d.trackingTools.some((t) => t.typ === "google_recaptcha");
   return `Cookie-Banner Einbau-Anleitung
 ============================
 
@@ -459,8 +467,40 @@ export function buildAnleitung(d: CookieBannerData): string {
 Konfigurierte Tracking-Tools:
 ${d.trackingTools.map((t) => `- ${t.name} (Kategorie: ${t.kategorie})`).join("\n") || "- Keine Tracking-Tools konfiguriert"}
 
-Banner neu öffnen (z.B. via Footer-Link "Cookie-Einstellungen"):
+PFLICHT: Widerruf so einfach wie die Einwilligung (Art. 7 Abs. 3 DSGVO)
+------------------------------------------------------------------
+Baue diesen Link sichtbar in deinen Footer ein (auf JEDER Seite). Nur so ist der
+Widerruf so leicht zugänglich wie die Zustimmung — das ist rechtlich Pflicht:
+
 <a href="#" onclick="event.preventDefault(); window.compliflowCookies && window.compliflowCookies.open();">Cookie-Einstellungen</a>
+
+Alternativ als immer sichtbarer Floating-Button (rechts unten):
+
+<button style="position:fixed;bottom:16px;left:16px;z-index:90000;padding:8px 12px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;font-size:12px;"
+  onclick="window.compliflowCookies && window.compliflowCookies.open();">Cookie-Einstellungen</button>
+
+WICHTIG: Nachweisbarkeit der Einwilligung (Art. 7 Abs. 1 DSGVO)
+---------------------------------------------------------------
+Dieser Banner speichert die Einwilligung nur im Browser (localStorage) des Besuchers.
+Das genügt für das Setzen/Blockieren der Cookies, ist aber KEIN serverseitiger
+Einwilligungs-Nachweis. Du als Betreiber musst eine Einwilligung im Streitfall belegen
+können. Für eine echte Nachweis-Dokumentation (Consent-Log auf Server) brauchst du eine
+serverseitige Lösung. Für kleine Webseiten mit geringem Risiko ist die localStorage-
+Variante in der Praxis verbreitet — die Entscheidung und das Restrisiko liegen bei dir.
+
+${hatRecaptcha ? `HINWEIS reCAPTCHA:
+-----------------
+Google reCAPTCHA ist als "technisch notwendig" eingestuft und lädt daher OHNE Consent
+(berechtigtes Interesse am Spam-/Bot-Schutz, Art. 6 Abs. 1 lit. f DSGVO). Diese
+Einstufung ist vertretbar, wird von einigen Aufsichtsbehörden aber kritisch gesehen.
+Wenn du sicher gehen willst, verschiebe reCAPTCHA in die Kategorie "Funktional".
+
+` : ""}Hinweis zu IAB TCF 2.2:
+-----------------------
+Dies ist ein eigenständiger Consent-Manager, KEIN IAB-TCF-2.2-zertifiziertes CMP.
+Für die meisten Webseiten ist TCF nicht erforderlich. Nur wenn du programmatische
+Werbung über das IAB-Transparency-&-Consent-Framework ausspielst (z.B. bestimmte
+Ad-Netzwerke), brauchst du ein TCF-zertifiziertes CMP statt dieses Banners.
 
 Consent zurücksetzen (für Tests):
 window.compliflowCookies.reset();

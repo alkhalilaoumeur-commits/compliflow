@@ -12,7 +12,7 @@
 Wir laufen den **Vollständigkeits-Audit aller 7 Generatoren** Schritt für Schritt durch.
 Pro Generator: Coverage gegen geltendes Recht prüfen → CRITICAL/HIGH/MEDIUM/LOW Findings → Sprint A (nur CRITICAL+HIGH) ODER B (CRITICAL+HIGH) ODER C (alles) entscheiden → Fixes implementieren → Type-Check + Build.
 
-**Stand 2026-06-17 abends:** 6 von 7 Generatoren auf Sprint-C-Niveau (~99 % Coverage). 1 Generator noch offen (Cookie-Banner).
+**Stand 2026-06-17 abends:** ✅ ALLE 7 Generatoren auf Sprint-C-Niveau (~99 % Coverage). Generator-Audit abgeschlossen.
 
 ---
 
@@ -45,18 +45,10 @@ Status: **fertig** (Audit 6/7 am 2026-06-17)
 Startstand war faktisch ~88 % (frühere CRITICAL/HIGH-Fixes #1/#2/#3/#4/#9/#17/#18/#19 schon drin), nicht 63 %.
 Sprint-C-Fixes (11 Findings): **H1** Kern-Bestellklausel (Vertragsabwicklung Art. 6 b + § 147 AO) — fehlte; **H2** Newsletter § 7 Abs. 3 UWG Bestandskundenwerbung; **H3** Art.-9-Allgemeinklausel wenn keine Branchen-Klausel greift; **M1** Payment Rechtsgrundlage + Datenkategorien; **M2** Profiling-Rechtsgrundlage; **M3** Art. 13 Abs. 2 lit. e (Bereitstellungspflicht); **M4** Treueprogramm + BNPL gerendert; **M5** Kontaktformular-Datenkategorien; **L1** Server-Side-Tracking; **L2** YouTube-nocookie-Flag respektiert; **L3** AI Act Art. 50 Abs. 2 (KI-generierte Inhalte).
 
-## 🟡 Generatoren — Audit noch ausstehend
-
-### 7. Cookie-Banner-Generator — Audit ausstehend
-**Was muss geprüft werden:**
-- TDDDG § 25 (NICHT mehr TTDSG)
-- Granularität der Einwilligung pro Zweck
-- Widerrufsmöglichkeit gleich einfach wie Einwilligung
-- Pre-Checked Boxes (verboten)
-- „Alle ablehnen"-Button auf gleicher Ebene wie „Alle akzeptieren" (BGH/EuGH-Linie)
-- Dark-Pattern-Audit (z.B. „Alle akzeptieren" optisch dominant)
-- TCF 2.2-Kompatibilität
-- AI-Act-Hinweis (Chatbot/KI auf der Seite)
+### 7. Cookie-Banner-Generator — Sprint C (~99 % Coverage)
+Status: **fertig** (Audit 7/7 am 2026-06-17)
+Startstand ~90 % (echter funktionaler Vanilla-JS-Banner). Sauber war bereits: TDDDG § 25, echtes Opt-in (Tools laden erst nach Consent, keine Pre-Checked Boxen), granulare Einwilligung, Reject-All auf erster Ebene, 12-Monats-Re-Consent, A11y.
+Sprint-C-Fixes (7 Findings): **H1** Reject-All immer gleichwertiger Button (Ghost-Fallback aus dem Builder entfernt → Dark-Pattern-Output unmöglich); **M1** Consent-Nachweisbarkeit Art. 7 Abs. 1 ehrlich in Anleitung dokumentiert; **M2** `weiterOhneTracking` wird jetzt gerendert (war totes Feld); **M3** Widerruf-Footer-Link + Floating-Button-Snippet in Anleitung; **L1** TCF-2.2-Klarstellung (kein IAB-CMP); **L2** reCAPTCHA-essential-Hinweis; **L3** Consent-Laufzeit kalendergenau (365/12 statt 30 Tage).
 
 ---
 
@@ -103,13 +95,14 @@ Sprint-C-Fixes (11 Findings): **H1** Kern-Bestellklausel (Vertragsabwicklung Art
 - AI-Act-Status mit Ilias durchgesprochen (Hochrisiko trifft nicht zu; Art. 4 Memo offen; Art. 50 ab 02.08.2026 nur für Higgsfield-Bilder + ggf. Chatbot)
 - Security-TODO #2/#3/#6 gefixt (Stripe-Production-Guards + Supabase-Timeout), 20 Commits gepusht (CVE live)
 - Datenschutz Sprint C (Audit 6/7) — 3 HIGH + 5 MEDIUM + 3 LOW, tsc+build clean
+- Cookie-Banner Sprint C (Audit 7/7) — 1 HIGH + 3 MEDIUM + 3 LOW, tsc+build clean → **Generator-Audit komplett**
 
 ---
 
 ## 📍 Nächster konkreter Schritt
 
-**Audit 7/7 — Cookie-Banner-Generator starten.**
+**Generator-Audit ist abgeschlossen (7/7 auf Sprint C).** Verbleibend vor Launch:
 
-User-Trigger: „weiter" → ich liefere zuerst den Coverage-Bericht (TDDDG § 25, Granularität, „Alle ablehnen" gleichrangig, Dark-Pattern, Pre-Checked verboten, TCF 2.2), dann Sprint-A/B/C-Auswahl.
-
-Wenn Cookie-Banner fertig: **Pre-Launch-Verification-Playbook** abarbeiten und Production-Deploy (inkl. Coolify-Redeploy für die heute gepushten Commits).
+1. **Pre-Launch-Verification-Playbook** abarbeiten ([docs/PRE-LAUNCH-VERIFICATION-PLAYBOOK.md](PRE-LAUNCH-VERIFICATION-PLAYBOOK.md))
+2. **Coolify-Redeploy** — die heute gepushten Commits (Security-Fixes + alle Audits) sind live noch NICHT deployed; Production zeigt noch alten Stand (robots.txt ohne Disallow). ENV prüfen: STRIPE_*, Brevo-Key.
+3. **Stripe 0,99 € Watermark-Removal** + **Brevo** live schalten (siehe WATERMARK-STRIPE-SETUP.md / BREVO-SETUP.md)
