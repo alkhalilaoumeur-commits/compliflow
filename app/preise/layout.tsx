@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Preise — AVV & VVT Generator kostenlos oder 29 € Pro | Compliflow",
+  title: "Preise — Compliflow ist komplett kostenlos | DSGVO-Generatoren",
   description:
-    "Compliflow kostenlos starten: AVV und VVT ohne Branding kostenlos. Pro-Version für 29 € einmalig — PDF ohne Compliflow-Footer. Kein Abo, kein Account.",
+    "Alle Compliflow-Generatoren sind kostenlos. Kein Abo, kein Pro-Modell, keine versteckten Kosten. So finanzieren wir uns.",
   alternates: { canonical: "https://compliflow.de/preise" },
   openGraph: {
-    title: "Compliflow Preise — DSGVO-Dokumente ab 0 €",
+    title: "Compliflow Preise — 0 € für alles, für immer",
     description:
-      "AVV und Verarbeitungsverzeichnis kostenlos erstellen. Pro-PDF ohne Branding für 29 € einmalig. Einmalige Zahlung, kein Abo, sofortiger Download.",
+      "AVV, VVT und bald Cookie-Banner — kostenlos, ohne Account, ohne Abo. Finanziert über DRVN-Webseiten-Aufträge und kleine Affiliate-Provisionen.",
     url: "https://compliflow.de/preise",
     siteName: "Compliflow",
     locale: "de_DE",
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Compliflow Preise — AVV & VVT Generator kostenlos oder 29 €",
+    title: "Compliflow Preise — komplett kostenlos",
     description:
-      "Compliflow kostenlos starten: AVV und VVT ohne Branding kostenlos. Pro-Version für 29 € einmalig — PDF ohne Compliflow-Footer. Kein Abo, kein Account.",
+      "Alle DSGVO-Generatoren von Compliflow sind kostenlos. Kein Abo, kein Pro-Modell.",
   },
 };
 

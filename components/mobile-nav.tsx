@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 const LINKS = [
   { href: "/avv", label: "AVV-Generator" },
   { href: "/vvt", label: "VVT-Generator" },
+  { href: "/impressum-generator", label: "Impressum-Generator" },
   { href: "/preise", label: "Preise" },
   { href: "/blog", label: "Blog" },
   { href: "/#suite", label: "Die Suite" },

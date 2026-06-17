@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { DocumentMockup } from "@/components/document-mockup";
 import { ExitPopup } from "@/components/exit-popup";
 import { MobileNav } from "@/components/mobile-nav";
+import { ToolsDropdown } from "@/components/tools-dropdown";
 import { tools } from "@/lib/tools";
 import { PRIMER, FAQS } from "@/lib/content";
 import { BLOG_POSTS } from "@/lib/blog-posts";
@@ -16,16 +17,11 @@ export default function Home() {
       <Header />
       <UrgencyBar />
       <Hero />
-      <ToolLogos />
-      <TrustAndStats />
-      <HowItWorks />
-      <PhotoSection />
       <Suite />
+      <HowItWorks />
       <Comparison />
-      <Primer />
       <BlogTeaser />
       <Faq />
-      <Waitlist />
       <Footer />
     </main>
   );
@@ -58,32 +54,21 @@ function Header() {
           </span>
         </a>
         <nav className="fade-in flex items-center gap-5 md:gap-7">
-          <a
-            href="/avv"
-            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
-          >
-            AVV
-          </a>
-          <a
-            href="/vvt"
-            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
-          >
-            VVT
-          </a>
+          <ToolsDropdown />
           <a
             href="/preise"
-            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink transition"
           >
             Preise
           </a>
           <a
             href="/blog"
-            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink"
+            className="hidden md:inline font-body text-[14px] text-ink-dim hover:text-ink transition"
           >
             Blog
           </a>
           <a
-            href="/avv"
+            href="/datenschutz-generator"
             className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
@@ -99,18 +84,14 @@ function Header() {
 function UrgencyBar() {
   return (
     <div className="border-b border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.06)]">
-      <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1.5 py-2.5 text-center">
+      <Container className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1.5 py-2.5 text-center">
         <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent font-semibold">
-          <svg className="inline-block mr-1.5 mb-0.5 h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>DSGVO-Pflicht
+          <svg className="inline-block mr-1.5 mb-0.5 h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>DSGVO + UWG + BGB Pflicht
         </span>
         <span className="hidden font-body text-[12px] text-ink-dim sm:inline">
-          Ohne AVV: Bußgeld bis <strong className="text-ink">20 Mio. €</strong> nach Art. 83 DSGVO
+          Ohne Datenschutz: <strong className="text-ink">bis 20 Mio. €</strong> (Art. 83) · Ohne Impressum: <strong className="text-ink">bis 50.000 €</strong> (§ 5 DDG) · Ohne AGB-Widerruf: <strong className="text-ink">Vertragsnichtigkeit</strong>
         </span>
-        <span className="hidden font-body text-[12px] text-ink-dim md:inline">·</span>
-        <span className="hidden font-body text-[12px] text-ink-dim md:inline">
-          Alle Pflichtinhalte nach Art. 28 DSGVO — <strong className="text-ink">kostenlos</strong>
-        </span>
-        <a href="/avv" className="font-mono text-[11px] uppercase tracking-[0.12em] text-accent underline underline-offset-2">
+        <a href="/datenschutz-generator" className="font-mono text-[11px] uppercase tracking-[0.12em] text-accent underline underline-offset-2">
           Jetzt absichern →
         </a>
       </Container>
@@ -149,88 +130,127 @@ function ToolLogos() {
 
 function Hero() {
   return (
-    <section className="relative">
-      <Container className="grid grid-cols-12 gap-y-10 pt-20 pb-24 lg:gap-x-12 lg:pt-28 lg:pb-32">
-        <div className="col-span-12 lg:col-span-8">
+    <section className="relative overflow-hidden">
+      <Container className="grid grid-cols-12 items-center gap-y-12 pt-14 pb-16 lg:gap-x-12 lg:pt-20 lg:pb-24">
+        <div className="col-span-12 lg:col-span-7">
           <p
-            className="rise mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent"
+            className="rise mb-6 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent"
             style={{ animationDelay: "0ms" }}
           >
             <span className="relative inline-flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[rgba(31,61,47,0.6)]" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            Tools 01 + 02 live — AVV & Verarbeitungsverzeichnis
+            7 Generatoren · Aktualisiert zu 2026 · Datenhaltung Frankfurt
           </p>
 
           <h1
-            className="rise balance font-display text-[44px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[56px] md:text-[68px] lg:text-[80px]"
+            className="rise balance font-display text-[40px] font-medium leading-[1.04] tracking-[-0.02em] text-ink sm:text-[52px] md:text-[60px] lg:text-[68px]"
             style={{ animationDelay: "80ms" }}
           >
-            Compliance, in Stunden statt{" "}
-            <em className="italic text-accent">Anwaltstagen.</em>
+            DSGVO-Dokumente,{" "}
+            <em className="italic text-accent">die halten.</em>
+            <br />
+            In Minuten — nicht Anwaltstagen.
           </h1>
 
           <p
-            className="rise measure mt-8 font-body text-[18px] leading-[1.6] text-ink-dim md:text-[19px]"
+            className="rise measure mt-7 font-body text-[17px] leading-[1.6] text-ink-dim md:text-[18px]"
             style={{ animationDelay: "160ms" }}
           >
-            Compliflow ist die DSGVO-Werkbank für deutsche Selbstständige und
-            Agenturen: AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner —
-            drei Tools auf einer Domain, alle Pflichtfelder nach Art. 28 und Art. 30
-            DSGVO, Sitz in Stuttgart, Datenhaltung in Frankfurt.
+            Impressum, Datenschutz, AVV, Widerrufsbelehrung, AGB und Cookie-Banner —
+            alle Pflichttexte für deine Webseite, generiert aus einem strukturierten
+            Wizard mit 40+ Sonderfällen. AI Act, SCHUFA-Reform, BGH-Cookie-Urteile
+            2025: schon eingebaut.
           </p>
 
           <div
-            className="rise mt-10 flex flex-wrap items-center gap-x-4 gap-y-3"
+            className="rise mt-8 flex flex-wrap items-center gap-x-3 gap-y-3"
             style={{ animationDelay: "240ms" }}
           >
             <a
-              href="/avv"
+              href="/datenschutz-generator"
               className="btn-primary inline-flex h-12 items-center justify-center gap-2 px-7 font-body text-[15px] font-medium tracking-tight"
             >
-              AVV-Generator kostenlos starten
+              Datenschutz erstellen
               <span aria-hidden="true">→</span>
             </a>
             <a
-              href="/vvt"
-              className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-body text-[14px] font-medium gap-2"
+              href="#suite"
+              className="btn-ghost inline-flex h-12 items-center justify-center px-5 font-body text-[14px] font-medium gap-2"
             >
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-              Verarbeitungsverzeichnis starten
+              Alle 7 Generatoren ansehen
             </a>
-            <span className="hidden font-body text-[13px] text-ink-faded md:inline">
-              <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner
-            </span>
           </div>
 
-          <div
-            className="rise mt-6 flex flex-wrap items-center gap-x-5 gap-y-2"
+          <dl
+            className="rise mt-9 grid grid-cols-3 gap-x-4 border-t border-line pt-6"
             style={{ animationDelay: "320ms" }}
           >
-            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
-              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-              Kein Account nötig
-            </span>
-            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
-              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-              Alle 13 Pflichtinhalte nach Art. 28
-            </span>
-            <span className="flex items-center gap-1.5 font-body text-[13px] text-ink-dim">
-              <svg className="h-3.5 w-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-              Daten verlassen nie deinen Browser
-            </span>
-          </div>
+            <div>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
+                Risiko ohne
+              </dt>
+              <dd className="mt-1 font-display text-[20px] font-medium text-ink leading-tight">
+                bis 20 Mio €
+              </dd>
+              <p className="font-mono text-[10px] text-ink-faded mt-0.5">
+                Art. 83 DSGVO
+              </p>
+            </div>
+            <div>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
+                Kosten Anwalt
+              </dt>
+              <dd className="mt-1 font-display text-[20px] font-medium text-ink leading-tight">
+                800 – 2.500 €
+              </dd>
+              <p className="font-mono text-[10px] text-ink-faded mt-0.5">
+                pro Doku-Paket
+              </p>
+            </div>
+            <div>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent">
+                Mit Compliflow
+              </dt>
+              <dd className="mt-1 font-display text-[20px] font-medium text-accent leading-tight">
+                0 € — 5 Min
+              </dd>
+              <p className="font-mono text-[10px] text-accent mt-0.5">
+                pro Dokument
+              </p>
+            </div>
+          </dl>
         </div>
 
         <aside
-          className="rise col-span-12 lg:col-span-4 lg:pt-2"
+          className="rise col-span-12 lg:col-span-5"
           style={{ animationDelay: "360ms" }}
         >
-          <DocumentMockup />
-          <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-            <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner
-          </p>
+          <div className="relative">
+            <div className="absolute -inset-4 -z-10 bg-gradient-to-br from-[rgba(255,77,0,0.08)] via-transparent to-[rgba(31,61,47,0.05)] blur-2xl" aria-hidden="true" />
+            <div className="relative overflow-hidden border border-line bg-bg-soft">
+              <picture>
+                <source srcSet="/hero/desk-compliance.webp" type="image/webp" />
+                <img
+                  src="/hero/desk-compliance.png"
+                  alt="Schreibtisch von oben mit MacBook, einer aufgeschlagenen deutschen Compliance-Akte mit Paragraphen-Tabs und einer Tasse Espresso — die Werkbank für deutsche Selbstständige."
+                  width={928}
+                  height={1152}
+                  loading="eager"
+                  className="block h-auto w-full object-cover"
+                />
+              </picture>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(10,9,6,0.55)] via-transparent to-transparent p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-bg/90">
+                  Sitz Stuttgart · Datenhaltung Frankfurt
+                </p>
+                <p className="mt-1 font-display text-[14px] text-bg leading-tight">
+                  Made in Germany · Open Source-Klauseln aus DSK, GDD, Bitkom
+                </p>
+              </div>
+            </div>
+          </div>
         </aside>
       </Container>
     </section>
@@ -241,18 +261,20 @@ function Suite() {
   return (
     <section id="suite" className="relative">
       <Container className="py-24 lg:py-32">
-        <div className="mb-16 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+        <div className="mb-14 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              02 · Die Suite
+              01 · Die Suite
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
             <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
-              Drei eigenständige Werkzeuge. Eine Suite.
+              7 Werkzeuge. Eine Suite.
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
-              Du brauchst nicht alle drei am ersten Tag — AVV und VVT sind jetzt live, Cookie-Banner kommt im August. Alle komplett kostenlos, ohne Account, ohne Upload.
+              Jedes Werkzeug einzeln nutzbar, alle teilen die gleichen Eingaben:
+              dein Impressum zieht in den Datenschutz, dein Datenschutz in den AVV.
+              Kein Account, keine Daten-Upload, alles lokal im Browser.
             </p>
           </div>
         </div>
@@ -382,11 +404,11 @@ function HowItWorks() {
 
   return (
     <section className="border-t border-line">
-      <Container className="py-24 lg:py-32">
-        <div className="mb-16 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+      <Container className="py-20 lg:py-24">
+        <div className="mb-12 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              01 · Wie es funktioniert
+              02 · Wie es funktioniert
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
@@ -431,18 +453,24 @@ function HowItWorks() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap gap-4">
+        <div className="mt-12 flex flex-wrap gap-4">
           <a
-            href="/avv"
+            href="/datenschutz-generator"
             className="btn-primary inline-flex h-12 items-center gap-2 px-7 font-body text-[14px] font-medium tracking-tight"
           >
-            AVV-Generator starten →
+            Datenschutz erstellen →
           </a>
           <a
-            href="/vvt"
+            href="/agb-generator"
             className="btn-ghost inline-flex h-12 items-center gap-2 px-6 font-body text-[14px] font-medium"
           >
-            VVT-Generator starten →
+            AGB-Generator →
+          </a>
+          <a
+            href="/cookie-banner-generator"
+            className="btn-ghost inline-flex h-12 items-center gap-2 px-6 font-body text-[14px] font-medium"
+          >
+            Cookie-Banner →
           </a>
         </div>
       </Container>
@@ -501,18 +529,18 @@ function PhotoSection() {
 
 function Comparison() {
   const rows = [
-    { label: "Zeitaufwand", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", vorlage: "2–4 Stunden" },
-    { label: "Kosten", compliflow: "Kostenlos", anwalt: "300–800 €/h", vorlage: "0 € + Risiko" },
-    { label: "Alle Pflichtfelder (Art. 28)", compliflow: "Ja — geführt", anwalt: "Ja", vorlage: "Oft unvollständig" },
-    { label: "Datenschutz", compliflow: "100 % lokal", anwalt: "Per E-Mail / Upload", vorlage: "Lokal" },
-    { label: "Kein Account nötig", compliflow: "Ja", anwalt: "Nein", vorlage: "Ja" },
-    { label: "Sofort verfügbar", compliflow: "Ja", anwalt: "Termin nötig", vorlage: "Ja" },
+    { label: "Zeitaufwand pro Dokument", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", erecht24: "30–60 Minuten" },
+    { label: "Kosten pro Doku-Paket",    compliflow: "0 €",           anwalt: "800–2.500 €", erecht24: "9,90 €/Monat" },
+    { label: "Updates bei Gesetzesänderungen", compliflow: "Schon eingebaut (AI Act, SCHUFA 2026)", anwalt: "Nachschuss-Honorar", erecht24: "Im Abo enthalten" },
+    { label: "Datenhaltung",            compliflow: "100 % im Browser, kein Upload", anwalt: "Mail-Anhänge, Anwaltsserver", erecht24: "US-Server, SCCs" },
+    { label: "Account-Pflicht",         compliflow: "Nein",            anwalt: "—",            erecht24: "Ja, mit Newsletter" },
+    { label: "Sonderfälle (KI, SCHUFA, HinSchG)", compliflow: "40+ vorgefertigt", anwalt: "Ja, im Honorar", erecht24: "Bedingt" },
   ];
 
   return (
     <section className="border-t border-line bg-surface">
-      <Container className="py-24 lg:py-32">
-        <div className="mb-14 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+      <Container className="py-20 lg:py-24">
+        <div className="mb-12 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
               03 · Vergleich
@@ -520,10 +548,13 @@ function Comparison() {
           </div>
           <div className="col-span-12 lg:col-span-8">
             <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
-              Warum nicht einfach zum Anwalt?
+              Anwalt, eRecht24 oder Compliflow?
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
-              Compliflow ist keine Rechtsberatung — aber für Standarddokumente nach Art. 28 und Art. 30 DSGVO sind geführte Vorlagen mit allen Pflichtfeldern für die meisten Selbstständigen die sinnvollere Wahl als Word-Vorlagen ohne Struktur.
+              Compliflow ist keine Rechtsberatung — aber für Standarddokumente
+              nach DSGVO, TDDDG, DDG und BGB ist ein strukturierter Wizard mit
+              vorgefertigten Sonderfällen für die meisten Selbstständigen der
+              effizienteste Weg.
             </p>
           </div>
         </div>
@@ -543,7 +574,7 @@ function Comparison() {
                   Anwalt
                 </th>
                 <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded w-[22%]">
-                  Word-Vorlage
+                  eRecht24
                 </th>
               </tr>
             </thead>
@@ -563,7 +594,7 @@ function Comparison() {
                     {row.anwalt}
                   </td>
                   <td className="py-4 font-body text-[14px] text-ink-faded">
-                    {row.vorlage}
+                    {row.erecht24}
                   </td>
                 </tr>
               ))}
@@ -573,7 +604,9 @@ function Comparison() {
         </ScrollReveal>
 
         <div className="mt-8 border-t border-line pt-6 font-body text-[13px] leading-relaxed text-ink-faded">
-          Compliflow ersetzt keine individuelle Rechtsberatung. Bei Sonderfällen (besondere Datenkategorien nach Art. 9, Drittlandtransfers, behördliche Prüfungen) einen Datenschutzanwalt einschalten.
+          Compliflow ersetzt keine individuelle Rechtsberatung. Bei Sonderfällen
+          (Art. 9-Daten, komplexe Drittlandtransfers, laufende behördliche
+          Prüfungen) lass es einen Datenschutzanwalt prüfen.
         </div>
       </Container>
     </section>
@@ -721,7 +754,7 @@ function Faq() {
         <div className="grid grid-cols-12 gap-y-10 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              05 · Häufige Fragen
+              04 · Häufige Fragen
             </p>
             <h2 className="mt-4 balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[42px]">
               Was Leute uns am häufigsten fragen.
@@ -810,7 +843,7 @@ function Footer() {
               Stuttgart.
             </p>
             <p className="mt-6 font-body text-[14px] text-ink-faded">
-              <Countdown variant="compact" for="cookie-banner" /> bis Cookie-Banner (Tool 3).
+              7 Generatoren live — Stand 2026 mit AI Act + SCHUFA-Reform.
             </p>
           </div>
 
@@ -830,7 +863,27 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/cookie-banner" className="link-underline hover:text-ink">
+                <a href="/impressum-generator" className="link-underline hover:text-ink">
+                  Impressum-Generator
+                </a>
+              </li>
+              <li>
+                <a href="/datenschutz-generator" className="link-underline hover:text-ink">
+                  Datenschutz-Generator
+                </a>
+              </li>
+              <li>
+                <a href="/widerrufsbelehrung-generator" className="link-underline hover:text-ink">
+                  Widerrufsbelehrung
+                </a>
+              </li>
+              <li>
+                <a href="/agb-generator" className="link-underline hover:text-ink">
+                  AGB-Generator
+                </a>
+              </li>
+              <li>
+                <a href="/cookie-banner-generator" className="link-underline hover:text-ink">
                   Cookie-Banner
                 </a>
               </li>

@@ -161,7 +161,7 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     paragraphs: [
       `(1) Folgende Kategorien personenbezogener Daten werden verarbeitet: ${datenLabels.join(", ") || "—"}.`,
       hatBesondereKategorie(data)
-        ? `(2) Es werden besondere Kategorien personenbezogener Daten nach Art. 9 DSGVO verarbeitet. Der Auftragsverarbeiter trifft hierfür zusätzliche Schutzmaßnahmen im Sinne des Art. 9 Abs. 2 lit. b DSGVO sowie eine ausdrücklich dokumentierte erweiterte Vertraulichkeitsverpflichtung der mit der Verarbeitung befassten Personen. Die Verarbeitung erfolgt nur, soweit eine Rechtsgrundlage nach Art. 9 Abs. 2 DSGVO besteht.`
+        ? `(2) Es werden besondere Kategorien personenbezogener Daten nach Art. 9 DSGVO verarbeitet. Der Auftragsverarbeiter trifft hierfür zusätzliche Schutzmaßnahmen im Sinne des Art. 9 Abs. 2 lit. b DSGVO sowie eine ausdrücklich dokumentierte erweiterte Vertraulichkeitsverpflichtung der mit der Verarbeitung befassten Personen. Der Verantwortliche stellt sicher, dass eine geeignete Rechtsgrundlage nach Art. 9 Abs. 2 DSGVO für die Verarbeitung besteht, und teilt diese dem Auftragsverarbeiter auf Anfrage mit. Der Auftragsverarbeiter ist nicht verpflichtet, die Rechtsgrundlage eigenständig zu prüfen.`
         : `(2) Es werden keine besonderen Kategorien personenbezogener Daten im Sinne des Art. 9 DSGVO verarbeitet. Sollte sich dies während der Vertragslaufzeit ändern, ist eine schriftliche Vertragsergänzung erforderlich.`,
       `(3) Folgende Kategorien betroffener Personen sind von der Verarbeitung erfasst: ${personenLabels.join(", ") || "—"}.`,
     ],
@@ -174,7 +174,7 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     title: "Weisungsbefugnis des Verantwortlichen",
     paragraphs: [
       `(1) Der Auftragsverarbeiter verarbeitet personenbezogene Daten ausschließlich auf dokumentierte Weisung des Verantwortlichen — auch in Bezug auf die Übermittlung personenbezogener Daten an ein Drittland oder eine internationale Organisation —, es sei denn, er ist hierzu nach dem Recht der Union oder der Mitgliedstaaten, dem er unterliegt, verpflichtet. In einem solchen Fall teilt der Auftragsverarbeiter dem Verantwortlichen diese rechtlichen Anforderungen vor der Verarbeitung mit, sofern das betreffende Recht eine solche Mitteilung nicht wegen eines wichtigen öffentlichen Interesses verbietet (Art. 28 Abs. 3 lit. a DSGVO).`,
-      `(2) Mündliche Weisungen sind unverzüglich schriftlich oder in Textform (z.B. E-Mail) zu bestätigen.`,
+      `(2) Mündliche Weisungen sind unverzüglich in schriftlicher oder dokumentierter elektronischer Form zu bestätigen. Als ausreichend gelten insbesondere: E-Mail, signiertes Ticket im Issue-Tracking-System, dokumentiertes Web-Formular, sowie qualifizierte elektronische Signaturen nach eIDAS-Verordnung (Art. 28 Abs. 9 DSGVO).`,
       `(3) Der Auftragsverarbeiter informiert den Verantwortlichen unverzüglich, falls er der Auffassung ist, dass eine Weisung gegen die DSGVO oder andere Datenschutzvorschriften der Union oder der Mitgliedstaaten verstößt. Bis zur Bestätigung oder Änderung der Weisung ist der Auftragsverarbeiter berechtigt, die Durchführung der Weisung auszusetzen.`,
       `(4) Vertretungsberechtigt für die Erteilung von Weisungen ist auf Seiten des Verantwortlichen: ${ag.vertretung || "—"} (${ag.email || "—"}).`,
     ],
@@ -186,10 +186,11 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     title: "Pflichten des Auftragsverarbeiters",
     paragraphs: [
       `(1) Der Auftragsverarbeiter verarbeitet die personenbezogenen Daten ausschließlich im Rahmen dieser Vereinbarung und der erteilten Weisungen des Verantwortlichen, es sei denn, er ist gesetzlich zur Verarbeitung verpflichtet.`,
-      `(2) Der Auftragsverarbeiter gewährleistet, dass die zur Verarbeitung der personenbezogenen Daten befugten Personen sich zur Vertraulichkeit verpflichtet haben oder einer angemessenen gesetzlichen Verschwiegenheitspflicht unterliegen. Die Verpflichtung wird dokumentiert und bleibt auch nach Beendigung des Anstellungsverhältnisses bestehen (Art. 28 Abs. 3 lit. b DSGVO).`,
+      `(2) Der Auftragsverarbeiter gewährleistet, dass die zur Verarbeitung der personenbezogenen Daten befugten Personen sich zur Vertraulichkeit verpflichtet haben oder einer angemessenen gesetzlichen Verschwiegenheitspflicht unterliegen. Die Verpflichtung wird durch eine separate Verschwiegenheitserklärung mit Datum und Unterschrift, alternativ durch eine entsprechende Klausel im Anstellungsvertrag mit dokumentiertem Belehrungsnachweis, festgehalten. Die Verpflichtung bleibt auch nach Beendigung des Anstellungsverhältnisses bestehen (Art. 28 Abs. 3 lit. b DSGVO).`,
       `(3) Der Auftragsverarbeiter unterstützt den Verantwortlichen unter Berücksichtigung der Art der Verarbeitung und der ihm zur Verfügung stehenden Informationen bei der Einhaltung der in den Artikeln 32 bis 36 DSGVO genannten Pflichten (Art. 28 Abs. 3 lit. f DSGVO).`,
       `(4) Sofern der Auftragsverarbeiter gesetzlich zur Bestellung eines Datenschutzbeauftragten verpflichtet ist (Art. 37 DSGVO, § 38 BDSG), teilt er dessen Namen und Kontaktdaten dem Verantwortlichen unverzüglich mit. Ist der Auftragsverarbeiter nicht zur Bestellung verpflichtet, benennt er gleichwohl einen festen Ansprechpartner für Datenschutzfragen, der dem Verantwortlichen für Auskünfte zur Verfügung steht.`,
       `(5) Der Auftragsverarbeiter führt ein Verzeichnis aller Kategorien von im Auftrag des Verantwortlichen durchgeführten Tätigkeiten der Verarbeitung gemäß Art. 30 Abs. 2 DSGVO und stellt es auf Anfrage der Aufsichtsbehörde bereit.`,
+      `(6) Setzt der Auftragsverarbeiter zur Verarbeitung der personenbezogenen Daten KI-Systeme im Sinne der Verordnung (EU) 2024/1689 (EU AI Act) ein, informiert er den Verantwortlichen vorab schriftlich oder in dokumentierter Textform über Art, Zweck und Risikoklasse des Systems. Ab dem 02.08.2026 gelten zusätzlich die Pflichten nach Art. 25 AI Act (Verantwortung in der KI-Wertschöpfungskette); der Auftragsverarbeiter stellt dem Verantwortlichen auf Anfrage die nach Anhang XI bzw. Anhang XII des AI Acts erforderlichen Informationen bereit. Bei Einsatz von Hochrisiko-KI-Systemen nach Anhang III AI Act ist die ausdrückliche vorherige Zustimmung des Verantwortlichen erforderlich.`,
     ],
   });
 
@@ -219,8 +220,8 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
       `(4) Kommt ein vom Auftragsverarbeiter herangezogener Subunternehmer seinen Datenschutzpflichten nicht nach, so haftet der Auftragsverarbeiter gegenüber dem Verantwortlichen für die Einhaltung der Pflichten dieses Subunternehmers in vollem Umfang (Art. 28 Abs. 4 Satz 2 DSGVO).`,
       `(5) Setzt der Auftragsverarbeiter einen Subunternehmer trotz wirksamen Widerspruchs des Verantwortlichen ein oder werden die geeigneten Garantien nach Abs. 6 nicht eingehalten, ist der Verantwortliche zur außerordentlichen Kündigung dieses Vertrags sowie des Hauptvertrags berechtigt. § 12 dieses Vertrags findet entsprechend Anwendung.`,
       drittSubs.length > 0
-        ? `(6) Bei Subunternehmern in einem Drittland (vgl. Anlage 2) gewährleistet der Auftragsverarbeiter, dass geeignete Garantien im Sinne des Art. 46 DSGVO bestehen — insbesondere Standardvertragsklauseln in der Fassung des Durchführungsbeschlusses (EU) 2021/914, ein Angemessenheitsbeschluss oder bindende interne Datenschutzvorschriften (BCR). Zusätzlich werden — soweit nach Abwägung der Rechtslage des Drittlandes erforderlich — ergänzende Schutzmaßnahmen nach den Vorgaben des EuGH-Urteils „Schrems II" (Rs. C-311/18) umgesetzt, insbesondere Verschlüsselung, Pseudonymisierung oder vertragliche Garantien.`
-        : `(6) Eine Verarbeitung in einem Drittland außerhalb der EU/EWR durch Subunternehmer findet derzeit nicht statt. Vor jeder Drittlandverarbeitung sind die Voraussetzungen der Art. 44 ff. DSGVO einzuhalten.`,
+        ? `(6) Bei Subunternehmern in einem Drittland (vgl. Anlage 2) gewährleistet der Auftragsverarbeiter, dass geeignete Garantien im Sinne des Art. 46 DSGVO bestehen — insbesondere Standardvertragsklauseln in der Fassung des Durchführungsbeschlusses (EU) 2021/914, ein Angemessenheitsbeschluss oder bindende interne Datenschutzvorschriften (BCR). Zusätzlich führt der Auftragsverarbeiter vor jeder Drittlandverarbeitung ein Transfer Impact Assessment (TIA) nach den EDPB Recommendations 01/2020 durch, dokumentiert das Ergebnis und stellt es dem Verantwortlichen auf Anfrage zur Verfügung. Soweit nach der Abwägung erforderlich, werden ergänzende Schutzmaßnahmen nach den Vorgaben des EuGH-Urteils „Schrems II" (Rs. C-311/18) umgesetzt — insbesondere Verschlüsselung, Pseudonymisierung oder vertragliche Garantien.`
+        : `(6) Eine Verarbeitung in einem Drittland außerhalb der EU/EWR durch Subunternehmer findet derzeit nicht statt. Vor jeder Drittlandverarbeitung sind die Voraussetzungen der Art. 44 ff. DSGVO einzuhalten, einschließlich der Durchführung eines Transfer Impact Assessment (TIA) nach EDPB Recommendations 01/2020.`,
     ],
   });
 
@@ -233,7 +234,7 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
       paragraphs: [
         `(1) Da der Auftragsverarbeiter seinen Sitz außerhalb der EU/des EWR hat (${an.land || "—"}), erfolgt die Verarbeitung in einem Drittland im Sinne des Kapitels V der DSGVO.`,
         `(2) Die Parteien schließen zur Absicherung der Verarbeitung die EU-Standardvertragsklauseln (Durchführungsbeschluss (EU) 2021/914, Modul 2 — Verantwortlicher an Auftragsverarbeiter) ab. Diese gelten als Bestandteil dieses Vertrags und gehen bei Widerspruch den Regelungen dieses Vertrags vor.`,
-        `(3) Der Auftragsverarbeiter sichert zu, ergänzende Schutzmaßnahmen nach Maßgabe der Empfehlungen des Europäischen Datenschutzausschusses (EDPB Recommendations 01/2020) umzusetzen, soweit dies zur Gewährleistung eines im Vergleich zur EU/EWR gleichwertigen Schutzniveaus erforderlich ist.`,
+        `(3) Der Auftragsverarbeiter führt vor Beginn der Verarbeitung ein Transfer Impact Assessment (TIA) nach Maßgabe der EDPB Recommendations 01/2020 durch und dokumentiert dessen Ergebnis schriftlich. Auf dieser Grundlage sichert der Auftragsverarbeiter zu, ergänzende Schutzmaßnahmen umzusetzen, soweit dies zur Gewährleistung eines im Vergleich zur EU/EWR gleichwertigen Schutzniveaus erforderlich ist (insbesondere starke Verschlüsselung mit ausschließlicher Schlüsselkontrolle in der EU, Pseudonymisierung oder ergänzende vertragliche Garantien gegen unverhältnismäßige Behördenzugriffe).`,
       ],
     });
   }
@@ -254,7 +255,7 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     number: "§ 8",
     title: "Meldung von Datenschutzverletzungen",
     paragraphs: [
-      `(1) Der Auftragsverarbeiter meldet dem Verantwortlichen unverzüglich, spätestens jedoch innerhalb von 24 Stunden nach Bekanntwerden, jede Verletzung des Schutzes personenbezogener Daten (Art. 33 Abs. 2 DSGVO).`,
+      `(1) Der Auftragsverarbeiter meldet dem Verantwortlichen unverzüglich nach Bekanntwerden jede Verletzung des Schutzes personenbezogener Daten (Art. 33 Abs. 2 DSGVO). Die Parteien vereinbaren als vertragliche Höchstfrist für diese Meldung eine Frist von 24 Stunden ab Bekanntwerden des Vorfalls. Diese vertragliche Verschärfung soll dem Verantwortlichen ermöglichen, seine eigene 72-Stunden-Meldepflicht gegenüber der Aufsichtsbehörde nach Art. 33 Abs. 1 DSGVO einzuhalten.`,
       `(2) Die Meldung enthält mindestens: Art der Verletzung, betroffene Datenkategorien, Anzahl betroffener Personen und Datensätze (sofern möglich), Folgen der Verletzung, ergriffene oder vorgeschlagene Abhilfemaßnahmen sowie Kontaktdaten der Ansprechperson.`,
       `(3) Der Auftragsverarbeiter unterstützt den Verantwortlichen bei der Erfüllung der Meldepflichten gemäß Art. 33 und 34 DSGVO sowie bei einer ggf. erforderlichen Information der Aufsichtsbehörde und/oder der betroffenen Personen.`,
     ],
@@ -290,7 +291,8 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     paragraphs: [
       `(1) Die Parteien haften gegenüber betroffenen Personen entsprechend der in Art. 82 DSGVO getroffenen Regelung. Eine Haftung mehrerer Verantwortlicher oder Auftragsverarbeiter im Außenverhältnis richtet sich nach Art. 82 Abs. 4 und 5 DSGVO.`,
       `(2) Im Innenverhältnis haftet jede Partei nur bei Vorsatz oder grober Fahrlässigkeit, soweit gesetzlich zulässig. Bei leichter Fahrlässigkeit ist die Haftung auf den vorhersehbaren, vertragstypischen Schaden begrenzt. Diese Haftungsbegrenzung gilt nicht für Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie nicht für Ansprüche nach dem Produkthaftungsgesetz.`,
-      `(3) Soweit der Hauptvertrag zwischen den Parteien abweichende oder ergänzende Haftungsregelungen enthält, gelten diese ergänzend.`,
+      `(3) Bußgelder der Aufsichtsbehörden nach Art. 83 DSGVO werden im Innenverhältnis von derjenigen Partei getragen, deren konkreter Pflichtverstoß zur Verhängung des Bußgeldes geführt hat. Bei gemeinsamem Verschulden erfolgt eine anteilige Aufteilung im Verhältnis der jeweiligen Verschuldensanteile. Die Parteien informieren einander unverzüglich über behördliche Verfahren, die zu einem Bußgeld führen können, und gewähren sich vor Stellungnahmen Gelegenheit zur Mitwirkung.`,
+      `(4) Soweit der Hauptvertrag zwischen den Parteien abweichende oder ergänzende Haftungsregelungen enthält, gelten diese ergänzend.`,
     ],
   });
 

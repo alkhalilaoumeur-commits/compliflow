@@ -109,6 +109,50 @@ export default function DatenschutzPage() {
           garantie="Standardvertragsklauseln (SCCs) · EU-Region (Frankfurt)"
           link="https://supabase.com/privacy"
         />
+        <DienstCard
+          name="Sendinblue GmbH (Brevo)"
+          land="Deutschland (Frankfurt) · EU"
+          zweck="Newsletter-Versand und Email-Marketing mit Double-Opt-In-Verfahren (§ 7 UWG). Übermittelt: E-Mail-Adresse, Anmeldezeitpunkt, Quelle (Generator-Name), Opt-In-Bestätigung."
+          garantie="EU-EWR · AVV abgeschlossen · Double-Opt-In Pflicht"
+          link="https://www.brevo.com/de/datenschutz/"
+        />
+      </LegalSection>
+
+      <LegalSection title="Newsletter / Email-Liste (Brevo)" number="§ 4a">
+        <p>
+          Wenn du dich über einen unserer Generator-Tools oder ein Newsletter-Formular für
+          unsere Email-Liste anmeldest, verarbeiten wir deine E-Mail-Adresse zum Zweck der
+          Information über DSGVO-Updates und neue Compliflow-Tools.
+        </p>
+        <p>
+          <strong className="text-ink">Anbieter:</strong> Sendinblue GmbH (Brevo),
+          Köpenicker Straße 126, 10179 Berlin, Deutschland — Server in der EU.
+        </p>
+        <p>
+          <strong className="text-ink">Datenkategorien:</strong> E-Mail-Adresse, Zeitpunkt der
+          Anmeldung, Bestätigungszeitpunkt (Double-Opt-In), Quelle (welcher Generator hat
+          dich auf die Liste geführt), IP-Adresse beim Anmelde-Vorgang.
+        </p>
+        <p>
+          <strong className="text-ink">Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO
+          (Einwilligung). Du erklärst diese ausdrücklich durch die Checkbox im Anmeldeformular
+          und bestätigst sie durch Klick auf den Link in der Bestätigungs-Mail
+          (Double-Opt-In, gesetzlich verpflichtend gem. § 7 Abs. 2 UWG).
+        </p>
+        <p>
+          <strong className="text-ink">Speicherdauer:</strong> bis zum Widerruf der Einwilligung,
+          maximal 3 Jahre nach letzter Interaktion (Öffnen / Klick). Du kannst dich jederzeit
+          über den Abmelde-Link am Ende jeder Mail oder per Mail an{" "}
+          <a href="mailto:hello@compliflow.de" className="text-accent underline">
+            hello@compliflow.de
+          </a>{" "}
+          abmelden.
+        </p>
+        <p>
+          <strong className="text-ink">Auftragsverarbeitungsvertrag:</strong> Mit Brevo
+          besteht ein Vertrag nach Art. 28 DSGVO. Die Verarbeitung erfolgt ausschließlich in
+          der EU.
+        </p>
       </LegalSection>
 
       <LegalSection title="Wartelisten- und Kontakt-Formular" number="§ 5">

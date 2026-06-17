@@ -23,39 +23,11 @@ export function VvtWizardShell() {
   const reset = useVvtStore((s) => s.reset);
   const data = useVvtStore((s) => s.data);
   const [hydrated, setHydrated] = useState(false);
-  const [successBanner, setSuccessBanner] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("success") === "true") {
-      const sessionId = params.get("session_id");
-      window.history.replaceState({}, "", "/vvt");
-      setStep("abschluss");
-
-      if (sessionId) {
-        fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
-          .then((r) => r.json())
-          .then((d: { valid?: boolean; tool?: string }) => {
-            if (d.valid && d.tool === "vvt") {
-              localStorage.setItem("compliflow_pro_vvt", sessionId);
-              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-                (window as any).plausible("Pro Purchase Confirmed", { props: { tool: "vvt" } });
-              }
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            setSuccessBanner(true);
-            setTimeout(() => setSuccessBanner(false), 8000);
-          });
-      } else {
-        setSuccessBanner(true);
-        setTimeout(() => setSuccessBanner(false), 8000);
-      }
-    }
-  }, [setStep]);
+  }, []);
 
   const stepIdx = getVvtStepIndex(currentStep);
   const progress = getVvtProgress(currentStep);
@@ -162,26 +134,6 @@ export function VvtWizardShell() {
           </span>
         </div>
       </header>
-
-      {/* Pro Success Banner */}
-      {successBanner && (
-        <div className="bg-accent text-bg px-6 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-widest">Pro aktiviert</span>
-            <span className="font-body text-[13px]">
-              VVT Pro freigeschaltet — dein Download enthält kein Compliflow-Branding.
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setSuccessBanner(false)}
-            className="font-mono text-[11px] opacity-70 hover:opacity-100 transition flex-shrink-0"
-            aria-label="Schließen"
-          >
-            ✕
-          </button>
-        </div>
-      )}
 
       {/* Step Title */}
       <div

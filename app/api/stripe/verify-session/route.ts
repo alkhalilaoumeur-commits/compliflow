@@ -40,14 +40,24 @@ export async function GET(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-    const isValid =
+    // Watermark-Removal-Validation (neues Modell)
+    const isWatermark =
+      session.payment_status === "paid" &&
+      session.status === "complete" &&
+      session.metadata?.product === "watermark_removal" &&
+      !!session.metadata?.doc_type;
+
+    // Legacy AVV/VVT-Pro-Validation (für bestehende Sessions weiterhin akzeptiert)
+    const isLegacyPro =
       session.payment_status === "paid" &&
       session.status === "complete" &&
       !!session.metadata?.tool;
 
     return NextResponse.json({
-      valid: isValid,
-      tool: isValid ? session.metadata?.tool : null,
+      valid: isWatermark || isLegacyPro,
+      product: isWatermark ? "watermark_removal" : (isLegacyPro ? "legacy_pro" : null),
+      docType: isWatermark ? session.metadata?.doc_type : null,
+      tool: isLegacyPro ? session.metadata?.tool : null,
     });
   } catch {
     return NextResponse.json({ valid: false }, { status: 400 });

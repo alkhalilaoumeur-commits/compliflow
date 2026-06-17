@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { VvtFormData } from "@/lib/vvt/types";
 
 type Props = {
@@ -10,30 +10,13 @@ type Props = {
 
 export function VvtPdfDownload({ data, disabled }: Props) {
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [isPro, setIsPro] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("compliflow_pro_vvt");
-    if (stored) {
-      fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(stored)}`)
-        .then((r) => r.json())
-        .then((d: { valid?: boolean; tool?: string }) => {
-          if (d.valid && d.tool === "vvt") {
-            setIsPro(true);
-          } else {
-            localStorage.removeItem("compliflow_pro_vvt");
-          }
-        })
-        .catch(() => {}); // Netzwerkfehler: kein Pro-Zugang — sicherer als optimistisch zu erlauben
-    }
-  }, []);
 
   const handleDownload = async () => {
     if (state === "loading" || disabled) return;
     setState("loading");
     try {
       const { renderVvtPdf } = await import("@/lib/vvt/pdf/vvt-document");
-      const blob = await renderVvtPdf(data, isPro);
+      const blob = await renderVvtPdf(data);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -45,7 +28,7 @@ export function VvtPdfDownload({ data, disabled }: Props) {
       a.click();
       URL.revokeObjectURL(url);
       if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-        (window as any).plausible("PDF Downloaded", { props: { tool: "vvt", tier: isPro ? "pro" : "free" } });
+        (window as any).plausible("PDF Downloaded", { props: { tool: "vvt", tier: "free" } });
       }
       setState("idle");
     } catch (err) {
@@ -57,14 +40,6 @@ export function VvtPdfDownload({ data, disabled }: Props) {
 
   return (
     <div className="flex flex-col gap-2">
-      {isPro && (
-        <div className="flex items-center gap-2 bg-accent-soft border border-[rgba(31,61,47,0.3)] px-4 py-2">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
-            Pro aktiv
-          </span>
-          <span className="font-body text-[12px] text-ink-dim">— PDF ohne Compliflow-Branding</span>
-        </div>
-      )}
       <button
         type="button"
         onClick={handleDownload}
@@ -85,36 +60,10 @@ export function VvtPdfDownload({ data, disabled }: Props) {
           </>
         )}
       </button>
-      {!isPro && (
-        <div className="mt-1 border border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.04)] p-4 flex flex-col gap-3">
-          <div className="flex items-start gap-2.5">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-accent mt-0.5">Pro</span>
-            <div>
-              <p className="font-body text-[13px] text-ink font-medium leading-snug">PDF ohne Compliflow-Branding</p>
-              <p className="font-body text-[12px] text-ink-dim mt-0.5">
-                Für Mandanten, Geschäftspartner oder behördliche Einreichungen — 29 € einmalig, kein Abo.
-              </p>
-            </div>
-          </div>
-          <a
-            href="/preise"
-            onClick={() => {
-              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-                (window as any).plausible("Pro Upgrade Click", { props: { tool: "vvt" } });
-              }
-            }}
-            className="inline-flex h-10 w-full items-center justify-center gap-2 border border-accent font-mono text-[11px] uppercase tracking-widest text-accent hover:bg-accent hover:text-bg transition"
-          >
-            Pro kaufen — 29 €
-          </a>
-        </div>
-      )}
-      {isPro && (
-        <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-faded">
-          Art. 30 DSGVO · {data.taetigkeiten.length} Tätigkeit
-          {data.taetigkeiten.length !== 1 ? "en" : ""}
-        </p>
-      )}
+      <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-faded">
+        Art. 30 DSGVO · {data.taetigkeiten.length} Tätigkeit
+        {data.taetigkeiten.length !== 1 ? "en" : ""}
+      </p>
     </div>
   );
 }

@@ -379,56 +379,29 @@ const styles = StyleSheet.create({
     fontSize: 7.5,
     color: COLOR.faded,
   },
-  // Wasserzeichen
-  watermark: {
-    position: "absolute",
-    top: "38%",
-    left: 0,
-    right: 0,
-    textAlign: "center",
-    fontSize: 52,
-    fontFamily: "Helvetica-Bold",
-    color: COLOR.accent,
-    opacity: 0.035,
-    letterSpacing: 8,
-    textTransform: "uppercase",
-    transform: "rotate(-35deg)",
-  },
 });
 
-function PageFooter({ data, noBranding }: { data: AvvFormData; noBranding?: boolean }) {
+function PageFooter({ data }: { data: AvvFormData }) {
   const ag = data.auftraggeber.firma || "—";
   const an = data.auftragnehmer.firma || "—";
   return (
-    <>
-      {/* Diagonales Wasserzeichen — auf jeder Seite, nicht entfernbar ohne Quellcode */}
-      {!noBranding && (
-        <Text style={styles.watermark} fixed>
-          Compliflow
-        </Text>
-      )}
-      <View style={styles.footer} fixed>
-        <Text style={styles.footerText}>
-          AVV · {ag} × {an} · {formatDateDE(new Date())}
-        </Text>
-        {!noBranding && (
-          <Text style={styles.footerBranding}>compliflow.de</Text>
-        )}
-        <Text
-          style={styles.footerPage}
-          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-        />
-      </View>
-    </>
+    <View style={styles.footer} fixed>
+      <Text style={styles.footerText}>
+        AVV · {ag} × {an} · {formatDateDE(new Date())}
+      </Text>
+      <Text style={styles.footerBranding}>compliflow.de · made by DRVN</Text>
+      <Text
+        style={styles.footerPage}
+        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+      />
+    </View>
   );
 }
 
 export function AvvPdfDocument({
   data,
-  noBranding = false,
 }: {
   data: AvvFormData;
-  noBranding?: boolean;
 }) {
   const blocks = buildContract(data);
   const anlagen = buildAnlagen(data);
@@ -437,11 +410,7 @@ export function AvvPdfDocument({
   return (
     <Document
       title={`AVV ${data.auftraggeber.firma || "Vertrag"}`}
-      author={
-        noBranding
-          ? data.auftraggeber.firma || "Verantwortlicher"
-          : "Compliflow · compliflow.de"
-      }
+      author="Compliflow · compliflow.de"
       subject="Auftragsverarbeitungsvertrag nach Art. 28 DSGVO"
       language="de"
     >
@@ -522,14 +491,12 @@ export function AvvPdfDocument({
           </View>
         </View>
 
-        {!noBranding && (
-          <View style={styles.coverBranding}>
-            <Text style={styles.coverBrandingText}>
-              Generiert mit Compliflow · compliflow.de
-            </Text>
-          </View>
-        )}
-        <PageFooter data={data} noBranding={noBranding} />
+        <View style={styles.coverBranding}>
+          <Text style={styles.coverBrandingText}>
+            Generiert mit Compliflow · compliflow.de · made by DRVN
+          </Text>
+        </View>
+        <PageFooter data={data} />
       </Page>
 
       {/* ── Inhaltsverzeichnis ───────────────────────────────────── */}
@@ -557,7 +524,7 @@ export function AvvPdfDocument({
           </>
         )}
 
-        <PageFooter data={data} noBranding={noBranding} />
+        <PageFooter data={data} />
       </Page>
 
       {/* ── Vertragstext ─────────────────────────────────────────── */}
@@ -622,7 +589,7 @@ export function AvvPdfDocument({
           </View>
         </View>
 
-        <PageFooter data={data} noBranding={noBranding} />
+        <PageFooter data={data} />
       </Page>
 
       {/* ── Wichtiger Hinweis ─────────────────────────────────────── */}
@@ -659,16 +626,14 @@ export function AvvPdfDocument({
           erfolgt auf eigene Verantwortung der Vertragsparteien.
         </Text>
 
-        {!noBranding && (
-          <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.faded }}>
-            Generiert mit Compliflow am{" "}
-            {data.abschlussDatum
-              ? formatDateDE(data.abschlussDatum)
-              : formatDateDE(new Date())}{" "}
-            · compliflow.de
-          </Text>
-        )}
-        <PageFooter data={data} noBranding={noBranding} />
+        <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.faded }}>
+          Generiert mit Compliflow am{" "}
+          {data.abschlussDatum
+            ? formatDateDE(data.abschlussDatum)
+            : formatDateDE(new Date())}{" "}
+          · compliflow.de · made by DRVN
+        </Text>
+        <PageFooter data={data} />
       </Page>
 
       {/* ── Anlagen ──────────────────────────────────────────────── */}
@@ -753,7 +718,7 @@ export function AvvPdfDocument({
             </View>
           )}
 
-          <PageFooter data={data} noBranding={noBranding} />
+          <PageFooter data={data} />
         </Page>
       ))}
     </Document>

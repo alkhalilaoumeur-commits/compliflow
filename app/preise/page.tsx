@@ -1,101 +1,19 @@
-"use client";
-
-import { useState } from "react";
 import { MobileNav } from "@/components/mobile-nav";
+import { ToolsDropdown } from "@/components/tools-dropdown";
 
-type CheckoutState = "idle" | "loading" | "error";
-type ToolType = "avv" | "vvt";
-
-function ConsentModal({
-  tool,
-  onConfirm,
-  onCancel,
-  isLoading,
-}: {
-  tool: ToolType;
-  onConfirm: () => void;
-  onCancel: () => void;
-  isLoading: boolean;
-}) {
-  const [checked, setChecked] = useState(false);
-  const label = tool === "avv" ? "AVV-Vertrag" : "Verarbeitungsverzeichnis";
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="consent-title"
-    >
-      <div
-        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
-        onClick={onCancel}
-        aria-hidden
-      />
-      <div className="relative w-full max-w-lg bg-surface border border-line shadow-lg p-8 flex flex-col gap-6">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
-            Pflichthinweis · § 356 Abs. 5 BGB
-          </p>
-          <h2
-            id="consent-title"
-            className="font-display text-[22px] font-medium leading-snug tracking-[-0.01em] text-ink"
-          >
-            Sofort-Download — Widerrufsrecht
-          </h2>
-          <p className="mt-3 font-body text-[14px] leading-[1.65] text-ink-dim">
-            Du bestellst einen digitalen Inhalt ({label}) zum sofortigen Download. Nach
-            Zahlungseingang wird die Datei sofort bereitgestellt. Dabei erlischt dein
-            gesetzliches Widerrufsrecht.
-          </p>
-        </div>
-
-        <label className="flex items-start gap-3 cursor-pointer group">
-          <input
-            type="checkbox"
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-            className="mt-1 h-4 w-4 flex-shrink-0 accent-accent cursor-pointer"
-          />
-          <span className="font-body text-[13px] leading-[1.6] text-ink-dim group-hover:text-ink transition">
-            Ich habe die{" "}
-            <a href="/agb" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">AGB</a>
-            {" "}und die{" "}
-            <a href="/widerruf" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">Widerrufsbelehrung</a>
-            {" "}gelesen. Ich stimme ausdrücklich zu, dass die Ausführung des Vertrags
-            sofort beginnt, und bestätige, dass ich dadurch mein Widerrufsrecht verliere
-            (§ 356 Abs. 5 BGB).
-          </span>
-        </label>
-
-        <div className="flex flex-col-reverse sm:flex-row gap-3">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="btn-ghost h-11 flex-1 font-mono text-[11px] uppercase tracking-widest"
-          >
-            Abbrechen
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            disabled={!checked || isLoading}
-            className="btn-primary h-11 flex-1 font-mono text-[11px] uppercase tracking-widest disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Weiterleitung …" : `${label} kaufen — 29 €`}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+export const metadata = {
+  title: "Preise — Compliflow",
+  description:
+    "Alle Generatoren sind kostenlos. 0,99€ einmalig pro Dokument, wenn du den Compliflow-Hinweis im Footer entfernen willst.",
+};
 
 export default function PreisePage() {
   return (
     <main id="main-content" className="relative z-10 min-h-screen">
       <Header />
       <Hero />
-      <Tiers />
+      <Watermark />
+      <Funding />
       <FAQ />
       <Footer />
     </main>
@@ -115,17 +33,12 @@ function Header() {
           </span>
         </a>
         <nav className="flex items-center gap-5 md:gap-7">
-          <a href="/avv" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
-            AVV-Generator
-          </a>
-          <a href="/vvt" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
-            VVT-Generator
-          </a>
-          <a href="/blog" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline">
+          <ToolsDropdown />
+          <a href="/blog" className="hidden font-body text-[14px] text-ink-dim hover:text-ink md:inline transition">
             Blog
           </a>
           <a
-            href="/avv"
+            href="/datenschutz-generator"
             className="hidden md:inline-flex btn-primary h-9 items-center justify-center gap-2 px-4 font-body text-[13px] font-medium tracking-tight"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-bg" aria-hidden="true" />
@@ -143,48 +56,38 @@ function Hero() {
     <section className="border-b border-line">
       <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-20 lg:py-28">
         <div className="grid grid-cols-12 gap-y-8 lg:gap-x-12">
-          <div className="col-span-12 lg:col-span-7">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6 rise">
+          <div className="col-span-12 lg:col-span-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6">
               Preise
             </p>
-            <h1
-              className="font-display text-[40px] font-medium leading-[1.05] tracking-[-0.02em] text-ink rise sm:text-[56px] lg:text-[72px]"
-              style={{ animationDelay: "60ms" }}
-            >
-              Bußgeld bis{" "}
-              <span className="italic text-accent">20 Mio. €</span>
-              {" "}— oder{" "}
-              <span className="italic">29 € einmalig.</span>
+            <h1 className="font-display text-[40px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[56px] lg:text-[72px]">
+              <span className="italic text-accent">0 €.</span>{" "}
+              Für alle 7 Generatoren.
             </h1>
-          </div>
-          <div className="col-span-12 lg:col-span-5 lg:flex lg:items-end">
-            <div
-              className="rise border border-[rgba(226,221,209,0.6)] bg-[rgba(31,61,47,0.05)] p-6 border-l-2 border-l-accent"
-              style={{ animationDelay: "120ms" }}
-            >
-              <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
-                Realität ohne Compliflow
-              </p>
-              <ul className="space-y-2 font-body text-[14px] text-ink-dim">
-                <li className="flex gap-2">
-                  <span className="text-accent" aria-hidden>—</span>
-                  <span>Datenschutzanwalt: 300–800 € pro Stunde</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-accent" aria-hidden>—</span>
-                  <span>AVV manuell: 3–8 Stunden Recherche</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-accent" aria-hidden>—</span>
-                  <span>VVT ohne Tool: 1–2 Arbeitstage</span>
-                </li>
-                <li className="flex gap-2 pt-2 border-t border-line">
-                  <span className="text-accent" aria-hidden>—</span>
-                  <span>
-                    <strong className="text-ink">Compliflow:</strong> 10–20 Minuten
-                  </span>
-                </li>
-              </ul>
+            <p className="mt-8 measure font-body text-[17px] leading-[1.65] text-ink-dim md:text-[18px]">
+              Alle Compliflow-Generatoren sind kostenlos: Impressum, Datenschutz, AVV,
+              VVT, Widerruf, AGB und Cookie-Banner. Kein Abo, kein Pro-Modell, keine
+              Funktionen hinter einer Paywall. Auch das PDF bekommst du komplett.
+            </p>
+            <p className="mt-4 measure font-body text-[15px] leading-[1.65] text-ink-faded md:text-[16px]">
+              Optional: <strong className="text-ink">0,99&nbsp;€ einmalig pro Dokument</strong>,
+              wenn du den dezenten &bdquo;Erstellt mit Compliflow&ldquo;-Hinweis im Footer
+              entfernen willst.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a
+                href="/datenschutz-generator"
+                className="btn-primary inline-flex h-12 items-center justify-center gap-2 px-7 font-body text-[15px] font-medium tracking-tight"
+              >
+                Datenschutz-Generator starten →
+              </a>
+              <a
+                href="/agb-generator"
+                className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-body text-[14px] font-medium gap-2"
+              >
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                AGB-Generator starten
+              </a>
             </div>
           </div>
         </div>
@@ -193,289 +96,157 @@ function Hero() {
   );
 }
 
-function Tiers() {
+function Watermark() {
+  return (
+    <section className="border-b border-line bg-bg-soft">
+      <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-20 lg:py-24">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded mb-10">
+          01 · Eine optionale Mikro-Zahlung
+        </p>
+        <div className="grid grid-cols-12 gap-y-10 lg:gap-x-12">
+          <div className="col-span-12 lg:col-span-6">
+            <h2 className="font-display text-[32px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[40px]">
+              0,99 € pro Dokument — falls du den Footer-Hinweis weg willst.
+            </h2>
+            <p className="mt-5 measure font-body text-[16px] leading-[1.65] text-ink-dim">
+              Jedes generierte Dokument enthält am Ende einen kleinen Hinweis
+              &bdquo;Erstellt mit Compliflow&ldquo;. Wer das nicht möchte, kann es für
+              0,99 € einmalig entfernen. Kein Abo, keine Folgekosten.
+            </p>
+            <ul className="mt-6 space-y-2 font-body text-[14px] text-ink-dim">
+              <li>• Bezahlung via Stripe (Karte, Apple Pay, Google Pay)</li>
+              <li>• Einmalig pro Dokument-Typ — Datenschutz + AGB = 2× 0,99 €</li>
+              <li>• Gespeichert in deinem Browser (kein Account)</li>
+              <li>• Widerruf erlischt mit Beginn der Bereitstellung (§ 356 Abs. 5 BGB)</li>
+            </ul>
+          </div>
+
+          <div className="col-span-12 lg:col-span-6">
+            <div className="border border-line bg-bg p-8">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-4">
+                Beispiel
+              </p>
+              <div className="border border-line bg-bg-soft p-5 mb-3">
+                <p className="font-body text-[13px] text-ink leading-relaxed">
+                  &hellip; Diese Datenschutzerklärung ist aktuell gültig und hat den
+                  Stand vom 16. Juni 2026.
+                </p>
+                <p className="mt-3 font-body text-[11px] text-ink-faded">
+                  Erstellt mit{" "}
+                  <span className="underline">Compliflow</span> — kostenloser
+                  Datenschutz-Generator
+                </p>
+              </div>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded mb-1">
+                ↓ Nach Watermark-Removal
+              </p>
+              <div className="border border-line bg-bg-soft p-5">
+                <p className="font-body text-[13px] text-ink leading-relaxed">
+                  &hellip; Diese Datenschutzerklärung ist aktuell gültig und hat den
+                  Stand vom 16. Juni 2026.
+                </p>
+                <p className="mt-3 font-body text-[11px] text-ink-faded italic">
+                  (kein Footer-Hinweis)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Funding() {
   return (
     <section className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-20 lg:py-28">
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded mb-12">
-        01 · Preismodell
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded mb-10">
+        02 · Wie wir finanziert sind
       </p>
+      <div className="grid grid-cols-12 gap-y-10 lg:gap-x-12">
+        <div className="col-span-12 lg:col-span-5">
+          <h2 className="font-display text-[32px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[40px]">
+            Transparent statt versteckt.
+          </h2>
+          <p className="mt-5 measure font-body text-[16px] leading-[1.65] text-ink-dim">
+            Compliflow finanziert sich über drei Wege — keiner davon kostet dich etwas,
+            wenn du nicht willst.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-12 gap-y-6 lg:gap-x-6">
-        <FreeTier />
-        <ProTier />
-        <AgencyTier />
+        <div className="col-span-12 lg:col-span-7 flex flex-col gap-6">
+          <FundingCard
+            number="01"
+            title="DRVN — die Firma hinter Compliflow"
+            body="Compliflow wird von DRVN Automatisations (Al-Khalil Aoumeur, Stuttgart) entwickelt. DRVN baut DSGVO-konforme Webseiten und Automatisierungs-Lösungen für kleine Unternehmen. Compliflow ist unser Beitrag an die Community — gleichzeitig lernen Menschen DRVN kennen, manche werden später Webseiten-Kunden."
+          />
+          <FundingCard
+            number="02"
+            title="Optionales 0,99 € Watermark-Removal"
+            body="Wer den dezenten Compliflow-Hinweis aus seinem generierten Dokument entfernen will, zahlt einmalig 0,99 € pro Dokument-Typ. Mehr als 99 % unserer Nutzer brauchen das nicht — die Free-Version ist voll funktional."
+          />
+          <FundingCard
+            number="03"
+            title="Premium Embed-Service (in Vorbereitung)"
+            body="In Kürze: Automatisch aktualisierte Datenschutzerklärung, Impressum und Cookie-Banner als JS-Widget. Bei DSGVO-Änderungen aktualisieren wir zentral — alle eingebundenen Webseiten zeigen sofort die neue Version. Geplant zu 7 € / Monat. Heute schon: Free-HTML-Copy-Paste."
+          />
+        </div>
       </div>
 
-      <p className="mt-8 font-mono text-[10px] uppercase tracking-widest text-ink-faded">
-        Kleinunternehmer § 19 UStG — keine MwSt. ausgewiesen · Keine versteckten Kosten · Sofortiger Download
+      <p className="mt-12 font-mono text-[10px] uppercase tracking-widest text-ink-faded">
+        Kein Tracking · Kein Konto · Daten bleiben in deinem Browser
       </p>
     </section>
   );
 }
 
-function FreeTier() {
+function FundingCard({
+  number,
+  title,
+  body,
+}: {
+  number: string;
+  title: string;
+  body: string;
+}) {
   return (
-    <div className="col-span-12 lg:col-span-4 border border-line bg-surface p-8 flex flex-col gap-6">
-      <div>
-        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded mb-2">
-          01 / 03
-        </p>
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
-            0 €
-          </span>
-          <span className="font-body text-[14px] text-ink-faded">für immer</span>
-        </div>
-        <h2
-          className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2"
-        >
-          Kostenlos
-        </h2>
-        <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
-          Für Selbstständige und Einzelpersonen, die schnell compliant werden wollen.
-        </p>
-      </div>
-
-      <ul className="flex flex-col gap-3 border-t border-line pt-6">
-        {[
-          "AVV-Generator (Art. 28 DSGVO)",
-          "VVT-Generator (Art. 30 DSGVO)",
-          "PDF mit Compliflow-Branding-Footer",
-          "Unbegrenzte Nutzung",
-          "Daten nur im Browser (kein Server)",
-          "10 Branchen-Vorlagen für VVT",
-        ].map((item) => (
-          <li key={item} className="flex items-start gap-3 text-[14px] text-ink-dim">
-            <span className="text-accent mt-0.5" aria-hidden>—</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-auto flex flex-col gap-3">
-        <a
-          href="/avv"
-          className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full"
-        >
-          Jetzt kostenlos starten
-        </a>
-        <a
-          href="/vvt"
-          className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full"
-        >
-          VVT-Generator öffnen
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function ProTier() {
-  const [modal, setModal] = useState<ToolType | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const handleCheckout = async (tool: ToolType) => {
-    setIsLoading(true);
-    setError(false);
-    if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-      (window as any).plausible("Checkout Started", { props: { tool } });
-    }
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tool }),
-      });
-      const data = await res.json() as { url?: string; error?: string };
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setIsLoading(false);
-        setError(true);
-        setModal(null);
-        setTimeout(() => setError(false), 4000);
-      }
-    } catch {
-      setIsLoading(false);
-      setError(true);
-      setModal(null);
-      setTimeout(() => setError(false), 4000);
-    }
-  };
-
-  return (
-    <>
-      {modal && (
-        <ConsentModal
-          tool={modal}
-          onConfirm={() => handleCheckout(modal)}
-          onCancel={() => { setModal(null); setIsLoading(false); }}
-          isLoading={isLoading}
-        />
-      )}
-
-      <div className="col-span-12 lg:col-span-4 lg:-mt-6 lg:-mb-6 border-2 border-accent bg-surface shadow-lg p-8 flex flex-col gap-6 relative">
-        <div className="absolute -top-px left-8 right-8 h-[2px] bg-accent" aria-hidden />
-        <div className="absolute -top-[26px] left-8">
-          <span className="bg-accent text-bg font-mono text-[10px] uppercase tracking-widest px-3 py-1">
-            Empfohlen
-          </span>
-        </div>
-
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
-            02 / 03
-          </p>
-          <div className="flex items-baseline gap-2">
-            <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
-              29 €
-            </span>
-            <span className="font-body text-[14px] text-ink-faded">einmalig pro Dokument</span>
-          </div>
-          <h2 className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2">
-            Pro Dokument
-          </h2>
-          <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
-            Ein professionelles Dokument ohne Branding — für Mandanten, Geschäftspartner oder behördliche Einreichungen.
-          </p>
-        </div>
-
-        <ul className="flex flex-col gap-3 border-t border-[rgba(31,61,47,0.2)] pt-6">
-          {[
-            "Alles aus Kostenlos",
-            "PDF ohne Compliflow-Branding",
-            "DSGVO-konformes Deckblatt",
-            "Sofort-Download nach Zahlung",
-            "Einmalige Zahlung — kein Abo",
-            "Gültig für ein Dokument (AVV oder VVT)",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-3 text-[14px] text-ink-dim">
-              <span className="text-accent mt-0.5" aria-hidden>—</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-auto flex flex-col gap-3">
-          {error && (
-            <p className="font-mono text-[10px] uppercase tracking-widest text-warn text-center">
-              Fehler — bitte erneut versuchen
-            </p>
-          )}
-          <button
-            type="button"
-            onClick={() => setModal("avv")}
-            disabled={isLoading}
-            className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
-          >
-            AVV Pro kaufen — 29 €
-          </button>
-          <button
-            type="button"
-            onClick={() => setModal("vvt")}
-            disabled={isLoading}
-            className="btn-primary inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full disabled:opacity-60 disabled:cursor-wait"
-          >
-            VVT Pro kaufen — 29 €
-          </button>
-          <div className="flex items-center justify-center gap-3 pt-2">
-            <span className="font-mono text-[9px] uppercase tracking-widest text-ink-faded">Zahlung via</span>
-            {["Visa", "Mastercard", "Amex", "SEPA"].map((m) => (
-              <span key={m} className="border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-ink-faded bg-bg">
-                {m}
-              </span>
-            ))}
-            <span className="font-mono text-[9px] uppercase tracking-widest text-ink-faded">· Stripe</span>
-          </div>
-          <p className="text-center font-mono text-[10px] text-ink-faded">
-            Einmalige Zahlung · Kein Abo · Sofort-Download
-          </p>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function AgencyTier() {
-  return (
-    <div className="col-span-12 lg:col-span-4 border border-dashed border-line bg-[rgba(240,236,226,0.4)] p-8 flex flex-col gap-6 opacity-80">
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faded">
-            03 / 03
-          </p>
-          <span className="font-mono text-[9px] uppercase tracking-widest bg-[rgba(154,93,26,0.1)] text-warn px-2 py-0.5">
-            In Entwicklung
-          </span>
-        </div>
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[44px] font-medium tracking-[-0.02em] text-ink">
-            19 €
-          </span>
-          <span className="font-body text-[14px] text-ink-faded">/ Monat · ab Sep 2026</span>
-        </div>
-        <h2
-          className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink mt-2"
-        >
-          Agency
-        </h2>
-        <p className="font-body text-[14px] leading-[1.6] text-ink-dim mt-2">
-          Für Datenschutzberater und Agenturen, die regelmäßig Dokumente für Mandanten erstellen.
-        </p>
-      </div>
-
-      <ul className="flex flex-col gap-3 border-t border-line pt-6">
-        {[
-          "Unbegrenzte Dokumente ohne Branding",
-          "Multi-Mandanten-Verwaltung",
-          "Prioritäts-Support per E-Mail",
-          "Jahresrechnung auf Anfrage",
-          "Geplant: DATEV-Export",
-        ].map((item) => (
-          <li key={item} className="flex items-start gap-3 text-[14px] text-ink-faded">
-            <span className="text-ink-faded mt-0.5" aria-hidden>—</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-auto">
-        <a
-          href="mailto:hello@compliflow.de?subject=Agency-Plan-Interesse"
-          className="btn-ghost inline-flex h-12 items-center justify-center px-6 font-mono text-[12px] uppercase tracking-widest w-full opacity-70"
-        >
-          Interesse melden
-        </a>
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-ink-faded text-center">
-          Noch nicht buchbar · Launch September 2026
-        </p>
-      </div>
-    </div>
+    <article className="border border-line bg-surface p-7">
+      <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+        {number}
+      </p>
+      <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.01em] text-ink">
+        {title}
+      </h3>
+      <p className="mt-4 font-body text-[15px] leading-[1.65] text-ink-dim">{body}</p>
+    </article>
   );
 }
 
 function FAQ() {
   const items = [
     {
-      q: "Was ist der Unterschied zwischen kostenlos und Pro?",
-      a: "Die kostenlose Version generiert ein vollständiges, rechtlich korrektes PDF — mit einem kleinen Footer 'Erstellt mit Compliflow'. Pro entfernt dieses Branding. Inhaltlich ist kein Unterschied: beide Versionen erfüllen Art. 28 bzw. Art. 30 DSGVO.",
+      q: "Wirklich komplett kostenlos? Wo ist der Haken?",
+      a: "Es gibt keinen Haken. Alle 7 Generatoren — Impressum, Datenschutz, AVV, VVT, Widerruf, AGB, Cookie-Banner — sind und bleiben gratis. Auch das PDF ist vollständig nutzbar. Im Footer steht 'Erstellt mit Compliflow' — falls du das nicht willst, gibt es das Watermark-Removal für 0,99 €.",
+    },
+    {
+      q: "Was ist das 0,99 € Watermark-Removal genau?",
+      a: "Jedes generierte Dokument hat einen dezenten Footer-Hinweis 'Erstellt mit Compliflow'. Wer den nicht möchte, kann ihn einmalig pro Dokument-Typ für 0,99 € entfernen. Bezahlung läuft über Stripe (Karte, Apple Pay, Google Pay). Der Status wird in deinem Browser gespeichert — beim Browser-Wechsel kein automatischer Übertrag.",
     },
     {
       q: "Muss ich ein Konto erstellen?",
-      a: "Nein. Weder kostenlos noch Pro erfordern ein Konto. Deine Daten bleiben ausschließlich in deinem Browser — wir speichern nichts auf unseren Servern.",
+      a: "Nein. Du brauchst weder Email noch Konto. Deine Eingaben bleiben in deinem Browser, wir speichern nichts auf unseren Servern. Optional kannst du dich für DSGVO-Updates auf unsere Email-Liste eintragen — Double-Opt-In, jederzeit abbestellbar.",
     },
     {
-      q: "Was ist, wenn ich sowohl AVV als auch VVT ohne Branding möchte?",
-      a: "Du kaufst beide separat für je 29 € (einmalig). Alternativ: beim Agency-Plan (19 €/Monat) sind beide unbegrenzt inklusive.",
+      q: "Wie verdient ihr dann Geld?",
+      a: "Drei Wege: (1) DRVN Automatisations als Mutterfirma — viele Compliflow-Nutzer werden später DRVN-Kunden für DSGVO-Webseiten. (2) Optionales 0,99 € Watermark-Removal. (3) In Kürze: Premium Embed-Service mit Auto-Update bei DSGVO-Änderungen (7 € / Monat). Affiliate-Werbung lehnen wir bewusst ab — sie würde das Vertrauen kosten.",
     },
     {
-      q: "Wie sicher ist die Zahlung?",
-      a: "Zahlung läuft über Stripe — PCI-DSS-zertifiziert, DSGVO-konform, alle gängigen Kreditkarten möglich (Visa, Mastercard, Amex). Wir sehen keine Zahlungsdaten.",
+      q: "Sind die Dokumente rechtlich korrekt?",
+      a: "Die Vorlagen decken alle gesetzlich vorgeschriebenen Pflichtinhalte ab: Art. 13/14 + Art. 28 + Art. 30 DSGVO, § 25 TDDDG, § 5 DDG, §§ 305-310 BGB, Anhang § 312f BGB. Aktuell gehalten zu Stand 2026 (AI Act, SCHUFA-Reform, § 26 BDSG-neu, BGH-Cookie-Urteile). Sie ersetzen keine individuelle Rechtsberatung in Sonderfällen.",
     },
     {
-      q: "Sind die Dokumente juristisch geprüft?",
-      a: "Die Vorlagen decken alle gesetzlich vorgeschriebenen Pflichtinhalte nach Art. 28 Abs. 3 und Art. 30 Abs. 1 DSGVO ab — strukturiert und vollständig. Sie ersetzen keine individuelle Rechtsberatung in Sonderfällen (Art. 9-Daten, Drittlandtransfers, behördliche Prüfungen).",
+      q: "Was, wenn sich Gesetze ändern?",
+      a: "Wir aktualisieren die Vorlagen, sobald relevante Änderungen anstehen (z. B. EuGH-Urteile, neue Aufsichtsbehörden-Hinweise). Bestehende statische PDFs ändern sich nicht — du erstellst dann einfach ein neues. Für automatische Updates auf deiner laufenden Webseite kommt unser Premium Embed-Service.",
     },
   ];
 
@@ -485,10 +256,10 @@ function FAQ() {
         <div className="grid grid-cols-12 gap-y-10 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              02 · Häufige Fragen
+              03 · Häufige Fragen
             </p>
             <h2 className="mt-4 font-display text-[32px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[40px]">
-              Fragen zu den Preisen.
+              Fragen zum Modell.
             </h2>
             <p className="mt-4 font-body text-[15px] leading-[1.6] text-ink-dim">
               Alle anderen Fragen:{" "}
@@ -531,7 +302,7 @@ function Footer() {
     <footer className="border-t border-line bg-bg">
       <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 py-10">
         <div className="flex flex-col items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded md:flex-row md:items-center">
-          <span>© 2026 Al-Khalil Aoumeur · Compliflow</span>
+          <span>© 2026 Al-Khalil Aoumeur · Compliflow · made by DRVN</span>
           <div className="flex gap-5">
             <a href="/impressum" className="hover:text-ink transition">Impressum</a>
             <a href="/datenschutz" className="hover:text-ink transition">Datenschutz</a>

@@ -28,15 +28,46 @@ const securityHeaders = [
   },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Standalone-Output NUR via ENV-Flag aktivieren.
+//
+// Warum: `output: "standalone"` permanent zu aktivieren erzeugt nach jedem
+// `npm run build` ein .next/standalone-Verzeichnis. Wenn danach `npm run dev`
+// läuft, mischen sich die Standalone-Chunks mit den Dev-Hot-Reload-Chunks und
+// der Webpack-Resolver findet plötzlich Module nicht mehr ("Cannot find module
+// './948.js'") — das "Frontend spinnt"-Problem.
+//
+// Lokal:        BUILD_STANDALONE nicht setzen → normaler Build, dev läuft sauber
+// Production:   BUILD_STANDALONE=1 npm run build (siehe package.json:build:standalone)
+// ─────────────────────────────────────────────────────────────────────────────
+const useStandalone = process.env.BUILD_STANDALONE === "1";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Dev-Only No-Cache-Header
+//
+// Zwingt Browser-Cache in Dev-Mode auf "nie cachen". Verhindert das Problem
+// dass Safari/Chrome eine HTML-Page mit altem CSS-Hash gespeichert hat und nach
+// Hot-Reload nicht mehr funktioniert (klassischer "Frontend spackt"-Bug).
+//
+// In Production: normales Cache-Verhalten, sonst wird die Seite quälend langsam.
+// ─────────────────────────────────────────────────────────────────────────────
+const devNoCacheHeaders = isProd
+  ? []
+  : [
+      { key: "Cache-Control", value: "no-store, no-cache, must-revalidate, max-age=0" },
+      { key: "Pragma", value: "no-cache" },
+      { key: "Expires", value: "0" },
+    ];
+
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  output: "standalone",
+  ...(useStandalone ? { output: "standalone" } : {}),
   async headers() {
     return [
       {
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: [...securityHeaders, ...devNoCacheHeaders],
       },
     ];
   },

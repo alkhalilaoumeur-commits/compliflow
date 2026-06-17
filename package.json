@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "rm -rf .next/standalone .next/server .next/cache/webpack",
     "dev": "next dev",
+    "dev:fresh": "lsof -ti:3000 | xargs kill -9 2>/dev/null; rm -rf .next && next dev",
+    "kill": "lsof -ti:3000 | xargs kill -9 2>/dev/null; echo 'Port 3000 free'",
     "build": "next build",
+    "build:standalone": "BUILD_STANDALONE=1 next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next node_modules/.cache"
   },
   "engines": {
     "node": ">=20.0.0"

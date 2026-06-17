@@ -52,11 +52,11 @@ export const PRIMER = [
 export const FAQS = [
   {
     q: "Was ist Compliflow?",
-    a: "Compliflow ist eine Suite aus drei Tools, die DSGVO-Pflicht-Dokumente für deutsche Selbstständige und Agenturen automatisch erstellen: AVV-Generator, Verarbeitungsverzeichnis und Cookie-Banner. Kein Account nötig, keine Daten-Upload, alles läuft lokal in deinem Browser.",
+    a: "Compliflow ist eine Suite aus 7 Generatoren, die DSGVO- und Compliance-Pflicht-Dokumente für deutsche Selbstständige und Agenturen automatisch erstellen: Impressum, Datenschutzerklärung, AVV, Verarbeitungsverzeichnis, Widerrufsbelehrung, AGB und Cookie-Banner. Kein Account nötig, keine Daten-Upload, alles läuft lokal in deinem Browser.",
   },
   {
     q: "Welche Tools sind live?",
-    a: "Tool 1 (AVV-Generator nach Art. 28 DSGVO) und Tool 2 (Verarbeitungsverzeichnis nach Art. 30 DSGVO) sind jetzt live und komplett kostenlos nutzbar. Tool 3 (Cookie-Banner) kommt am 19. August 2026. Wartelisten-Anmelder bekommen 34 % Early-Bird-Rabatt.",
+    a: "Alle 7 Generatoren sind live und komplett kostenlos nutzbar: Impressum-Generator (§ 5 DDG), Datenschutz-Generator (Art. 13/14 DSGVO), AVV-Generator (Art. 28 DSGVO), Verarbeitungsverzeichnis (Art. 30 DSGVO), Widerrufsbelehrung (Anhang § 312f BGB), AGB-Generator (3 Varianten, §§ 305-310 BGB) und Cookie-Banner (BGH-2025-konform, § 25 TDDDG).",
   },
   {
     q: "Brauche ich als Solo-Selbstständiger wirklich einen AVV?",

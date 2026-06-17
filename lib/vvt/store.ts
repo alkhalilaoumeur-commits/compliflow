@@ -1,6 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { VvtFormData, VvtWizardStep, Verarbeitungstaetigkeit } from "./types";
+import type {
+  VvtFormData,
+  VvtWizardStep,
+  VvtModus,
+  PflichtCheck,
+  Verarbeitungstaetigkeit,
+  AuftraggeberMandant,
+} from "./types";
 import { VVT_WIZARD_STEPS } from "./types";
 
 type VvtStore = {
@@ -9,7 +16,12 @@ type VvtStore = {
   setStep: (step: VvtWizardStep) => void;
   goNext: () => void;
   goPrev: () => void;
+  setModus: (modus: VvtModus) => void;
+  patchPflichtCheck: (partial: Partial<PflichtCheck>) => void;
   patchVerantwortlicher: (partial: Partial<VvtFormData["verantwortlicher"]>) => void;
+  addAuftraggeber: (a: AuftraggeberMandant) => void;
+  updateAuftraggeber: (id: string, partial: Partial<AuftraggeberMandant>) => void;
+  removeAuftraggeber: (id: string) => void;
   addTaetigkeit: (t: Verarbeitungstaetigkeit) => void;
   updateTaetigkeit: (id: string, partial: Partial<Verarbeitungstaetigkeit>) => void;
   removeTaetigkeit: (id: string) => void;
@@ -19,9 +31,19 @@ type VvtStore = {
 
 const todayIso = () => new Date().toISOString().split("T")[0];
 
+const INITIAL_PFLICHT_CHECK: PflichtCheck = {
+  mitarbeiter250Plus: false,
+  nichtNurGelegentlich: true,
+  besondereKategorien: false,
+  risikoFuerBetroffene: false,
+};
+
 const initialData: VvtFormData = {
-  schemaVersion: 1,
-  verantwortlicher: { land: "Deutschland", hatDsb: false },
+  schemaVersion: 2,
+  modus: "verantwortlicher",
+  pflichtCheck: INITIAL_PFLICHT_CHECK,
+  verantwortlicher: { land: "Deutschland", hatDsb: false, hatEuVertreter: false },
+  auftraggeber: [],
   taetigkeiten: [],
   erstelltAm: todayIso(),
   letztAktualisiert: todayIso(),
@@ -45,11 +67,49 @@ export const useVvtStore = create<VvtStore>()(
           set({ currentStep: VVT_WIZARD_STEPS[idx - 1].id });
         }
       },
+      setModus: (modus) =>
+        set((state) => ({
+          data: { ...state.data, modus, letztAktualisiert: todayIso() },
+        })),
+      patchPflichtCheck: (partial) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            pflichtCheck: { ...state.data.pflichtCheck, ...partial },
+            letztAktualisiert: todayIso(),
+          },
+        })),
       patchVerantwortlicher: (partial) =>
         set((state) => ({
           data: {
             ...state.data,
             verantwortlicher: { ...state.data.verantwortlicher, ...partial },
+            letztAktualisiert: todayIso(),
+          },
+        })),
+      addAuftraggeber: (a) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            auftraggeber: [...state.data.auftraggeber, a],
+            letztAktualisiert: todayIso(),
+          },
+        })),
+      updateAuftraggeber: (id, partial) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            auftraggeber: state.data.auftraggeber.map((a) =>
+              a.id === id ? { ...a, ...partial } : a
+            ),
+            letztAktualisiert: todayIso(),
+          },
+        })),
+      removeAuftraggeber: (id) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            auftraggeber: state.data.auftraggeber.filter((a) => a.id !== id),
             letztAktualisiert: todayIso(),
           },
         })),
@@ -86,21 +146,51 @@ export const useVvtStore = create<VvtStore>()(
           list.splice(to, 0, moved);
           return { data: { ...state.data, taetigkeiten: list } };
         }),
-      reset: () => set({ currentStep: "unternehmen", data: { ...initialData, erstelltAm: todayIso() } }),
+      reset: () =>
+        set({
+          currentStep: "unternehmen",
+          data: { ...initialData, erstelltAm: todayIso() },
+        }),
     }),
     {
-      name: "compliflow-vvt-v1",
-      version: 1,
-      migrate: (persisted) => {
+      name: "compliflow-vvt-v2",
+      version: 2,
+      migrate: (persisted, version) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const p = persisted as any;
         if (!p || !p.data) return { currentStep: "unternehmen", data: initialData };
+
+        // Migration von v1 → v2: fehlende Pflichtfelder mit Defaults füllen
+        const migratedData: VvtFormData = {
+          ...initialData,
+          ...p.data,
+          schemaVersion: 2,
+          modus: p.data.modus ?? "verantwortlicher",
+          pflichtCheck: { ...INITIAL_PFLICHT_CHECK, ...(p.data.pflichtCheck ?? {}) },
+          verantwortlicher: {
+            land: "Deutschland",
+            hatDsb: false,
+            hatEuVertreter: false,
+            ...(p.data.verantwortlicher ?? {}),
+          },
+          auftraggeber: p.data.auftraggeber ?? [],
+          // Migration der Tätigkeiten: neue Pflichtfelder mit Defaults
+          taetigkeiten: (p.data.taetigkeiten ?? []).map(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (t: any): Verarbeitungstaetigkeit => ({
+              ...t,
+              datenherkunft: t.datenherkunft ?? "direkt",
+              dsfaStatus: t.dsfaStatus ?? "nicht-erforderlich",
+              kiSysteme: t.kiSysteme ?? [],
+            })
+          ),
+        };
+        if (version === undefined) {
+          // No-op: hinweise abfangen
+        }
         return {
           currentStep: p.currentStep ?? "unternehmen",
-          data: {
-            ...initialData,
-            ...p.data,
-          },
+          data: migratedData,
         };
       },
     }
@@ -118,7 +208,18 @@ export function getVvtProgress(step: VvtWizardStep) {
 
 export function isUnternehmenValid(data: VvtFormData): boolean {
   const v = data.verantwortlicher;
-  return !!(v.bezeichnung && v.name && v.strasse && v.plz && v.ort && v.email);
+  const baseValid = !!(v.bezeichnung && v.name && v.strasse && v.plz && v.ort && v.email);
+  if (!baseValid) return false;
+  // Wenn EU-Vertreter aktiviert: Pflichtfelder prüfen
+  if (v.hatEuVertreter) {
+    const r = v.euVertreter;
+    if (!r || !r.bezeichnung || !r.anschrift || !r.email) return false;
+  }
+  // Wenn Auftragsverarbeiter-Modus: mind. 1 Auftraggeber-Mandant
+  if (data.modus === "auftragsverarbeiter" && data.auftraggeber.length === 0) {
+    return false;
+  }
+  return true;
 }
 
 export function isTaetigkeitenValid(data: VvtFormData): boolean {

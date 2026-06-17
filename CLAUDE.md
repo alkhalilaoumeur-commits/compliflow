@@ -40,6 +40,42 @@ Komponenten-Wiederverwendung über alle Tools maximieren — Wizard-Engine, PDF-
 
 ---
 
+## Build-System — HARTE REGEL
+
+**Niemals `output: "standalone"` permanent in `next.config.js` setzen.**
+
+Warum: Permanenter Standalone-Output erzeugt nach jedem `npm run build` einen Standalone-Build im `.next/standalone/`. Wenn danach `npm run dev` läuft, mischen sich diese Production-Chunks mit den Dev-Hot-Reload-Chunks → der Webpack-Resolver findet plötzlich Module nicht mehr (z. B. `"Cannot find module './948.js'"`). Das ist das wiederkehrende "Frontend spinnt"-Problem.
+
+**Korrekte Lösung (ist im Code):**
+
+```js
+// next.config.js
+const useStandalone = process.env.BUILD_STANDALONE === "1";
+const nextConfig = {
+  ...(useStandalone ? { output: "standalone" } : {}),
+  // ...
+};
+```
+
+**Scripts in `package.json`:**
+
+| Befehl | Zweck |
+|---|---|
+| `npm run dev` | Lokaler Dev-Server (mit `predev`-Cleanup gegen Reste alter Builds) |
+| `npm run build` | Normaler Build (kompatibel mit Dev) |
+| `npm run build:standalone` | Production-Build für Docker/Coolify (`BUILD_STANDALONE=1`) |
+| `npm run clean` | Volles Reset von `.next` + Caches |
+
+**Für Coolify-Deployment:** Build-Command auf `npm run build:standalone` setzen ODER Build-ENV `BUILD_STANDALONE=1` im Coolify-Service eintragen.
+
+**Wenn das Frontend wieder spinnt:**
+
+```bash
+npm run clean && npm run dev
+```
+
+---
+
 ## Tech-Stack (Pflicht)
 
 | Layer | Tool |
@@ -174,13 +210,36 @@ Wir bauen ein DSGVO-Tool — unsere Seite muss 110% sauber sein.
 
 ---
 
-## Pricing (AKTUELL LIVE)
+## Pricing — STRATEGIE-PIVOT 2026-06-13
 
-- **Free:** AVV/VVT kostenlos mit Compliflow-Branding-Footer
-- **Pro Single:** 29€ einmalig pro Dokument (AVV oder VVT separat) — LIVE via Stripe
-- **Pro Agency:** 19€/Monat — Button geht zu mailto:hello@compliflow.de (NOCH NICHT BUCHBAR)
-- Widerruf-Consent-Modal vor Checkout (§ 356 Abs. 5 BGB — gesetzlich Pflicht) ✅
-- Stripe Price IDs: `STRIPE_PRICE_AVV_PRO` und `STRIPE_PRICE_VVT_PRO` (beide in Coolify setzen)
+> ⚠️ **Pro-Tier verworfen.** Vollständige Begründung in `docs/MONETIZATION-STRATEGY.md` und
+> `~/vault/agency/business-center/21-compliflow-monetarisierungs-strategie.md`.
+
+**Aktuelles Modell ab Launch 17.06.2026:**
+- **Alles 100% gratis** — kein Pro-Tier, kein Footer-Zwang, kein Branding-Lock
+- AVV/VVT/Cookie-Banner ohne jede Paywall
+- Monetarisierung kommt NICHT vom AVV-Tool, sondern aus:
+  1. **Affiliate-Links** ab Monat 3-4 (Brevo, Hetzner, Borlabs etc.)
+  2. **Premium-Generatoren** ab Monat 4-7 (AI-Act, HACCP, NIS2 — Nischen ohne Free-Konkurrenz, 29-99€)
+  3. **Email-Liste** als Verkaufskanal für Premium-Tools + Cross-Promotion zu Rechnify
+
+**Historischer Stand (verworfen):** ~~Pro Single 29€, Pro Agency 19€/M~~
+- Stripe-Produkte deaktivieren, NICHT löschen (für Premium-Tools später wiederverwenden)
+- Widerruf-Consent-Modal bleibt im Code (für Premium-Tools später)
+- `verify-session` Route bleibt (für Premium-Tools später)
+
+**Email-Liste (NEU — Pflicht vor Launch):**
+- Brevo als Email-Marketing-Tool (EU-Server, DPA verfügbar, Free-Tier 300 Mails/Tag)
+- Capture vor PDF-Download mit Double-Opt-In
+- Getrennte Marketing-Einwilligung (separate Checkbox)
+- Datenschutzerklärung muss Brevo + Supabase listen (Lücke aus Risiko-Analyse)
+
+**Web-Embed (ZENTRALES Konzept, Update 2026-06-13):**
+- ✅ Impressum-Generator hat bereits HTML-Copy-Paste-Export
+- ⏳ Datenschutz-Generator MUSS gebaut werden (Spiegel zu Impressum, 6-8h Aufwand)
+- ⏳ HTML-Exports brauchen Compliflow-Credit-Backlink (`<a href="https://compliflow.de?ref=embed-X">` am Ende) → SEO-Boost durch Backlink-Maschine
+- 📅 Phase 2 (Monat 2-3): JS-Widget mit Auto-Update als Premium-Tier 7€/M — erster echter Cashflow-Pfad
+- Details: `docs/WEB-EMBED-IMPLEMENTATION.md`
 
 ---
 

@@ -1,13 +1,28 @@
-import type { Verarbeitungstaetigkeit } from "./types";
+import type {
+  Verarbeitungstaetigkeit,
+  Datenherkunft,
+  DsfaStatus,
+  KiSystem,
+} from "./types";
 
 let _counter = 1;
 const uid = () => `t-${Date.now()}-${_counter++}`;
+
+// Template-Definition: optionale neue Pflichtfelder, werden über createActivityFromTemplate gemappt
+type TemplateActivity = Omit<
+  Verarbeitungstaetigkeit,
+  "id" | "datenherkunft" | "dsfaStatus" | "kiSysteme"
+> & {
+  datenherkunft?: Datenherkunft;
+  dsfaStatus?: DsfaStatus;
+  kiSysteme?: KiSystem[];
+};
 
 export type TemplateEntry = {
   id: string;
   bezeichnung: string;
   branche?: string;
-  activity: Omit<Verarbeitungstaetigkeit, "id">;
+  activity: TemplateActivity;
 };
 
 export const VVT_TEMPLATES: TemplateEntry[] = [
@@ -323,6 +338,8 @@ export const VVT_TEMPLATES: TemplateEntry[] = [
       drittlandGarantie: "eu-ewr",
       loeschfristen: "Aggregierte Statistiken: keine Löschfrist (nicht personenbezogen nach Anonymisierung). IP-Adressen werden nicht gespeichert.",
       toms: "Cookiefreies Tracking. IP-Anonymisierung. Keine Weitergabe an Werbenetze. Kein Cross-Site-Tracking. Datenverarbeitung in der EU.",
+      datenherkunft: "indirekt",
+      dsfaStatus: "nicht-erforderlich",
     },
   },
 ];
@@ -337,6 +354,9 @@ export function createActivityFromTemplate(templateId: string): Verarbeitungstae
   return {
     ...template.activity,
     id: `activity-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    datenherkunft: template.activity.datenherkunft ?? "direkt",
+    dsfaStatus: template.activity.dsfaStatus ?? "nicht-erforderlich",
+    kiSysteme: template.activity.kiSysteme ?? [],
     empfaenger: template.activity.empfaenger.map((e) => ({
       ...e,
       id: `emp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -352,10 +372,26 @@ export function createBlankActivity(): Verarbeitungstaetigkeit {
     rechtsgrundlagen: [],
     betroffenengruppen: [],
     datenkategorien: [],
+    datenherkunft: "direkt",
     besondereKategorien: false,
     empfaenger: [],
     drittlandGarantie: "keine-uebermittlung",
     loeschfristen: "",
     toms: "",
+    dsfaStatus: "nicht-erforderlich",
+    kiSysteme: [],
+  };
+}
+
+export function createBlankAuftraggeber() {
+  return {
+    id: `auftraggeber-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    bezeichnung: "",
+    anschrift: "",
+    ansprechpartner: "",
+    email: "",
+    hatDsb: false,
+    avvAbgeschlossen: false,
+    verarbeitungsbeschreibung: "",
   };
 }

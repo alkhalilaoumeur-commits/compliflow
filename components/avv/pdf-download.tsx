@@ -20,23 +20,8 @@ export function PdfDownload() {
   const data = useAvvStore((s) => s.data);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [PDFDownloadLink, setComp] = useState<any>(null);
-  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("compliflow_pro_avv");
-    if (stored) {
-      fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(stored)}`)
-        .then((r) => r.json())
-        .then((d: { valid?: boolean; tool?: string }) => {
-          if (d.valid && d.tool === "avv") {
-            setIsPro(true);
-          } else {
-            localStorage.removeItem("compliflow_pro_avv");
-          }
-        })
-        .catch(() => {}); // Netzwerkfehler: kein Pro-Zugang — sicherer als optimistisch zu erlauben
-    }
-
     let active = true;
     import("@react-pdf/renderer").then((mod) => {
       if (active) setComp(() => mod.PDFDownloadLink);
@@ -91,22 +76,14 @@ export function PdfDownload() {
 
   return (
     <div className="flex flex-col gap-2">
-      {isPro && (
-        <div className="flex items-center gap-2 bg-accent-soft border border-[rgba(31,61,47,0.3)] px-4 py-2">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
-            Pro aktiv
-          </span>
-          <span className="font-body text-[12px] text-ink-dim">— PDF ohne Compliflow-Branding</span>
-        </div>
-      )}
       <div
         onClick={() => {
           if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-            (window as any).plausible("PDF Downloaded", { props: { tool: "avv", tier: isPro ? "pro" : "free" } });
+            (window as any).plausible("PDF Downloaded", { props: { tool: "avv", tier: "free" } });
           }
         }}
       >
-        <PDFDownloadLink document={<AvvPdfDocument data={data} noBranding={isPro} />} fileName={filename}>
+        <PDFDownloadLink document={<AvvPdfDocument data={data} />} fileName={filename}>
           {({ loading }: { loading: boolean }) => (
             <span
               className={
@@ -131,30 +108,6 @@ export function PdfDownload() {
           )}
         </PDFDownloadLink>
       </div>
-      {!isPro && (
-        <div className="mt-1 border border-[rgba(31,61,47,0.25)] bg-[rgba(31,61,47,0.04)] p-4 flex flex-col gap-3">
-          <div className="flex items-start gap-2.5">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-accent mt-0.5">Pro</span>
-            <div>
-              <p className="font-body text-[13px] text-ink font-medium leading-snug">PDF ohne Compliflow-Branding</p>
-              <p className="font-body text-[12px] text-ink-dim mt-0.5">
-                Für Mandanten, Geschäftspartner oder behördliche Einreichungen — 29 € einmalig, kein Abo.
-              </p>
-            </div>
-          </div>
-          <a
-            href="/preise"
-            onClick={() => {
-              if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-                (window as any).plausible("Pro Upgrade Click", { props: { tool: "avv" } });
-              }
-            }}
-            className="inline-flex h-10 w-full items-center justify-center gap-2 border border-accent font-mono text-[11px] uppercase tracking-widest text-accent hover:bg-accent hover:text-bg transition"
-          >
-            Pro kaufen — 29 €
-          </a>
-        </div>
-      )}
     </div>
   );
 }

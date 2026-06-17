@@ -1,9 +1,15 @@
 "use client";
 
-import type { VvtFormData } from "../types";
-import { RECHTSGRUNDLAGEN_LABELS, DRITTLAND_GARANTIE_LABELS } from "../types";
+import type { VvtFormData, Verarbeitungstaetigkeit } from "../types";
+import {
+  RECHTSGRUNDLAGEN_LABELS,
+  DRITTLAND_GARANTIE_LABELS,
+  DATENHERKUNFT_LABELS,
+  DSFA_STATUS_LABELS,
+  KI_RISIKO_LABELS,
+} from "../types";
 
-export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promise<Blob> {
+export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
   const { Document, Page, Text, View, StyleSheet, pdf, Font } = await import(
     "@react-pdf/renderer"
   );
@@ -21,6 +27,14 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
     month: "long",
     year: "numeric",
   });
+
+  const istAuftragsverarbeiter = data.modus === "auftragsverarbeiter";
+  const titel = istAuftragsverarbeiter
+    ? "Verarbeitungsverzeichnis"
+    : "Verarbeitungsverzeichnis";
+  const untertitel = istAuftragsverarbeiter
+    ? "nach Art. 30 Abs. 2 DSGVO (Auftragsverarbeiter)"
+    : "nach Art. 30 Abs. 1 DSGVO (Verantwortlicher)";
 
   const C = {
     ink: "#15171B",
@@ -95,11 +109,7 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       color: "#FFFFFF",
       fontFamily: "Helvetica-Bold",
     },
-    // ── Body ───────────────────────────────────────────────────
-    body: {
-      paddingHorizontal: 36,
-    },
-    // ── Section ────────────────────────────────────────────────
+    body: { paddingHorizontal: 36 },
     sectionLabel: {
       fontSize: 7.5,
       letterSpacing: 2,
@@ -111,12 +121,10 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       borderBottomWidth: 0.5,
       borderBottomColor: C.line,
     },
-    // ── Verantwortlicher ───────────────────────────────────────
     verantwortCard: {
       borderLeftWidth: 3,
       borderLeftColor: C.accent,
       paddingLeft: 12,
-      paddingVertical: 4,
       marginBottom: 16,
       backgroundColor: C.accentLight,
       paddingRight: 12,
@@ -144,7 +152,6 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       color: C.ink,
       lineHeight: 1.4,
     },
-    // ── Warning Box ────────────────────────────────────────────
     warningBox: {
       backgroundColor: C.warning,
       borderLeftWidth: 3,
@@ -158,7 +165,6 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       color: C.warningText,
       lineHeight: 1.55,
     },
-    // ── Activity Card ──────────────────────────────────────────
     activityCard: {
       borderWidth: 0.5,
       borderColor: C.line,
@@ -174,9 +180,7 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       paddingHorizontal: 12,
       paddingVertical: 8,
     },
-    activityHeaderLeft: {
-      flex: 1,
-    },
+    activityHeaderLeft: { flex: 1 },
     activityNumber: {
       fontSize: 7.5,
       color: C.faded,
@@ -199,6 +203,7 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       paddingHorizontal: 6,
       paddingVertical: 3,
       backgroundColor: C.accentLight,
+      marginLeft: 4,
     },
     activityBody: {
       paddingHorizontal: 12,
@@ -209,14 +214,8 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       flexWrap: "wrap",
       gap: 10,
     },
-    field: {
-      width: "47%",
-      marginBottom: 8,
-    },
-    fieldFull: {
-      width: "100%",
-      marginBottom: 8,
-    },
+    field: { width: "47%", marginBottom: 8 },
+    fieldFull: { width: "100%", marginBottom: 8 },
     fieldLabel: {
       fontSize: 7.5,
       color: C.faded,
@@ -224,15 +223,8 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       textTransform: "uppercase",
       marginBottom: 3,
     },
-    fieldValue: {
-      fontSize: 9,
-      lineHeight: 1.55,
-      color: C.ink,
-    },
-    chipRow: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
+    fieldValue: { fontSize: 9, lineHeight: 1.55, color: C.ink },
+    chipRow: { flexDirection: "row", flexWrap: "wrap" },
     chip: {
       fontSize: 8,
       backgroundColor: "#F6F2EA",
@@ -243,6 +235,40 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       marginRight: 4,
       marginBottom: 4,
       color: C.ink,
+    },
+    // ── Übersichtsmatrix ────────────────────────────────────────
+    matrixRow: {
+      flexDirection: "row",
+      borderBottomWidth: 0.5,
+      borderBottomColor: C.line,
+      paddingVertical: 5,
+    },
+    matrixHeaderRow: {
+      flexDirection: "row",
+      backgroundColor: C.accent,
+      paddingVertical: 6,
+      paddingHorizontal: 4,
+    },
+    matrixHeaderCell: {
+      fontSize: 7,
+      color: "#FFFFFF",
+      letterSpacing: 1.2,
+      textTransform: "uppercase",
+      paddingHorizontal: 4,
+    },
+    matrixCell: {
+      fontSize: 8.5,
+      color: C.ink,
+      paddingHorizontal: 4,
+      lineHeight: 1.4,
+    },
+    // ── Auftraggeber-Card (Modus 2) ─────────────────────────────
+    mandantCard: {
+      borderWidth: 0.5,
+      borderColor: C.line,
+      backgroundColor: "#F9F7F4",
+      padding: 10,
+      marginBottom: 8,
     },
     // ── Footer ─────────────────────────────────────────────────
     footer: {
@@ -256,15 +282,8 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
       flexDirection: "row",
       justifyContent: "space-between",
     },
-    footerText: {
-      fontSize: 7.5,
-      color: C.faded,
-      letterSpacing: 0.3,
-    },
-    pageNum: {
-      fontSize: 7.5,
-      color: C.faded,
-    },
+    footerText: { fontSize: 7.5, color: C.faded, letterSpacing: 0.3 },
+    pageNum: { fontSize: 7.5, color: C.faded },
   });
 
   const FieldRow = ({
@@ -292,15 +311,157 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
     </View>
   );
 
+  const renderActivity = (t: Verarbeitungstaetigkeit, idx: number) => {
+    const rgLabels = t.rechtsgrundlagen.map(
+      (rg) => RECHTSGRUNDLAGEN_LABELS[rg] || rg
+    );
+    const drittlandLabel =
+      DRITTLAND_GARANTIE_LABELS[t.drittlandGarantie] || t.drittlandGarantie;
+    const datenherkunftLabel =
+      DATENHERKUNFT_LABELS[t.datenherkunft]?.kurz ?? t.datenherkunft;
+    const dsfaLabel = DSFA_STATUS_LABELS[t.dsfaStatus] ?? t.dsfaStatus;
+
+    return (
+      <View key={t.id} style={styles.activityCard}>
+        <View wrap={false}>
+          <View style={styles.activityHeader}>
+            <View style={styles.activityHeaderLeft}>
+              <Text style={styles.activityNumber}>
+                VVT-{String(idx + 1).padStart(2, "0")} ·{" "}
+                {istAuftragsverarbeiter ? "Art. 30 Abs. 2" : "Art. 30 Abs. 1"} DSGVO
+              </Text>
+              <Text style={styles.activityTitle}>{t.bezeichnung}</Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              {t.besondereKategorien && (
+                <Text style={styles.activityBadge}>ART. 9</Text>
+              )}
+              {t.kiSysteme.length > 0 &&
+                t.kiSysteme.some((k) => k.risikoklasse === "hochrisiko") && (
+                  <Text style={styles.activityBadge}>KI HOCHRISIKO</Text>
+                )}
+              {t.gemeinsamVerantwortlich?.istGemeinsam && (
+                <Text style={styles.activityBadge}>ART. 26</Text>
+              )}
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.activityBody}>
+          <View style={styles.fieldGrid}>
+            <FieldRow label="Zweck der Verarbeitung" value={t.zweck} full />
+            <FieldRow label="Rechtsgrundlage(n)" value={rgLabels} full />
+            {t.berechtigtesInteresseDetail && (
+              <FieldRow
+                label="Berechtigtes Interesse — Kurzbegründung"
+                value={t.berechtigtesInteresseDetail}
+                full
+              />
+            )}
+            {t.lia &&
+              (t.lia.zweckIdentifiziert ||
+                t.lia.notwendigkeitBegruendet ||
+                t.lia.interessenabwaegung) && (
+                <View style={styles.fieldFull}>
+                  <Text style={styles.fieldLabel}>
+                    LIA (Drei-Stufen-Prüfung Art. 6 Abs. 1 lit. f)
+                  </Text>
+                  <Text style={styles.fieldValue}>
+                    <Text style={{ fontFamily: "Helvetica-Bold" }}>1. Interesse: </Text>
+                    {t.lia.zweckIdentifiziert || "—"}
+                    {"\n"}
+                    <Text style={{ fontFamily: "Helvetica-Bold" }}>2. Erforderlichkeit: </Text>
+                    {t.lia.notwendigkeitBegruendet || "—"}
+                    {"\n"}
+                    <Text style={{ fontFamily: "Helvetica-Bold" }}>3. Abwägung: </Text>
+                    {t.lia.interessenabwaegung || "—"}
+                  </Text>
+                </View>
+              )}
+            <FieldRow
+              label="Betroffene Personen"
+              value={t.betroffenengruppen}
+              full
+            />
+            <FieldRow label="Datenkategorien" value={t.datenkategorien} full />
+            <FieldRow label="Datenherkunft (Art. 13/14)" value={datenherkunftLabel} />
+            <FieldRow label="DSFA-Status (Art. 35)" value={dsfaLabel} />
+            {t.gemeinsamVerantwortlich?.istGemeinsam && (
+              <View style={styles.fieldFull}>
+                <Text style={styles.fieldLabel}>
+                  Gemeinsame Verantwortlichkeit (Art. 26 DSGVO)
+                </Text>
+                <Text style={styles.fieldValue}>
+                  <Text style={{ fontFamily: "Helvetica-Bold" }}>Partner: </Text>
+                  {t.gemeinsamVerantwortlich.partner || "—"}
+                  {"\n"}
+                  <Text style={{ fontFamily: "Helvetica-Bold" }}>Zuständigkeiten: </Text>
+                  {t.gemeinsamVerantwortlich.zustaendigkeit || "—"}
+                  {t.gemeinsamVerantwortlich.vereinbarungLink ? (
+                    <>
+                      {"\n"}
+                      <Text style={{ fontFamily: "Helvetica-Bold" }}>Vereinbarung: </Text>
+                      {t.gemeinsamVerantwortlich.vereinbarungLink}
+                    </>
+                  ) : null}
+                </Text>
+              </View>
+            )}
+            <FieldRow
+              label="Empfänger / Auftragsverarbeiter"
+              value={t.empfaenger.map(
+                (e) =>
+                  `${e.name} (${e.land})${e.istAuftragsverarbeiter ? " [AV]" : ""}${e.avvVorhanden ? " ✓AVV" : ""}${e.avvDokumentLink ? " · " + e.avvDokumentLink : ""}`
+              )}
+              full
+            />
+            <FieldRow
+              label="Drittland-Garantie (Art. 44 ff.)"
+              value={
+                drittlandLabel +
+                (t.drittlandDetail ? ` — ${t.drittlandDetail}` : "")
+              }
+              full
+            />
+            <FieldRow label="Löschfristen" value={t.loeschfristen} full />
+            <FieldRow
+              label="Technische und organisatorische Maßnahmen (Art. 32)"
+              value={t.toms}
+              full
+            />
+            {t.kiSysteme.length > 0 && (
+              <View style={styles.fieldFull}>
+                <Text style={styles.fieldLabel}>
+                  KI-Systeme (EU AI Act)
+                </Text>
+                {t.kiSysteme.map((k, i) => (
+                  <Text key={i} style={styles.fieldValue}>
+                    • {k.bezeichnung || "—"} ({k.anbieter || "—"}) —{" "}
+                    {KI_RISIKO_LABELS[k.risikoklasse] ?? k.risikoklasse}
+                  </Text>
+                ))}
+              </View>
+            )}
+            {t.letztGeprueft && (
+              <FieldRow
+                label="Letzte interne Prüfung"
+                value={new Date(t.letztGeprueft).toLocaleDateString("de-DE")}
+              />
+            )}
+            {t.anmerkungen && (
+              <FieldRow label="Anmerkungen" value={t.anmerkungen} full />
+            )}
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   const doc = (
     <Document
       title={`Verarbeitungsverzeichnis — ${v.bezeichnung || "Unbekannt"}`}
-      author={
-        noBranding
-          ? v.bezeichnung || "Unbekannt"
-          : "Compliflow · compliflow.de"
-      }
-      subject="Verarbeitungsverzeichnis nach Art. 30 DSGVO"
+      author="Compliflow · compliflow.de"
+      subject={`Verarbeitungsverzeichnis nach Art. 30 ${istAuftragsverarbeiter ? "Abs. 2" : "Abs. 1"} DSGVO`}
       language="de"
     >
       <Page size="A4" style={styles.page}>
@@ -308,16 +469,16 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
         <View style={styles.headerBand}>
           <View style={styles.headerBandTop}>
             <View>
-              <Text style={styles.headerTitle}>Verarbeitungsverzeichnis</Text>
-              <Text style={styles.headerSub}>nach Art. 30 Abs. 1 DSGVO</Text>
+              <Text style={styles.headerTitle}>{titel}</Text>
+              <Text style={styles.headerSub}>{untertitel}</Text>
             </View>
-            {!noBranding && (
-              <Text style={styles.headerBranding}>Compliflow{"\n"}compliflow.de</Text>
-            )}
+            <Text style={styles.headerBranding}>compliflow.de{"\n"}made by DRVN</Text>
           </View>
           <View style={styles.headerMeta}>
             <View>
-              <Text style={styles.headerMetaLabel}>Verantwortlicher</Text>
+              <Text style={styles.headerMetaLabel}>
+                {istAuftragsverarbeiter ? "Auftragsverarbeiter" : "Verantwortlicher"}
+              </Text>
               <Text style={styles.headerMetaValue}>{v.bezeichnung || "—"}</Text>
             </View>
             <View>
@@ -336,18 +497,21 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
         </View>
 
         <View style={styles.body}>
-          {/* Hinweis-Box */}
           <View style={styles.warningBox}>
             <Text style={styles.warningText}>
-              Hinweis: Dieses Verzeichnis wurde nach Art. 30 Abs. 1 DSGVO erstellt. Es
-              ersetzt keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit
-              einem Datenschutzexperten — insbesondere bei besonderen Kategorien (Art. 9)
-              oder Drittlandübermittlungen (Art. 44 ff.).
+              Hinweis: Dieses Verzeichnis wurde nach Art. 30{" "}
+              {istAuftragsverarbeiter ? "Abs. 2" : "Abs. 1"} DSGVO erstellt. Es ersetzt
+              keine Rechtsberatung. Prüfen Sie die Vollständigkeit gemeinsam mit einem
+              Datenschutzexperten — insbesondere bei besonderen Kategorien (Art. 9),
+              Drittlandübermittlungen (Art. 44 ff.) und KI-Systemen (ab 02.08.2026
+              AI Act anwendbar).
             </Text>
           </View>
 
-          {/* Verantwortlicher */}
-          <Text style={styles.sectionLabel}>I. Verantwortliche Stelle</Text>
+          {/* I. Verantwortliche / Auftragsverarbeitende Stelle */}
+          <Text style={styles.sectionLabel}>
+            I. {istAuftragsverarbeiter ? "Auftragsverarbeitende Stelle" : "Verantwortliche Stelle"}
+          </Text>
           <View style={styles.verantwortCard}>
             <View style={styles.verantwortRow}>
               <View style={styles.verantwortField}>
@@ -382,91 +546,119 @@ export async function renderVvtPdf(data: VvtFormData, noBranding = false): Promi
                   </Text>
                 </View>
               )}
+              {v.hatEuVertreter && v.euVertreter && (
+                <View style={[styles.verantwortField, { width: "100%" }]}>
+                  <Text style={styles.verantwortLabel}>
+                    EU-Vertreter (Art. 27 DSGVO)
+                  </Text>
+                  <Text style={styles.verantwortValue}>
+                    {[v.euVertreter.bezeichnung, v.euVertreter.anschrift, v.euVertreter.email]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
 
-          {/* Tätigkeiten */}
-          <Text style={styles.sectionLabel}>
-            II. Verarbeitungstätigkeiten ({data.taetigkeiten.length})
-          </Text>
+          {/* II. Auftraggeber-Liste (nur bei Modus 2) */}
+          {istAuftragsverarbeiter && data.auftraggeber.length > 0 && (
+            <>
+              <Text style={styles.sectionLabel}>
+                II. Auftraggeber / Verantwortliche (Art. 30 Abs. 2 lit. a)
+              </Text>
+              {data.auftraggeber.map((m, i) => (
+                <View key={m.id} style={styles.mandantCard} wrap={false}>
+                  <Text style={[styles.verantwortLabel, { marginBottom: 4 }]}>
+                    Auftraggeber {String(i + 1).padStart(2, "0")}
+                  </Text>
+                  <Text style={styles.verantwortValue}>
+                    <Text style={{ fontFamily: "Helvetica-Bold" }}>{m.bezeichnung || "—"}</Text>
+                    {m.ansprechpartner ? ` · ${m.ansprechpartner}` : ""}
+                    {"\n"}
+                    {m.anschrift}
+                    {"\n"}
+                    {m.email}
+                    {m.hatDsb && m.dsbKontakt ? `\nDSB: ${m.dsbKontakt}` : ""}
+                    {m.avvAbgeschlossen
+                      ? `\nAVV abgeschlossen${m.avvDatum ? ` am ${new Date(m.avvDatum).toLocaleDateString("de-DE")}` : ""}`
+                      : "\nAVV: ausstehend"}
+                  </Text>
+                  <Text style={[styles.fieldLabel, { marginTop: 6 }]}>
+                    Kategorien der im Auftrag durchgeführten Verarbeitungen
+                  </Text>
+                  <Text style={styles.fieldValue}>
+                    {m.verarbeitungsbeschreibung || "—"}
+                  </Text>
+                </View>
+              ))}
+            </>
+          )}
 
-          {data.taetigkeiten.map((t, idx) => {
-            const rgLabels = t.rechtsgrundlagen.map(
-              (rg) => RECHTSGRUNDLAGEN_LABELS[rg] || rg
-            );
-            const drittlandLabel =
-              DRITTLAND_GARANTIE_LABELS[t.drittlandGarantie] || t.drittlandGarantie;
-
-            return (
-              <View key={t.id} style={styles.activityCard}>
-                {/* Header bleibt mit erstem Body-Abschnitt zusammen — verhindert Waisenkopf */}
-                <View wrap={false}>
-                  <View style={styles.activityHeader}>
-                    <View style={styles.activityHeaderLeft}>
-                      <Text style={styles.activityNumber}>
-                        VVT-{String(idx + 1).padStart(2, "0")} · Art. 30 Abs. 1 DSGVO
+          {/* III. Übersichtsmatrix (M5) */}
+          {data.taetigkeiten.length > 0 && (
+            <>
+              <Text style={styles.sectionLabel}>
+                {istAuftragsverarbeiter ? "III." : "II."} Übersicht der Verarbeitungstätigkeiten
+              </Text>
+              <View wrap={false}>
+                <View style={styles.matrixHeaderRow}>
+                  <Text style={[styles.matrixHeaderCell, { width: "8%" }]}>Nr.</Text>
+                  <Text style={[styles.matrixHeaderCell, { width: "38%" }]}>
+                    Bezeichnung
+                  </Text>
+                  <Text style={[styles.matrixHeaderCell, { width: "22%" }]}>
+                    Rechtsgrundlage
+                  </Text>
+                  <Text style={[styles.matrixHeaderCell, { width: "16%" }]}>
+                    Drittland
+                  </Text>
+                  <Text style={[styles.matrixHeaderCell, { width: "16%" }]}>
+                    Status
+                  </Text>
+                </View>
+                {data.taetigkeiten.map((t, i) => {
+                  const rg = t.rechtsgrundlagen
+                    .map((r) => r.replace("art6-1", "Art. 6 ").replace("art9-2", "Art. 9 ").replace("art88", "Art. 88"))
+                    .join(", ");
+                  const dl = t.drittlandGarantie === "keine-uebermittlung" ? "Nein" :
+                    t.drittlandGarantie === "eu-ewr" ? "EU/EWR" : "Drittland";
+                  const flags: string[] = [];
+                  if (t.besondereKategorien) flags.push("A9");
+                  if (t.gemeinsamVerantwortlich?.istGemeinsam) flags.push("A26");
+                  if (t.kiSysteme.some((k) => k.risikoklasse === "hochrisiko")) flags.push("KI-HR");
+                  if (t.dsfaStatus === "dsfa-ausstehend") flags.push("DSFA-OFFEN");
+                  return (
+                    <View key={t.id} style={styles.matrixRow} wrap={false}>
+                      <Text style={[styles.matrixCell, { width: "8%" }]}>
+                        {String(i + 1).padStart(2, "0")}
                       </Text>
-                      <Text style={styles.activityTitle}>{t.bezeichnung}</Text>
+                      <Text style={[styles.matrixCell, { width: "38%" }]}>
+                        {t.bezeichnung || "—"}
+                      </Text>
+                      <Text style={[styles.matrixCell, { width: "22%" }]}>{rg || "—"}</Text>
+                      <Text style={[styles.matrixCell, { width: "16%" }]}>{dl}</Text>
+                      <Text style={[styles.matrixCell, { width: "16%" }]}>
+                        {flags.length > 0 ? flags.join(" · ") : "OK"}
+                      </Text>
                     </View>
-                    {t.besondereKategorien && (
-                      <Text style={styles.activityBadge}>ART. 9 DSGVO</Text>
-                    )}
-                  </View>
-                </View>
-
-                <View style={styles.activityBody}>
-                  <View style={styles.fieldGrid}>
-                    <FieldRow label="Zweck der Verarbeitung" value={t.zweck} full />
-                    <FieldRow label="Rechtsgrundlage(n)" value={rgLabels} full />
-                    {t.berechtigtesInteresseDetail && (
-                      <FieldRow
-                        label="Berechtigtes Interesse (Art. 6 Abs. 1 lit. f)"
-                        value={t.berechtigtesInteresseDetail}
-                        full
-                      />
-                    )}
-                    <FieldRow
-                      label="Betroffene Personen"
-                      value={t.betroffenengruppen}
-                      full
-                    />
-                    <FieldRow label="Datenkategorien" value={t.datenkategorien} full />
-                    <FieldRow
-                      label="Empfänger / Auftragsverarbeiter"
-                      value={t.empfaenger.map(
-                        (e) =>
-                          `${e.name} (${e.land})${e.istAuftragsverarbeiter ? " [AV]" : ""}${e.avvVorhanden ? " ✓AVV" : ""}`
-                      )}
-                      full
-                    />
-                    <FieldRow
-                      label="Drittland-Garantie (Art. 44 ff.)"
-                      value={
-                        drittlandLabel +
-                        (t.drittlandDetail ? ` — ${t.drittlandDetail}` : "")
-                      }
-                      full
-                    />
-                    <FieldRow label="Löschfristen" value={t.loeschfristen} full />
-                    <FieldRow
-                      label="Technische und organisatorische Maßnahmen (Art. 32)"
-                      value={t.toms}
-                      full
-                    />
-                    {t.anmerkungen && (
-                      <FieldRow label="Anmerkungen" value={t.anmerkungen} full />
-                    )}
-                  </View>
-                </View>
+                  );
+                })}
               </View>
-            );
-          })}
+            </>
+          )}
+
+          {/* IV. Detail-Tätigkeiten */}
+          <Text style={styles.sectionLabel}>
+            {istAuftragsverarbeiter ? "IV." : "III."} Detail der Verarbeitungstätigkeiten ({data.taetigkeiten.length})
+          </Text>
+          {data.taetigkeiten.map((t, idx) => renderActivity(t, idx))}
         </View>
 
-        {/* Footer */}
         <View style={styles.footer} fixed>
           <Text style={styles.footerText}>
-            {v.bezeichnung} · Verarbeitungsverzeichnis Art. 30 DSGVO · Stand {today}
+            {v.bezeichnung} · Verarbeitungsverzeichnis Art. 30{" "}
+            {istAuftragsverarbeiter ? "Abs. 2" : "Abs. 1"} DSGVO · Stand {today}
           </Text>
           <Text
             style={styles.pageNum}
