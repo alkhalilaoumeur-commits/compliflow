@@ -55,6 +55,8 @@ export async function GET(req: NextRequest) {
           Prefer: "resolution=merge-duplicates",
         },
         body: JSON.stringify([{ email, source, confirmed: true, confirmed_at: new Date().toISOString() }]),
+        // Hängt Supabase, blockiert sonst der Server-Thread bis ~30s Default-Timeout
+        signal: AbortSignal.timeout(5000),
       });
     } catch (err) {
       console.error("Supabase DOI confirm failed", err);

@@ -3,7 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendPaymentConfirmation } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const isProd = process.env.NODE_ENV === "production";
+
+  // In Production niemals ungeprüft 200 zurückgeben — sonst akzeptiert die App
+  // gefälschte Webhooks (Fake-Zahlungs-Mails). Nur lokal/Dev darf still durchlaufen.
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+    if (isProd) {
+      console.error("CRITICAL: Stripe-Keys fehlen in Production (webhook)");
+      return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+    }
     return NextResponse.json({ received: true });
   }
 
@@ -14,8 +22,8 @@ export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
-  if (!sig || !process.env.STRIPE_WEBHOOK_SECRET) {
-    return NextResponse.json({ received: true });
+  if (!sig) {
+    return NextResponse.json({ error: "Missing stripe-signature header" }, { status: 400 });
   }
 
   let event: Stripe.Event;
