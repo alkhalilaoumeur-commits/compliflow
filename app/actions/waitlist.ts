@@ -1,6 +1,6 @@
 "use server";
 
-import { createHmac } from "node:crypto";
+import { buildDoiToken } from "@/lib/doi-token";
 import { sendWaitlistDoiEmail } from "@/lib/email";
 
 type Result =
@@ -25,21 +25,6 @@ function isEmailRateLimited(email: string): boolean {
   return false;
 }
 
-// Stateless Double Opt-In via HMAC-SHA256
-// Token-Format: "{unix_seconds}.{hmac}" — läuft exakt 7 Tage nach Generierung ab.
-// Der Timestamp ist Teil der signierten Nachricht → nicht manipulierbar.
-function buildDoiToken(email: string, source: string): string {
-  const secret = process.env.DOI_SECRET;
-  if (!secret) {
-    console.error("CRITICAL: DOI_SECRET ist nicht gesetzt — Waitlist DOI deaktiviert");
-    throw new Error("DOI_SECRET missing");
-  }
-  const ts = Math.floor(Date.now() / 1000);
-  const hmac = createHmac("sha256", secret)
-    .update(`${email}:${source}:${ts}`)
-    .digest("hex");
-  return `${ts}.${hmac}`;
-}
 
 export async function joinWaitlist(formData: FormData): Promise<Result> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
