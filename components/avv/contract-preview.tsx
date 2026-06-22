@@ -2,10 +2,12 @@
 
 import { useAvvStore } from "@/lib/avv/store";
 import { buildContract, buildAnlagen } from "@/lib/avv/contract";
+import { useWatermarkStore } from "@/lib/watermark/store";
 import { formatDateDE } from "@/lib/utils";
 
 export function ContractPreview() {
   const data = useAvvStore((s) => s.data);
+  const isBought = useWatermarkStore((s) => s.isBought("avv"));
   const blocks = buildContract(data);
   const anlagen = buildAnlagen(data);
 
@@ -147,11 +149,13 @@ export function ContractPreview() {
         </div>
       </section>
 
-      <footer className="mt-10 pt-4 border-t border-[rgba(246,242,234,0.3)] text-center">
-        <p className="font-mono text-[9px] uppercase tracking-widest text-[rgba(246,242,234,0.5)]">
-          Erstellt mit Compliflow · compliflow.de
-        </p>
-      </footer>
+      {!isBought && (
+        <footer className="mt-10 pt-4 border-t border-[rgba(246,242,234,0.3)] text-center">
+          <p className="font-mono text-[9px] uppercase tracking-widest text-[rgba(246,242,234,0.5)]">
+            Erstellt mit Compliflow · compliflow.de
+          </p>
+        </footer>
+      )}
     </div>
   );
 }

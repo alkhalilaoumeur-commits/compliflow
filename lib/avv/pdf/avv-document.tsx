@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function PageFooter({ data }: { data: AvvFormData }) {
+function PageFooter({ data, showCredit }: { data: AvvFormData; showCredit: boolean }) {
   const ag = data.auftraggeber.firma || "—";
   const an = data.auftragnehmer.firma || "—";
   return (
@@ -389,7 +389,9 @@ function PageFooter({ data }: { data: AvvFormData }) {
       <Text style={styles.footerText}>
         AVV · {ag} × {an} · {formatDateDE(new Date())}
       </Text>
-      <Text style={styles.footerBranding}>compliflow.de · made by DRVN</Text>
+      {showCredit && (
+        <Text style={styles.footerBranding}>compliflow.de · made by DRVN</Text>
+      )}
       <Text
         style={styles.footerPage}
         render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
@@ -398,10 +400,14 @@ function PageFooter({ data }: { data: AvvFormData }) {
   );
 }
 
+// showCredit=false entfernt den "Generiert mit Compliflow"-Hinweis (Watermark-Removal,
+// 0,99 €). Rechtstexte/Disclaimer bleiben immer erhalten — nur Branding wird entfernt.
 export function AvvPdfDocument({
   data,
+  showCredit = true,
 }: {
   data: AvvFormData;
+  showCredit?: boolean;
 }) {
   const blocks = buildContract(data);
   const anlagen = buildAnlagen(data);
@@ -491,12 +497,14 @@ export function AvvPdfDocument({
           </View>
         </View>
 
-        <View style={styles.coverBranding}>
-          <Text style={styles.coverBrandingText}>
-            Generiert mit Compliflow · compliflow.de · made by DRVN
-          </Text>
-        </View>
-        <PageFooter data={data} />
+        {showCredit && (
+          <View style={styles.coverBranding}>
+            <Text style={styles.coverBrandingText}>
+              Generiert mit Compliflow · compliflow.de · made by DRVN
+            </Text>
+          </View>
+        )}
+        <PageFooter data={data} showCredit={showCredit} />
       </Page>
 
       {/* ── Inhaltsverzeichnis ───────────────────────────────────── */}
@@ -524,7 +532,7 @@ export function AvvPdfDocument({
           </>
         )}
 
-        <PageFooter data={data} />
+        <PageFooter data={data} showCredit={showCredit} />
       </Page>
 
       {/* ── Vertragstext ─────────────────────────────────────────── */}
@@ -589,7 +597,7 @@ export function AvvPdfDocument({
           </View>
         </View>
 
-        <PageFooter data={data} />
+        <PageFooter data={data} showCredit={showCredit} />
       </Page>
 
       {/* ── Wichtiger Hinweis ─────────────────────────────────────── */}
@@ -626,14 +634,16 @@ export function AvvPdfDocument({
           erfolgt auf eigene Verantwortung der Vertragsparteien.
         </Text>
 
-        <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.faded }}>
-          Generiert mit Compliflow am{" "}
-          {data.abschlussDatum
-            ? formatDateDE(data.abschlussDatum)
-            : formatDateDE(new Date())}{" "}
-          · compliflow.de · made by DRVN
-        </Text>
-        <PageFooter data={data} />
+        {showCredit && (
+          <Text style={{ marginTop: 20, fontSize: 8, color: COLOR.faded }}>
+            Generiert mit Compliflow am{" "}
+            {data.abschlussDatum
+              ? formatDateDE(data.abschlussDatum)
+              : formatDateDE(new Date())}{" "}
+            · compliflow.de · made by DRVN
+          </Text>
+        )}
+        <PageFooter data={data} showCredit={showCredit} />
       </Page>
 
       {/* ── Anlagen ──────────────────────────────────────────────── */}
@@ -718,7 +728,7 @@ export function AvvPdfDocument({
             </View>
           )}
 
-          <PageFooter data={data} />
+          <PageFooter data={data} showCredit={showCredit} />
         </Page>
       ))}
     </Document>

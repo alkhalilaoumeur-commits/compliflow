@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { VvtFormData } from "@/lib/vvt/types";
+import { useWatermarkStore } from "@/lib/watermark/store";
 
 type Props = {
   data: VvtFormData;
@@ -10,13 +11,14 @@ type Props = {
 
 export function VvtPdfDownload({ data, disabled }: Props) {
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const isBought = useWatermarkStore((s) => s.isBought("vvt"));
 
   const handleDownload = async () => {
     if (state === "loading" || disabled) return;
     setState("loading");
     try {
       const { renderVvtPdf } = await import("@/lib/vvt/pdf/vvt-document");
-      const blob = await renderVvtPdf(data);
+      const blob = await renderVvtPdf(data, !isBought);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -28,7 +30,7 @@ export function VvtPdfDownload({ data, disabled }: Props) {
       a.click();
       URL.revokeObjectURL(url);
       if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-        (window as any).plausible("PDF Downloaded", { props: { tool: "vvt", tier: "free" } });
+        (window as any).plausible("PDF Downloaded", { props: { tool: "vvt", tier: isBought ? "paid" : "free" } });
       }
       setState("idle");
     } catch (err) {
