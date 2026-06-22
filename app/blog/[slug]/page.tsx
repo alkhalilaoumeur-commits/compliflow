@@ -47,8 +47,11 @@ function renderContent(content: string) {
   const elements: React.ReactNode[] = [];
   let listItems: string[] = [];
 
+  const escHtml = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
   const inlineHtml = (text: string) =>
-    text
+    escHtml(text)
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/_(.*?)_/g, "<em>$1</em>")
       .replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, '<a href="$2" class="text-accent hover:text-ink underline underline-offset-2">$1</a>')

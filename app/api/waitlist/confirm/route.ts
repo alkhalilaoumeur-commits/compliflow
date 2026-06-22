@@ -35,8 +35,11 @@ function timingSafeEqual(a: string, b: string): boolean {
 }
 
 function verifyDoiToken(email: string, source: string, token: string): boolean {
-  const secret = process.env.DOI_SECRET ?? (process.env.NODE_ENV === "production" ? null : "dev-only-fallback");
-  if (!secret) return false;
+  const secret = process.env.DOI_SECRET;
+  if (!secret) {
+    console.error("CRITICAL: DOI_SECRET not set — all DOI confirmations will fail");
+    return false;
+  }
   // Accept current and previous epoch → up to ~14 days validity
   const currentEpoch = doiEpoch();
   for (const epoch of [currentEpoch, currentEpoch - 1]) {

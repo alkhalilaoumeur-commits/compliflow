@@ -6,6 +6,7 @@
 import type { AgbData, WizardStep } from "./types";
 import { ZAHLUNG_LABELS, isDigitaleArt } from "./types";
 import { KLAUSELN } from "./defaults";
+import { escapeHtml } from "@/lib/utils";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Validation
@@ -70,9 +71,6 @@ export function getCompletionStatus(d: AgbData): CompletionStatus {
 // HTML-Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-const escapeHtml = (s: string): string =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 const para = (text: string): string => `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
 const heading = (level: 1 | 2 | 3, text: string): string => `<h${level}>${escapeHtml(text)}</h${level}>`;

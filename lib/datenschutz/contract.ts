@@ -73,6 +73,7 @@ import {
   SERVER_SIDE_TRACKING_HINWEIS,
   AI_ACT_CONTENT_HINWEIS,
 } from "./defaults";
+import { escapeHtml } from "@/lib/utils";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Validation
@@ -243,9 +244,6 @@ export type BuildOptions = {
   wrap?: boolean;
 };
 
-const escapeHtml = (s: string): string =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 const para = (text: string): string => `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
 const heading = (level: 1 | 2 | 3, text: string): string => `<h${level}>${escapeHtml(text)}</h${level}>`;

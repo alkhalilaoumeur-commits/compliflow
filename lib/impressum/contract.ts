@@ -12,6 +12,7 @@ import {
   VSBG_TEXTE,
   OS_PLATTFORM_TEXT,
 } from "./defaults";
+import { escapeHtml } from "@/lib/utils";
 
 /** Validierung — pro Step */
 export function isAnbieterValid(d: ImpressumData): boolean {
@@ -485,13 +486,6 @@ export type BuildOptions = {
 export function buildHtml(d: ImpressumData, options: BuildOptions = {}): string {
   const credit = options.credit !== false;
   const sections = buildSections(d);
-  const escapeHtml = (s: string) =>
-    s
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-
   const parts: string[] = [];
   parts.push('<section class="impressum">');
   parts.push("  <h1>Impressum</h1>");

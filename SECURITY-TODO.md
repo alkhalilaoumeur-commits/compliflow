@@ -1,8 +1,13 @@
 # Compliflow — Security TODO
 
-> **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17 · **2. Audit:** 2026-06-22
-> **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit + 2. Sicherheits-Pass)
-> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
+> **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17 · **2. Audit:** 2026-06-22 · **3. Audit:** 2026-06-22
+> **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit + 2. Sicherheits-Pass + P1/P3/P4-Fix-Pass)
+> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 #12 #13 #14 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
+>
+> **Fix-Notiz 2026-06-22 (3. Pass):**
+> - **#12 DOI_SECRET dev-fallback** — `"dev-only-fallback"` aus Code entfernt. Kein NODE_ENV-Guard mehr. Fehlendes `DOI_SECRET` → `console.error` + `return false`. In Dev: einfach `DOI_SECRET=dev-local` in `.env.local` setzen.
+> - **#13 Blog-XSS-Sink** — `inlineHtml()` in `app/blog/[slug]/page.tsx` escaped jetzt mit `escHtml()` VOR den Regex-Transforms. `<script>alert(1)</script>` in Blog-Content → `&lt;script&gt;...` im DOM.
+> - **#14 escapeHtml zentralisiert** — 4 lokale Kopien (widerrufsbelehrung, agb, datenschutz, impressum) durch zentrales `escapeHtml()` aus `lib/utils.ts` ersetzt. Impressum-Version fehlte `'`-Escape — jetzt einheitlich auf 5-Zeichen-Escape (& < > " ').
 >
 > **Fix-Notiz 2026-06-17:**
 > - **#2 Webhook** — Production-Guard: fehlt `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` in Prod → 500 statt stillem `{received:true}`; fehlender `stripe-signature`-Header → 400.
@@ -189,12 +194,12 @@ Bei jedem Coolify-Restart startet der Rate-Limiter bei 0. Bei Horizontal-Scaling
 | HTTP→HTTPS Redirect | ✓ |
 | `.env` / `.git/config` public | 404 |
 | Stripe-Webhook Signaturprüfung | `constructEvent()` |
-| DOI-Token | HMAC-SHA256 + Timing-safe Compare + Epoch (14 Tage Ablauf) |
+| DOI-Token | HMAC-SHA256 + Timing-safe Compare + Epoch (14 Tage Ablauf) + kein hardcoded Fallback |
 | Email-Validation | Regex + Lowercase + Trim |
 | Source-Whitelist DOI | `ALLOWED_SOURCES` |
 | Rate-Limiting | Checkout 5/min, Verify 20/min, DOI-Confirm 10/min, Brevo 5/min |
 | IP-Extraktion | `x-real-ip` > letzter XFF-Wert (XFF-Spoofing-sicher) |
-| `dangerouslySetInnerHTML` | Generators: buildHtml() mit escapeHtml() abgesichert; JSON-LD hardcoded |
+| `dangerouslySetInnerHTML` | Generators: buildHtml() mit zentralem escapeHtml() aus lib/utils.ts; Blog: inlineHtml() escaped vor Transforms; JSON-LD hardcoded |
 | `eval()` / `Function()` | keine |
 | SQL-Injection | kein direktes SQL (Supabase REST) |
 | TypeScript Build | 0 Errors, 44 Seiten |
