@@ -2,9 +2,8 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { joinWaitlist } from "@/app/actions/waitlist";
 
 // joinWaitlist ist eine Server-Action. Ohne RESEND_API_KEY ist der Mail-Versand
-// ein No-Op (fire-and-forget), DOI_SECRET fällt im Nicht-Prod-Modus auf einen
-// Dev-Fallback zurück — daher sind die Validierungs- und Erfolgs-Pfade ohne
-// Netzwerk testbar.
+// ein No-Op (fire-and-forget). DOI_SECRET wird im Test explizit gesetzt —
+// kein Dev-Fallback mehr im Code.
 function form(fields: Record<string, string>): FormData {
   const fd = new FormData();
   for (const [k, v] of Object.entries(fields)) fd.set(k, v);
@@ -12,12 +11,16 @@ function form(fields: Record<string, string>): FormData {
 }
 
 describe("joinWaitlist", () => {
-  const prevKey = process.env.RESEND_API_KEY;
+  const prevResend = process.env.RESEND_API_KEY;
+  const prevDoi = process.env.DOI_SECRET;
   beforeEach(() => {
     delete process.env.RESEND_API_KEY;
+    process.env.DOI_SECRET = "test-secret-for-vitest";
   });
   afterEach(() => {
-    if (prevKey !== undefined) process.env.RESEND_API_KEY = prevKey;
+    if (prevResend !== undefined) process.env.RESEND_API_KEY = prevResend;
+    if (prevDoi !== undefined) process.env.DOI_SECRET = prevDoi;
+    else delete process.env.DOI_SECRET;
   });
 
   it("lehnt eine ungültige Email ab", async () => {

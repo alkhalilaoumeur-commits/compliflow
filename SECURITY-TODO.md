@@ -2,7 +2,11 @@
 
 > **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17 · **2. Audit:** 2026-06-22 · **3. Audit:** 2026-06-22
 > **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit + 2. Sicherheits-Pass + P1/P3/P4-Fix-Pass)
-> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 #12 #13 #14 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
+> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 #12 #13 #14 #15 #16 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
+>
+> **Fix-Notiz 2026-06-22 (4. Pass):**
+> - **#15 DOI_SECRET dev-fallback in waitlist.ts** — zweite Kopie von `"dev-only-fallback"` in `app/actions/waitlist.ts` entfernt. `buildDoiToken` wirft jetzt hart wenn `DOI_SECRET` fehlt (kein NODE_ENV-Guard mehr).
+> - **#16 DOI-Token-Format fixiert** — Token ist jetzt `{unix_seconds}.{hmac}` statt Epoch-basiertem HMAC. Gültigkeit: exakt 7 Tage ab Generierung, deterministisch. Zukunftsdatierte Tokens (> 5 min) werden abgelehnt. Altes Epoch-Format (kein `.` im Token) wird automatisch abgelehnt. 3 neue Tests für Ablauf, Zukunftsdatierung und Happy-Path.
 >
 > **Fix-Notiz 2026-06-22 (3. Pass):**
 > - **#12 DOI_SECRET dev-fallback** — `"dev-only-fallback"` aus Code entfernt. Kein NODE_ENV-Guard mehr. Fehlendes `DOI_SECRET` → `console.error` + `return false`. In Dev: einfach `DOI_SECRET=dev-local` in `.env.local` setzen.
@@ -194,7 +198,7 @@ Bei jedem Coolify-Restart startet der Rate-Limiter bei 0. Bei Horizontal-Scaling
 | HTTP→HTTPS Redirect | ✓ |
 | `.env` / `.git/config` public | 404 |
 | Stripe-Webhook Signaturprüfung | `constructEvent()` |
-| DOI-Token | HMAC-SHA256 + Timing-safe Compare + Epoch (14 Tage Ablauf) + kein hardcoded Fallback |
+| DOI-Token | HMAC-SHA256 + Timing-safe Compare + fixer 7-Tage-Ablauf ({ts}.{hmac}-Format) + kein hardcoded Fallback |
 | Email-Validation | Regex + Lowercase + Trim |
 | Source-Whitelist DOI | `ALLOWED_SOURCES` |
 | Rate-Limiting | Checkout 5/min, Verify 20/min, DOI-Confirm 10/min, Brevo 5/min |

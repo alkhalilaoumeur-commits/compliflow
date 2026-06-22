@@ -25,22 +25,20 @@ function isEmailRateLimited(email: string): boolean {
   return false;
 }
 
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
-function doiEpoch(): number {
-  return Math.floor(Date.now() / SEVEN_DAYS_MS);
-}
-
 // Stateless Double Opt-In via HMAC-SHA256
-// Token = HMAC(email:source:epoch, DOI_SECRET) — läuft nach max. 14 Tagen ab (2 Epochen)
+// Token-Format: "{unix_seconds}.{hmac}" — läuft exakt 7 Tage nach Generierung ab.
+// Der Timestamp ist Teil der signierten Nachricht → nicht manipulierbar.
 function buildDoiToken(email: string, source: string): string {
   const secret = process.env.DOI_SECRET;
-  if (!secret && process.env.NODE_ENV === "production") {
+  if (!secret) {
     console.error("CRITICAL: DOI_SECRET ist nicht gesetzt — Waitlist DOI deaktiviert");
     throw new Error("DOI_SECRET missing");
   }
-  return createHmac("sha256", secret ?? "dev-only-fallback")
-    .update(`${email}:${source}:${doiEpoch()}`)
+  const ts = Math.floor(Date.now() / 1000);
+  const hmac = createHmac("sha256", secret)
+    .update(`${email}:${source}:${ts}`)
     .digest("hex");
+  return `${ts}.${hmac}`;
 }
 
 export async function joinWaitlist(formData: FormData): Promise<Result> {

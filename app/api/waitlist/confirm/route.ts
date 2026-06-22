@@ -20,10 +20,7 @@ function isConfirmRateLimited(ip: string): boolean {
   return false;
 }
 
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
-function doiEpoch(): number {
-  return Math.floor(Date.now() / SEVEN_DAYS_MS);
-}
+const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -34,21 +31,32 @@ function timingSafeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
+// Token-Format: "{unix_seconds}.{hmac-sha256}"
+// Gültigkeit: exakt 7 Tage ab Generierung. Zukunftsdatierte Tokens (> 5 min Uhrabweichung) werden abgelehnt.
 function verifyDoiToken(email: string, source: string, token: string): boolean {
   const secret = process.env.DOI_SECRET;
   if (!secret) {
     console.error("CRITICAL: DOI_SECRET not set — all DOI confirmations will fail");
     return false;
   }
-  // Accept current and previous epoch → up to ~14 days validity
-  const currentEpoch = doiEpoch();
-  for (const epoch of [currentEpoch, currentEpoch - 1]) {
-    const expected = createHmac("sha256", secret)
-      .update(`${email}:${source}:${epoch}`)
-      .digest("hex");
-    if (timingSafeEqual(expected, token)) return true;
-  }
-  return false;
+
+  const dotIdx = token.indexOf(".");
+  if (dotIdx === -1) return false;
+
+  const ts = parseInt(token.slice(0, dotIdx), 10);
+  const hmac = token.slice(dotIdx + 1);
+
+  if (!Number.isFinite(ts) || ts <= 0) return false;
+
+  const nowS = Math.floor(Date.now() / 1000);
+  if (nowS - ts > SEVEN_DAYS_S) return false;   // abgelaufen
+  if (ts > nowS + 300) return false;             // zukunftsdatiert (max. 5 min Toleranz)
+
+  const expected = createHmac("sha256", secret)
+    .update(`${email}:${source}:${ts}`)
+    .digest("hex");
+
+  return timingSafeEqual(expected, hmac);
 }
 
 export async function GET(req: NextRequest) {
