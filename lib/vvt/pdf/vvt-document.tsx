@@ -9,7 +9,9 @@ import {
   KI_RISIKO_LABELS,
 } from "../types";
 
-export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
+// showCredit=false entfernt den "compliflow.de · made by DRVN"-Hinweis im Header
+// (Watermark-Removal, 0,99 €). Rechtshinweise im Dokument bleiben erhalten.
+export async function renderVvtPdf(data: VvtFormData, showCredit = true): Promise<Blob> {
   const { Document, Page, Text, View, StyleSheet, pdf, Font } = await import(
     "@react-pdf/renderer"
   );
@@ -472,7 +474,9 @@ export async function renderVvtPdf(data: VvtFormData): Promise<Blob> {
               <Text style={styles.headerTitle}>{titel}</Text>
               <Text style={styles.headerSub}>{untertitel}</Text>
             </View>
-            <Text style={styles.headerBranding}>compliflow.de{"\n"}made by DRVN</Text>
+            {showCredit && (
+              <Text style={styles.headerBranding}>compliflow.de{"\n"}made by DRVN</Text>
+            )}
           </View>
           <View style={styles.headerMeta}>
             <View>

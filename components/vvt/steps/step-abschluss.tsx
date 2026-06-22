@@ -2,6 +2,7 @@
 
 import { useVvtStore } from "@/lib/vvt/store";
 import { VvtPdfDownload } from "../pdf-download";
+import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { RECHTSGRUNDLAGEN_LABELS, DRITTLAND_GARANTIE_LABELS } from "@/lib/vvt/types";
 
 export function StepAbschluss() {
@@ -205,6 +206,12 @@ export function StepAbschluss() {
               Verantwortlichen vollständig ausfüllen und mindestens eine Tätigkeit
               hinzufügen, bevor der PDF-Export möglich ist.
             </p>
+          )}
+
+          {isReady && (
+            <div className="mt-4">
+              <WatermarkRemoveButton docType="vvt" returnPath="/vvt" />
+            </div>
           )}
 
           <div className="mt-6 flex flex-col gap-2.5 border-t border-line pt-4">

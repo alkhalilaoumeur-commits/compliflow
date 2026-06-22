@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAvvStore } from "@/lib/avv/store";
 import { AvvPdfDocument } from "@/lib/avv/pdf/avv-document";
 import { getCompletionStatus } from "@/lib/avv/contract";
+import { useWatermarkStore } from "@/lib/watermark/store";
 import { slugify } from "@/lib/utils";
 
 const STEP_LABELS = {
@@ -18,6 +19,7 @@ const STEP_LABELS = {
 
 export function PdfDownload() {
   const data = useAvvStore((s) => s.data);
+  const isBought = useWatermarkStore((s) => s.isBought("avv"));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [PDFDownloadLink, setComp] = useState<any>(null);
 
@@ -79,11 +81,11 @@ export function PdfDownload() {
       <div
         onClick={() => {
           if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-            (window as any).plausible("PDF Downloaded", { props: { tool: "avv", tier: "free" } });
+            (window as any).plausible("PDF Downloaded", { props: { tool: "avv", tier: isBought ? "paid" : "free" } });
           }
         }}
       >
-        <PDFDownloadLink document={<AvvPdfDocument data={data} />} fileName={filename}>
+        <PDFDownloadLink document={<AvvPdfDocument data={data} showCredit={!isBought} />} fileName={filename}>
           {({ loading }: { loading: boolean }) => (
             <span
               className={

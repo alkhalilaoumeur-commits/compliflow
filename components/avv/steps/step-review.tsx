@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAvvStore } from "@/lib/avv/store";
 import { STANDARD_DATENKATEGORIEN, STANDARD_PERSONENKATEGORIEN } from "@/lib/avv/defaults";
+import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { ContractPreview } from "../contract-preview";
 
 const PdfDownload = dynamic(
@@ -203,10 +204,11 @@ export function StepReview() {
           </p>
         </div>
 
-        <div className="border-t border-line pt-6">
-          <p className="text-sm text-ink-dim mb-4">
+        <div className="border-t border-line pt-6 flex flex-col gap-4">
+          <p className="text-sm text-ink-dim">
             Bereit zum Download. Der AVV enthält 13 Paragraphen nach Art. 28 DSGVO plus 3 Anlagen.
           </p>
+          <WatermarkRemoveButton docType="avv" returnPath="/avv" />
           <PdfDownload />
         </div>
       </div>
