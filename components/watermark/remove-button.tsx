@@ -19,12 +19,21 @@ const DOC_LABEL: Record<DocType, string> = {
   cookie_banner: "Cookie-Banner",
 };
 
+type PlausibleFn = (e: string, opts?: object) => void;
+function track(event: string, opts?: object) {
+  if (typeof window === "undefined") return;
+  const fn = (window as unknown as { plausible?: PlausibleFn }).plausible;
+  if (typeof fn === "function") fn(event, opts);
+}
+
 /**
  * Watermark-Removal-Button — wird in jedem Generator in der Review-Sektion gezeigt.
  *
  * Verhalten:
  * - Solange nicht gekauft: Button "Compliflow-Credit entfernen — 0,99€" → öffnet Stripe-Checkout
- * - Nach erfolgreichem Payment: localStorage-Flag setzen, "Gekauft" anzeigen
+ * - Nach Rückkehr von Stripe: Kauf wird SERVERSEITIG bei Stripe verifiziert
+ *   (GET /api/stripe/verify-session), erst dann localStorage-Flag setzen.
+ *   So lässt sich der Kauf nicht durch bloßes Fälschen der URL-Parameter erschleichen.
  * - Bei Cancel: nichts machen
  */
 export function WatermarkRemoveButton({ docType, returnPath }: Props) {
@@ -42,21 +51,41 @@ export function WatermarkRemoveButton({ docType, returnPath }: Props) {
     const mock = params.get("mock");
     const paramDocType = params.get("doc_type") as DocType | null;
 
-    if (removed === "true" && paramDocType === docType) {
-      if (mock === "true" || sessionId) {
-        setBought(docType, {
-          sessionId: sessionId || `mock_${Date.now()}`,
-          paidAt: Date.now(),
+    // Nur reagieren, wenn der Rücksprung genau zu diesem Generator gehört.
+    if (removed !== "true" || paramDocType !== docType) return;
+
+    function activate(finalSessionId: string, mode: "mock" | "live") {
+      setBought(docType, { sessionId: finalSessionId, paidAt: Date.now() });
+      // URL bereinigen (Parameter entfernen)
+      window.history.replaceState({}, "", window.location.pathname);
+      track("Watermark Removed", { props: { doc_type: docType, mode } });
+    }
+
+    // Dev-Mock: ohne Stripe-Keys liefert /api/stripe/checkout lokal eine mock=true-URL
+    // (kein echter Kauf, nur lokale Entwicklung). In Production kommt dieser Pfad nie an.
+    if (mock === "true") {
+      activate(`mock_${Date.now()}`, "mock");
+      return;
+    }
+
+    // Production: dem URL-Parameter NICHT vertrauen. Stripe-Session serverseitig prüfen.
+    if (sessionId) {
+      let active = true;
+      fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(sessionId)}`)
+        .then((r) => r.json())
+        .then((data: { valid?: boolean; docType?: string | null }) => {
+          // Nur freischalten, wenn Stripe die Session als bezahlt bestätigt UND
+          // sie für genau diesen Dokumenttyp gekauft wurde.
+          if (active && data?.valid === true && data?.docType === docType) {
+            activate(sessionId, "live");
+          }
+        })
+        .catch(() => {
+          /* ungültig/Netzwerkfehler → nichts freischalten */
         });
-        // URL bereinigen
-        const cleanUrl = window.location.pathname;
-        window.history.replaceState({}, "", cleanUrl);
-        // Plausible
-        if (typeof (window as unknown as { plausible?: (e: string, opts?: object) => void }).plausible === "function") {
-          (window as unknown as { plausible: (e: string, opts?: object) => void })
-            .plausible("Watermark Removed", { props: { doc_type: docType, mode: mock === "true" ? "mock" : "live" } });
-        }
-      }
+      return () => {
+        active = false;
+      };
     }
   }, [docType, setBought]);
 
@@ -73,11 +102,7 @@ export function WatermarkRemoveButton({ docType, returnPath }: Props) {
       if (!res.ok || !data.url) {
         throw new Error(data.error || "Checkout fehlgeschlagen");
       }
-      // Plausible Event
-      if (typeof window !== "undefined" && typeof (window as unknown as { plausible?: (e: string, opts?: object) => void }).plausible === "function") {
-        (window as unknown as { plausible: (e: string, opts?: object) => void })
-          .plausible("Watermark Checkout Started", { props: { doc_type: docType } });
-      }
+      track("Watermark Checkout Started", { props: { doc_type: docType } });
       window.location.href = data.url;
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Unbekannter Fehler";
