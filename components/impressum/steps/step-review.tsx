@@ -1,7 +1,7 @@
 "use client";
 
 import { useImpressumStore } from "@/lib/impressum/store";
-import { buildSections } from "@/lib/impressum/contract";
+import { buildSections, getCompletionStatus } from "@/lib/impressum/contract";
 import { useWatermarkStore } from "@/lib/watermark/store";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
@@ -12,9 +12,26 @@ export function StepReview() {
   const data = useImpressumStore((s) => s.data);
   const sections = buildSections(data);
   const isBought = useWatermarkStore((s) => s.isBought("impressum"));
+  const { completedCount, total } = getCompletionStatus(data);
+  const isComplete = completedCount >= total;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 max-w-6xl">
+      {/* Unvollständigkeits-Warnung */}
+      {!isComplete && (
+        <div className="col-span-full mb-2 border border-[rgba(154,93,26,0.4)] bg-[rgba(154,93,26,0.05)] p-4 flex items-start gap-3">
+          <svg className="mt-0.5 h-4 w-4 shrink-0 text-warn" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <p className="font-body text-[13px] text-ink-dim">
+            <strong className="text-warn">Unvollständig ({completedCount}/{total} Schritte ausgefüllt).</strong>{" "}
+            Das Dokument enthält möglicherweise Pflichtangaben nach § 5 DDG, die noch fehlen.
+            Bitte alle Schritte ausfüllen, bevor du das Impressum einsetzt.
+          </p>
+        </div>
+      )}
+
       {/* Preview */}
       <div>
         <div className="flex items-center justify-between mb-4">

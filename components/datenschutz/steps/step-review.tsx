@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useDatenschutzStore } from "@/lib/datenschutz/store";
-import { buildHtml } from "@/lib/datenschutz/contract";
+import { buildHtml, getCompletionStatus } from "@/lib/datenschutz/contract";
 import { HtmlExport } from "../html-export";
 import { useWatermarkStore } from "@/lib/watermark/store";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
@@ -12,6 +12,7 @@ export function StepReview() {
   const data = useDatenschutzStore((s) => s.data);
   const isBought = useWatermarkStore((s) => s.isBought("datenschutz"));
   const [pdfState, setPdfState] = useState<"idle" | "info">("idle");
+  const { allValid } = getCompletionStatus(data);
 
   // HTML ohne <section>-Wrap für Inline-Preview
   const html = buildHtml(data, { credit: false, wrap: false });
@@ -26,6 +27,20 @@ export function StepReview() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 max-w-6xl">
+      {!allValid && (
+        <div className="col-span-full mb-2 border border-[rgba(154,93,26,0.4)] bg-[rgba(154,93,26,0.05)] p-4 flex items-start gap-3">
+          <svg className="mt-0.5 h-4 w-4 shrink-0 text-warn" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.5L1.5 13h13L8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M8 6v3.5M8 11.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <p className="font-body text-[13px] text-ink-dim">
+            <strong className="text-warn">Unvollständig.</strong>{" "}
+            Nicht alle Pflichtschritte nach Art. 13/14 DSGVO sind ausgefüllt.
+            Bitte alle Schritte abschließen, bevor du die Datenschutzerklärung einsetzt.
+          </p>
+        </div>
+      )}
+
       {/* Preview */}
       <div>
         <div className="flex items-center justify-between mb-4">
