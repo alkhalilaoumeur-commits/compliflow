@@ -132,41 +132,62 @@ function ToolLogos() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <Container className="grid grid-cols-12 items-center gap-y-12 pt-14 pb-16 lg:gap-x-12 lg:pt-20 lg:pb-24">
-        <div className="col-span-12 lg:col-span-7">
+      {/* Desktop: Bild füllt rechte Hälfte als Hintergrund */}
+      <div className="hidden lg:block absolute inset-y-0 right-0 w-[45%]" aria-hidden="true">
+        <picture>
+          <source srcSet="/hero/desk-compliance.webp" type="image/webp" />
+          <img
+            src="/hero/desk-compliance.png"
+            alt=""
+            width={928}
+            height={1152}
+            className="h-full w-full object-cover object-top"
+          />
+        </picture>
+        {/* Gradient links → transparent rechts */}
+        <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/40 to-transparent" />
+        {/* Label unten */}
+        <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-[rgba(10,9,6,0.35)] to-transparent">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-bg/75">
+            Sitz Stuttgart · Datenhaltung Frankfurt
+          </p>
+        </div>
+      </div>
+
+      <Container className="relative z-10">
+        <div className="py-16 lg:py-24 lg:max-w-[60%]">
           <p
-            className="rise mb-6 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent"
+            className="rise mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent"
             style={{ animationDelay: "0ms" }}
           >
             <span className="relative inline-flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[rgba(31,61,47,0.6)]" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            7 Generatoren · Aktualisiert zu 2026 · Datenhaltung Frankfurt
+            7 Generatoren · 2026 · Frankfurt
           </p>
 
           <h1
-            className="rise balance font-display text-[40px] font-medium leading-[1.04] tracking-[-0.02em] text-ink sm:text-[52px] md:text-[60px] lg:text-[68px]"
-            style={{ animationDelay: "80ms" }}
+            className="rise font-display font-medium leading-[1.02] tracking-[-0.03em] text-ink"
+            style={{ animationDelay: "80ms", fontSize: "clamp(42px, 6vw, 82px)" }}
           >
-            DSGVO-Dokumente,{" "}
+            DSGVO-Dokumente,
+            <br />
             <em className="italic text-accent">die halten.</em>
             <br />
-            In Minuten — nicht Anwaltstagen.
+            In Minuten.
           </h1>
 
           <p
-            className="rise measure mt-7 font-body text-[17px] leading-[1.6] text-ink-dim md:text-[18px]"
+            className="rise mt-7 font-body text-[17px] leading-[1.65] text-ink-dim max-w-lg"
             style={{ animationDelay: "160ms" }}
           >
-            Impressum, Datenschutz, AVV, Widerrufsbelehrung, AGB und Cookie-Banner —
-            alle Pflichttexte für deine Webseite, generiert aus einem strukturierten
-            Wizard mit 40+ Sonderfällen. AI Act, SCHUFA-Reform, BGH-Cookie-Urteile
-            2025: schon eingebaut.
+            Impressum, Datenschutz, AVV, AGB, Widerrufsbelehrung und Cookie-Banner —
+            alle Pflichttexte für deine Webseite. Ohne Anwalt, ohne Upload, ohne Account.
           </p>
 
           <div
-            className="rise mt-8 flex flex-wrap items-center gap-x-3 gap-y-3"
+            className="rise mt-8 flex flex-wrap items-center gap-3"
             style={{ animationDelay: "240ms" }}
           >
             <a
@@ -180,79 +201,56 @@ function Hero() {
               href="#suite"
               className="btn-ghost inline-flex h-12 items-center justify-center px-5 font-body text-[14px] font-medium gap-2"
             >
-              Alle 7 Generatoren ansehen
+              Alle 7 Generatoren
             </a>
           </div>
 
           <dl
-            className="rise mt-9 grid grid-cols-3 gap-x-4 border-t border-line pt-6"
+            className="rise mt-10 grid grid-cols-3 gap-x-6 border-t border-line pt-8"
             style={{ animationDelay: "320ms" }}
           >
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
                 Risiko ohne
               </dt>
-              <dd className="mt-1 font-display text-[20px] font-medium text-ink leading-tight">
+              <dd className="mt-1.5 font-display text-[22px] font-medium text-ink leading-tight">
                 bis 20 Mio €
               </dd>
-              <p className="font-mono text-[10px] text-ink-faded mt-0.5">
-                Art. 83 DSGVO
-              </p>
+              <p className="font-mono text-[10px] text-ink-faded mt-0.5">Art. 83 DSGVO</p>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
                 Kosten Anwalt
               </dt>
-              <dd className="mt-1 font-display text-[20px] font-medium text-ink leading-tight">
-                800 – 2.500 €
+              <dd className="mt-1.5 font-display text-[22px] font-medium text-ink leading-tight">
+                800–2.500 €
               </dd>
-              <p className="font-mono text-[10px] text-ink-faded mt-0.5">
-                pro Doku-Paket
-              </p>
+              <p className="font-mono text-[10px] text-ink-faded mt-0.5">pro Doku-Paket</p>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent">
                 Mit Compliflow
               </dt>
-              <dd className="mt-1 font-display text-[20px] font-medium text-accent leading-tight">
+              <dd className="mt-1.5 font-display text-[22px] font-medium text-accent leading-tight">
                 0 € — 5 Min
               </dd>
-              <p className="font-mono text-[10px] text-accent mt-0.5">
-                pro Dokument
-              </p>
+              <p className="font-mono text-[10px] text-accent mt-0.5">pro Dokument</p>
             </div>
           </dl>
         </div>
 
-        <aside
-          className="rise col-span-12 lg:col-span-5"
-          style={{ animationDelay: "360ms" }}
-        >
-          <div className="relative">
-            <div className="absolute -inset-4 -z-10 bg-gradient-to-br from-[rgba(255,77,0,0.08)] via-transparent to-[rgba(31,61,47,0.05)] blur-2xl" aria-hidden="true" />
-            <div className="relative overflow-hidden border border-line bg-bg-soft">
-              <picture>
-                <source srcSet="/hero/desk-compliance.webp" type="image/webp" />
-                <img
-                  src="/hero/desk-compliance.png"
-                  alt="Schreibtisch von oben mit MacBook, einer aufgeschlagenen deutschen Compliance-Akte mit Paragraphen-Tabs und einer Tasse Espresso — die Werkbank für deutsche Selbstständige."
-                  width={928}
-                  height={1152}
-                  loading="eager"
-                  className="block h-auto w-full object-cover"
-                />
-              </picture>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(10,9,6,0.55)] via-transparent to-transparent p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-bg/90">
-                  Sitz Stuttgart · Datenhaltung Frankfurt
-                </p>
-                <p className="mt-1 font-display text-[14px] text-bg leading-tight">
-                  Made in Germany · Open Source-Klauseln aus DSK, GDD, Bitkom
-                </p>
-              </div>
-            </div>
-          </div>
-        </aside>
+        {/* Mobile: Bild unter dem Text */}
+        <div className="lg:hidden -mx-6 overflow-hidden relative" style={{ height: "300px" }}>
+          <picture>
+            <source srcSet="/hero/desk-compliance.webp" type="image/webp" />
+            <img
+              src="/hero/desk-compliance.png"
+              alt="Schreibtisch mit deutschen Compliance-Dokumenten"
+              className="h-full w-full object-cover object-top"
+            />
+          </picture>
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent" />
+        </div>
       </Container>
     </section>
   );
@@ -260,9 +258,9 @@ function Hero() {
 
 function Suite() {
   return (
-    <section id="suite" className="relative">
-      <Container className="py-24 lg:py-32">
-        <div className="mb-14 grid grid-cols-12 gap-y-6 lg:gap-x-12">
+    <section id="suite" className="border-t border-line">
+      <Container className="py-20 lg:py-28">
+        <div className="mb-12 grid grid-cols-12 gap-y-6 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
               01 · Die Suite
@@ -273,74 +271,64 @@ function Suite() {
               7 Werkzeuge. Eine Suite.
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
-              Jedes Werkzeug einzeln nutzbar, alle teilen die gleichen Eingaben:
-              dein Impressum zieht in den Datenschutz, dein Datenschutz in den AVV.
-              Kein Account, keine Daten-Upload, alles lokal im Browser.
+              Jedes Werkzeug einzeln nutzbar. Kein Account, kein Upload — alles lokal im Browser.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-y-12 lg:gap-x-10">
+        <div className="border-t border-line">
           {tools.map((tool, i) => {
             const isLive = tool.status === "live";
-            const Wrapper = isLive && tool.href ? "a" : "article";
+            const Wrapper = (isLive && tool.href ? "a" : "div") as React.ElementType;
             const wrapperProps = isLive && tool.href ? { href: tool.href } : {};
             return (
-              <ScrollReveal key={tool.id} delay={i * 100} className="col-span-12 lg:col-span-4">
-              <Wrapper
-                {...wrapperProps}
-                className={`group block w-full h-full ${
-                  isLive
-                    ? "card-hover border border-line bg-surface p-7 cursor-pointer shadow-sm hover:border-accent hover:shadow-md"
-                    : "border border-[rgba(226,221,209,0.4)] p-7 opacity-70"
-                }`}
-              >
-                <div className="flex items-baseline justify-between border-b border-line pb-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-                    {tool.idx}
+              <ScrollReveal key={tool.id} delay={i * 60}>
+                <Wrapper
+                  {...wrapperProps}
+                  className={`group grid grid-cols-12 items-center gap-x-6 gap-y-2 border-b border-line py-6 transition-colors ${
+                    isLive
+                      ? "cursor-pointer hover:bg-[rgba(31,61,47,0.03)]"
+                      : "opacity-55"
+                  }`}
+                >
+                  {/* Nummer */}
+                  <span className="hidden md:block col-span-1 font-mono text-[12px] text-ink-faded">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span
-                    className={`font-mono text-[10px] uppercase tracking-[0.15em] ${
-                      isLive ? "text-accent font-semibold" : "text-ink-faded"
-                    }`}
-                  >
-                    {isLive && (
-                      <span
-                        className="relative inline-flex h-1.5 w-1.5 mr-1.5 align-middle"
-                        aria-hidden="true"
-                      >
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
-                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-                      </span>
-                    )}
-                    {tool.launchLabel}
-                  </span>
-                </div>
-                <h3 className="mt-6 font-display text-[26px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[28px]">
-                  {tool.name}
-                </h3>
-                <p className="mt-4 font-body text-[15px] leading-[1.65] text-ink-dim">
-                  {tool.pitch}
-                </p>
-                <ul className="mt-6 space-y-2.5 border-t border-line pt-5 font-body text-[14px] text-ink-dim">
-                  {tool.bullets.map((b) => (
-                    <li key={b} className="flex gap-3">
-                      <span className="text-accent mt-0.5 flex-shrink-0" aria-hidden="true">
-                        ›
-                      </span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-                {isLive && (
-                  <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent group-hover:gap-3 transition-all">
-                    Jetzt öffnen
-                    <span aria-hidden="true" className="transition group-hover:translate-x-1">
-                      →
+
+                  {/* Name + Pitch */}
+                  <div className="col-span-12 md:col-span-7">
+                    <h3 className="font-display text-[21px] font-medium leading-tight tracking-[-0.01em] text-ink">
+                      {tool.name}
+                    </h3>
+                    <p className="mt-1 font-body text-[14px] leading-relaxed text-ink-dim">
+                      {tool.pitch}
+                    </p>
+                  </div>
+
+                  {/* Status */}
+                  <div className="hidden md:block col-span-2">
+                    <span className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.15em] ${isLive ? "text-accent" : "text-ink-faded"}`}>
+                      {isLive && (
+                        <span className="relative inline-flex h-1.5 w-1.5" aria-hidden="true">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                        </span>
+                      )}
+                      {tool.launchLabel}
                     </span>
                   </div>
-                )}
-              </Wrapper>
+
+                  {/* Pfeil */}
+                  <div className="hidden md:flex col-span-2 justify-end">
+                    {isLive && (
+                      <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent">
+                        Öffnen
+                        <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">→</span>
+                      </span>
+                    )}
+                  </div>
+                </Wrapper>
               </ScrollReveal>
             );
           })}
@@ -530,12 +518,12 @@ function PhotoSection() {
 
 function Comparison() {
   const rows = [
-    { label: "Zeitaufwand pro Dokument", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", erecht24: "30–60 Minuten" },
-    { label: "Kosten pro Doku-Paket",    compliflow: "0 €",           anwalt: "800–2.500 €", erecht24: "9,90 €/Monat" },
-    { label: "Updates bei Gesetzesänderungen", compliflow: "Schon eingebaut (AI Act, SCHUFA 2026)", anwalt: "Nachschuss-Honorar", erecht24: "Im Abo enthalten" },
-    { label: "Datenhaltung",            compliflow: "100 % im Browser, kein Upload", anwalt: "Mail-Anhänge, Anwaltsserver", erecht24: "US-Server, SCCs" },
-    { label: "Account-Pflicht",         compliflow: "Nein",            anwalt: "—",            erecht24: "Ja, mit Newsletter" },
-    { label: "Sonderfälle (KI, SCHUFA, HinSchG)", compliflow: "40+ vorgefertigt", anwalt: "Ja, im Honorar", erecht24: "Bedingt" },
+    { label: "Zeitaufwand pro Dokument", compliflow: "10–20 Minuten", anwalt: "3–8 Stunden", saas: "15–45 Minuten" },
+    { label: "Kosten", compliflow: "0 € — kostenlos", anwalt: "800–2.500 €", saas: "ab 9 €/Monat" },
+    { label: "Updates bei Gesetzesänderungen", compliflow: "Schon eingebaut (AI Act, SCHUFA 2026)", anwalt: "Nachschuss-Honorar", saas: "Im Abo, teils verzögert" },
+    { label: "Datenhaltung", compliflow: "100 % lokal im Browser, kein Upload", anwalt: "Mail-Anhänge, Anwaltsserver", saas: "Serverabhängig" },
+    { label: "Account-Pflicht", compliflow: "Nein", anwalt: "—", saas: "Ja, Account erforderlich" },
+    { label: "Sonderfälle (KI, SCHUFA, HinSchG)", compliflow: "40+ vorgefertigt", anwalt: "Ja, im Honorar", saas: "Bedingt" },
   ];
 
   return (
@@ -549,7 +537,7 @@ function Comparison() {
           </div>
           <div className="col-span-12 lg:col-span-8">
             <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
-              Anwalt, eRecht24 oder Compliflow?
+              Anwalt, SaaS-Tool oder Compliflow?
             </h2>
             <p className="measure mt-5 font-body text-[16px] leading-[1.6] text-ink-dim">
               Compliflow ist keine Rechtsberatung — aber für Standarddokumente
@@ -575,7 +563,7 @@ function Comparison() {
                   Anwalt
                 </th>
                 <th className="pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded w-[22%]">
-                  eRecht24
+                  SaaS-Tool
                 </th>
               </tr>
             </thead>
@@ -595,7 +583,7 @@ function Comparison() {
                     {row.anwalt}
                   </td>
                   <td className="py-4 font-body text-[14px] text-ink-faded">
-                    {row.erecht24}
+                    {row.saas}
                   </td>
                 </tr>
               ))}
