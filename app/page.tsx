@@ -19,6 +19,7 @@ export default function Home() {
       <Hero />
       <Suite />
       <HowItWorks />
+      <PhotoSection />
       <Comparison />
       <BlogTeaser />
       <Faq />
