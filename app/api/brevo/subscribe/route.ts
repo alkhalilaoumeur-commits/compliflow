@@ -41,9 +41,10 @@ const ALLOWED_QUELLEN = [
 ] as const;
 
 export async function POST(req: NextRequest) {
+  const xff = req.headers.get("x-forwarded-for");
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
+    req.headers.get("x-real-ip")?.trim() ??
+    (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
     "unknown";
 
   if (isRateLimited(ip)) {

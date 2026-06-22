@@ -1,15 +1,20 @@
 # Compliflow — Security TODO
 
-> **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17
-> **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit)
-> **Status:** ✅ #2 #3 #6 gefixt (Code) · #4 = wontfix (Begründung unten) · #1 = jetzt deployen · #5 #7 nach Launch
-> **Launch-Frist:** 17.06.2026 (AVV-Generator)
+> **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17 · **2. Audit:** 2026-06-22
+> **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit + 2. Sicherheits-Pass)
+> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
 >
 > **Fix-Notiz 2026-06-17:**
 > - **#2 Webhook** — Production-Guard: fehlt `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` in Prod → 500 statt stillem `{received:true}`; fehlender `stripe-signature`-Header → 400.
 > - **#3 Checkout** — Mock-Mode nur noch in Dev; in Prod ohne Stripe-Keys → 503 statt Fake-`watermark_removed=true`.
 > - **#6 Supabase** — `AbortSignal.timeout(5000)` auf DOI-Confirm-fetch.
 > - **#4 Pro-Logik (wontfix):** `verify-session` prüft bereits server-seitig via Stripe `retrieve()`. Das einzige reale Loch war der Mock-Fallback = #3 (jetzt zu). Eine vollständig server-seitige PDF-Sperre ist architektonisch ausgeschlossen (PDFs werden bewusst client-seitig mit `@react-pdf/renderer` erzeugt) und für ein 0,99 €-Wasserzeichen Over-Engineering. Akzeptiertes Restrisiko.
+>
+> **Fix-Notiz 2026-06-22:**
+> - **#8 XFF-Spoofing** — Alle 3 Rate-Limiter (checkout, verify-session, brevo/subscribe) nutzen jetzt `x-real-ip` (Vorrang) statt erstem `x-forwarded-for`-Wert. Fallback: letzter Wert in XFF.
+> - **#9 waitlist/confirm Rate-Limit** — GET-Endpoint hat jetzt 10 req/min/IP-Limit.
+> - **#10 DOI-Token-Ablauf** — HMAC enthält jetzt Epoch (7-Tage-Fenster). Aktuelle + vorherige Epoch werden akzeptiert → max. 14 Tage Gültigkeit. Bisherige DOI-Links (ohne Epoch im HMAC) werden ungültig.
+> - **#11 Stille Datenverlust** — Fallback `.data/`-Write loggt jetzt explizit statt still zu scheitern.
 
 ---
 
@@ -184,11 +189,12 @@ Bei jedem Coolify-Restart startet der Rate-Limiter bei 0. Bei Horizontal-Scaling
 | HTTP→HTTPS Redirect | ✓ |
 | `.env` / `.git/config` public | 404 |
 | Stripe-Webhook Signaturprüfung | `constructEvent()` |
-| DOI-Token | HMAC-SHA256 + Timing-safe Compare |
+| DOI-Token | HMAC-SHA256 + Timing-safe Compare + Epoch (14 Tage Ablauf) |
 | Email-Validation | Regex + Lowercase + Trim |
 | Source-Whitelist DOI | `ALLOWED_SOURCES` |
-| Rate-Limiting | Checkout 5/min, Verify 20/min, DOI 1/10min |
-| `dangerouslySetInnerHTML` | nur JSON-LD + hardcoded BLOG_POSTS |
+| Rate-Limiting | Checkout 5/min, Verify 20/min, DOI-Confirm 10/min, Brevo 5/min |
+| IP-Extraktion | `x-real-ip` > letzter XFF-Wert (XFF-Spoofing-sicher) |
+| `dangerouslySetInnerHTML` | Generators: buildHtml() mit escapeHtml() abgesichert; JSON-LD hardcoded |
 | `eval()` / `Function()` | keine |
 | SQL-Injection | kein direktes SQL (Supabase REST) |
 | TypeScript Build | 0 Errors, 44 Seiten |
