@@ -20,6 +20,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Lokale Daten — enthält personenbezogene Daten (Waitlist-Emails), NIEMALS committen
+.data/
+
 # Environments — NIEMALS committen
 .env
 .env.local
