@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { brevoSubscribeDoi, isValidEmail } from "@/lib/brevo/client";
+import { brevoLimiter } from "@/lib/rate-limit";
 
 /**
  * Brevo-Subscribe-Endpoint (Double-Opt-In)
@@ -7,25 +8,11 @@ import { brevoSubscribeDoi, isValidEmail } from "@/lib/brevo/client";
  * POST /api/brevo/subscribe
  * Body: { email: string, quelle?: string, consent: boolean }
  *
- * - Rate-Limit: 5/Minute pro IP
+ * - Rate-Limit: 5/Minute pro IP (persistent via Upstash wenn konfiguriert)
  * - Plausibilitätscheck der Email
  * - Consent-Flag muss true sein (UWG § 7 Pflicht)
  * - Brevo verschickt Bestätigungs-Email automatisch
  */
-
-const ipBucket = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = ipBucket.get(ip);
-  if (!entry || now > entry.resetAt) {
-    ipBucket.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  if (entry.count >= 5) return true;
-  entry.count++;
-  return false;
-}
 
 const ALLOWED_QUELLEN = [
   "compliflow_generator",
@@ -47,7 +34,7 @@ export async function POST(req: NextRequest) {
     (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await brevoLimiter(ip)) {
     return NextResponse.json(
       { ok: false, error: "Zu viele Anfragen — bitte später erneut versuchen." },
       { status: 429 },

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
+import { checkoutLimiter } from "@/lib/rate-limit";
 
 /**
  * Watermark-Removal-Checkout (0,99€ One-Time)
@@ -31,21 +32,6 @@ const DOC_LABELS: Record<DocType, string> = {
   cookie_banner: "Cookie-Banner",
 };
 
-// Einfaches In-Memory Rate-Limiting: max 5 Checkout-Requests pro IP pro Minute
-const ipRequests = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = ipRequests.get(ip);
-  if (!entry || now > entry.resetAt) {
-    ipRequests.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  if (entry.count >= 5) return true;
-  entry.count++;
-  return false;
-}
-
 export async function POST(req: NextRequest) {
   const xff = req.headers.get("x-forwarded-for");
   const ip =
@@ -53,7 +39,7 @@ export async function POST(req: NextRequest) {
     (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await checkoutLimiter(ip)) {
     return NextResponse.json({ error: "Zu viele Anfragen" }, { status: 429 });
   }
 

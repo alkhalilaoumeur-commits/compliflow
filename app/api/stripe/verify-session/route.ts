@@ -1,21 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
-
-// Rate-Limiting: max 20 verify-Anfragen pro IP pro Minute
-// Verhindert Brute-Force auf Stripe Session IDs
-const verifyRequests = new Map<string, { count: number; resetAt: number }>();
-
-function isVerifyRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = verifyRequests.get(ip);
-  if (!entry || now > entry.resetAt) {
-    verifyRequests.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  if (entry.count >= 20) return true;
-  entry.count++;
-  return false;
-}
+import { verifyLimiter } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
   const xff = req.headers.get("x-forwarded-for");
@@ -24,7 +9,7 @@ export async function GET(req: NextRequest) {
     (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
     "unknown";
 
-  if (isVerifyRateLimited(ip)) {
+  if (await verifyLimiter(ip)) {
     return NextResponse.json({ valid: false, error: "Zu viele Anfragen" }, { status: 429 });
   }
 

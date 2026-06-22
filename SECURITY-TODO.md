@@ -2,7 +2,11 @@
 
 > **Audit-Datum:** 2026-06-13 · **Fix-Datum:** 2026-06-17 · **2. Audit:** 2026-06-22 · **3. Audit:** 2026-06-22
 > **Auditor:** Claude Code (autonome Overtime-Session + Verify-Audit + 2. Sicherheits-Pass + P1/P3/P4-Fix-Pass)
-> **Status:** ✅ #2 #3 #6 #8 #9 #10 #11 #12 #13 #14 #15 #16 gefixt · #4 = wontfix · #1 = deployen · #5 #7 nach Launch
+> **Status:** ✅ #2 #3 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 gefixt · #4 = wontfix · #1 = deployen · #5 nach Launch (Cloudflare WAF)
+>
+> **Fix-Notiz 2026-06-22 (5. Pass):**
+> - **#17 Rate-Limiter zentralisiert + Upstash-persistent** — 4 identische In-Memory-Maps durch `lib/rate-limit.ts` ersetzt. Limiter nutzen Upstash Redis Sliding-Window wenn `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` gesetzt sind, sonst In-Memory-Fallback mit Warn-Log. Überlebt Container-Restarts sobald Upstash konfiguriert ist.
+>   Upstash einrichten: https://upstash.com → kostenlose DB (EU-West) → 2 ENV-Vars in Coolify.
 >
 > **Fix-Notiz 2026-06-22 (4. Pass):**
 > - **#15 DOI_SECRET dev-fallback in waitlist.ts** — zweite Kopie von `"dev-only-fallback"` in `app/actions/waitlist.ts` entfernt. `buildDoiToken` wirft jetzt hart wenn `DOI_SECRET` fehlt (kein NODE_ENV-Guard mehr).
@@ -169,21 +173,16 @@ await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
 
 ---
 
-### #7 — In-Memory Rate-Limit überlebt keinen Container-Restart
+### #7 — Rate-Limiter zentralisiert + Upstash-persistent ✅
 
-**Problem:** [app/api/stripe/checkout/route.ts:8](./app/api/stripe/checkout/route.ts#L8)
+**Gefixt 2026-06-22:** `lib/rate-limit.ts` — 4 In-Memory-Maps durch zentralen Limiter ersetzt.
+Upstash Sliding-Window wenn ENV-Vars gesetzt, sonst In-Memory-Fallback.
 
-```ts
-const ipRequests = new Map<string, { count: number; resetAt: number }>();
-```
+**Noch offen:** Upstash-Konto anlegen + 2 ENV-Vars in Coolify setzen:
+- `UPSTASH_REDIS_REST_URL` — aus Upstash Dashboard (EU-West DB)
+- `UPSTASH_REDIS_REST_TOKEN` — aus Upstash Dashboard
 
-Bei jedem Coolify-Restart startet der Rate-Limiter bei 0. Bei Horizontal-Scaling wirken die Limiter unabhängig.
-
-**Aktuelle Realität:** 1 Container, kein Scaling-Problem. Restart-Reset akzeptabel.
-
-**Fix-Option (später):** Redis-basiert wenn Skalierung kommt. Cloudflare WAF kann das auch übernehmen.
-
-- [ ] **TODO (nach Launch):** Eval Cloudflare Rate-Limit Rules oder Redis-Migration
+Bis dahin: In-Memory-Fallback aktiv (Warn-Log in Production).
 
 ---
 

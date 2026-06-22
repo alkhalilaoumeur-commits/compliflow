@@ -3,22 +3,10 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { sendWaitlistNotification, sendWaitlistConfirmed } from "@/lib/email";
+import { doiConfirmLimiter } from "@/lib/rate-limit";
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_SOURCES = ["coming-soon", "avv", "vvt", "cookie-banner"] as const;
-
-const confirmBucket = new Map<string, { count: number; resetAt: number }>();
-function isConfirmRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = confirmBucket.get(ip);
-  if (!entry || now > entry.resetAt) {
-    confirmBucket.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  if (entry.count >= 10) return true;
-  entry.count++;
-  return false;
-}
 
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 
@@ -68,7 +56,7 @@ export async function GET(req: NextRequest) {
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de";
 
-  if (isConfirmRateLimited(ip)) {
+  if (await doiConfirmLimiter(ip)) {
     return NextResponse.redirect(`${baseUrl}/waitlist/invalid`);
   }
 
