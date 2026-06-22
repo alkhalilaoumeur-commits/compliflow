@@ -40,7 +40,12 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
 
   // DOI-Email senden — Nutzer erscheint erst nach Klick auf Bestätigungs-Link in der confirmed-Liste
   const token = buildDoiToken(email, source);
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de";
+  const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (!rawAppUrl && process.env.NODE_ENV === "production") {
+    console.error("[waitlist] NEXT_PUBLIC_APP_URL not set — DOI links would point to wrong domain");
+    return { ok: false, message: "Interner Konfigurationsfehler — bitte später versuchen." };
+  }
+  const baseUrl = rawAppUrl ?? "http://localhost:3000";
   const confirmUrl = `${baseUrl}/api/waitlist/confirm?email=${encodeURIComponent(email)}&source=${encodeURIComponent(source)}&token=${token}`;
 
   sendWaitlistDoiEmail({ email, source, confirmUrl }).catch((err) =>

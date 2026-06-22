@@ -67,13 +67,19 @@ export async function POST(req: NextRequest) {
     ? quelle
     : "compliflow_generator";
 
-  // Mock-Modus für Local-Dev / Tests ohne Brevo-Key
   if (!process.env.BREVO_API_KEY) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("[brevo/subscribe] BREVO_API_KEY not set in production");
+      return NextResponse.json(
+        { ok: false, error: "Service temporarily unavailable" },
+        { status: 503 }
+      );
+    }
+    // Dev-only Mock
     return NextResponse.json({
       ok: true,
       mock: true,
-      message:
-        "Mock-Modus: Brevo nicht konfiguriert. In Production würdest du jetzt eine Bestätigungs-Email bekommen.",
+      message: "Mock-Modus: BREVO_API_KEY nicht gesetzt. In Production würde jetzt eine Bestätigungs-Email gesendet.",
     });
   }
 

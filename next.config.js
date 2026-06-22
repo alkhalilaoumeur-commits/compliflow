@@ -62,6 +62,9 @@ const devNoCacheHeaders = isProd
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    instrumentationHook: true,
+  },
   ...(useStandalone ? { output: "standalone" } : {}),
   async headers() {
     return [

@@ -29,13 +29,7 @@ function timingSafeEqual(a: string, b: string): boolean {
 }
 
 export function verifyDoiToken(email: string, source: string, token: string): boolean {
-  let secret: string;
-  try {
-    secret = getSecret();
-  } catch {
-    console.error("CRITICAL: DOI_SECRET not set — all DOI confirmations will fail");
-    return false;
-  }
+  const secret = getSecret(); // wirft wenn DOI_SECRET fehlt — konsistent mit buildDoiToken
 
   const dotIdx = token.indexOf(".");
   if (dotIdx === -1) return false;

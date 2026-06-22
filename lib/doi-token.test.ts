@@ -128,11 +128,10 @@ describe("verifyDoiToken — leere oder fehlgeformte Token", () => {
 // ─── Kein Secret gesetzt ─────────────────────────────────────────────────────
 
 describe("verifyDoiToken — kein DOI_SECRET", () => {
-  it("gibt false zurück wenn DOI_SECRET nicht gesetzt ist", () => {
+  it("wirft wenn DOI_SECRET nicht gesetzt ist", () => {
     const token = buildDoiToken(EMAIL, SOURCE);
     delete process.env.DOI_SECRET;
-    const result = verifyDoiToken(EMAIL, SOURCE, token);
+    expect(() => verifyDoiToken(EMAIL, SOURCE, token)).toThrow("DOI_SECRET missing");
     process.env.DOI_SECRET = TEST_SECRET; // wiederherstellen
-    expect(result).toBe(false);
   });
 });

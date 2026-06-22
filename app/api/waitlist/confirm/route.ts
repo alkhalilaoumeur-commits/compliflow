@@ -15,7 +15,12 @@ export async function GET(req: NextRequest) {
     (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
     "unknown";
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de";
+  const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (!rawAppUrl && process.env.NODE_ENV === "production") {
+    console.error("[waitlist/confirm] NEXT_PUBLIC_APP_URL not set — redirect target undefined");
+    return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+  }
+  const baseUrl = rawAppUrl ?? "http://localhost:3000";
 
   if (await doiConfirmLimiter(ip)) {
     return NextResponse.redirect(`${baseUrl}/waitlist/invalid`);

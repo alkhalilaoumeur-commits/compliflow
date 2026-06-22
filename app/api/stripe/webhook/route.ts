@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const tool = session.metadata?.tool as "avv" | "vvt" | undefined;
     const customerEmail = session.customer_details?.email;
 
-    if (tool && customerEmail && process.env.RESEND_API_KEY) {
+    if (tool && customerEmail) {
       try {
         await sendPaymentConfirmation({
           to: customerEmail,

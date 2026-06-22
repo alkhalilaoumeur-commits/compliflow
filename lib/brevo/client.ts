@@ -37,9 +37,22 @@ export async function brevoSubscribeDoi(args: BrevoSubscribeArgs): Promise<Brevo
     return { ok: false, error: "BREVO_API_KEY nicht konfiguriert", status: 500 };
   }
 
-  const listIds = args.listIds ?? (process.env.BREVO_LIST_ID ? [parseInt(process.env.BREVO_LIST_ID, 10)] : [1]);
-  const doiTemplateId = args.doiTemplateId ?? (process.env.BREVO_DOI_TEMPLATE_ID ? parseInt(process.env.BREVO_DOI_TEMPLATE_ID, 10) : 1);
-  const redirectionUrl = args.redirectionUrl ?? `${process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de"}/waitlist/confirmed`;
+  const rawListId = process.env.BREVO_LIST_ID;
+  const rawTemplateId = process.env.BREVO_DOI_TEMPLATE_ID;
+  const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+  if (process.env.NODE_ENV === "production" && (!rawListId || !rawTemplateId || !rawAppUrl)) {
+    const missing = [
+      !rawListId && "BREVO_LIST_ID",
+      !rawTemplateId && "BREVO_DOI_TEMPLATE_ID",
+      !rawAppUrl && "NEXT_PUBLIC_APP_URL",
+    ].filter(Boolean).join(", ");
+    return { ok: false, error: `[brevo] Missing env vars: ${missing}`, status: 500 };
+  }
+
+  const listIds = args.listIds ?? (rawListId ? [parseInt(rawListId, 10)] : [1]);
+  const doiTemplateId = args.doiTemplateId ?? (rawTemplateId ? parseInt(rawTemplateId, 10) : 1);
+  const redirectionUrl = args.redirectionUrl ?? `${rawAppUrl ?? "http://localhost:3000"}/waitlist/confirmed`;
 
   const body = {
     email: args.email.toLowerCase().trim(),

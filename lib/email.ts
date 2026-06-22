@@ -4,8 +4,12 @@ const FROM = "Compliflow <hello@compliflow.de>";
 const OWNER_EMAIL = "alkhalilaoumeur@gmail.com";
 
 function getResend() {
-  if (!process.env.RESEND_API_KEY) return null;
-  return new Resend(process.env.RESEND_API_KEY);
+  const key = process.env.RESEND_API_KEY;
+  if (key) return new Resend(key);
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("[email] RESEND_API_KEY not set — cannot send email");
+  }
+  return null; // dev: skip (validateEnv warnt bereits beim Start)
 }
 
 function escHtml(s: string): string {

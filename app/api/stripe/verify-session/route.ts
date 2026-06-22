@@ -15,8 +15,12 @@ export async function GET(req: NextRequest) {
 
   const sessionId = req.nextUrl.searchParams.get("sessionId");
 
-  if (!sessionId || !process.env.STRIPE_SECRET_KEY) {
+  if (!sessionId) {
     return NextResponse.json({ valid: false }, { status: 400 });
+  }
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error("[verify-session] STRIPE_SECRET_KEY not set");
+    return NextResponse.json({ error: "Payment system unavailable" }, { status: 503 });
   }
 
   try {

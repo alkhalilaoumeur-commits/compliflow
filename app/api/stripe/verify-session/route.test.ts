@@ -28,11 +28,11 @@ describe("GET /api/stripe/verify-session", () => {
     expect(data.valid).toBe(false);
   });
 
-  it("antwortet 400/valid:false wenn STRIPE_SECRET_KEY fehlt", async () => {
+  it("antwortet 503 wenn STRIPE_SECRET_KEY fehlt", async () => {
     const res = await GET(req("?sessionId=cs_test_abc", "20.0.0.2"));
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(503);
     const data = await res.json();
-    expect(data.valid).toBe(false);
+    expect(data.error).toBeTruthy();
   });
 
   it("greift nach 20 Anfragen pro IP/Minute mit 429 (Rate-Limit)", async () => {
