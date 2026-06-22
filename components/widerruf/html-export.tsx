@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useWiderrufStore } from "@/lib/widerrufsbelehrung/store";
 import { buildHtml, buildPlaintext } from "@/lib/widerrufsbelehrung/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Mode = "html" | "text";
 
 export function HtmlExport() {
   const data = useWiderrufStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("widerruf"));
+  const isBought = useVerifiedWatermark("widerruf") === "verified";
   const [mode, setMode] = useState<Mode>("html");
   const [copied, setCopied] = useState(false);
 

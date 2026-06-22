@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useAgbStore } from "@/lib/agb/store";
 import { buildHtml, getCompletionStatus } from "@/lib/agb/contract";
 import { HtmlExport } from "../html-export";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
 
 export function StepReview() {
   const data = useAgbStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("agb"));
+  const isBought = useVerifiedWatermark("agb") === "verified";
   const reset = useAgbStore((s) => s.reset);
   const [pdfState, setPdfState] = useState<"idle" | "info">("idle");
   const { allValid } = getCompletionStatus(data);

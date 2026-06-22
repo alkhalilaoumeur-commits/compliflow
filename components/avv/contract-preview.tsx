@@ -2,12 +2,12 @@
 
 import { useAvvStore } from "@/lib/avv/store";
 import { buildContract, buildAnlagen } from "@/lib/avv/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { formatDateDE } from "@/lib/utils";
 
 export function ContractPreview() {
   const data = useAvvStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("avv"));
+  const isBought = useVerifiedWatermark("avv") === "verified";
   const blocks = buildContract(data);
   const anlagen = buildAnlagen(data);
 

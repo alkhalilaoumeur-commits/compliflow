@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useDatenschutzStore } from "@/lib/datenschutz/store";
 import { buildHtml, buildPlaintext } from "@/lib/datenschutz/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Mode = "html" | "text";
 
 export function HtmlExport() {
   const data = useDatenschutzStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("datenschutz"));
+  const isBought = useVerifiedWatermark("datenschutz") === "verified";
   const [mode, setMode] = useState<Mode>("html");
   const [copied, setCopied] = useState(false);
 

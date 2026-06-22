@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useAgbStore } from "@/lib/agb/store";
 import { buildHtml, buildPlaintext } from "@/lib/agb/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Mode = "html" | "text";
 
 export function HtmlExport() {
   const data = useAgbStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("agb"));
+  const isBought = useVerifiedWatermark("agb") === "verified";
   const [mode, setMode] = useState<Mode>("html");
   const [copied, setCopied] = useState(false);
 

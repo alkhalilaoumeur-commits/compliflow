@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useDatenschutzStore } from "@/lib/datenschutz/store";
 import { buildHtml, getCompletionStatus } from "@/lib/datenschutz/contract";
 import { HtmlExport } from "../html-export";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
 
 export function StepReview() {
   const data = useDatenschutzStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("datenschutz"));
+  const isBought = useVerifiedWatermark("datenschutz") === "verified";
   const [pdfState, setPdfState] = useState<"idle" | "info">("idle");
   const { allValid } = getCompletionStatus(data);
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { VvtFormData } from "@/lib/vvt/types";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Props = {
   data: VvtFormData;
@@ -11,7 +11,7 @@ type Props = {
 
 export function VvtPdfDownload({ data, disabled }: Props) {
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const isBought = useWatermarkStore((s) => s.isBought("vvt"));
+  const isBought = useVerifiedWatermark("vvt") === "verified";
 
   const handleDownload = async () => {
     if (state === "loading" || disabled) return;

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useWiderrufStore } from "@/lib/widerrufsbelehrung/store";
 import { buildHtml, getCompletionStatus } from "@/lib/widerrufsbelehrung/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
 import { HtmlExport } from "../html-export";
@@ -11,7 +11,7 @@ import { HtmlExport } from "../html-export";
 export function StepReview() {
   const data = useWiderrufStore((s) => s.data);
   const patch = useWiderrufStore((s) => s.patch);
-  const isBought = useWatermarkStore((s) => s.isBought("widerruf"));
+  const isBought = useVerifiedWatermark("widerruf") === "verified";
   const [pdfState, setPdfState] = useState<"idle" | "info">("idle");
   const { allValid } = getCompletionStatus(data);
 

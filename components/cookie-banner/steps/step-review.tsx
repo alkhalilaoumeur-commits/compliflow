@@ -4,13 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookieBannerStore } from "@/lib/cookie-banner/store";
 import { buildSnippet } from "@/lib/cookie-banner/builder";
 import { SnippetExport } from "../snippet-export";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
 
 export function StepReview() {
   const data = useCookieBannerStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("cookie_banner"));
+  const isBought = useVerifiedWatermark("cookie_banner") === "verified";
   const reset = useCookieBannerStore((s) => s.reset);
   const [pdfState, setPdfState] = useState<"idle" | "info">("idle");
   const [confirmReset, setConfirmReset] = useState(false);

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAvvStore } from "@/lib/avv/store";
 import { AvvPdfDocument } from "@/lib/avv/pdf/avv-document";
 import { getCompletionStatus } from "@/lib/avv/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { slugify } from "@/lib/utils";
 
 const STEP_LABELS = {
@@ -19,7 +19,7 @@ const STEP_LABELS = {
 
 export function PdfDownload() {
   const data = useAvvStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("avv"));
+  const isBought = useVerifiedWatermark("avv") === "verified";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [PDFDownloadLink, setComp] = useState<any>(null);
 

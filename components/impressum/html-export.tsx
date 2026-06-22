@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useImpressumStore } from "@/lib/impressum/store";
 import { buildHtml, buildPlaintext } from "@/lib/impressum/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Mode = "html" | "text";
 
 export function HtmlExport() {
   const data = useImpressumStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("impressum"));
+  const isBought = useVerifiedWatermark("impressum") === "verified";
   const [mode, setMode] = useState<Mode>("html");
   const [copied, setCopied] = useState(false);
 

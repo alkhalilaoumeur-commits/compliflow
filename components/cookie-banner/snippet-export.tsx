@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useCookieBannerStore } from "@/lib/cookie-banner/store";
 import { buildSnippet, buildAnleitung } from "@/lib/cookie-banner/builder";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 
 type Mode = "snippet" | "anleitung";
 
 export function SnippetExport() {
   const data = useCookieBannerStore((s) => s.data);
-  const isBought = useWatermarkStore((s) => s.isBought("cookie_banner"));
+  const isBought = useVerifiedWatermark("cookie_banner") === "verified";
   const [mode, setMode] = useState<Mode>("snippet");
   const [copied, setCopied] = useState(false);
 

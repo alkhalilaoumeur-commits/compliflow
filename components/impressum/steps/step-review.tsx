@@ -2,7 +2,7 @@
 
 import { useImpressumStore } from "@/lib/impressum/store";
 import { buildSections, getCompletionStatus } from "@/lib/impressum/contract";
-import { useWatermarkStore } from "@/lib/watermark/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
 import { HtmlExport } from "../html-export";
@@ -11,7 +11,7 @@ import { PdfDownload } from "../pdf-download";
 export function StepReview() {
   const data = useImpressumStore((s) => s.data);
   const sections = buildSections(data);
-  const isBought = useWatermarkStore((s) => s.isBought("impressum"));
+  const isBought = useVerifiedWatermark("impressum") === "verified";
   const { completedCount, total } = getCompletionStatus(data);
   const isComplete = completedCount >= total;
 
