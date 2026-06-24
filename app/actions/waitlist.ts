@@ -10,6 +10,8 @@ type Result =
   | { ok: false; message: string };
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Muss mit ALLOWED_SOURCES in app/api/waitlist/confirm/route.ts übereinstimmen
+const ALLOWED_SOURCES = ["coming-soon", "avv", "vvt", "cookie-banner"] as const;
 
 // Rate-limit: max 1 DOI-Email pro Adresse alle 10 Minuten
 const doiCooldown = new Map<string, number>();
@@ -30,7 +32,11 @@ function isEmailRateLimited(email: string): boolean {
 
 export async function joinWaitlist(formData: FormData): Promise<Result> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const source = String(formData.get("source") ?? "coming-soon");
+  const rawSource = String(formData.get("source") ?? "coming-soon");
+  // Ungültige Werte auf Default abklemmen — verhindert beliebige source-Werte in der Confirm-URL
+  const source = (ALLOWED_SOURCES as readonly string[]).includes(rawSource)
+    ? rawSource
+    : "coming-soon";
 
   if (!email || !EMAIL_RX.test(email)) {
     return { ok: false, message: "Bitte gib eine gültige Email-Adresse ein." };
