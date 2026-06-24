@@ -1,7 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
 import { buildDoiToken } from "@/lib/doi-token";
 import { sendWaitlistDoiEmail } from "@/lib/email";
+import { waitlistLimiter } from "@/lib/rate-limit";
 
 type Result =
   | { ok: true; message: string }
@@ -32,6 +34,19 @@ export async function joinWaitlist(formData: FormData): Promise<Result> {
 
   if (!email || !EMAIL_RX.test(email)) {
     return { ok: false, message: "Bitte gib eine gültige Email-Adresse ein." };
+  }
+
+  // IP-Rate-Limit (Upstash-persistent) — verhindert Email-Versand-Flut über
+  // beliebig viele verschiedene Adressen von einer IP. Greift vor dem Versand.
+  const hdrs = await headers();
+  const xff = hdrs.get("x-forwarded-for");
+  const ip =
+    hdrs.get("x-real-ip")?.trim() ??
+    (xff ? xff.split(",").at(-1)!.trim() : undefined) ??
+    "unknown";
+
+  if (await waitlistLimiter(ip)) {
+    return { ok: true, message: "Fast dabei — bitte bestätige deine Anmeldung per E-Mail." };
   }
 
   if (isEmailRateLimited(email)) {

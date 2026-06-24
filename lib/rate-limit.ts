@@ -88,3 +88,4 @@ export const checkoutLimiter = createRateLimiter(5, 60);    // 5/min
 export const verifyLimiter = createRateLimiter(20, 60);     // 20/min
 export const doiConfirmLimiter = createRateLimiter(10, 60); // 10/min
 export const brevoLimiter = createRateLimiter(5, 60);       // 5/min
+export const waitlistLimiter = createRateLimiter(5, 60);    // 5/min (IP-Schutz für joinWaitlist)
