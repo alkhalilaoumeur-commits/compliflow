@@ -2,6 +2,16 @@ import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { sendPaymentConfirmation } from "@/lib/email";
 
+/**
+ * Stripe-Webhook-Empfänger.
+ *
+ * BEWUSST OHNE IP-Rate-Limit (anders als alle anderen API-Routes):
+ * Stripe stellt Events von wechselnden IPs zu und retried bei Nicht-200.
+ * Ein Rate-Limit würde legitime Events verwerfen → verlorene Zahlungsbestätigungen.
+ * Der Schutz läuft stattdessen über die HMAC-Signaturprüfung unten
+ * (constructEvent gegen STRIPE_WEBHOOK_SECRET) — gefälschte Requests fliegen
+ * dort mit 400 raus, bevor irgendetwas verarbeitet wird.
+ */
 export async function POST(req: NextRequest) {
   const isProd = process.env.NODE_ENV === "production";
 
