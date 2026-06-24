@@ -1,5 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { joinWaitlist } from "@/app/actions/waitlist";
+
+// joinWaitlist ruft await headers() (next/headers) für die IP-Ermittlung des
+// Rate-Limits auf. In vitest gibt es keinen Request-Scope → ohne Mock wirft der
+// Aufruf "headers was called outside a request scope". Wir liefern leere Header,
+// sodass die IP auf "unknown" fällt (für die Validierungs-Tests irrelevant).
+vi.mock("next/headers", () => ({
+  headers: async () => new Map<string, string>(),
+}));
 
 // joinWaitlist ist eine Server-Action. Ohne RESEND_API_KEY ist der Mail-Versand
 // ein No-Op (fire-and-forget). DOI_SECRET wird im Test explizit gesetzt —
