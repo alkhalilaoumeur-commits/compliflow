@@ -16,7 +16,9 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-RUN npm run build
+# WICHTIG: build:standalone (BUILD_STANDALONE=1) — nur so entsteht .next/standalone,
+# das der Runner unten kopiert. Normales `npm run build` erzeugt es NICHT → Build bricht ab.
+RUN npm run build:standalone
 
 # ---------- Runner ----------
 FROM node:20-alpine AS runner
