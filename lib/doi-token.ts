@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual as nodeTimingSafeEqual } from "node:crypto";
 
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 
@@ -19,13 +19,13 @@ export function buildDoiToken(email: string, source: string): string {
   return `${ts}.${hmac}`;
 }
 
+// Länge ist hier kein Geheimnis: expected ist immer ein 64-Zeichen-SHA256-Hex.
+// Der Längen-Check dient nur dazu, dass nodeTimingSafeEqual (wirft bei
+// ungleicher Länge) sauberes false statt einer Exception liefert.
+// Der eigentliche Byte-Vergleich läuft in Node's C++ konstant-zeitig.
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) {
-    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return diff === 0;
+  return nodeTimingSafeEqual(Buffer.from(a), Buffer.from(b));
 }
 
 export function verifyDoiToken(email: string, source: string, token: string): boolean {
