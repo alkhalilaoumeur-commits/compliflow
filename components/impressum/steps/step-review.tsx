@@ -77,6 +77,18 @@ export function StepReview() {
 
         <CaptureCard quelle="impressum" />
 
+        {!isComplete ? (
+          <div className="border border-line bg-bg-soft p-5">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
+              Export gesperrt
+            </p>
+            <p className="text-sm text-ink-dim">
+              Der HTML-/PDF-Export wird freigeschaltet, sobald alle Pflichtangaben nach
+              § 5 DDG ausgefüllt sind ({completedCount}/{total}).
+            </p>
+          </div>
+        ) : (
+        <>
         <div className="border border-line bg-bg-soft p-6">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-2">
             HTML — empfohlen
@@ -103,6 +115,8 @@ export function StepReview() {
           </p>
           <PdfDownload />
         </div>
+        </>
+        )}
 
         <div className="border border-dashed border-line bg-bg p-5">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-2">

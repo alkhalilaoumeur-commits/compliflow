@@ -9,8 +9,21 @@ export function StepAbschluss() {
   const data = useVvtStore((s) => s.data);
   const v = data.verantwortlicher;
 
+  // Art. 30 DSGVO: jede Tätigkeit braucht Zweck, Rechtsgrundlage, Datenkategorien
+  // und Betroffenengruppen — sonst ist der Eintrag rechtlich wertlos. Nur
+  // taetigkeiten.length >= 1 zu prüfen ließ halbleere VVT durch.
+  const taetigkeitenComplete =
+    data.taetigkeiten.length >= 1 &&
+    data.taetigkeiten.every(
+      (t) =>
+        !!t.bezeichnung?.trim() &&
+        !!t.zweck?.trim() &&
+        t.rechtsgrundlagen.length >= 1 &&
+        t.datenkategorien.length >= 1 &&
+        t.betroffenengruppen.length >= 1,
+    );
   const isReady =
-    !!(v.bezeichnung && v.name && v.email) && data.taetigkeiten.length >= 1;
+    !!(v.bezeichnung && v.name && v.email) && taetigkeitenComplete;
 
   const avMissing = data.taetigkeiten.flatMap((t) =>
     t.empfaenger
