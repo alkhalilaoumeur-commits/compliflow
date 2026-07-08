@@ -117,16 +117,60 @@ Rest-Findings (ehrlich):
 
 ---
 
-## OFFENE PUNKTE / NÄCHSTER SCHRITT
+## BLOCK 5 — Rechtskonformität ✅ Code-Defekte gefixt
 
-**Als Nächstes (in dieser Reihenfolge):**
-1. Block 4-Fixes: globaler localStorage-Clear (inkl. Watermark-Store) + defensive `migrate`-Funktionen für die 5 Stores (+ Tests).
-2. Block 5-Ergebnis (Rechercheur läuft noch) integrieren + Code-Defekte fixen.
-3. Block 7: PDF-Artefakte (AVV/VVT, voll + lückenhaft) nach `audit-artifacts/pdfs/` generieren + prüfen.
-4. Block 6: Playwright-Setup + E2E-Durchläufe → `audit-artifacts/screenshots/`.
-5. Block 3 (Watermark-Flow-Konsistenz), Block 8 (Persistenz/eigene DSGVO), Block 10 (Red-Team + SECURITY-CHECKLIST.md + CLAUDE.md-Regeln + Lint).
+Kernbefund: Template-**Inhalte** stark (AVV vollständig Art. 28, Impressum § 5 DDG/§ 18 MStV). Das Risiko lag im **fehlenden Export-Gating**.
 
-**MANUELLE SCHRITTE (bisher):**
-- Upstash-ENV (`UPSTASH_REDIS_REST_URL/TOKEN`) + 8 Coolify-Keys setzen (`docs/COOLIFY-KEYS-SETUP.md`, `SECURITY-TODO.md`).
-- **[HIGH] Next.js 14.2.35 → 15/16 Migration** planen (Fund 9.2), Breaking Changes + UI testen.
-- **[MED] CSP `'unsafe-inline'` → Nonce-basiert** umstellen (Fund 9.1).
+### FUND 5.1 [HIGH — FEHLERKLASSE, gefixt] — Unvollständige Dokumente exportierbar
+- **Beweis:** 5 von 7 Tools (impressum/datenschutz/agb/widerruf) rendern Export nur mit Warnbanner; **cookie-banner prüfte gar nichts**; vvt-Gate zu schwach (`taetigkeiten.length>=1` ohne Inhalt). → Nutzer konnte Impressum ohne Anschrift / Banner ohne Anbieternamen exportieren, obwohl `getCompletionStatus` existiert.
+- **Fix (Klasse ausgerottet):** Alle 7 Tools haben jetzt konsistentes HART-Gating — Export gesperrt bis vollständig, „Export gesperrt"-Panel analog avv-Referenz. vvt-Gate härtet auf Art.-30-Kerninhalt pro Tätigkeit (Zweck+Rechtsgrundlage+Datenkategorien+Betroffenengruppen). Belege: `components/{cookie-banner,datenschutz,agb,widerruf,impressum}/steps/step-review.tsx`, `components/vvt/steps/step-abschluss.tsx`.
+- **Prävention:** `getCompletionStatus`-Tests + PDF-Vollständigkeitstest (keine Platzhalter). CLAUDE.md-Regel 5.
+
+### FUND 5.2 [MED — gefixt] — Veraltete Gesetzesbezüge
+- § 5 TMG → § 5 DDG (`components/agb/steps/step-anbieter.tsx`, `app/impressum/page.tsx` — eigene Firmenseite); DDG-Datum 14.05.2025 → **14.05.2024** (`components/impressum/wizard-shell.tsx`, `lib/impressum/types.ts`).
+
+### FUND 5.3 [MED — gefixt] — Komma-Leak Widerruf
+- `lib/widerrufsbelehrung/contract.ts`: leere Adressteile erzeugten `", ,  "` im Dokument → jetzt `.filter(Boolean).join(", ")`.
+
+**Abbruchkriterium 8:** ✅ Disclaimer (alle 7), Pflichtfeld-Gating (alle 7), keine Platzhalter-Leaks (PDF-Test), keine veralteten Gesetze — Code-Defekte gefixt.
+
+**RECHTLICHE FREIGABE NÖTIG (IT-Anwalt, kein Code-Fix):**
+- AVV Audit-Kostenverteilung + 30-Tage-Löschfrist (`lib/avv/contract.ts:205,282,305`) — Angemessenheit / Aufbewahrungspflichten.
+- Widerruf abweichende Fristen > 14 Tage + gemischte Verträge (`lib/widerrufsbelehrung/contract.ts:27,122`).
+- Cookie-Banner „BGH-2025-Reject-All-Prominenz" (`lib/cookie-banner/builder.ts:3`) — Urteilsbezug verifizieren.
+- Werbeaussage „decken alle Pflichtinhalte ab" (`app/preise/page.tsx:245`) — nach Gating-Fix gegenprüfen (UWG).
+- Datenschutz Joint-Controller-Auto-Annahme, Impressum Kammer-ODER-Aufsicht je Berufsgruppe.
+
+---
+
+## BLOCK 7 — PDF-Artefakte ✅
+
+`audit-artifacts/pdf-artifacts.test.ts` erzeugt 4 echte PDFs (via `@react-pdf/renderer`): `avv-vollstaendig.pdf`, `avv-vollstaendig-ohne-credit.pdf`, `avv-lueckenhaft.pdf`, `vvt-vollstaendig.pdf` → `audit-artifacts/pdfs/`. **Automatische Asserts:** `%PDF-`-Header, Umlaute/ß/€ erhalten (Müller & Schäfer, Françoise Bär, €), alle Art.-28-Pflichtabschnitte (Weisung/Vertraulichkeit/TOMs/Subunternehmer/Löschung), **keine** Platzhalter (`{{`, `[FIRMA]`, `undefined`, `null,`, `Lorem`). Regeneration: `npx vitest run audit-artifacts/pdf-artifacts.test.ts`.
+
+**Abbruchkriterium 9:** ✅ für AVV (voll/ohne-Credit/lückenhaft) + VVT (voll). Manuelle Sichtprüfung des Font-Renderings bleibt empfohlen (Datei liegt bereit).
+
+---
+
+## BLOCK 10 (teilweise) — Deliverables
+
+- ✅ `SECURITY-CHECKLIST.md` erstellt (gruppiert).
+- ✅ `CLAUDE.md` um 9 verbindliche Release-Audit-Regeln erweitert.
+- ✅ `RELEASE-AUDIT-LOG.md` aktuell.
+- ⚠️ Lint-Regeln: ESLint ist im Projekt **nicht installiert**; type-aware Setup (no-floating-promises) würde unbounded Bestandsverstöße aufwerfen. Die gefundenen Fehlerklassen sind stattdessen **durch Tests** dauerhaft abgesichert (prompt-konforme Alternative): Unicode-Token (`doi-token.test.ts`), Rate-Limit-DoS (`rate-limit.test.ts`), Export-Gating (Completion-Tests), Platzhalter (PDF-Test). ESLint-Setup als MANUELL dokumentiert.
+
+---
+
+## NÄCHSTER SCHRITT (Fortsetzung bei „mach weiter")
+
+**Noch offen (nicht autonom in dieser Session abgeschlossen):**
+1. **Block 6 — Playwright-E2E:** Setup + 7 Generator-Durchläufe + Waitlist-Flow → `audit-artifacts/screenshots/`. Heaviest remaining item.
+2. **Block 4-Rest:** globaler localStorage-Clear-Button (inkl. Watermark-Store) + `migrate`-Funktionen für 5 Stores (+ Tests).
+3. **Block 8:** Supabase-RLS mit echtem Anon-Key gegen SELECT/DELETE/Fälschung testen; Persistenz-Modus beim Start laut loggen; eigene `/datenschutz` gegen reale Auftragsverarbeiter abgleichen; Löschweg Art. 15/17 skizzieren.
+3. **Block 3:** dokumentierten Watermark-URL-Bypass final bewerten (verify-session-Kopplung im Client verifizieren).
+
+**MANUELLE SCHRITTE:**
+- Coolify: 9 Pflicht-ENV + Upstash-ENV (`UPSTASH_REDIS_REST_URL/TOKEN`) setzen — `docs/COOLIFY-KEYS-SETUP.md`.
+- **[HIGH] Next.js 14.2.35 → 15/16 Migration** (Fund 9.2), Breaking Changes + UI testen.
+- **[MED] CSP `'unsafe-inline'` → Nonce-basiert** (Fund 9.1).
+- **[MED] ESLint type-aware Setup:** `eslint` + `@typescript-eslint/*` + `eslint-config-next` installieren, `no-floating-promises` / `no-misused-promises` (checksConditionals) aktivieren, Bestandsverstöße abarbeiten.
+- Live-Stripe-Testkauf; rechtliche Template-Freigabe (Liste oben).

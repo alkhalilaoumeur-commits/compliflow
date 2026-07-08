@@ -194,6 +194,20 @@ Vollständig: `~/.claude/design-rules.md`
 - CSP-Header via Vercel-Config
 - 2FA auf allen Service-Accounts
 
+### Verbindliche Release-Audit-Regeln (2026-07-08)
+
+Diese Regeln sind Pflicht für jede Änderung. Verstoß = blockieren, nicht durchwinken.
+
+1. **Keine Wizard-Daten verlassen je den Browser.** Wizard-Feldinhalte bleiben ausschließlich in localStorage (zustand persist). Kein `fetch`/`sendBeacon`/Analytics-Event darf Formularinhalte oder PII an den Server/Plausible senden. Plausible-Events tragen nur Enums (mode, tool, doc_type, quelle) — nie Email/Namen/Adressen.
+2. **Jede public Route: Validierung + Rate-Limit + Reject VOR dem ersten Seiteneffekt.** Input gegen Whitelist/Zod prüfen, `x-real-ip`-basiertes Rate-Limit (`lib/rate-limit.ts`), Fremdinput hart abklemmen — bevor DB/Mail/Stripe angefasst wird.
+3. **Fehlende Prod-Env-Variablen scheitern laut, nie still.** `lib/env.ts` `validateEnv()` wirft in Prod. Keine stille Mock-/No-Op-Degradierung bei fehlenden kritischen Keys (DOI_SECRET, STRIPE_*, RESEND_API_KEY).
+4. **Kein leerer catch-Block** der Datenverlust/Fehler verschluckt. Kritische Fehler laut loggen (Datei-Fallback, DB-Write). Ausnahme: dokumentierte defensive localStorage-Catches im Client-Snippet.
+5. **Jeder neue/geänderte Generator:** sichtbarer „ersetzt keine Rechtsberatung"-Disclaimer + Pflichtfeld-Validierung (`getCompletionStatus`) HART an den Export gekoppelt (Export gesperrt bis vollständig) + keine rohen Platzhalter (`{{`, `[FIRMA]`, `undefined`) im Output.
+6. **Keine PII in Logs.** Keine vollständigen Emails/Wizard-Inhalte in `console.*`. Nur Error-Objekte/Metadaten.
+7. **Keine externen Fehlertexte an den Client durchreichen** (Brevo/Stripe/Config). Serverseitig loggen, generische Meldung an den Client.
+8. **Aktuelle Gesetzesbezüge:** § 5 DDG (nicht TMG), § 18 MStV (nicht RStV), § 25 TDDDG. DDG gilt seit 14.05.2024.
+9. **Krypto-Fremdinput formatvalidieren** vor `Buffer.from()`/`timingSafeEqual` (siehe `lib/doi-token.ts` HMAC-Hex-Guard), sonst RangeError-Crash.
+
 ---
 
 ## DSGVO-Compliance (Selbst-Vorbild!)
