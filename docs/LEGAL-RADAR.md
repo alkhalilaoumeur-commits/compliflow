@@ -80,9 +80,10 @@ Dieses Register ist die Single Source of Truth für den Watcher.
 5. Bei `SOFORT`-Treffern: zusätzlich Notification an Ilias
 
 **Umsetzung (Reihenfolge):**
-- [ ] V1 (jetzt möglich): Claude Code Scheduled Agent, wöchentlich —
-      liest dieses Quellen-Register, prüft die Quellen per Web-Suche/Fetch,
-      schreibt Ergebnisse in die Queue-Datei
+- [x] V1 (LIVE seit 2026-07-08): Cloud-Routine "Compliflow Legal-Radar (Mo+Do)",
+      läuft Montag + Donnerstag ~07:00 Uhr. Quellen-Register + Selbst-Audit-
+      Checkliste sind direkt im Agent-Prompt (Cloud sieht keine lokalen Dateien).
+      Ergebnisse: https://claude.ai/code (Routine-ID: trig_01AHT8hGDACuw9izT6oJ1JRv)
 - [ ] V2 (Phase 2): Script auf dem Hetzner-VPS mit echtem RSS-Parsing +
       Resend-Mail bei `SOFORT`
 - [ ] Ergänzend ab sofort (5 Min, manuell): Google Alerts auf

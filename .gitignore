@@ -65,3 +65,7 @@ stripe-*.json
 # Generated files
 public/sitemap.xml
 public/robots.txt
+
+# Audit-Artefakte (werden per Test regeneriert)
+audit-artifacts/pdfs/
+audit-artifacts/screenshots/
