@@ -1,6 +1,8 @@
 import { createHmac, timingSafeEqual as nodeTimingSafeEqual } from "node:crypto";
 
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
+// Ein gültiger HMAC-Teil ist immer exakt 64 Zeichen Lowercase-Hex (SHA256).
+const HMAC_HEX_RX = /^[0-9a-f]{64}$/;
 
 function getSecret(): string {
   const secret = process.env.DOI_SECRET;
@@ -36,6 +38,11 @@ export function verifyDoiToken(email: string, source: string, token: string): bo
 
   const ts = parseInt(token.slice(0, dotIdx), 10);
   const hmac = token.slice(dotIdx + 1);
+
+  // Fremdinput hart abklemmen, BEVOR Buffer.from() im Vergleich läuft:
+  // ein 64-Zeichen-Token mit Unicode/Nicht-Hex hätte sonst >64 Byte und
+  // nodeTimingSafeEqual würfe RangeError → 500 statt sauberem false.
+  if (!HMAC_HEX_RX.test(hmac)) return false;
 
   if (!Number.isFinite(ts) || ts <= 0) return false;
 

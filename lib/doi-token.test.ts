@@ -106,6 +106,30 @@ describe("verifyDoiToken — leere oder fehlgeformte Token", () => {
     expect(verifyDoiToken(EMAIL, SOURCE, token)).toBe(false);
   });
 
+  it("lehnt Unicode-HMAC (64 Zeichen, >64 Byte) ohne Crash ab", () => {
+    // 64-Zeichen-String, aber Multibyte → Buffer.from() > 64 Byte.
+    // Ohne Hex-Guard würfe nodeTimingSafeEqual RangeError → 500.
+    const ts = Math.floor(Date.now() / 1000);
+    expect(() => verifyDoiToken(EMAIL, SOURCE, `${ts}.` + "ä".repeat(64))).not.toThrow();
+    expect(verifyDoiToken(EMAIL, SOURCE, `${ts}.` + "ä".repeat(64))).toBe(false);
+  });
+
+  it("lehnt Nicht-Hex-HMAC korrekter Länge ab", () => {
+    const ts = Math.floor(Date.now() / 1000);
+    expect(verifyDoiToken(EMAIL, SOURCE, `${ts}.` + "Z".repeat(64))).toBe(false);
+  });
+
+  it("lehnt überlanges HMAC (128 Zeichen) ab", () => {
+    const ts = Math.floor(Date.now() / 1000);
+    expect(verifyDoiToken(EMAIL, SOURCE, `${ts}.` + "a".repeat(128))).toBe(false);
+  });
+
+  it("lehnt Großbuchstaben-Hex ab (nur Lowercase gültig)", () => {
+    const token = buildDoiToken(EMAIL, SOURCE);
+    const [ts, hmac] = token.split(".");
+    expect(verifyDoiToken(EMAIL, SOURCE, `${ts}.${hmac.toUpperCase()}`)).toBe(false);
+  });
+
   it("lehnt abgelaufenes Token (> 7 Tage alt) ab", () => {
     const ts = Math.floor(Date.now() / 1000) - (7 * 24 * 60 * 60 + 1);
     const token = buildTokenWithTs(EMAIL, SOURCE, ts, TEST_SECRET);
