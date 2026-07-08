@@ -105,9 +105,15 @@ function formatAdresse(d: WiderrufData): string {
 
 function formatRueckgabeAdresse(d: WiderrufData): string {
   if (d.rueckgabe.abweichendeAdresse) {
-    return `${d.rueckgabe.rueckgabeName ?? ""}, ${d.rueckgabe.rueckgabeStrasse ?? ""}, ${d.rueckgabe.rueckgabePlz ?? ""} ${d.rueckgabe.rueckgabeOrt ?? ""}`;
+    // Leere Adressteile herausfiltern, sonst entsteht ", ,  " (Komma-Wüste) im Dokument.
+    const plzOrt = [d.rueckgabe.rueckgabePlz, d.rueckgabe.rueckgabeOrt]
+      .filter((v) => v && v.trim())
+      .join(" ");
+    return [d.rueckgabe.rueckgabeName, d.rueckgabe.rueckgabeStrasse, plzOrt]
+      .filter((v) => v && v.trim())
+      .join(", ");
   }
-  return `${d.anbieter.name}, ${formatAdresse(d)}`;
+  return [d.anbieter.name, formatAdresse(d)].filter((v) => v && v.trim()).join(", ");
 }
 
 function fristbeginnText(d: WiderrufData): string {

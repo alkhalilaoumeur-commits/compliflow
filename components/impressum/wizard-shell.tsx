@@ -139,7 +139,7 @@ export function WizardShell() {
 
         {currentStep === "anbieter" && (
           <p className="mt-4 text-[12px] text-ink-faded rise" style={{ animationDelay: "110ms" }}>
-            Pflichtangaben nach § 5 DDG (seit 14.05.2025, ersetzt § 5 TMG) — bei Verstoß bis
+            Pflichtangaben nach § 5 DDG (seit 14.05.2024, ersetzt § 5 TMG) — bei Verstoß bis
             50.000 € Bußgeld. Compliflow generiert alle Standard-Pflichtangaben,{" "}
             <strong className="text-ink-dim">ersetzt aber keine Rechtsberatung</strong> bei
             Sonderfällen.

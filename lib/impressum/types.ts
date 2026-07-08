@@ -1,6 +1,6 @@
 /**
  * Impressum-Datenmodell
- * Quelle: § 5 DDG (Deutschland, ersetzt § 5 TMG seit 14.05.2025) + § 18 MStV + VSBG
+ * Quelle: § 5 DDG (Deutschland, ersetzt § 5 TMG seit 14.05.2024) + § 18 MStV + VSBG
  * Plus: § 5 ECG / § 25 MedienG (Österreich), Art. 3 UWG (Schweiz)
  * Stand: 2026-06-12
  */

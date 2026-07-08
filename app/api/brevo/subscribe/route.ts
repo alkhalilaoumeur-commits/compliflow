@@ -89,8 +89,11 @@ export async function POST(req: NextRequest) {
   });
 
   if (!result.ok) {
+    // Rohen Brevo-/Config-Fehler nur serverseitig loggen, nie an den Client
+    // durchreichen (kann interne API-Texte / fehlende ENV-Namen leaken).
+    console.error("[brevo/subscribe] upstream error:", result.status, result.error);
     return NextResponse.json(
-      { ok: false, error: result.error },
+      { ok: false, error: "Anmeldung fehlgeschlagen — bitte später erneut versuchen." },
       { status: result.status === 429 ? 429 : 500 },
     );
   }

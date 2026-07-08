@@ -59,8 +59,74 @@ Verifiziert am 2026-07-08:
 
 ---
 
+## BLOCK 2 — 5 public API-Routen + Server-Action ✅ verifiziert + 2 Fixes
+
+| Route | adversariale Prüfung | Ergebnis |
+|---|---|---|
+| `stripe/checkout` | docType-Whitelist (Array/Riesen-String → 400 ✅); `sanitizeReturnPath`: `//evil`, `://`, non-`/`, `javascript:` alle → `/` ✅; Host kommt **immer** aus `NEXT_PUBLIC_APP_URL` (Server-ENV), returnPath nur Pfad-Suffix → **kein Open-Redirect** möglich | ✅ |
+| `stripe/webhook` | Signatur via `constructEvent()` über **Roh-Body** (`req.text()`) **vor** jedem Seiteneffekt; kein sig-Header → 400; fehlende Keys in Prod → 500; unbekannte Events → sauber 200 (kein 500-Retry-Storm) | ✅ |
+| `stripe/verify-session` | **eingebunden** (kein toter Code): `remove-button.tsx:74` + `lib/watermark/use-verified-watermark.ts:44` rufen sie auf. Prüft `paid` + `complete` + Metadata, Reject vor Stripe-Call, 20/min-Limit | ✅ |
+| `waitlist/confirm` | Prüf-Reihenfolge: Rate-Limit → Email-Regex → Source-Whitelist → HMAC **vor** DB/Mail-Seiteneffekt; Datei-Fallback-Fehler wird laut geloggt (`route.ts:75`) | ✅ |
+| `brevo/subscribe` | `consent===true` serverseitig erzwungen (`route.ts:53,59`); `quelle`-Whitelist; JSON-Parse-Guard; fehlender Key in Prod → 503 | ✅ + Fix 2.2 |
+| Server-Action `joinWaitlist` | IP-Rate-Limit (5/min, `waitlistLimiter`) **und** 1-Mail/10min/Email vor Versand; Source auf Default abgeklemmt → Mail-Bombing über Resend begrenzt | ✅ |
+
+IP-Extraktion überall `x-real-ip` > letzter XFF-Wert → **XFF-Spoofing-sicher** (Angreifer kann Rate-Limit nicht per gefälschtem ersten XFF-Wert umgehen).
+
+### FUND 2.1 [LOW-MED] — In-Memory-Rate-Limiter wuchs unbegrenzt (Memory-DoS)
+- **Ort:** `lib/rate-limit.ts` `makeMemoryLimiter`
+- **Beweis:** Die `Map` löschte **nie** abgelaufene Einträge → bei vielen verschiedenen IPs unbegrenztes Wachstum. Laut Projekt-Memory wird Upstash erst **nach** Launch eingerichtet → beim Launch ist genau dieser Fallback aktiv.
+- **Fix:** Sweep abgelaufener Einträge sobald `store.size > 5000` (`lib/rate-limit.ts:56-61`). Aktive IPs im Fenster durch echten Traffic begrenzt → Map bleibt beschränkt.
+- **Regressionstest:** `lib/rate-limit.test.ts` — 6000 verschiedene IPs → kein Crash, Limit greift weiter. 3 Tests grün.
+
+### FUND 2.2 [LOW] — Brevo-/Config-Fehlertexte an den Client durchgereicht (Info-Leak)
+- **Ort:** `app/api/brevo/subscribe/route.ts:93` (`error: result.error`) i.V.m. `lib/brevo/client.ts:50` (gab **Namen fehlender ENV-Vars** zurück) und `:88` (rohe Brevo-API-`message`).
+- **Fix:** Route loggt den echten Upstream-/Config-Fehler nur serverseitig und gibt dem Client eine generische Meldung (`route.ts:91-98`). Keine Secrets, aber unnötige Config-/API-Disclosure geschlossen.
+
+**Abbruchkriterium 2:** ✅ erfüllt — jede Route Input-Validierung + Rate-Limit + Reject vor Seiteneffekt (per Test belegt); `verify-session` ist eingebunden (kein toter Code).
+
+---
+
+## BLOCK 9 — Infra/Secrets/Config ✅ (Recherche-Agent, Belege verifiziert)
+
+- **Secrets:** `git ls-files` zeigt nur `.env.example`; keine echten Keys eingecheckt; `.gitignore` + `.dockerignore` decken `.env*`, `.data/`, `*.pem`, `.vercel` ab. ✅
+- **`.env.example` vollständig:** der im Master-Prompt vermutete Fehlbestand (`STRIPE_PRICE_WATERMARK_REMOVAL`, `BREVO_*`) existiert **nicht mehr** — alle im Code gelesenen Vars sind dokumentiert (`.env.example:35,62-63`). ✅
+- **Startup-Check vorbildlich:** `lib/env.ts` `validateEnv()` prüft 9 Prod-Pflicht-Vars + Format (`sk_live_`, `whsec_`, `https://`) und **wirft hart** (`throw`) → Container startet nicht bei Fehlkonfiguration. Verkabelt via `instrumentation.ts` + `next.config.js` `instrumentationHook`. ✅ (Abbruchkriterium 11: „Prod scheitert laut" erfüllt)
+- **Security-Header:** HSTS (Prod), X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy, CSP alle gesetzt (`next.config.js`). ✅
+- **PII in Logs:** keine vollständigen Emails/Wizard-Inhalte geloggt (nur Error-Objekte). ✅
+- **`.vercel`:** nicht getrackt, ignoriert — kosmetische Altlast, kein Risiko.
+- **Owner-Email:** **nicht** hardcoded (0 Treffer für die Adresse im Code — kommt aus ENV/Config). ✅
+
+### FUND 9.1 [MEDIUM, dokumentiert — nicht blind gefixt] — CSP `script-src 'unsafe-inline'`
+- **Ort:** `next.config.js:18`. `'unsafe-inline'` schwächt die CSP als zweite XSS-Verteidigungslinie; `img-src https:` erlaubt theoretisch Beacon-Exfiltration.
+- **Warum nicht sofort gefixt:** Entfernen erfordert Nonce-basierte CSP via Middleware. Next.js 14 App Router injiziert eigene Inline-Bootstrap-Scripts + die JSON-LD-`dangerouslySetInnerHTML`-Blöcke; ein blindes Entfernen von `'unsafe-inline'` bricht Hydration/SEO. → **Empfohlene Härtung, aber unter „MANUELLE/GEPLANTE SCHRITTE"**, da regressionsträchtig und der primäre XSS-Schutz (vollständiges `escapeHtml`, verifiziert in Block 4) bereits greift.
+
+### FUND 9.2 [HIGH — MANUELL] — Next.js 14.2.35 mit offenen Advisories
+- `npm audit --omit=dev`: 1 high (Next.js: diverse DoS/SSRF/Cache-Poisoning/Rewrite-Smuggling) + 1 moderate (postcss transitiv). Fix laut npm nur via `next@16` (Breaking Change).
+- **Bewertung:** Self-hosted (kein Vercel-Image-Proxy). Relevanteste: Image-Optimizer-DoS (nur falls `next/image` mit remote patterns), Rewrite-Smuggling (falls Rewrites genutzt). → **MANUELL:** Next-15/16-Migration planen + Breaking Changes testen. Nicht autonom im Audit-Scope (Framework-Major-Upgrade mit UI-Regressionsrisiko).
+
+---
+
+## BLOCK 4 — localStorage & Datenschutz-Kernversprechen ✅ bewiesen + 1 Fix offen
+
+**Kernversprechen BEWIESEN (Recherche-Agent, Belege verifiziert):** Kein `fetch`/`XHR`/`sendBeacon`/`WebSocket` überträgt Wizard-**Feldinhalte**. Die einzigen Wizard-nahen Calls (`remove-button.tsx:74,96`, `use-verified-watermark.ts:44`) senden nur `docType`/`returnPath`/`sessionId`. Alle Plausible-Events tragen nur Enums (`mode`, `tool`, `doc_type`, `quelle`) — **keine PII, keine Email**. XSS: alle `dangerouslySetInnerHTML` sind entweder statisches JSON-LD/Repo-Blog oder `buildHtml()` mit vollständigem `escapeHtml` (& < > " '). → **Abbruchkriterien 5 + 6 erfüllt.**
+
+Rest-Findings (ehrlich):
+- **[MED] Kein globaler „Daten löschen"-Button:** Reset existiert pro Wizard (überschreibt Store mit Defaults), aber der **Watermark-Store** (`compliflow-watermark-v1`, Stripe-Session-IDs) wird nie geleert → bleibt auf geteilten Rechnern liegen. → **Fix geplant unten.**
+- **[MED] `session_id`/`doc_type` Plausible-Race:** kann durch Timing vor `replaceState` an Plausible gehen — keine Wizard-PII, aber Stripe-ID im Analytics-Log. Dokumentiert.
+- **[MED] 5 Stores ohne `migrate`:** impressum/datenschutz/agb/cookie-banner/widerruf haben `version` aber keine `migrate`-Funktion (avv/vvt haben sie korrekt) → bei künftiger Schema-Erweiterung `undefined` in verschachtelten Pflichtfeldern → Runtime-Fehler/kaputtes Dokument für zurückkehrende Nutzer. → **Fix geplant unten.**
+
+---
+
 ## OFFENE PUNKTE / NÄCHSTER SCHRITT
 
-**Als Nächstes:** Block 2 — die 5 public API-Routen + Server-Action adversarial (Open-Redirect in checkout `sanitizeReturnPath`, Webhook-Signatur vor Seiteneffekt, verify-session-Einbindung, Replay/Mail-Bombing, CORS/IP-Spoofing). Danach Block 3 (Watermark-Flow), dann Integration der 3 laufenden Hintergrund-Rechercheure (Block 4 Datenschutz-Leak, Block 5 Rechtskonformität, Block 9 Secrets/Infra), dann Block 6 (Playwright) + Block 7 (PDF-Artefakte).
+**Als Nächstes (in dieser Reihenfolge):**
+1. Block 4-Fixes: globaler localStorage-Clear (inkl. Watermark-Store) + defensive `migrate`-Funktionen für die 5 Stores (+ Tests).
+2. Block 5-Ergebnis (Rechercheur läuft noch) integrieren + Code-Defekte fixen.
+3. Block 7: PDF-Artefakte (AVV/VVT, voll + lückenhaft) nach `audit-artifacts/pdfs/` generieren + prüfen.
+4. Block 6: Playwright-Setup + E2E-Durchläufe → `audit-artifacts/screenshots/`.
+5. Block 3 (Watermark-Flow-Konsistenz), Block 8 (Persistenz/eigene DSGVO), Block 10 (Red-Team + SECURITY-CHECKLIST.md + CLAUDE.md-Regeln + Lint).
 
-**Manuelle Schritte (bisher):** siehe `SECURITY-TODO.md` — Upstash-ENV + Coolify-Keys (aus `docs/COOLIFY-KEYS-SETUP.md`).
+**MANUELLE SCHRITTE (bisher):**
+- Upstash-ENV (`UPSTASH_REDIS_REST_URL/TOKEN`) + 8 Coolify-Keys setzen (`docs/COOLIFY-KEYS-SETUP.md`, `SECURITY-TODO.md`).
+- **[HIGH] Next.js 14.2.35 → 15/16 Migration** planen (Fund 9.2), Breaking Changes + UI testen.
+- **[MED] CSP `'unsafe-inline'` → Nonce-basiert** umstellen (Fund 9.1).

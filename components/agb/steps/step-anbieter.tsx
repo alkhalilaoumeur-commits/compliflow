@@ -29,7 +29,7 @@ export function StepAnbieter() {
     <div className="flex flex-col gap-8 max-w-3xl">
       <p className="text-ink-dim font-body text-[14px] leading-[1.6]">
         Wer ist der Anbieter dieser AGB? Name und Anschrift werden in der Geltungsbereichs- und
-        Schlussklausel verwendet. Pflichtangaben gemäß § 5 TMG / DSA.
+        Schlussklausel verwendet. Pflichtangaben gemäß § 5 DDG / DSA.
       </p>
 
       <Field

@@ -3,7 +3,7 @@ import { LegalLayout, LegalSection } from "@/components/legal/legal-layout";
 
 export const metadata: Metadata = {
   title: "Impressum — Compliflow",
-  description: "Anbieterkennzeichnung gemäß § 5 TMG für compliflow.de.",
+  description: "Anbieterkennzeichnung gemäß § 5 DDG für compliflow.de.",
   alternates: { canonical: "/impressum" },
   robots: { index: true, follow: true },
 };
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ImpressumPage() {
   return (
     <LegalLayout title="Impressum" lastUpdated="6. Juni 2026">
-      <LegalSection title="Anbieter (§ 5 TMG)">
+      <LegalSection title="Anbieter (§ 5 DDG)">
         <p>
           <strong className="text-ink">Al-Khalil Aoumeur</strong>
           <br />

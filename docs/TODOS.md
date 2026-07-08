@@ -1,9 +1,23 @@
 # Compliflow — Todos & Status
 
-**Letzte Aktualisierung:** 2026-06-17
+**Letzte Aktualisierung:** 2026-07-08
 **Aktueller Sprint:** Generator-Vollständigkeits-Audit (Sprint C)
 **Build-Status:** ✅ TypeScript clean, Production-Build clean (alle 37 Routen kompilieren)
 **Branch:** main
+
+---
+
+## 🚨 BLOCKER — Go-Live hängt an Coolify-ENV-Vars
+
+Docker-Build läuft (Standalone-Fix in `e1b64c4`), aber Container startet nicht:
+8 Pflicht-ENV-Vars fehlen in Coolify → `validateEnv()` bricht Start ab (by design).
+
+**→ Anleitung: `docs/COOLIFY-KEYS-SETUP.md`** (Stripe/Resend/Brevo Schritt für Schritt + fertiges DOI_SECRET)
+**→ Nach Deploy prüfen:** `npm run check:config -- https://compliflow.de`
+**→ Täglicher Reminder aktiv:** https://claude.ai/code/routines (löschen sobald live)
+
+Offener Code-Bug danach: Webhook liest `metadata.tool`, Checkout setzt `metadata.product` →
+0,99€-Bestätigungsmail geht nicht raus (`app/api/stripe/{webhook,checkout}/route.ts`).
 
 ---
 

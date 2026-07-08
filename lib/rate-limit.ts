@@ -54,6 +54,14 @@ function makeMemoryLimiter(limit: number, windowMs: number) {
     const now = Date.now();
     const entry = store.get(ip);
     if (!entry || now > entry.resetAt) {
+      // Abgelaufene Einträge aufräumen, damit die Map bei vielen verschiedenen
+      // IPs nicht unbegrenzt wächst (Memory-DoS). Nur bei Bedarf sweepen —
+      // aktive IPs innerhalb des Fensters sind durch echten Traffic begrenzt.
+      if (store.size > 5000) {
+        for (const [key, b] of store) {
+          if (now > b.resetAt) store.delete(key);
+        }
+      }
       store.set(ip, { count: 1, resetAt: now + windowMs });
       return false;
     }

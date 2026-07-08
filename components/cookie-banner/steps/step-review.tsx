@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookieBannerStore } from "@/lib/cookie-banner/store";
-import { buildSnippet } from "@/lib/cookie-banner/builder";
+import { buildSnippet, getCompletionStatus } from "@/lib/cookie-banner/builder";
 import { SnippetExport } from "../snippet-export";
 import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
@@ -18,6 +18,20 @@ export function StepReview() {
 
   // Snippet komplett neu bauen, sobald sich data ändert
   const snippet = useMemo(() => buildSnippet(data, { credit: false }), [data]);
+
+  // Export-Gating: ohne vollständige Pflichtfelder darf kein Banner-Snippet
+  // exportiert werden (sonst z.B. Banner ohne Anbieternamen — Verstoß).
+  const STEP_LABELS: Record<string, string> = {
+    anbieter: "Anbieterdaten vollständig ausfüllen",
+    kategorien: "Cookie-Kategorien konfigurieren",
+    tracking: "Tracking-Dienste angeben",
+    stil: "Darstellung/Stil festlegen",
+    verhalten: "Consent-Verhalten (Laufzeit 1–24 Monate) prüfen",
+  };
+  const { checks, allValid } = getCompletionStatus(data);
+  const missing = Object.entries(checks)
+    .filter(([k, v]) => !v && k !== "review")
+    .map(([k]) => k);
 
   // srcDoc: HTML-Stub + Snippet + Auto-Show
   const srcDoc = useMemo(() => {
@@ -123,6 +137,25 @@ ${snippet}
 
         <CaptureCard quelle="cookie_banner" />
 
+        {!allValid ? (
+          <div className="border border-line bg-bg-soft p-5">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">
+              Noch unvollständig
+            </p>
+            <p className="text-sm text-ink-dim mb-3">
+              Bevor du den Banner exportierst, fehlen noch Eingaben:
+            </p>
+            <ul className="text-sm space-y-1">
+              {missing.map((m) => (
+                <li key={m} className="flex items-center gap-2">
+                  <span className="text-accent">×</span>
+                  <span>{STEP_LABELS[m] ?? m}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+        <>
         <div className="border border-line bg-bg-soft p-6">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-2">
             Snippet — empfohlen
@@ -163,6 +196,8 @@ ${snippet}
             </p>
           )}
         </div>
+        </>
+        )}
 
         <div className="border border-dashed border-line bg-bg p-5">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-2">
