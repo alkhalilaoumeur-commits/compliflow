@@ -23,6 +23,7 @@ export default function Home() {
       <Comparison />
       <BlogTeaser />
       <Faq />
+      <Waitlist />
       <Footer />
     </main>
   );

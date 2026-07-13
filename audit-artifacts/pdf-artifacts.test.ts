@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { renderToBuffer } from "@react-pdf/renderer";
-import { createElement, isValidElement } from "react";
+import { isValidElement } from "react";
 import { AvvPdfDocument } from "@/lib/avv/pdf/avv-document";
 import type { AvvFormData } from "@/lib/avv/types";
 import type { Tom, TomKategorie } from "@/lib/avv/types";
@@ -183,7 +183,7 @@ describe("PDF-Artefakt-Generierung (Block 7)", () => {
 
   it("AVV voll ausgefüllt: erzeugt gültiges PDF ohne rohe Platzhalter", async () => {
     const buf = await renderToBuffer(
-      createElement(AvvPdfDocument, { data: fullAvv, showCredit: true }),
+      AvvPdfDocument({ data: fullAvv, showCredit: true }),
     );
     await writePdf("avv-vollstaendig.pdf", buf);
     // Gültiger PDF-Header + nicht-trivial groß
@@ -193,7 +193,7 @@ describe("PDF-Artefakt-Generierung (Block 7)", () => {
 
   it("AVV ohne Credit (Watermark gekauft): erzeugt gültiges PDF", async () => {
     const buf = await renderToBuffer(
-      createElement(AvvPdfDocument, { data: fullAvv, showCredit: false }),
+      AvvPdfDocument({ data: fullAvv, showCredit: false }),
     );
     await writePdf("avv-vollstaendig-ohne-credit.pdf", buf);
     expect(Buffer.from(buf.slice(0, 5)).toString()).toBe("%PDF-");
@@ -201,7 +201,7 @@ describe("PDF-Artefakt-Generierung (Block 7)", () => {
 
   it("AVV lückenhaft: rendert ohne Crash (Layout-Robustheit)", async () => {
     const buf = await renderToBuffer(
-      createElement(AvvPdfDocument, { data: incompleteAvv, showCredit: true }),
+      AvvPdfDocument({ data: incompleteAvv, showCredit: true }),
     );
     await writePdf("avv-lueckenhaft.pdf", buf);
     expect(Buffer.from(buf.slice(0, 5)).toString()).toBe("%PDF-");

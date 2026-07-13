@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check:config": "node scripts/check-config.mjs",
-    "clean": "rm -rf .next node_modules/.cache"
+    "clean": "rm -rf .next node_modules/.cache",
+    "test:e2e": "playwright test"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -37,6 +38,7 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
