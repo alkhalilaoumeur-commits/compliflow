@@ -160,13 +160,35 @@ Kernbefund: Template-**Inhalte** stark (AVV vollständig Art. 28, Impressum § 5
 
 ---
 
+## BLOCK 6 — UI-Flows E2E (Playwright) ✅ + 1 HIGH-Bug gefixt
+
+Playwright 1.61 + Chromium eingerichtet (`playwright.config.ts`, `e2e/smoke.spec.ts`, `npm run test:e2e`). **9 E2E-Tests grün.** Screenshots in `audit-artifacts/screenshots/` (7 Generatoren + Homepage + Waitlist-Success).
+
+- Alle 7 Generatoren: laden ohne Hydration-/Uncaught-JS-Fehler (Konsole überwacht, 3rd-party-Rauschen gefiltert), Wizard-Shell + Disclaimer sichtbar. Kein „Frontend spinnt"-Zustand.
+- Waitlist: Formular füllen → submit → Server-Action `joinWaitlist` liefert Bestätigungs-Hinweis (E2E-verifiziert).
+
+### FUND 6.1 [HIGH — UX/Conversion, gefixt] — Waitlist-Formular fehlte komplett auf der Homepage
+- **Beweis:** `app/page.tsx` `Home()` rendert `<Waitlist/>` **nicht** — die Section (`function Waitlist()` Z. 791, enthält `<WaitlistForm/>`) war definiert, aber nie im Seitenbaum. SSR-HTML enthielt weder „Cookie-Banner ist in Arbeit" noch ein `input[type=email]`. Gleichzeitig verlinkte der Footer (`page.tsx:908`) auf `/#warteliste` → **toter Anker**. Für eine Pre-Launch-Seite mit Lead-Sammlung als Zweck fehlte damit das primäre Email-Capture.
+- **Fix:** `<Waitlist />` vor `<Footer />` eingehängt (`app/page.tsx`). SSR-HTML enthält die Section jetzt; E2E-Flow grün.
+
+**Abbruchkriterium 10:** ✅ alle 7 Generatoren + Waitlist per Playwright durchgespielt, Screenshots abgelegt, ein kaputter Zustand gefunden **und gefixt**. (Tieferes Schritt-für-Schritt-Durchklicken jedes Wizards = optionale Vertiefung.)
+
+---
+
+## BLOCK 4-Rest / BLOCK 8 (teilweise) — weitere Fixes
+
+- ✅ **Block 4 `migrate`-Funktionen:** impressum/datenschutz/agb/cookie-banner/widerruf bekamen defensive `migrate` (merged persisted.data mit Initial-State) → keine Datenkorruption/Runtime-Crashes bei künftiger Schema-Erweiterung. tsc + 42 Store-Tests grün.
+- ✅ **Block 8 Persistenz-Logging:** `instrumentation.ts` loggt beim Start laut, ob Waitlist auf Supabase (redeploy-sicher) oder Datei-Fallback (Datenverlust-Warnung) läuft.
+
+---
+
 ## NÄCHSTER SCHRITT (Fortsetzung bei „mach weiter")
 
-**Noch offen (nicht autonom in dieser Session abgeschlossen):**
-1. **Block 6 — Playwright-E2E:** Setup + 7 Generator-Durchläufe + Waitlist-Flow → `audit-artifacts/screenshots/`. Heaviest remaining item.
-2. **Block 4-Rest:** globaler localStorage-Clear-Button (inkl. Watermark-Store) + `migrate`-Funktionen für 5 Stores (+ Tests).
-3. **Block 8:** Supabase-RLS mit echtem Anon-Key gegen SELECT/DELETE/Fälschung testen; Persistenz-Modus beim Start laut loggen; eigene `/datenschutz` gegen reale Auftragsverarbeiter abgleichen; Löschweg Art. 15/17 skizzieren.
-3. **Block 3:** dokumentierten Watermark-URL-Bypass final bewerten (verify-session-Kopplung im Client verifizieren).
+**Noch offen:**
+1. **Block 4-Rest:** globaler „alle Compliflow-Daten löschen"-Button (inkl. Watermark-Store mit Stripe-Session-IDs) — für geteilte Rechner. UI-Ergänzung im Footer.
+2. **Block 8:** Supabase-RLS mit echtem Anon-Key live gegen SELECT/DELETE/confirmed-Fälschung testen (braucht echte Supabase-Instanz → MANUELL); eigene `/datenschutz`-Seite gegen reale Auftragsverarbeiter (Stripe/Resend/Brevo/Supabase/Plausible/Hetzner) abgleichen; Löschweg Art. 15/17 für Waitlist-Emails skizzieren.
+3. **Block 3:** dokumentierten Watermark-URL-Bypass final bewerten (verify-session-Kopplung im Client ist bereits vorhanden — nur noch verifizieren/dokumentieren).
+4. **Vertiefung Block 6:** jeden Wizard Schritt-für-Schritt ausfüllen und Export-Gating (Export gesperrt → freigeschaltet) im Browser gegenprüfen.
 
 **MANUELLE SCHRITTE:**
 - Coolify: 9 Pflicht-ENV + Upstash-ENV (`UPSTASH_REDIS_REST_URL/TOKEN`) setzen — `docs/COOLIFY-KEYS-SETUP.md`.
