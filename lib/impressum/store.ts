@@ -54,6 +54,17 @@ export const useImpressumStore = create<ImpressumStore>()(
     {
       name: "compliflow-impressum-v1",
       version: 1,
+      // Defensive Migration: alte localStorage-Daten mit aktuellem Initial-State
+      // mergen, damit neu hinzugefügte (verschachtelte) Felder nicht undefined sind.
+      migrate: (persisted) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const p = persisted as any;
+        if (!p || !p.data) return { currentStep: "anbieter", data: INITIAL_IMPRESSUM };
+        return {
+          currentStep: p.currentStep ?? "anbieter",
+          data: { ...INITIAL_IMPRESSUM, ...p.data },
+        };
+      },
     },
   ),
 );

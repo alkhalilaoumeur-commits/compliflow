@@ -45,7 +45,20 @@ export const useCookieBannerStore = create<CookieBannerStore>()(
         })),
       reset: () => set({ currentStep: "anbieter", data: INITIAL_COOKIE_BANNER }),
     }),
-    { name: "compliflow-cookie-banner-v1", version: 1 },
+    {
+      name: "compliflow-cookie-banner-v1",
+      version: 1,
+      // Defensive Migration: alte localStorage-Daten mit aktuellem Initial-State mergen.
+      migrate: (persisted) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const p = persisted as any;
+        if (!p || !p.data) return { currentStep: "anbieter", data: INITIAL_COOKIE_BANNER };
+        return {
+          currentStep: p.currentStep ?? "anbieter",
+          data: { ...INITIAL_COOKIE_BANNER, ...p.data },
+        };
+      },
+    },
   ),
 );
 

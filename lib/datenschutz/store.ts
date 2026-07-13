@@ -56,6 +56,16 @@ export const useDatenschutzStore = create<DatenschutzStore>()(
     {
       name: "compliflow-datenschutz-v1",
       version: 1,
+      // Defensive Migration: alte localStorage-Daten mit aktuellem Initial-State mergen.
+      migrate: (persisted) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const p = persisted as any;
+        if (!p || !p.data) return { currentStep: "verantwortlicher", data: INITIAL_DATENSCHUTZ };
+        return {
+          currentStep: p.currentStep ?? "verantwortlicher",
+          data: { ...INITIAL_DATENSCHUTZ, ...p.data },
+        };
+      },
     },
   ),
 );
