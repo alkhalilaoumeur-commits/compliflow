@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useAvvStore } from "@/lib/avv/store";
 import { STANDARD_DATENKATEGORIEN, STANDARD_PERSONENKATEGORIEN } from "@/lib/avv/defaults";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
+import { CaptureCard } from "@/components/email-capture/capture-card";
 import { ContractPreview } from "../contract-preview";
 
 const PdfDownload = dynamic(
@@ -210,6 +211,7 @@ export function StepReview() {
           </p>
           <WatermarkRemoveButton docType="avv" returnPath="/avv" />
           <PdfDownload />
+          <CaptureCard quelle="avv" />
         </div>
       </div>
 

@@ -3,6 +3,7 @@
 import { useVvtStore } from "@/lib/vvt/store";
 import { VvtPdfDownload } from "../pdf-download";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
+import { CaptureCard } from "@/components/email-capture/capture-card";
 import { RECHTSGRUNDLAGEN_LABELS, DRITTLAND_GARANTIE_LABELS } from "@/lib/vvt/types";
 
 export function StepAbschluss() {
@@ -242,6 +243,8 @@ export function StepAbschluss() {
             </p>
           </div>
         </div>
+
+        <CaptureCard quelle="vvt" />
 
         {/* Cross-tool hint */}
         <div className="border border-[rgba(226,221,209,0.6)] bg-accent-soft p-4">
