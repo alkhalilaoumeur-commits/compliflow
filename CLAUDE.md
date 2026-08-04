@@ -25,12 +25,11 @@ Compliflow ist eine **Suite**, kein Einzel-Tool. Alle 3 Tools liegen unter EINER
 ```
 compliflow.de/
 ├── /              → Suite-Landing
-├── /avv           → AVV-Generator (Tool 1, im Build)
-├── /vvt           → Verarbeitungsverzeichnis (Tool 2, geplant)
-├── /cookie-banner → Cookie-CMP (Tool 3, geplant)
+├── /avv           → AVV-Generator (Tool 1, live)
+├── /vvt           → Verarbeitungsverzeichnis (Tool 2, live)
+├── /cookie-banner-generator → Cookie-CMP (Tool 3, live; /cookie-banner leitet per 301 weiter)
 ├── /blog          → SEO-Content-Hub
 ├── /preise        → Pricing-Page (alle Tools + Bundles)
-├── /affiliate     → Partner-Programm
 ├── /impressum     → Pflicht
 ├── /datenschutz   → Pflicht
 ├── /agb           → Pflicht
@@ -218,7 +217,7 @@ Wir bauen ein DSGVO-Tool — unsere Seite muss 110% sauber sein.
 - Supabase EU-Region (Frankfurt)
 - AVVs mit allen Sub-Diensten unterschrieben (Vercel, Supabase, Stripe, Resend, PostHog)
 - Eigene Datenschutzerklärung benennt jeden eingesetzten Dienst
-- Eigenes Impressum nach §5 TMG
+- Eigenes Impressum nach § 5 DDG
 - Eigenes VVT führen
 - Cookie-Banner / Plausible-Hinweis prominent
 - Datenpannen-Reaktionsplan dokumentiert

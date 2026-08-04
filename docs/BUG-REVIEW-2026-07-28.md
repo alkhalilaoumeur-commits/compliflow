@@ -2,7 +2,13 @@
 
 Vollständiger Befundbericht aus dem 4-Bereiche-Review (Server, Client/Wizard, Generator-Rechtstexte, Config/Infra) + Build/Typecheck/Tests. Stand: Commit e577056, Branch main.
 
-**Gesamtstatus:** Build grün, 546/546 Unit-Tests grün. Aber: 5 kritische, 10 hohe, ~18 mittlere, ~15 niedrige Befunde.
+> **UPDATE 2026-08-04:** Alle kritischen und hohen Befunde sowie der Großteil
+> der mittleren/niedrigen wurden in den Commits `21bc25a`…(fix-Serie) behoben.
+> Bewusst NICHT umgesetzt (Architektur-Entscheidungen, siehe Abschluss-Bericht
+> der Session): DOI-One-Time-Token (M2), Email-im-Token statt Query (niedrig),
+> Webhook-Idempotenz, E2E-Ausbau, Email-Capture-Gate vor Download (Konzeptfrage).
+
+**Gesamtstatus (28.07.):** Build grün, 546/546 Unit-Tests grün. Aber: 5 kritische, 10 hohe, ~18 mittlere, ~15 niedrige Befunde.
 
 ---
 

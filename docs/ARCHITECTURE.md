@@ -34,7 +34,7 @@ flowchart TB
     User(["Nutzer\n(KMU, Gründer, Webmaster)"])
     CF["**Compliflow**\nDSGVO-Generator-Suite\ncompliflow.de"]
 
-    Stripe["Stripe\nZahlungen (aktuell inaktiv,\nfür Premium-Tools später)"]
+    Stripe["Stripe\nWatermark-Removal\n(0,99 € einmalig pro Dokument)"]
     Brevo["Brevo\nEmail-Marketing-Liste (EU)"]
     Resend["Resend\nTransaktions-Mails\n(DOI, Bestätigungen)"]
     Supabase["Supabase (optional)\nWaitlist-DB, EU-Frankfurt\nFallback: lokale JSONL-Datei"]
@@ -63,7 +63,7 @@ flowchart TB
         UI["Next.js Frontend (React)\nWizards, Landing, Blog"]
         Stores["zustand-Stores + persist\n= Model-Schicht der Wizards"]
         PDF["@react-pdf/renderer\nPDF-Erzeugung client-seitig"]
-        LS[("localStorage\nWizard-Daten, Pro-Status")]
+        LS[("localStorage\nWizard-Daten, Watermark-Kaufstatus")]
         UI --> Stores --> LS
         Stores --> PDF
     end
@@ -130,4 +130,4 @@ Tool-übergreifend geteilt (Schicht "Shared Services"):
 
 1. **Generator-Nutzung:** Eingaben → zustand-Store → localStorage → PDF im Browser. Verlässt den Browser nie.
 2. **Waitlist/Email:** Email-Adresse → Server Action → DOI-Mail via Resend → Klick auf HMAC-Token-Link → Supabase (oder JSONL-Fallback) → optional Brevo-Liste.
-3. **Zahlung (derzeit inaktiv):** Stripe Checkout → Redirect zurück → Session-ID in localStorage → `verify-session` prüft bei jedem Load gegen Stripe.
+3. **Zahlung (aktiv — Watermark-Removal 0,99 €):** Stripe Checkout → Redirect zurück → Session-ID in localStorage → `verify-session` prüft bei jedem Load gegen Stripe.
