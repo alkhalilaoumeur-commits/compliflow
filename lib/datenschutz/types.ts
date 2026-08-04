@@ -343,9 +343,11 @@ export type KommunikationConfig = {
   chatProvider?: ChatProvider;
   kiChatbot: boolean;
   kiChatbotProvider?: KiChatbotProvider;
+  kiChatbotProviderCustom?: string;      // Pflicht bei kiChatbotProvider === "andere"
   kiTrainingAusgeschlossen: boolean;     // AVV schließt Training aus
   webinare: boolean;
   videoCallProvider?: VideoCallProvider;
+  videoCallProviderCustom?: string;      // Pflicht bei videoCallProvider === "andere"
   pushNotifications: boolean;
   pushAnbieter?: "eigene_loesung" | "onesignal" | "firebase_fcm" | "pushwoosh";
 };
@@ -617,7 +619,7 @@ export const ANALYTICS_LABELS: Record<AnalyticsTool, { name: string; istEU: bool
   plausible:          { name: "Plausible Analytics",  istEU: true,  anbieter: "Plausible Insights OÜ (Estland)" },
   matomo:             { name: "Matomo",                istEU: true,  anbieter: "InnoCraft Ltd / self-hosted" },
   ga4:                { name: "Google Analytics 4",    istEU: false, anbieter: "Google Ireland Ltd / Google LLC" },
-  hotjar:             { name: "Hotjar",                istEU: false, anbieter: "Hotjar Ltd (Malta)" },
+  hotjar:             { name: "Hotjar",                istEU: true,  anbieter: "Hotjar Ltd (Malta)" },
   microsoft_clarity:  { name: "Microsoft Clarity",     istEU: false, anbieter: "Microsoft Corporation" },
   umami:              { name: "Umami",                 istEU: true,  anbieter: "Umami Software / self-hosted" },
   fathom:             { name: "Fathom Analytics",      istEU: false, anbieter: "Conva Ventures Inc. (Kanada)" },

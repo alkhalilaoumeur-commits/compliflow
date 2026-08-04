@@ -171,6 +171,18 @@ export function StepKommunikation() {
               </div>
             </Field>
 
+            {data.kommunikation.kiChatbotProvider === "andere" && (
+              <Field label="Name und Anschrift des KI-Anbieters" required>
+                <input
+                  type="text"
+                  value={data.kommunikation.kiChatbotProviderCustom ?? ""}
+                  onChange={(e) => updateK("kiChatbotProviderCustom", e.target.value)}
+                  placeholder="z. B. Beispiel AI GmbH, Musterstraße 1, 10115 Berlin"
+                  className="w-full border border-line bg-bg px-3 py-2.5 font-body text-[14px] text-ink outline-none focus:border-accent"
+                />
+              </Field>
+            )}
+
             <label className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="checkbox"
@@ -229,6 +241,19 @@ export function StepKommunikation() {
                 );
               })}
             </div>
+            {data.kommunikation.videoCallProvider === "andere" && (
+              <div className="mt-3">
+                <Field label="Name und Anschrift des Video-Call-Anbieters" required>
+                  <input
+                    type="text"
+                    value={data.kommunikation.videoCallProviderCustom ?? ""}
+                    onChange={(e) => updateK("videoCallProviderCustom", e.target.value)}
+                    placeholder="z. B. Beispiel Video GmbH, Musterstraße 1, 10115 Berlin"
+                    className="w-full border border-line bg-bg px-3 py-2.5 font-body text-[14px] text-ink outline-none focus:border-accent"
+                  />
+                </Field>
+              </div>
+            )}
           </Field>
         )}
       </div>

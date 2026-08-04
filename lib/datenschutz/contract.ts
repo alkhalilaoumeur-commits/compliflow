@@ -54,7 +54,6 @@ import {
   BRANCHEN_KLAUSELN,
   SPEZIAL_KLAUSELN,
   GOOGLE_FONTS_LOKAL_KLAUSEL,
-  DSB_PFLICHT_HINWEIS,
   AUFSICHTSBEHOERDEN,
   bundeslandFromPlz,
   SPEICHERDAUERN,
@@ -98,9 +97,14 @@ export function isHostingValid(d: DatenschutzData): boolean {
 }
 
 export function isKommunikationValid(d: DatenschutzData): boolean {
-  if (d.kommunikation.kiChatbot && !d.kommunikation.kiChatbotProvider) return false;
-  if (d.kommunikation.liveChat && !d.kommunikation.chatProvider) return false;
-  if (d.kommunikation.webinare && !d.kommunikation.videoCallProvider) return false;
+  const k = d.kommunikation;
+  if (k.kiChatbot && !k.kiChatbotProvider) return false;
+  // "andere" ohne Namen würde den Platzhalter "[Anbieter individuell ergänzen]"
+  // in den Export schreiben — hart blocken (Audit-Regel 5).
+  if (k.kiChatbot && k.kiChatbotProvider === "andere" && !k.kiChatbotProviderCustom?.trim()) return false;
+  if (k.liveChat && !k.chatProvider) return false;
+  if (k.webinare && !k.videoCallProvider) return false;
+  if (k.webinare && k.videoCallProvider === "andere" && !k.videoCallProviderCustom?.trim()) return false;
   return true;
 }
 
@@ -201,9 +205,10 @@ export function deriveDrittlaender(d: DatenschutzData): string[] {
   // Hosting
   if (!HOSTING_LABELS[d.hosting.provider].istEU) set.add("USA");
 
-  // Analytics
+  // Analytics — Fathom sitzt in Kanada, nicht in den USA
   d.analytics.forEach((a) => {
-    if (!ANALYTICS_LABELS[a.tool].istEU) set.add("USA");
+    if (ANALYTICS_LABELS[a.tool].istEU) return;
+    set.add(a.tool === "fathom" ? "Kanada" : "USA");
   });
 
   // Newsletter
@@ -315,7 +320,15 @@ function renderDsb(d: DatenschutzData): string {
   if (d.dsb.istExtern) lines.push("(extern bestellter Datenschutzbeauftragter)");
   let out = heading(2, "Datenschutzbeauftragter") + para(lines.filter(Boolean).join("\n"));
   if (hasDsbPflicht(d)) {
-    out += para(DSB_PFLICHT_HINWEIS.replace(/\*\*/g, ""));
+    // Begründung dynamisch — der pauschale "20+ Mitarbeiter"-Satz war falsch,
+    // wenn die Pflicht über Branche oder Art.-9-Daten ausgelöst wurde (z. B. Solo-Arzt).
+    const abMitarbeiterzahl = ["schwelle_20_49", "mittel_50_249", "gross_250plus"].includes(d.mitarbeiterzahl);
+    const grund = abMitarbeiterzahl
+      ? "Aufgrund der Mitarbeiterzahl von 20 oder mehr Personen, die ständig mit automatisierter Verarbeitung personenbezogener Daten beschäftigt sind,"
+      : d.spezial.besondere_kategorien_art9
+        ? "Aufgrund der umfangreichen Verarbeitung besonderer Kategorien personenbezogener Daten (Art. 9 DSGVO)"
+        : "Aufgrund der Art unserer Kerntätigkeit, die eine umfangreiche Verarbeitung sensibler personenbezogener Daten umfasst,";
+    out += para(`Hinweis zur DSB-Pflicht: ${grund} haben wir gemäß Art. 37 DSGVO bzw. § 38 BDSG einen Datenschutzbeauftragten bestellt.`);
   }
   return out;
 }
@@ -429,12 +442,16 @@ function renderPayment(d: DatenschutzData): string {
 }
 
 function renderEcommerce(d: DatenschutzData): string {
-  if (!d.ecommerce.bestellungen) return "";
   const parts: string[] = [];
 
-  // Kern-Verarbeitung der Bestellung (H1)
-  parts.push(mdSectionToHtml(BESTELLUNG_KLAUSEL));
-  parts.push(infoLine("Datenkategorien", DATENKATEGORIEN.bestellung));
+  // Kern-Verarbeitung der Bestellung (H1) — nur bei aktivem Bestellprozess.
+  // Die übrigen Blöcke (Bewertungen, Bonität, BNPL, Treue, Versand) rendern
+  // unabhängig davon: wer z. B. Trustpilot ohne Shop nutzt, hatte die Klausel
+  // im Wizard aktiviert, sie verschwand aber stumm aus dem Dokument.
+  if (d.ecommerce.bestellungen) {
+    parts.push(mdSectionToHtml(BESTELLUNG_KLAUSEL));
+    parts.push(infoLine("Datenkategorien", DATENKATEGORIEN.bestellung));
+  }
 
   // Versand
   if (d.ecommerce.versand.length > 0) {
@@ -552,8 +569,14 @@ function renderKommunikation(d: DatenschutzData): string {
       ? "insbesondere ausschließt, dass Ihre Eingaben zum Training der KI-Modelle verwendet werden"
       : "die Bedingungen für eine etwaige Modellverbesserung regelt";
 
+    // Bei "andere" den vom Nutzer eingegebenen Anbieternamen verwenden —
+    // nie den rohen "[Anbieter individuell ergänzen]"-Platzhalter
+    const anbieterText =
+      d.kommunikation.kiChatbotProvider === "andere" && d.kommunikation.kiChatbotProviderCustom?.trim()
+        ? d.kommunikation.kiChatbotProviderCustom.trim()
+        : info.anbieterText;
     const text = KI_CHATBOT_TEMPLATE
-      .replace("{{ANBIETER_TEXT}}", info.anbieterText)
+      .replace("{{ANBIETER_TEXT}}", () => anbieterText)
       .replace("{{TRAINING_HINWEIS}}", trainingHinweis)
       .replace("{{DRITTLAND_HINWEIS}}", drittlandHinweis);
     parts.push(mdSectionToHtml(text));
@@ -567,9 +590,16 @@ function renderKommunikation(d: DatenschutzData): string {
     const drittlandHinweis = info.istUS
       ? "**Drittlandtransfer:** Datenübermittlung in die USA möglich. Anbieter ist nach dem EU-U.S. Data Privacy Framework zertifiziert. SCCs liegen vor."
       : "";
+    const customVc = d.kommunikation.videoCallProviderCustom?.trim();
+    const vcName =
+      d.kommunikation.videoCallProvider === "andere" && customVc
+        ? customVc
+        : VIDEO_CALL_LABELS[d.kommunikation.videoCallProvider].name;
+    const vcAnbieter =
+      d.kommunikation.videoCallProvider === "andere" && customVc ? customVc : info.anbieterText;
     const text = VIDEO_CALL_TEMPLATE
-      .replace("{{NAME}}", VIDEO_CALL_LABELS[d.kommunikation.videoCallProvider].name)
-      .replace("{{ANBIETER}}", info.anbieterText)
+      .replace("{{NAME}}", () => vcName)
+      .replace("{{ANBIETER}}", () => vcAnbieter)
       .replace("{{DRITTLAND_HINWEIS}}", drittlandHinweis);
     parts.push(mdSectionToHtml(text));
   }
@@ -682,8 +712,11 @@ function renderDrittland(d: DatenschutzData): string {
     laender.includes("USA")
       ? "Für US-amerikanische Anbieter gilt zusätzlich das EU-U.S. Data Privacy Framework (Angemessenheitsbeschluss der EU-Kommission von Juli 2023), sofern der Anbieter zertifiziert ist."
       : "",
+    laender.includes("Kanada")
+      ? "Für Kanada besteht ein Angemessenheitsbeschluss der EU-Kommission (für dem PIPEDA unterliegende kommerzielle Organisationen)."
+      : "",
     laender.includes("China")
-      ? "Für Anbieter mit Datenübertragung nach China besteht kein Angemessenheitsbeschluss. Hier gelten ausschließlich SCCs sowie ein durchgeführtes Transfer Impact Assessment (TIA)."
+      ? `Für Anbieter mit Datenübertragung nach China besteht kein Angemessenheitsbeschluss. Die Übertragung stützt sich auf Standardvertragsklauseln (SCCs)${d.drittland.tiaDurchgefuehrt ? " sowie ein durchgeführtes Transfer Impact Assessment (TIA)" : "; wir empfehlen, ergänzend ein Transfer Impact Assessment (TIA) durchzuführen"}.`
       : "",
     d.drittland.tiaDurchgefuehrt
       ? "Vor der Übertragung wurde ein Transfer Impact Assessment (TIA) durchgeführt."
@@ -704,6 +737,18 @@ function renderAufsichtsbehoerde(d: DatenschutzData): string {
     else if (d.verantwortlicher.land === "CH") bundesland = "CH_BUND";
     else bundesland = bundeslandFromPlz(d.verantwortlicher.plz);
   }
+  // Bei nicht eindeutig zuordenbarer PLZ-Zone KEINE konkrete Behörde behaupten —
+  // eine falsche Pflichtangabe (Art. 13 Abs. 2 lit. d) wäre schlimmer als der
+  // neutrale Verweis auf die BfDI-Übersicht.
+  if (bundesland === "UNBEKANNT") {
+    const lines = [
+      `Zuständig ist nach Art. 77 DSGVO die Datenschutz-Aufsichtsbehörde des Bundeslandes, in dem unser Unternehmen seinen Sitz hat. Eine Übersicht aller Aufsichtsbehörden: https://www.bfdi.bund.de/DE/Service/Anschriften/anschriften_table.html`,
+      "",
+      `Zusätzlich können Sie sich an die Aufsichtsbehörde Ihres gewöhnlichen Aufenthalts oder Ihres Arbeitsplatzes wenden.`,
+    ];
+    return heading(2, "Zuständige Aufsichtsbehörde") + mdSectionToHtml(lines.join("\n"));
+  }
+
   const b = AUFSICHTSBEHOERDEN[bundesland];
   const lines = [
     `Für Sie zuständig ist nach Art. 77 DSGVO die folgende Aufsichtsbehörde (auf Basis Ihres Unternehmenssitzes):`,

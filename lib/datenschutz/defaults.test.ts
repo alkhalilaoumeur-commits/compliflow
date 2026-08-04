@@ -7,9 +7,25 @@ describe("bundeslandFromPlz", () => {
     expect(bundeslandFromPlz("09111")).toBe("SN"); // Chemnitz
   });
 
-  it("ordnet PLZ 10-16 Berlin (BE) zu", () => {
+  it("ordnet PLZ 10-13 Berlin (BE), 15-16 Brandenburg (BB) zu", () => {
     expect(bundeslandFromPlz("10115")).toBe("BE"); // Berlin
-    expect(bundeslandFromPlz("16348")).toBe("BE");
+    expect(bundeslandFromPlz("15230")).toBe("BB"); // Frankfurt (Oder)
+    expect(bundeslandFromPlz("16348")).toBe("BB"); // Wandlitz (Brandenburg!)
+  });
+
+  it("gibt bei mehrdeutigen PLZ-Zonen UNBEKANNT zurück (keine falsche Behörde)", () => {
+    expect(bundeslandFromPlz("14467")).toBe("UNBEKANNT"); // Zone 14: Potsdam UND Berlin-West
+    expect(bundeslandFromPlz("21073")).toBe("UNBEKANNT"); // Zone 21: HH-Harburg UND NI/SH
+  });
+
+  it("ordnet zuvor falsch zugeordnete Zonen korrekt zu", () => {
+    expect(bundeslandFromPlz("28195")).toBe("HB"); // Bremen — war vorher NI
+    expect(bundeslandFromPlz("24103")).toBe("SH"); // Kiel — war vorher HH
+    expect(bundeslandFromPlz("54290")).toBe("RP"); // Trier — war vorher NW
+    expect(bundeslandFromPlz("68159")).toBe("BW"); // Mannheim — war vorher RP
+    expect(bundeslandFromPlz("03046")).toBe("BB"); // Cottbus — war vorher SN
+    expect(bundeslandFromPlz("06108")).toBe("ST"); // Halle — war vorher SN
+    expect(bundeslandFromPlz("07743")).toBe("TH"); // Jena — war vorher SN
   });
 
   it("ordnet PLZ 17-19 Mecklenburg-Vorpommern (MV) zu", () => {
@@ -71,9 +87,10 @@ describe("bundeslandFromPlz", () => {
     expect(bundeslandFromPlz("")).toBe("UNBEKANNT");
   });
 
-  it("gibt UNBEKANNT bei PLZ 00 zurück (keine Range trifft)", () => {
-    // "00xxx" -> p === 0, keine der >=1-Bedingungen greift
+  it("gibt UNBEKANNT bei PLZ 00 und unbelegten Zonen zurück", () => {
     expect(bundeslandFromPlz("00123")).toBe("UNBEKANNT");
+    expect(bundeslandFromPlz("05123")).toBe("UNBEKANNT"); // Zone 05 existiert nicht
+    expect(bundeslandFromPlz("43123")).toBe("UNBEKANNT"); // Zone 43 existiert nicht
   });
 
   it("nutzt nur die ersten zwei Stellen der PLZ", () => {

@@ -513,7 +513,7 @@ export const VERSAND_KLAUSELN: Record<Versanddienstleister, string> = {
   fedex: `FedEx Express Germany GmbH, Otto-Lilienthal-Straße 30, 28199 Bremen, Deutschland. Drittlandtransfer in die USA möglich; FedEx ist nach dem EU-U.S. Data Privacy Framework zertifiziert.`,
   deutsche_post: `Deutsche Post AG, Charles-de-Gaulle-Straße 20, 53113 Bonn, Deutschland. Datenverarbeitung in der EU.`,
   trans_o_flex: `trans-o-flex Express GmbH & Co. KGaA, Hertzstraße 10, 69469 Weinheim, Deutschland. Datenverarbeitung in der EU.`,
-  andere: `Anderer Versanddienstleister. Bitte spezifischen Namen und Anschrift in der Datenschutzerklärung einsetzen.`,
+  andere: `Weiterer Versanddienstleister. Name und Anschrift des Dienstleisters teilen wir Ihnen mit der Versandbestätigung bzw. auf Anfrage mit.`,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -847,7 +847,7 @@ Als Versicherer/Versicherungsvermittler unterliegen wir besonderen Verarbeitungs
 
 Als KI-Anbieter unterliegen wir zusätzlich den Transparenzpflichten nach Art. 50 EU AI Act (Verordnung 2024/1689), die ab 02.08.2026 vollständig anwendbar sind.
 
-**Risikoklasse:** Unser KI-System wurde gemäß AI Act klassifiziert als [Hochrisiko / begrenztes Risiko / minimales Risiko]. Bei Hochrisiko-Systemen liegt eine vollständige Risikoanalyse + Logbuchführung + menschliche Aufsicht vor.
+**Risikoklasse:** Unser KI-System wurde gemäß AI Act einer Risikoklasse zugeordnet. Sofern es sich um ein Hochrisiko-System handelt, liegen eine vollständige Risikoanalyse, Logbuchführung und menschliche Aufsicht vor.
 
 **Trainingsdaten:** Wir nutzen ausschließlich Trainingsdaten, für die eine rechtmäßige Verarbeitungsgrundlage besteht. Keine Verwendung von Eingabedaten unserer Nutzer zum Modell-Training, sofern nicht ausdrücklich eingewilligt.
 
@@ -859,7 +859,7 @@ Als Bildungseinrichtung unterliegen wir zusätzlich den landesschulgesetzlichen 
 
 **Rechtsgrundlage:** Art. 6 Abs. 1 lit. e DSGVO (öffentliche Aufgabe) + jeweilige Landesschulgesetze + Datenschutzverordnung für Schulen des jeweiligen Bundeslandes.
 
-**Aufsichtsbehörde:** [Landesbeauftragte/r für Datenschutz des Bundeslandes].`,
+**Aufsichtsbehörde:** Der/die Landesbeauftragte für Datenschutz des Bundeslandes, in dem die Einrichtung ihren Sitz hat (siehe Abschnitt „Zuständige Aufsichtsbehörde").`,
 
   verein: `## Vereinsspezifische Datenverarbeitung
 
@@ -1126,31 +1126,42 @@ export const AUFSICHTSBEHOERDEN: Record<Bundesland, Aufsichtsbehoerde> = {
   },
 };
 
-/** Errechnet aus PLZ ein wahrscheinliches Bundesland */
+/**
+ * Errechnet aus der PLZ-Leitzone (erste 2 Ziffern) das Bundesland.
+ *
+ * Zonen, die deutlich über Ländergrenzen gehen (z. B. 14 = Berlin-West UND
+ * Potsdam), liefern bewusst UNBEKANNT → das Dokument zeigt dann den neutralen
+ * BfDI-Verweis statt einer möglicherweise FALSCHEN Aufsichtsbehörde mit
+ * vollen Kontaktdaten (Art. 13 Abs. 2 lit. d DSGVO wäre sonst fehlerhaft).
+ * Bei Rand-Überlappungen einzelner Orte gilt das dominante Land der Zone.
+ */
+const PLZ_ZONE_BUNDESLAND: Record<string, Bundesland> = {
+  "01": "SN", "02": "SN", "03": "BB", "04": "SN", "06": "ST", "07": "TH",
+  "08": "SN", "09": "SN",
+  "10": "BE", "11": "BE", "12": "BE", "13": "BE", "14": "UNBEKANNT",
+  "15": "BB", "16": "BB", "17": "MV", "18": "MV", "19": "MV",
+  "20": "HH", "21": "UNBEKANNT", "22": "HH", "23": "SH", "24": "SH", "25": "SH",
+  "26": "NI", "27": "NI", "28": "HB", "29": "NI",
+  "30": "NI", "31": "NI", "32": "NW", "33": "NW", "34": "HE", "35": "HE",
+  "36": "HE", "37": "NI", "38": "NI", "39": "ST",
+  "40": "NW", "41": "NW", "42": "NW", "44": "NW", "45": "NW", "46": "NW",
+  "47": "NW", "48": "NW", "49": "NI",
+  "50": "NW", "51": "NW", "52": "NW", "53": "NW", "54": "RP", "55": "RP",
+  "56": "RP", "57": "NW", "58": "NW", "59": "NW",
+  "60": "HE", "61": "HE", "63": "HE", "64": "HE", "65": "HE",
+  "66": "SL", "67": "RP", "68": "BW", "69": "BW",
+  "70": "BW", "71": "BW", "72": "BW", "73": "BW", "74": "BW", "75": "BW",
+  "76": "BW", "77": "BW", "78": "BW", "79": "BW",
+  "80": "BY", "81": "BY", "82": "BY", "83": "BY", "84": "BY", "85": "BY",
+  "86": "BY", "87": "BY", "88": "BW", "89": "BW",
+  "90": "BY", "91": "BY", "92": "BY", "93": "BY", "94": "BY", "95": "BY",
+  "96": "BY", "97": "BY", "98": "TH", "99": "TH",
+};
+
 export function bundeslandFromPlz(plz: string): Bundesland {
-  const p = parseInt(plz.slice(0, 2), 10);
-  if (isNaN(p)) return "UNBEKANNT";
-  // Grobe PLZ-Bundesland-Zuordnung (DE)
-  if (p >= 1 && p <= 9) return "SN";       // 01-09 Sachsen
-  if (p >= 10 && p <= 16) return "BE";     // 10-16 Berlin/Brandenburg (Berlin überwiegt)
-  if (p >= 17 && p <= 19) return "MV";     // 17-19 MV
-  if (p >= 20 && p <= 25) return "HH";     // 20-25 Hamburg/SH
-  if (p >= 26 && p <= 29) return "NI";     // 26-29 Niedersachsen
-  if (p >= 30 && p <= 38) return "NI";     // 30-38 Niedersachsen
-  if (p >= 39 && p <= 39) return "ST";     // 39 Sachsen-Anhalt
-  if (p >= 40 && p <= 48) return "NW";     // 40-48 NRW
-  if (p >= 49 && p <= 49) return "NI";     // 49 Niedersachsen
-  if (p >= 50 && p <= 59) return "NW";     // 50-59 NRW
-  if (p >= 60 && p <= 65) return "HE";     // 60-65 Hessen
-  if (p >= 66 && p <= 66) return "SL";     // 66 Saarland
-  if (p >= 67 && p <= 69) return "RP";     // 67-69 RLP
-  if (p >= 70 && p <= 79) return "BW";     // 70-79 BW
-  if (p >= 80 && p <= 87) return "BY";     // 80-87 Bayern
-  if (p >= 88 && p <= 89) return "BW";     // 88-89 BW
-  if (p >= 90 && p <= 96) return "BY";     // 90-96 Bayern
-  if (p >= 97 && p <= 97) return "BY";     // 97 Bayern
-  if (p >= 98 && p <= 99) return "TH";     // 98-99 Thüringen
-  return "UNBEKANNT";
+  const zone = plz.trim().slice(0, 2);
+  if (!/^\d{2}$/.test(zone)) return "UNBEKANNT";
+  return PLZ_ZONE_BUNDESLAND[zone] ?? "UNBEKANNT";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
