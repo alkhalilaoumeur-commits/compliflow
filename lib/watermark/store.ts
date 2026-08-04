@@ -39,6 +39,19 @@ export const useWatermarkStore = create<WatermarkStore>()(
           return { bought: copy };
         }),
     }),
-    { name: "compliflow-watermark-v1", version: 1 },
+    {
+      name: "compliflow-watermark-v1",
+      version: 1,
+      // Defensiv wie bei den anderen Stores: korrupter localStorage-State
+      // (z. B. bought: null) darf isBought() nicht crashen lassen.
+      merge: (persisted, current) => {
+        const p = persisted as Partial<WatermarkStore> | null | undefined;
+        const bought =
+          p && typeof p === "object" && p.bought && typeof p.bought === "object"
+            ? p.bought
+            : {};
+        return { ...current, bought };
+      },
+    },
   ),
 );

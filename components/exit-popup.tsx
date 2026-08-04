@@ -7,7 +7,14 @@ export function ExitPopup() {
 
   useEffect(() => {
     setMounted(true);
-    const dismissed = localStorage.getItem("exit-popup-dismissed");
+    // Defensiv: Safari mit "Alle Cookies blockieren" wirft bei jedem
+    // localStorage/sessionStorage-Zugriff — ohne try/catch crasht das Popup.
+    let dismissed: string | null = null;
+    try {
+      dismissed = localStorage.getItem("exit-popup-dismissed");
+    } catch {
+      // Storage blockiert → Popup einfach normal zeigen
+    }
     if (dismissed && Date.now() - parseInt(dismissed) < 7 * 24 * 60 * 60 * 1000) return;
 
     let triggered = false;
@@ -24,8 +31,13 @@ export function ExitPopup() {
 
     const handleScroll = () => {
       const scrolled = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
-      if (scrolled > 0.75 && !sessionStorage.getItem("scroll-popup-shown")) {
-        sessionStorage.setItem("scroll-popup-shown", "1");
+      if (scrolled > 0.75) {
+        try {
+          if (sessionStorage.getItem("scroll-popup-shown")) return;
+          sessionStorage.setItem("scroll-popup-shown", "1");
+        } catch {
+          // Storage blockiert → trotzdem triggern (triggered-Flag verhindert Doppel)
+        }
         trigger();
       }
     };
@@ -44,7 +56,11 @@ export function ExitPopup() {
 
   const dismiss = () => {
     setShow(false);
-    localStorage.setItem("exit-popup-dismissed", Date.now().toString());
+    try {
+      localStorage.setItem("exit-popup-dismissed", Date.now().toString());
+    } catch {
+      // Storage blockiert → Popup erscheint beim nächsten Besuch erneut, ok
+    }
   };
 
   if (!mounted || !show) return null;

@@ -14,13 +14,16 @@ export function WaitlistForm({ source = "coming-soon" }: { source?: string }) {
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    // currentTarget ist nach Ende des Handlers null — Referenz VOR dem
+    // async-Callback sichern, sonst wird das Formular nie geleert.
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     fd.set("source", source);
     startTransition(async () => {
       const res = await joinWaitlist(fd);
       setStatus(res.ok ? { kind: "ok", msg: res.message } : { kind: "err", msg: res.message });
       if (res.ok) {
-        e.currentTarget?.reset?.();
+        form.reset();
         if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
           (window as any).plausible("Waitlist Signup", { props: { source } });
         }

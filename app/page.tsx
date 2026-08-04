@@ -1,13 +1,11 @@
 import Image from "next/image";
 import { WaitlistForm } from "@/components/waitlist-form";
-import { Countdown } from "@/components/countdown";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { DocumentMockup } from "@/components/document-mockup";
 import { ExitPopup } from "@/components/exit-popup";
 import { MobileNav } from "@/components/mobile-nav";
 import { ToolsDropdown } from "@/components/tools-dropdown";
 import { tools } from "@/lib/tools";
-import { PRIMER, FAQS } from "@/lib/content";
+import { FAQS } from "@/lib/content";
 import { BLOG_POSTS } from "@/lib/blog-posts";
 
 export default function Home() {
@@ -98,35 +96,6 @@ function UrgencyBar() {
         </a>
       </Container>
     </div>
-  );
-}
-
-function ToolLogos() {
-  const services = [
-    "Stripe", "Google Workspace", "AWS", "Vercel", "Mailchimp",
-    "HubSpot", "Zoom", "Calendly", "Notion", "Slack", "Dropbox", "GitHub",
-  ];
-  return (
-    <section className="border-b border-line bg-surface">
-      <Container className="py-7">
-        <p className="mb-5 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faded">
-          Passende AVV-Klauseln für alle wichtigen Dienste
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {services.map((name) => (
-            <span
-              key={name}
-              className="border border-line bg-bg px-3 py-1 font-mono text-[11px] tracking-wide text-ink-dim hover:border-accent hover:text-ink transition-colors"
-            >
-              {name}
-            </span>
-          ))}
-          <span className="border border-dashed border-line px-3 py-1 font-mono text-[11px] tracking-wide text-ink-faded">
-            + alle anderen
-          </span>
-        </div>
-      </Container>
-    </section>
   );
 }
 
@@ -334,37 +303,6 @@ function Suite() {
             );
           })}
         </div>
-      </Container>
-    </section>
-  );
-}
-
-function TrustAndStats() {
-  const rows = [
-    { value: "0 €", label: "Kostenlos", meta: "für immer" },
-    { value: "10 Min.", label: "Bis zum PDF", meta: "statt Anwaltstagen" },
-    { value: "100%", label: "Im Browser", meta: "kein Upload, kein Konto" },
-    { value: "Art. 28 & 30", label: "DSGVO-konform", meta: "alle Pflichtfelder abgedeckt" },
-    { value: "EU", label: "Hosting", meta: "Frankfurt · kein US-Server" },
-    { value: "20 Mio. €", label: "Bußgeld-Risiko", meta: "ohne AVV nach Art. 83" },
-  ];
-
-  return (
-    <section className="border-y border-line bg-surface">
-      <Container className="grid grid-cols-3 gap-y-8 gap-x-6 py-10 md:grid-cols-6 md:py-12">
-        {rows.map((r, i) => (
-          <ScrollReveal key={r.label} delay={i * 60}>
-            <div className="flex flex-col">
-              <span className="font-display text-[22px] font-medium tracking-[-0.02em] text-ink leading-tight">
-                {r.value}
-              </span>
-              <span className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-ink">
-                {r.label}
-              </span>
-              <span className="font-body text-[11px] text-ink-faded">{r.meta}</span>
-            </div>
-          </ScrollReveal>
-        ))}
       </Container>
     </section>
   );
@@ -597,79 +535,6 @@ function Comparison() {
           Compliflow ersetzt keine individuelle Rechtsberatung. Bei Sonderfällen
           (Art. 9-Daten, komplexe Drittlandtransfers, laufende behördliche
           Prüfungen) lass es einen Datenschutzanwalt prüfen.
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function Primer() {
-  return (
-    <section id="worum" className="border-t border-line bg-surface">
-      <Container className="py-24 lg:py-32">
-        <div className="mb-20 grid grid-cols-12 gap-y-6 lg:gap-x-12">
-          <div className="col-span-12 lg:col-span-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-              04 · Worum es geht
-            </p>
-          </div>
-          <div className="col-span-12 lg:col-span-8">
-            <h2 className="balance font-display text-[34px] font-medium leading-[1.1] tracking-[-0.015em] text-ink md:text-[44px]">
-              DSGVO ohne Jura-Studium. Drei Begriffe, die jeder Inhaber kennen sollte.
-            </h2>
-          </div>
-        </div>
-
-        <div className="space-y-20 lg:space-y-28">
-          {PRIMER.map((p) => (
-            <ScrollReveal key={p.id}>
-            <article
-              className="grid grid-cols-12 gap-y-8 lg:gap-x-12"
-            >
-              <div className="col-span-12 lg:col-span-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faded">
-                  {p.eyebrow} · {p.law}
-                </p>
-                <h3 className="mt-3 font-display text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink md:text-[32px]">
-                  {p.title}
-                </h3>
-                <dl className="mt-6 grid grid-cols-1 gap-y-3 border-t border-line pt-5 font-body text-[13px] sm:grid-cols-2">
-                  <div>
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
-                      Launch
-                    </dt>
-                    <dd className="mt-1 text-ink">{p.launch}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faded">
-                      Dauer
-                    </dt>
-                    <dd className="mt-1 text-accent">{p.duration}</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <div className="col-span-12 lg:col-span-8">
-                <p className="measure font-body text-[17px] leading-[1.65] text-ink md:text-[18px]">
-                  {p.body}
-                </p>
-                <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
-                  {p.pillars.map((pillar, i) => (
-                    <li
-                      key={pillar}
-                      className="flex items-baseline gap-3 border-t border-line pt-3 font-body text-[14px] text-ink-dim"
-                    >
-                      <span className="font-mono text-[11px] text-accent">
-                        0{i + 1}
-                      </span>
-                      <span>{pillar}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-            </ScrollReveal>
-          ))}
         </div>
       </Container>
     </section>
