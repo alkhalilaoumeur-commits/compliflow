@@ -46,10 +46,12 @@ export async function GET(req: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+  let stored = false;
   if (supabaseUrl && supabaseKey) {
     try {
-      // merge-duplicates: bei vorhandener Email → UPDATE confirmed=true (kein silent ignore)
-      await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
+      // on_conflict=email: die Tabelle hat id als PK und email als UNIQUE —
+      // ohne den Parameter endet ein Doppel-Confirm als 409 statt als Update.
+      const res = await fetch(`${supabaseUrl}/rest/v1/waitlist?on_conflict=email`, {
         method: "POST",
         headers: {
           apikey: supabaseKey,
@@ -61,10 +63,22 @@ export async function GET(req: NextRequest) {
         // Hängt Supabase, blockiert sonst der Server-Thread bis ~30s Default-Timeout
         signal: AbortSignal.timeout(5000),
       });
+      // fetch wirft bei HTTP-Fehlern NICHT — 401/403/409 liefen bisher still durch
+      // und der Eintrag war weg, obwohl der Nutzer "bestätigt" sah.
+      if (res.ok) {
+        stored = true;
+      } else {
+        const detail = await res.text().catch(() => "");
+        console.error(`Supabase DOI confirm failed: HTTP ${res.status}`, detail.slice(0, 300));
+      }
     } catch (err) {
       console.error("Supabase DOI confirm failed", err);
     }
-  } else {
+  }
+
+  if (!stored) {
+    // Fallback-Datei — greift auch, wenn Supabase konfiguriert ist, aber der
+    // Write fehlschlägt (Sicherheitsnetz gegen stillen Datenverlust).
     try {
       const dataDir = path.join(process.cwd(), ".data");
       await fs.mkdir(dataDir, { recursive: true });

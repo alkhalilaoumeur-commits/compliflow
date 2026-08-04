@@ -36,11 +36,19 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Waitlist-Datei-Fallback: /app gehört root, der Prozess läuft als nextjs —
+# ohne dieses Verzeichnis scheitert fs.mkdir("/app/.data") mit EACCES und
+# bestätigte Waitlist-Emails gehen still verloren. In Coolify zusätzlich als
+# Persistent Storage mounten, sonst ist die Datei nach jedem Redeploy weg.
+RUN mkdir -p /app/.data && chown nextjs:nodejs /app/.data
+
 USER nextjs
 
 EXPOSE 3000
 
+# /api/health liefert 503, wenn kritische Integrationen down sind — genau dafür
+# ist die Route gebaut; ein Ping auf "/" würde das nie bemerken.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget -q --spider http://127.0.0.1:3000/ || exit 1
+  CMD wget -q --spider http://127.0.0.1:3000/api/health || exit 1
 
 CMD ["node", "server.js"]
