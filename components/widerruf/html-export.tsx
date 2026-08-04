@@ -15,7 +15,7 @@ export function HtmlExport() {
 
   const content = mode === "html"
     ? buildHtml(data, { credit: !isBought })
-    : buildPlaintext(data);
+    : buildPlaintext(data, { credit: !isBought });
 
   const copy = async () => {
     try {

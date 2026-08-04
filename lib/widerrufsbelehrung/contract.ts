@@ -39,7 +39,7 @@ export function isRueckgabeValid(d: WiderrufData): boolean {
     if (!d.rueckgabe.rueckgabePlz?.trim()) return false;
     if (!d.rueckgabe.rueckgabeOrt?.trim()) return false;
   }
-  if (d.rueckgabe.sperrgut && !d.rueckgabe.geschaetzteKosten?.trim()) return false;
+  if (d.rueckgabe.sperrgut && d.rueckgabe.kundeTraegtKosten && !d.rueckgabe.geschaetzteKosten?.trim()) return false;
   return true;
 }
 
@@ -132,7 +132,7 @@ function fristbeginnText(d: WiderrufData): string {
 function rueckkostenText(d: WiderrufData): string {
   if (!d.rueckgabe.kundeTraegtKosten) return TEXTE.ruecksende_anbieter;
   if (d.rueckgabe.sperrgut && d.rueckgabe.geschaetzteKosten) {
-    return TEXTE.ruecksende_sperrgut.replace(/\{\{KOSTEN\}\}/g, d.rueckgabe.geschaetzteKosten);
+    return TEXTE.ruecksende_sperrgut.replace(/\{\{KOSTEN\}\}/g, () => d.rueckgabe.geschaetzteKosten!);
   }
   return TEXTE.ruecksende_kunde;
 }
@@ -179,11 +179,12 @@ function renderAusschluesse(d: WiderrufData): string {
 function renderAusuebung(d: WiderrufData): string {
   const a = d.anbieter;
   const telefonText = a.telefon ? `, Telefon: ${a.telefon}` : "";
+  // Callback-Form: Nutzereingaben mit "$&"/"$'" würden sonst als Replacement-Pattern interpretiert.
   const text = TEXTE.ausuebung
-    .replace(/\{\{ANBIETER_NAME\}\}/g, a.name)
-    .replace(/\{\{ANBIETER_ADRESSE\}\}/g, formatAdresse(d))
-    .replace(/\{\{ANBIETER_EMAIL\}\}/g, a.email)
-    .replace(/\{\{ANBIETER_TELEFON\}\}/g, telefonText);
+    .replace(/\{\{ANBIETER_NAME\}\}/g, () => a.name)
+    .replace(/\{\{ANBIETER_ADRESSE\}\}/g, () => formatAdresse(d))
+    .replace(/\{\{ANBIETER_EMAIL\}\}/g, () => a.email)
+    .replace(/\{\{ANBIETER_TELEFON\}\}/g, () => telefonText);
   return mdSectionToHtml(text);
 }
 
@@ -197,15 +198,22 @@ function renderFolgen(d: WiderrufData): string {
     parts.push(mdSectionToHtml(text));
   }
 
+  // "gemischt" enthält einen Dienstleistungsanteil — die anteilige Vergütungspflicht
+  // gilt dort zusätzlich zu den Ware-Folgen.
+  if (d.leistungstyp === "gemischt") {
+    parts.push(mdSectionToHtml(TEXTE.folgen_dienstleistung_anteil));
+  }
+
   if (isDienstleistungTyp(d.leistungstyp)) {
-    parts.push(mdSectionToHtml(TEXTE.folgen_dienstleistung));
+    parts.push(mdSectionToHtml(TEXTE.folgen_rueckzahlung));
+    parts.push(mdSectionToHtml(TEXTE.folgen_dienstleistung_anteil));
     if (d.besonderheiten.dienstleistungSofort) {
       parts.push(mdSectionToHtml(TEXTE.folgen_dienstleistung_sofort));
     }
   }
 
   if (isDigitalTyp(d.leistungstyp)) {
-    parts.push(mdSectionToHtml(TEXTE.folgen_dienstleistung));
+    parts.push(mdSectionToHtml(TEXTE.folgen_rueckzahlung));
     if (d.besonderheiten.digitalSofortDownload) {
       parts.push(mdSectionToHtml(TEXTE.folgen_digital_sofort));
     }
@@ -216,15 +224,14 @@ function renderFolgen(d: WiderrufData): string {
 
 function renderMusterformular(d: WiderrufData): string {
   const a = d.anbieter;
-  // HIGH FIX #5: Telefon im Muster-Widerrufsformular
-  const telefonText = a.telefon ? `, Telefon: ${a.telefon}` : "";
+  // Anlage 2 zu Art. 246a EGBGB sieht nur Name, Anschrift und ggf. Fax/E-Mail vor —
+  // kein Telefon, sonst entfällt die Schutzwirkung der Musterverwendung.
   const faxText = a.fax ? `, Fax: ${a.fax}` : "";
   const text = TEXTE.musterformular
-    .replace(/\{\{ANBIETER_NAME\}\}/g, a.name)
-    .replace(/\{\{ANBIETER_ADRESSE\}\}/g, formatAdresse(d))
-    .replace(/\{\{ANBIETER_EMAIL\}\}/g, a.email)
-    .replace(/\{\{ANBIETER_TELEFON_MUSTER\}\}/g, telefonText)
-    .replace(/\{\{ANBIETER_FAX\}\}/g, faxText);
+    .replace(/\{\{ANBIETER_NAME\}\}/g, () => a.name)
+    .replace(/\{\{ANBIETER_ADRESSE\}\}/g, () => formatAdresse(d))
+    .replace(/\{\{ANBIETER_EMAIL\}\}/g, () => a.email)
+    .replace(/\{\{ANBIETER_FAX\}\}/g, () => faxText);
   return mdSectionToHtml(text);
 }
 

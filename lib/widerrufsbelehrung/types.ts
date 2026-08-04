@@ -208,17 +208,17 @@ export const AUSSCHLUSS_LABELS: Record<Ausschlussgrund, { titel: string; paragra
   },
   presse_zeitung: {
     titel: "Zeitungen/Zeitschriften (außer Abo)",
-    paragraph: "§ 312g Abs. 2 Nr. 6 BGB",
+    paragraph: "§ 312g Abs. 2 Nr. 7 BGB",
     beschreibung: "Lieferung von Zeitungen, Zeitschriften oder Illustrierten mit Ausnahme von Abonnement-Verträgen.",
   },
   auktion: {
     titel: "Öffentliche Versteigerung",
-    paragraph: "§ 312g Abs. 2 Nr. 7 BGB",
-    beschreibung: "Verträge, die im Rahmen einer Art von Versteigerung geschlossen wurden, an der der Verbraucher persönlich teilnehmen konnte.",
+    paragraph: "§ 312g Abs. 2 Nr. 10 BGB",
+    beschreibung: "Verträge, die im Rahmen einer öffentlich zugänglichen Versteigerung geschlossen wurden, an der der Verbraucher persönlich teilnehmen konnte.",
   },
   datentraeger_entsiegelt: {
     titel: "Versiegelte Datenträger (entsiegelt)",
-    paragraph: "§ 312g Abs. 2 Nr. 8 BGB",
+    paragraph: "§ 312g Abs. 2 Nr. 6 BGB",
     beschreibung: "Versiegelte Audio- oder Videoaufnahmen oder Computersoftware, wenn die Versiegelung nach Lieferung entfernt wurde.",
   },
   freizeit_termin: {
@@ -234,12 +234,12 @@ export const AUSSCHLUSS_LABELS: Record<Ausschlussgrund, { titel: string; paragra
   },
   personenbefoerderung: {
     titel: "Beförderung von Personen",
-    paragraph: "§ 312g Abs. 2 Nr. 12 BGB",
+    paragraph: "§ 312 Abs. 2 Nr. 5 BGB",
     beschreibung: "Verträge über die Beförderung von Personen (z. B. Flugtickets, Bahnfahrkarten, Bustickets, Mitfahrgelegenheiten). Achtung: Beförderung von Waren ist NICHT erfasst.",
   },
   edelmetall_marktbindung: {
     titel: "Edelmetalle / Gold mit Marktpreisbindung",
-    paragraph: "§ 312g Abs. 2 Nr. 5 BGB (analog für Marktpreis-Schwankungen)",
+    paragraph: "§ 312g Abs. 2 Nr. 8 BGB",
     beschreibung: "Lieferung von Waren, deren Preis Schwankungen auf dem Finanzmarkt unterliegt, auf die der Unternehmer keinen Einfluss hat und die innerhalb der Widerrufsfrist auftreten können (z. B. Edelmetalle, Goldbarren, Kryptowährungs-bezogene Verträge).",
   },
 };
