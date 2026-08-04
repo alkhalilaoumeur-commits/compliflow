@@ -1,6 +1,6 @@
 "use client";
 
-import { useVvtStore } from "@/lib/vvt/store";
+import { useVvtStore, isUnternehmenValid } from "@/lib/vvt/store";
 import { VvtPdfDownload } from "../pdf-download";
 import { WatermarkRemoveButton } from "@/components/watermark/remove-button";
 import { CaptureCard } from "@/components/email-capture/capture-card";
@@ -21,10 +21,14 @@ export function StepAbschluss() {
         !!t.zweck?.trim() &&
         t.rechtsgrundlagen.length >= 1 &&
         t.datenkategorien.length >= 1 &&
-        t.betroffenengruppen.length >= 1,
+        t.betroffenengruppen.length >= 1 &&
+        t.empfaenger.length >= 1 &&
+        t.loeschfristen.trim().length > 0 &&
+        !!t.drittlandGarantie,
     );
-  const isReady =
-    !!(v.bezeichnung && v.name && v.email) && taetigkeitenComplete;
+  // Gleiche Kriterien wie die unten angezeigte Art.-30-Checkliste — vorher
+  // konnte man mit rot markierten, offenen Pflichtpunkten exportieren.
+  const isReady = isUnternehmenValid(data) && taetigkeitenComplete;
 
   const avMissing = data.taetigkeiten.flatMap((t) =>
     t.empfaenger
