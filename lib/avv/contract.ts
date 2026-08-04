@@ -89,6 +89,21 @@ function isAuftragnehmerInDrittland(data: AvvFormData) {
   return !EU_EWR_LAENDER.some((c) => land === c || land.includes(c));
 }
 
+// Länder mit Angemessenheitsbeschluss nach Art. 45 DSGVO — dort sind SCCs/TIA
+// nicht erforderlich; §6a darf keinen SCC-Abschluss behaupten.
+const ANGEMESSENHEIT_LAENDER = [
+  "schweiz", "vereinigtes königreich", "vereinigtes koenigreich", "großbritannien",
+  "grossbritannien", "united kingdom", "kanada", "japan", "südkorea", "suedkorea",
+  "israel", "neuseeland", "uruguay", "argentinien", "andorra", "färöer", "faeroeer",
+  "guernsey", "jersey", "isle of man",
+];
+
+function hatAngemessenheitsbeschluss(landRaw: string): boolean {
+  const land = (landRaw ?? "").trim().toLowerCase();
+  if (!land) return false;
+  return ANGEMESSENHEIT_LAENDER.some((c) => land === c || land.includes(c));
+}
+
 function landName(code: string) {
   return DRITTLAND_TOP20.find((l) => l.code === code)?.land ?? code;
 }
@@ -225,17 +240,26 @@ export function buildContract(data: AvvFormData): ContractBlock[] {
     ],
   });
 
-  // § 6a — Conditional: Auftragnehmer selbst im Drittland
+  // § 6a — Conditional: Auftragnehmer selbst im Drittland.
+  // Bei Angemessenheitsbeschluss (Art. 45) KEINE SCC/TIA-Behauptung — die
+  // Parteien haben in dem Fall regelmäßig keine SCCs geschlossen.
   if (anInDrittland) {
+    const adequacy = hatAngemessenheitsbeschluss(an.land ?? "");
     blocks.push({
       id: "p6a",
       number: "§ 6a",
       title: "Verarbeitung durch den Auftragsverarbeiter in einem Drittland",
-      paragraphs: [
-        `(1) Da der Auftragsverarbeiter seinen Sitz außerhalb der EU/des EWR hat (${an.land || "—"}), erfolgt die Verarbeitung in einem Drittland im Sinne des Kapitels V der DSGVO.`,
-        `(2) Die Parteien schließen zur Absicherung der Verarbeitung die EU-Standardvertragsklauseln (Durchführungsbeschluss (EU) 2021/914, Modul 2 — Verantwortlicher an Auftragsverarbeiter) ab. Diese gelten als Bestandteil dieses Vertrags und gehen bei Widerspruch den Regelungen dieses Vertrags vor.`,
-        `(3) Der Auftragsverarbeiter führt vor Beginn der Verarbeitung ein Transfer Impact Assessment (TIA) nach Maßgabe der EDPB Recommendations 01/2020 durch und dokumentiert dessen Ergebnis schriftlich. Auf dieser Grundlage sichert der Auftragsverarbeiter zu, ergänzende Schutzmaßnahmen umzusetzen, soweit dies zur Gewährleistung eines im Vergleich zur EU/EWR gleichwertigen Schutzniveaus erforderlich ist (insbesondere starke Verschlüsselung mit ausschließlicher Schlüsselkontrolle in der EU, Pseudonymisierung oder ergänzende vertragliche Garantien gegen unverhältnismäßige Behördenzugriffe).`,
-      ],
+      paragraphs: adequacy
+        ? [
+            `(1) Da der Auftragsverarbeiter seinen Sitz außerhalb der EU/des EWR hat (${an.land || "—"}), erfolgt die Verarbeitung in einem Drittland im Sinne des Kapitels V der DSGVO.`,
+            `(2) Für dieses Land besteht ein Angemessenheitsbeschluss der EU-Kommission nach Art. 45 DSGVO. Die Übermittlung ist auf dieser Grundlage zulässig; des Abschlusses von Standardvertragsklauseln oder sonstiger Garantien nach Art. 46 DSGVO bedarf es nicht. Die Pflichten aus diesem Vertrag gelten unabhängig davon in vollem Umfang.`,
+            `(3) Entfällt der Angemessenheitsbeschluss oder wird er eingeschränkt, informiert der Auftragsverarbeiter den Verantwortlichen unverzüglich; die Parteien schließen in diesem Fall unverzüglich die EU-Standardvertragsklauseln (Durchführungsbeschluss (EU) 2021/914, Modul 2) ab.`,
+          ]
+        : [
+            `(1) Da der Auftragsverarbeiter seinen Sitz außerhalb der EU/des EWR hat (${an.land || "—"}), erfolgt die Verarbeitung in einem Drittland im Sinne des Kapitels V der DSGVO.`,
+            `(2) Die Parteien schließen zur Absicherung der Verarbeitung die EU-Standardvertragsklauseln (Durchführungsbeschluss (EU) 2021/914, Modul 2 — Verantwortlicher an Auftragsverarbeiter) ab. Diese gelten als Bestandteil dieses Vertrags und gehen bei Widerspruch den Regelungen dieses Vertrags vor.`,
+            `(3) Der Auftragsverarbeiter führt vor Beginn der Verarbeitung ein Transfer Impact Assessment (TIA) nach Maßgabe der EDPB Recommendations 01/2020 durch und dokumentiert dessen Ergebnis schriftlich. Auf dieser Grundlage sichert der Auftragsverarbeiter zu, ergänzende Schutzmaßnahmen umzusetzen, soweit dies zur Gewährleistung eines im Vergleich zur EU/EWR gleichwertigen Schutzniveaus erforderlich ist (insbesondere starke Verschlüsselung mit ausschließlicher Schlüsselkontrolle in der EU, Pseudonymisierung oder ergänzende vertragliche Garantien gegen unverhältnismäßige Behördenzugriffe).`,
+          ],
     });
   }
 
@@ -402,13 +426,18 @@ export function getCompletionStatus(data: AvvFormData) {
       !!data.verarbeitung.zweck &&
       (data.verarbeitung.zweck?.length ?? 0) >= 10 &&
       !!data.verarbeitung.dauer &&
+      // befristet ohne Datum würde "bis zum —" in den Vertragstext rendern
+      (data.verarbeitung.dauer?.typ !== "befristet" || !!data.verarbeitung.dauer?.bis) &&
       (data.verarbeitung.arten?.length ?? 0) > 0,
     datenkategorien:
       data.datenkategorien.length > 0 || data.datenkategorienCustom.length > 0,
     personenkategorien:
       data.personenkategorien.length > 0 || data.personenkategorienCustom.length > 0,
     toms: fehlendeTomKategorien.length === 0,
-    subverarbeiter: true,
+    // "Keine geeignete Garantie" bei einem Drittland-Sub würde der Zusicherung
+    // in § 6 (6) direkt widersprechen — Export blocken, bis eine Garantie
+    // gewählt ist (Art. 44 ff. DSGVO lassen den Transfer sonst nicht zu)
+    subverarbeiter: data.subverarbeiter.every((s) => s.sicherheitsgarantie !== "Keine"),
     review: true,
   };
   const completedCount = Object.values(checks).filter(Boolean).length;
