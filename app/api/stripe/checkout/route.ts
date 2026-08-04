@@ -43,8 +43,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Zu viele Anfragen" }, { status: 429 });
   }
 
+  let body: unknown;
   try {
-    const body = await req.json();
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Ungültiger Request-Body" }, { status: 400 });
+  }
+
+  try {
     const { docType, returnPath } = body as { docType: DocType; returnPath?: string };
 
     if (!docType || !ALLOWED_DOC_TYPES.includes(docType)) {

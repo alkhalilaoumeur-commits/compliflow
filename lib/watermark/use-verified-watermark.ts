@@ -42,11 +42,15 @@ export function useVerifiedWatermark(docType: DocType): VerifiedStatus {
     let active = true;
 
     fetch(`/api/stripe/verify-session?sessionId=${encodeURIComponent(entry.sessionId)}`)
-      .then((r) => r.json())
-      .then((data: { valid?: boolean; docType?: string | null }) => {
+      .then(async (r) => ({ httpStatus: r.status, data: (await r.json()) as { valid?: boolean; docType?: string | null } }))
+      .then(({ httpStatus, data }) => {
         if (!active) return;
         if (data.valid === true && data.docType === docType) {
           setStatus("verified");
+        } else if (httpStatus === 429 || httpStatus >= 500) {
+          // Stripe down / Rate-Limit → Kauf-Eintrag BEHALTEN, nur konservativ
+          // das Wasserzeichen zeigen. Löschen würde zahlende Kunden bestrafen.
+          setStatus("none");
         } else {
           // Ungültige oder fremde Session-ID → Eintrag löschen
           reset(docType);

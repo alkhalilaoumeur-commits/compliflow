@@ -45,18 +45,31 @@ export async function POST(req: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const tool = session.metadata?.tool as "avv" | "vvt" | undefined;
     const customerEmail = session.customer_details?.email;
+    const meta = session.metadata ?? {};
 
-    if (tool && customerEmail) {
+    // Aktuelles Produkt: Watermark-Removal (metadata.product).
+    // Legacy-Fallback: altes Pro-Tier setzte metadata.tool (avv/vvt).
+    let docType: string | undefined;
+    let docLabel: string | undefined;
+    if (meta.product === "watermark_removal" && meta.doc_type) {
+      docType = meta.doc_type;
+      docLabel = meta.doc_label || meta.doc_type;
+    } else if (meta.tool === "avv" || meta.tool === "vvt") {
+      docType = meta.tool;
+      docLabel = meta.tool === "avv" ? "AVV (Auftragsverarbeitungsvertrag)" : "VVT (Verzeichnis Verarbeitungstätigkeiten)";
+    }
+
+    if (docType && docLabel && customerEmail) {
       try {
         await sendPaymentConfirmation({
           to: customerEmail,
-          tool,
+          docType,
+          docLabel,
           sessionId: session.id,
         });
       } catch (err) {
-        console.error("Resend email error:", err);
+        console.error("Resend email error:", err instanceof Error ? err.message : err);
       }
     }
   }

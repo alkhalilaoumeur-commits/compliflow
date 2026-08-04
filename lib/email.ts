@@ -190,26 +190,40 @@ export async function sendWaitlistConfirmed({
   });
 }
 
+// Pfad je Dokumenttyp — muss zu den Routen unter app/ passen
+const DOC_PATHS: Record<string, string> = {
+  avv: "/avv",
+  vvt: "/vvt",
+  impressum: "/impressum-generator",
+  datenschutz: "/datenschutz-generator",
+  widerruf: "/widerrufsbelehrung-generator",
+  agb: "/agb-generator",
+  cookie_banner: "/cookie-banner-generator",
+};
+
 export async function sendPaymentConfirmation({
   to,
-  tool,
+  docType,
+  docLabel,
   sessionId,
 }: {
   to: string;
-  tool: "avv" | "vvt";
+  docType: string;
+  docLabel: string;
   sessionId: string;
 }) {
   const resend = getResend();
   if (!resend) return;
 
-  const toolLabel = tool === "avv" ? "AVV-Generator Pro" : "VVT-Generator Pro";
-  const toolPath = tool === "avv" ? "avv" : "vvt";
-  const returnUrl = `https://compliflow.de/${toolPath}?success=true&session_id=${sessionId}`;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://compliflow.de";
+  const docPath = DOC_PATHS[docType] ?? "/";
+  const returnUrl = `${baseUrl}${docPath}?watermark_removed=true&session_id=${encodeURIComponent(sessionId)}&doc_type=${encodeURIComponent(docType)}`;
+  const toolLabel = escHtml(docLabel);
 
   await resend.emails.send({
     from: FROM,
     to: [to],
-    subject: `Dein ${toolLabel} ist bereit — compliflow.de`,
+    subject: `Zahlung bestätigt: Watermark-Entfernung für ${docLabel} — compliflow.de`,
     html: `
 <!DOCTYPE html>
 <html lang="de">
@@ -234,16 +248,16 @@ export async function sendPaymentConfirmation({
                 Zahlung bestätigt
               </p>
               <h1 style="font-family:Georgia,serif;font-size:26px;font-weight:500;color:#15171b;margin:0 0 16px;line-height:1.2;letter-spacing:-0.3px;">
-                ${toolLabel} ist freigeschaltet.
+                Watermark-Entfernung freigeschaltet: ${toolLabel}
               </h1>
               <p style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#4f5359;line-height:1.65;margin:0 0 32px;">
-                Dein Pro-Zugang ist aktiv. Klicke auf den Button unten um direkt zum Generator zu gelangen und dein PDF ohne Compliflow-Branding herunterzuladen.
+                Danke für deinen Kauf (0,99&nbsp;€ einmalig). Klicke auf den Button, um zum Generator zu gelangen und dein Dokument ohne Compliflow-Hinweis zu exportieren.
               </p>
               <a href="${returnUrl}" style="display:inline-block;background:#1f3d2f;color:#f6f2ea;font-family:'Courier New',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;padding:14px 28px;text-decoration:none;">
-                Jetzt PDF herunterladen →
+                Zum Generator →
               </a>
               <p style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#8b8e94;margin:24px 0 0;line-height:1.5;">
-                Dieser Link aktiviert deinen Pro-Zugang direkt im Browser. Du kannst ihn jederzeit erneut aufrufen — speichere diese E-Mail für späteren Zugriff.
+                Dieser Link aktiviert die Freischaltung direkt in deinem Browser. Du kannst ihn jederzeit erneut aufrufen — speichere diese E-Mail für späteren Zugriff.
               </p>
             </td>
           </tr>

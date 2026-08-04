@@ -40,7 +40,7 @@ describe("lib/email — No-Op-Pfad ohne RESEND_API_KEY", () => {
 
   it("sendPaymentConfirmation läuft ohne Key fehlerfrei durch", async () => {
     await expect(
-      sendPaymentConfirmation({ to: "a@b.de", tool: "avv", sessionId: "cs_test_123" }),
+      sendPaymentConfirmation({ to: "a@b.de", docType: "avv", docLabel: "AVV", sessionId: "cs_test_123" }),
     ).resolves.toBeUndefined();
   });
 });

@@ -49,7 +49,14 @@ export async function GET(req: NextRequest) {
       docType: isWatermark ? session.metadata?.doc_type : null,
       tool: isLegacyPro ? session.metadata?.tool : null,
     });
-  } catch {
-    return NextResponse.json({ valid: false }, { status: 400 });
+  } catch (err) {
+    // Ungültige/unbekannte Session-ID → 400. Alles andere (Stripe down, Netzwerk)
+    // laut loggen und als 503 melden, damit der Client den Kauf-Status nicht
+    // fälschlich als "ungültig" verwirft.
+    if (err instanceof Stripe.errors.StripeInvalidRequestError) {
+      return NextResponse.json({ valid: false }, { status: 400 });
+    }
+    console.error("[verify-session] Stripe error:", err instanceof Error ? err.message : err);
+    return NextResponse.json({ valid: false, error: "Payment system unavailable" }, { status: 503 });
   }
 }
