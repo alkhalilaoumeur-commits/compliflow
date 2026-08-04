@@ -191,7 +191,7 @@ export function StepAnbieter() {
 
       <Field
         label="Umsatzsteuer-ID (optional)"
-        hint="Wenn leer: Kleinunternehmer-Hinweis nach § 19 UStG wird automatisch ergänzt"
+        hint="Falls vorhanden — hat keinen Einfluss auf die Kleinunternehmer-Klausel"
       >
         <TextInput
           value={data.anbieter.ustId ?? ""}
@@ -199,6 +199,20 @@ export function StepAnbieter() {
           placeholder="DE123456789"
         />
       </Field>
+
+      <label className="flex items-start gap-3 cursor-pointer group">
+        <input
+          type="checkbox"
+          checked={data.anbieter.kleinunternehmer ?? false}
+          onChange={(e) => updateA("kleinunternehmer", e.target.checked)}
+          className="mt-1 h-4 w-4 accent-accent"
+        />
+        <span className="font-body text-[14px] leading-[1.6] text-ink-dim group-hover:text-ink transition">
+          <strong className="text-ink">Kleinunternehmer nach § 19 UStG</strong> — ich
+          erhebe keine Umsatzsteuer. Nur ankreuzen, wenn das Finanzamt dich als
+          Kleinunternehmer führt; die AGB übernehmen diese Aussage wörtlich.
+        </span>
+      </label>
     </div>
   );
 }

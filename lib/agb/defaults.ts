@@ -201,6 +201,22 @@ export const KLAUSELN = {
 
 (3) Bei Folgeaufträgen sind wir nicht an die vorherigen Preise gebunden.`,
 
+  // Kleinunternehmer-Varianten (§ 19 UStG) — eigene Templates, damit sich
+  // "enthalten die Umsatzsteuer" und "erheben keine Umsatzsteuer" nie widersprechen
+  preise_kleinunternehmer_b2c: `## § 3 Preise
+
+(1) Alle auf unserer Webseite angegebenen Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG erheben wir keine Umsatzsteuer und weisen diese daher auch nicht aus.
+
+(2) Bei Versand fallen zusätzlich Versandkosten an, deren Höhe vor Vertragsabschluss angezeigt wird.`,
+
+  preise_kleinunternehmer_b2b: `## § 3 Preise
+
+(1) Als Kleinunternehmer im Sinne von § 19 UStG erheben wir keine Umsatzsteuer und weisen diese daher auch nicht aus.
+
+(2) Maßgeblich sind die zum Zeitpunkt des Vertragsabschlusses geltenden Preise.
+
+(3) Bei Folgeaufträgen sind wir nicht an die vorherigen Preise gebunden.`,
+
   // Zahlung
   zahlung_b2c: `## § 4 Zahlung
 

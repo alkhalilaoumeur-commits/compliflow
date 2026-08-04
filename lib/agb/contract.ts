@@ -45,7 +45,12 @@ export function isLieferungValid(d: AgbData): boolean {
   return true;
 }
 
-export function isHaftungValid(_d: AgbData): boolean {
+export function isHaftungValid(d: AgbData): boolean {
+  // VSBG-Teilnahme ohne benannte Stelle würde "(noch zu benennen)" in den
+  // Rechtstext schreiben — hart blocken (Audit-Regel 5).
+  if (d.variante !== "b2b" && d.vsbgTeilnahmebereit && !d.vsbgSchlichtungsstelle?.trim()) {
+    return false;
+  }
   return true;
 }
 
@@ -145,12 +150,15 @@ function buildGeltungsbereich(d: AgbData): string {
 }
 
 function buildPreise(d: AgbData): string {
-  // Kleinunternehmer-Hinweis (M6 — Grammatik-Fix)
-  const kuHinweis = d.anbieter.ustId
-    ? ""
-    : " Als Kleinunternehmer im Sinne von § 19 UStG erheben wir keine Umsatzsteuer und weisen diese daher auch nicht aus.";
+  // Kleinunternehmer NUR bei explizitem Flag — eine fehlende USt-ID bedeutete
+  // vorher automatisch eine (oft falsche) steuerrechtliche Selbstauskunft.
+  if (d.anbieter.kleinunternehmer) {
+    return d.variante === "b2b"
+      ? KLAUSELN.preise_kleinunternehmer_b2b
+      : KLAUSELN.preise_kleinunternehmer_b2c;
+  }
   const template = d.variante === "b2b" ? KLAUSELN.preise_netto_b2b : KLAUSELN.preise_brutto_b2c;
-  return template.replace(/\{\{KU_HINWEIS\}\}/g, kuHinweis);
+  return template.replace(/\{\{KU_HINWEIS\}\}/g, "");
 }
 
 function buildZahlung(d: AgbData): string {
@@ -176,11 +184,16 @@ function buildLieferungOderLeistung(d: AgbData): string {
       ? KLAUSELN.gefahruebergang_b2c
       : KLAUSELN.gefahruebergang_b2b;
     return KLAUSELN.lieferung_shop
-      .replace(/\{\{LIEFERGEBIET\}\}/g, d.lieferung.liefergebiet)
-      .replace(/\{\{VERSANDKOSTEN_INFO\}\}/g, d.lieferung.versandkostenInfo)
-      .replace(/\{\{LIEFERZEIT\}\}/g, d.lieferung.lieferzeitTage)
+      .replace(/\{\{LIEFERGEBIET\}\}/g, () => d.lieferung.liefergebiet)
+      .replace(/\{\{VERSANDKOSTEN_INFO\}\}/g, () => d.lieferung.versandkostenInfo)
+      .replace(/\{\{LIEFERZEIT\}\}/g, () => d.lieferung.lieferzeitTage)
       .replace(/\{\{GEFAHRUEBERGANG\}\}/g, gefahr)
       .replace(/\{\{EIGENTUMSVORBEHALT\}\}/g, eigentum);
+  }
+  // Digital-Shop ohne Versand: die Bereitstellung regelt buildDigital() —
+  // die Dienstleistungsklausel wäre hier fachlich falsch
+  if (d.variante === "b2c_shop" && (d.digital.istDigital || isDigitaleArt(d.leistung.art))) {
+    return "";
   }
   // Sonst Leistungsklausel
   return KLAUSELN.leistung_dienstleistung;
@@ -199,7 +212,7 @@ function buildStornierung(d: AgbData): string {
 
 function buildWiderruf(d: AgbData): string {
   if (d.variante === "b2b") return "";
-  return KLAUSELN.widerruf_b2c.replace(/\{\{WIDERRUF_URL\}\}/g, d.widerrufUrl);
+  return KLAUSELN.widerruf_b2c.replace(/\{\{WIDERRUF_URL\}\}/g, () => d.widerrufUrl);
 }
 
 function buildGewaehrleistung(d: AgbData): string {
@@ -224,7 +237,7 @@ function buildHaftung(d: AgbData): string {
 }
 
 function buildDatenschutz(d: AgbData): string {
-  return KLAUSELN.datenschutz.replace(/\{\{DATENSCHUTZ_URL\}\}/g, d.datenschutzUrl);
+  return KLAUSELN.datenschutz.replace(/\{\{DATENSCHUTZ_URL\}\}/g, () => d.datenschutzUrl);
 }
 
 function buildSchluss(d: AgbData): string {
@@ -232,17 +245,21 @@ function buildSchluss(d: AgbData): string {
   if (d.variante === "b2b") {
     // L1 — Schiedsklausel optional
     const schieds = d.schiedsklausel
-      ? KLAUSELN.schiedsklausel_b2b.replace(/\{\{GERICHTSSTAND\}\}/g, d.gerichtsstand || d.anbieter.ort)
+      ? KLAUSELN.schiedsklausel_b2b.replace(/\{\{GERICHTSSTAND\}\}/g, () => d.gerichtsstand || d.anbieter.ort)
       : "";
-    return KLAUSELN.schluss_b2b
-      .replace(/\{\{GERICHTSSTAND\}\}/g, d.gerichtsstand || d.anbieter.ort)
-      .replace(/\{\{ERFUELLUNGSORT\}\}/g, d.erfuellungsort || d.anbieter.ort)
-      .replace(/\{\{SCHIEDSKLAUSEL\}\}/g, schieds)
-      .replace(/\{\{STAND_DATUM\}\}/g, datum);
+    let text = KLAUSELN.schluss_b2b
+      .replace(/\{\{GERICHTSSTAND\}\}/g, () => d.gerichtsstand || d.anbieter.ort)
+      .replace(/\{\{ERFUELLUNGSORT\}\}/g, () => d.erfuellungsort || d.anbieter.ort)
+      .replace(/\{\{SCHIEDSKLAUSEL\}\}/g, () => schieds)
+      .replace(/\{\{STAND_DATUM\}\}/g, () => datum);
+    // Ohne Schiedsklausel würde die Nummerierung von (5) auf (7) springen
+    if (!schieds) text = text.replace("(7) Stand dieser AGB:", "(6) Stand dieser AGB:");
+    return text;
   }
-  // H2 — VSBG-Variante
+  // H2 — VSBG-Variante (fehlende Stelle wird von isHaftungValid geblockt,
+  // nie als Platzhalter exportiert)
   const vsbgText = d.vsbgTeilnahmebereit
-    ? KLAUSELN.vsbg_teilnahmebereit.replace(/\{\{SCHLICHTUNGSSTELLE\}\}/g, d.vsbgSchlichtungsstelle || "(noch zu benennen)")
+    ? KLAUSELN.vsbg_teilnahmebereit.replace(/\{\{SCHLICHTUNGSSTELLE\}\}/g, () => d.vsbgSchlichtungsstelle?.trim() ?? "")
     : KLAUSELN.vsbg_nicht_teilnahmebereit;
   return KLAUSELN.schluss_b2c
     .replace(/\{\{VSBG_KLAUSEL\}\}/g, vsbgText)
@@ -385,8 +402,8 @@ export function buildHtml(d: AgbData, options: BuildOptions = {}): string {
     .filter((s) => s && s.trim().length > 0)
     .map((s) =>
       s
-        .replace(/\{\{ANBIETER_NAME\}\}/g, anbName)
-        .replace(/\{\{VERTRAGSSPRACHE\}\}/g, vsp),
+        .replace(/\{\{ANBIETER_NAME\}\}/g, () => anbName)
+        .replace(/\{\{VERTRAGSSPRACHE\}\}/g, () => vsp),
     );
 
   const body = sections.map((s) => (s.startsWith("<") ? s : mdSectionToHtml(s))).join("\n\n");

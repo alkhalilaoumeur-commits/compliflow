@@ -47,6 +47,7 @@ export type Anbieter = {
   registerNummer?: string;
   registerGericht?: string;
   ustId?: string;
+  kleinunternehmer?: boolean;   // § 19 UStG — explizit, NICHT aus fehlender USt-ID abgeleitet
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
