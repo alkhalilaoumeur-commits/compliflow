@@ -83,8 +83,15 @@ export function createRateLimiter(limit: number, windowS: number) {
 
   return async function isLimited(ip: string): Promise<boolean> {
     if (upstash) {
-      const { success } = await upstash.limit(ip);
-      return !success;
+      try {
+        const { success } = await upstash.limit(ip);
+        return !success;
+      } catch (err) {
+        // Upstash down/Token rotiert: NICHT mit unbehandeltem 500 die ganze
+        // Route lahmlegen — auf den In-Memory-Limiter ausweichen und laut loggen.
+        console.error("RATE-LIMIT: Upstash-Fehler, In-Memory-Fallback aktiv:", err instanceof Error ? err.message : err);
+        return memory(ip);
+      }
     }
     return memory(ip);
   };
@@ -97,3 +104,4 @@ export const verifyLimiter = createRateLimiter(20, 60);     // 20/min
 export const doiConfirmLimiter = createRateLimiter(10, 60); // 10/min
 export const brevoLimiter = createRateLimiter(5, 60);       // 5/min
 export const waitlistLimiter = createRateLimiter(5, 60);    // 5/min (IP-Schutz für joinWaitlist)
+export const healthLimiter = createRateLimiter(20, 60);     // 20/min (nur externe Aufrufe)

@@ -60,12 +60,12 @@ export function CaptureCard({
         setMessage(data.error ?? "Anmeldung fehlgeschlagen.");
         return;
       }
-      // Plausible-Event
+      // Plausible-Event (isNew liefert der Server aus Enumerationsschutz nicht mehr)
       if (typeof window !== "undefined" && typeof (window as unknown as { plausible?: (e: string, opts?: object) => void }).plausible === "function") {
         (window as unknown as { plausible: (e: string, opts?: object) => void })
-          .plausible("Email Captured", { props: { quelle, mode: data.mock ? "mock" : "live", isNew: data.isNew ?? true } });
+          .plausible("Email Captured", { props: { quelle, mode: data.mock ? "mock" : "live" } });
       }
-      setState(data.isNew === false ? "already" : "success");
+      setState("success");
       setMessage(data.message ?? "Bitte bestätige die E-Mail aus deinem Posteingang.");
       setEmail("");
       setConsent(false);

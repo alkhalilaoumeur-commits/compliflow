@@ -98,11 +98,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Bewusst KEINE Unterscheidung neu/bereits angemeldet in der Antwort —
+  // sonst kann jeder per POST prüfen, welche Emails im Verteiler stehen
+  // (Email-Enumeration). Die Waitlist-Action macht es genauso.
   return NextResponse.json({
     ok: true,
-    isNew: result.isNew,
-    message: result.isNew
-      ? "Bitte bestätige deine E-Mail über den Link, den wir dir gerade geschickt haben."
-      : "Du bist bereits angemeldet — alles gut.",
+    message:
+      "Fast geschafft: Falls deine Adresse noch nicht bestätigt ist, bekommst du gleich eine E-Mail mit einem Bestätigungslink.",
   });
 }

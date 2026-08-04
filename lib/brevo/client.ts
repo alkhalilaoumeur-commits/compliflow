@@ -50,8 +50,18 @@ export async function brevoSubscribeDoi(args: BrevoSubscribeArgs): Promise<Brevo
     return { ok: false, error: `[brevo] Missing env vars: ${missing}`, status: 500 };
   }
 
-  const listIds = args.listIds ?? (rawListId ? [parseInt(rawListId, 10)] : [1]);
-  const doiTemplateId = args.doiTemplateId ?? (rawTemplateId ? parseInt(rawTemplateId, 10) : 1);
+  // parseInt("abc") wäre NaN → Brevo-400 zur Laufzeit; nicht-numerische
+  // ENV-Werte werden hier laut als Konfigurationsfehler behandelt.
+  const parsedListId = rawListId ? parseInt(rawListId, 10) : NaN;
+  const parsedTemplateId = rawTemplateId ? parseInt(rawTemplateId, 10) : NaN;
+  if (!args.listIds && rawListId && Number.isNaN(parsedListId)) {
+    return { ok: false, error: "[brevo] BREVO_LIST_ID ist keine Zahl", status: 500 };
+  }
+  if (!args.doiTemplateId && rawTemplateId && Number.isNaN(parsedTemplateId)) {
+    return { ok: false, error: "[brevo] BREVO_DOI_TEMPLATE_ID ist keine Zahl", status: 500 };
+  }
+  const listIds = args.listIds ?? (Number.isNaN(parsedListId) ? [1] : [parsedListId]);
+  const doiTemplateId = args.doiTemplateId ?? (Number.isNaN(parsedTemplateId) ? 1 : parsedTemplateId);
   const redirectionUrl = args.redirectionUrl ?? `${rawAppUrl ?? "http://localhost:3000"}/waitlist/confirmed`;
 
   const body = {
