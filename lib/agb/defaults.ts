@@ -354,11 +354,9 @@ Die Erhebung, Verarbeitung und Nutzung personenbezogener Daten erfolgt nach unse
 
 (2) Sollte eine Bestimmung dieser AGB unwirksam sein oder werden, so wird die Wirksamkeit der übrigen Bestimmungen davon nicht berührt.
 
-(3) Die EU-Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie unter https://ec.europa.eu/consumers/odr finden.
-
 {{VSBG_KLAUSEL}}
 
-(5) Stand dieser AGB: {{STAND_DATUM}}`,
+(4) Stand dieser AGB: {{STAND_DATUM}}`,
 
   schluss_b2b: `## § 11 Schlussbestimmungen
 
@@ -465,8 +463,8 @@ Die Erhebung, Verarbeitung und Nutzung personenbezogener Daten erfolgt nach unse
   // VSBG-Varianten (H2)
   // ─────────────────────────────────────────────────────────────────────────
 
-  vsbg_nicht_teilnahmebereit: "(4) An einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle nach § 36 VSBG nehmen wir nicht teil und sind dazu nicht verpflichtet.",
-  vsbg_teilnahmebereit: "(4) Wir sind bereit, an einem Streitbeilegungsverfahren vor folgender Verbraucherschlichtungsstelle teilzunehmen: {{SCHLICHTUNGSSTELLE}}.",
+  vsbg_nicht_teilnahmebereit: "(3) An einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle nach § 36 VSBG nehmen wir nicht teil und sind dazu nicht verpflichtet.",
+  vsbg_teilnahmebereit: "(3) Wir sind bereit, an einem Streitbeilegungsverfahren vor folgender Verbraucherschlichtungsstelle teilzunehmen: {{SCHLICHTUNGSSTELLE}}.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // L1 — Schiedsklausel (B2B)

@@ -124,14 +124,14 @@ const styles = StyleSheet.create({
   },
 });
 
-function PageFooter({ data }: { data: ImpressumData }) {
+function PageFooter({ data, showCredit }: { data: ImpressumData; showCredit: boolean }) {
   const name = data.firma || `${data.vorname} ${data.nachname}`.trim() || "—";
   return (
     <View style={styles.footer} fixed>
       <Text style={styles.footerText}>
         Impressum · {name} · Stand: {formatDateDE(new Date(data.letztAktualisiert))}
       </Text>
-      <Text style={styles.footerBranding}>compliflow.de · made by DRVN</Text>
+      {showCredit && <Text style={styles.footerBranding}>compliflow.de · made by DRVN</Text>}
       <Text
         style={styles.footerPage}
         render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
@@ -140,7 +140,14 @@ function PageFooter({ data }: { data: ImpressumData }) {
   );
 }
 
-export function ImpressumPdfDocument({ data }: { data: ImpressumData }) {
+// showCredit=false entfernt das Compliflow-Branding (Watermark-Removal, 0,99 €)
+export function ImpressumPdfDocument({
+  data,
+  showCredit = true,
+}: {
+  data: ImpressumData;
+  showCredit?: boolean;
+}) {
   const sections = buildSections(data);
   const name = data.firma || `${data.vorname} ${data.nachname}`.trim() || "Unbekannt";
 
@@ -188,14 +195,17 @@ export function ImpressumPdfDocument({ data }: { data: ImpressumData }) {
           </View>
         ))}
 
-        <PageFooter data={data} />
+        <PageFooter data={data} showCredit={showCredit} />
       </Page>
     </Document>
   );
 }
 
-export async function renderImpressumPdf(data: ImpressumData): Promise<Blob> {
+export async function renderImpressumPdf(
+  data: ImpressumData,
+  options: { showCredit?: boolean } = {},
+): Promise<Blob> {
   const { pdf } = await import("@react-pdf/renderer");
-  const doc = <ImpressumPdfDocument data={data} />;
+  const doc = <ImpressumPdfDocument data={data} showCredit={options.showCredit ?? true} />;
   return await pdf(doc).toBlob();
 }

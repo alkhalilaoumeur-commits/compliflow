@@ -192,9 +192,8 @@ Wir sind bereit, an einem Streitbeilegungsverfahren vor der Universalschlichtung
 Wir sind gesetzlich verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.`,
 };
 
-export const OS_PLATTFORM_TEXT = `Online-Streitbeilegung
-
-Die EU-Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/. Unsere E-Mail-Adresse findest du oben im Impressum.`;
+// OS_PLATTFORM_TEXT entfernt: Die EU-ODR-Plattform wurde zum 20.07.2025
+// eingestellt (VO (EU) 2024/3228) — der Pflicht-Link aus Art. 14 ODR-VO ist Geschichte.
 
 /** Welche Felder werden je Rechtsform gebraucht? */
 export function rechtsformConfig(rf: Rechtsform) {

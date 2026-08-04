@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { useImpressumStore } from "@/lib/impressum/store";
+import { useVerifiedWatermark } from "@/lib/watermark/use-verified-watermark";
 import { slugify } from "@/lib/utils";
 
 export function PdfDownload() {
   const data = useImpressumStore((s) => s.data);
+  const isBought = useVerifiedWatermark("impressum") === "verified";
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
 
   const filename = () => {
     const name = slugify(
-      data.firma || `${data.vorname}-${data.nachname}` || "Impressum",
+      data.firma || `${data.vorname}-${data.nachname}`.replace(/^-|-$/g, "") || "Impressum",
     );
     const date = new Date().toISOString().split("T")[0];
     return `Impressum_${name}_${date}.pdf`;
@@ -23,7 +25,7 @@ export function PdfDownload() {
       const { renderImpressumPdf } = await import(
         "@/lib/impressum/pdf/impressum-document"
       );
-      const blob = await renderImpressumPdf(data);
+      const blob = await renderImpressumPdf(data, { showCredit: !isBought });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -31,7 +33,7 @@ export function PdfDownload() {
       a.click();
       URL.revokeObjectURL(url);
       if (typeof window !== "undefined" && typeof (window as any).plausible === "function") {
-        (window as any).plausible("PDF Downloaded", { props: { tool: "impressum", tier: "free" } });
+        (window as any).plausible("PDF Downloaded", { props: { tool: "impressum", tier: isBought ? "paid" : "free" } });
       }
       setState("idle");
     } catch (err) {

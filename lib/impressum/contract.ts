@@ -10,7 +10,6 @@ import {
   rechtsformConfig,
   HAFTUNG_TEXTE,
   VSBG_TEXTE,
-  OS_PLATTFORM_TEXT,
 } from "./defaults";
 import { escapeHtml } from "@/lib/utils";
 
@@ -315,16 +314,6 @@ function buildVsbgText(d: ImpressumData): string | null {
 }
 
 /**
- * CRITICAL FIX #2: Art. 14 Abs. 1 ODR-VO — Pflicht-Link für B2C-Online-Händler
- * UNABHÄNGIG von der VSBG-Teilnahme. Pflicht, sobald Verkauf an Verbraucher
- * stattfindet.
- */
-function buildOsPlattformText(d: ImpressumData): string | null {
-  if (!d.vsbg.istB2c) return null;
-  return OS_PLATTFORM_TEXT;
-}
-
-/**
  * CRITICAL FIX #1: § 34 GewO-Erlaubnis-Block
  * Pflicht im Impressum bei gewerblicher Tätigkeit nach § 34c-i GewO
  * (Makler, Versicherer, Finanzanlagenvermittler etc.).
@@ -462,11 +451,9 @@ export function buildSections(d: ImpressumData): Section[] {
     sections.push({ id: "vsbg", title: "Verbraucherschlichtung", body: vsbg });
   }
 
-  // Block 9b: OS-Plattform-Link (CRITICAL FIX #2) — eigener Block, Art. 14 ODR-VO
-  const osPlatform = buildOsPlattformText(d);
-  if (osPlatform) {
-    sections.push({ id: "os_plattform", title: "Online-Streitbeilegung (OS)", body: osPlatform });
-  }
+  // Kein OS-Plattform-Block mehr: Die EU-ODR-Plattform wurde zum 20.07.2025
+  // eingestellt (VO (EU) 2024/3228 hat die ODR-VO aufgehoben) — die frühere
+  // Link-Pflicht aus Art. 14 ODR-VO ist entfallen.
 
   // Block 10: Haftung
   const haftung = buildHaftungText(d);

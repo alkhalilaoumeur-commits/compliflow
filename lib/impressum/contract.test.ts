@@ -377,11 +377,11 @@ describe("buildSections", () => {
     expect(ids).toContain("stammkapital");
   });
 
-  it("ergänzt OS-Plattform-Block bei B2C", () => {
+  it("enthält KEINEN OS-Plattform-Block mehr (ODR-Plattform am 20.07.2025 eingestellt)", () => {
     const d = validEinzel();
     d.vsbg = { istB2c: true, teilnahme: "nein" };
     const secs = buildSections(d);
-    expect(secs.map((s) => s.id)).toContain("os_plattform");
+    expect(secs.map((s) => s.id)).not.toContain("os_plattform");
   });
 
   it("enthält Steuerblock wenn USt-ID gesetzt", () => {
