@@ -795,15 +795,15 @@ function Waitlist() {
       <Container className="py-24 lg:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faded">
-            06 · Vor dem Launch
+            06 · Updates
           </p>
           <h2 className="mt-5 balance font-display text-[40px] font-medium leading-[1.05] tracking-[-0.02em] text-ink md:text-[56px]">
-            Cookie-Banner ist in Arbeit.
+            Bleib auf dem Laufenden.
           </h2>
           <p className="mx-auto mt-5 max-w-xl font-body text-[16px] leading-[1.6] text-ink-dim">
-            Tool 1 (AVV) und Tool 2 (VVT) sind live. Trag dich ein — Anmelder bekommen{" "}
-            <span className="text-ink">34 % Rabatt</span> auf den Cookie-Banner Pro
-            in der Launch-Woche und Early-Access zwei Tage vorher.
+            Alle 7 Generatoren sind live und kostenlos. Trag dich ein — wir melden
+            uns, wenn sich Gesetze ändern, die deine Dokumente betreffen, oder wenn
+            ein neuer Generator dazukommt.
           </p>
 
           <div className="mt-10 border border-line bg-surface-alt p-6 shadow-md md:p-8">

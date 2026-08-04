@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impressum-Generator kostenlos — § 5 DDG Pflichtangaben | Compliflow",
+  title: "Impressum-Generator kostenlos — § 5 DDG Pflichtangaben",
   description:
     "Rechtssicheres Impressum nach § 5 DDG (ehem. § 5 TMG) in 5 Minuten erstellen: Pflichtangaben für Einzelunternehmer, GmbH, GbR, e.V. und Freiberufler. HTML zum Einfügen + PDF-Download. Kostenlos, kein Account.",
   alternates: { canonical: "https://compliflow.de/impressum-generator" },

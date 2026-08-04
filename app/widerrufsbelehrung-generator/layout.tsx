@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Widerrufsbelehrung-Generator | Compliflow",
+  title: "Widerrufsbelehrung-Generator — § 312g BGB",
   description:
     "Rechtssichere Widerrufsbelehrung nach BGB Anhang § 312f kostenlos erstellen. HTML zum Einbinden + Muster-Widerrufsformular. Für Online-Shops, Dienstleister und digitale Inhalte.",
   alternates: { canonical: "https://compliflow.de/widerrufsbelehrung-generator" },

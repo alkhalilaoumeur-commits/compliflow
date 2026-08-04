@@ -14,6 +14,7 @@
 - Bei jedem Schritt erklären: WAS du tust, WARUM, WOHIN die Daten gehen
 - Lieber zu ausführlich als zu knapp
 - Honest over polite — direkt sagen wenn etwas kaputt oder unrealistisch ist
+- **Verständnis vor Tempo (seit 2026-07-28):** Ilias will jeden Schritt verstehen, nicht nur Ergebnisse sehen. Größere Änderungen ZUERST als Plan in einfacher Sprache erklären, auf Freigabe warten, dann in kleinen nachvollziehbaren Schritten umsetzen (ein Commit pro Sinneinheit). Keine großen autonomen Umbauten in einem Wurf.
 
 ---
 

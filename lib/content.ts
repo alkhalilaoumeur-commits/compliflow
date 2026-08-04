@@ -35,17 +35,17 @@ export const PRIMER = [
     id: "cookie-banner",
     eyebrow: "Tool 03",
     title: "Cookie-Banner — Consent Management",
-    law: "TTDSG + DSGVO Art. 6",
+    law: "§ 25 TDDDG + DSGVO Art. 6",
     keyword: "Cookie Banner DSGVO konform",
-    body: `Seit dem TTDSG gilt: Tracking, Analytics, Marketing-Pixel — alles braucht aktive Zustimmung. Pre-Ticked, Cookie-Wall, oder ein "Akzeptieren"-Button ohne gleichwertiges "Ablehnen" sind abmahnbar. Wir bauen einen Banner, der nicht aussieht wie 2014 und gleichzeitig Audit-fest mitprotokolliert.`,
+    body: `Nach § 25 TDDDG (dem Nachfolger des TTDSG) gilt: Tracking, Analytics, Marketing-Pixel — alles braucht aktive Zustimmung. Pre-Ticked, Cookie-Wall, oder ein "Akzeptieren"-Button ohne gleichwertiges "Ablehnen" sind abmahnbar. Unser Banner sieht nicht aus wie 2014 und blockiert Tracker zuverlässig, bis der Consent da ist.`,
     pillars: [
       "Akzeptieren + Ablehnen gleich prominent",
       "Tracking erst nach Consent",
       "Google Consent Mode V2",
-      "Audit-Trail in der Datenbank",
+      "Consent-Dokumentation im Browser (localStorage)",
     ],
     duration: "10 Min Setup",
-    launch: "19. August 2026",
+    launch: "Live seit Juli 2026",
   },
 ];
 
@@ -64,7 +64,7 @@ export const FAQS = [
   },
   {
     q: "Was kostet Compliflow?",
-    a: "Free-Tier mit Compliflow-Footer ist kostenlos. Pro Dokument (29 €, einmalig) entfernt den Footer — je AVV und VVT separat buchbar. Agency (19 €/Monat) ist für Datenschutzberater und Agenturen geplant, die unbegrenzt Mandanten-Dokumente erstellen.",
+    a: "Nichts. Alle 7 Generatoren sind komplett kostenlos — ohne Account, ohne Limits, ohne Abo. Die fertigen Dokumente enthalten einen kleinen 'Erstellt mit Compliflow'-Hinweis, den du optional für einmalig 0,99 € pro Dokument entfernen kannst. Das ist alles.",
   },
   {
     q: "Ist das hier rechtsverbindlich?",
@@ -76,7 +76,7 @@ export const FAQS = [
   },
   {
     q: "Kann ich Compliflow als Agentur für meine Kunden nutzen?",
-    a: "Der Agency-Plan (19 €/Monat, bald buchbar) ist genau dafür gedacht: unbegrenzte Dokumente ohne Branding, Mandanten-Übersicht und Prioritäts-Support. Jetzt schon per E-Mail vormerken: hello@compliflow.de.",
+    a: "Ja, uneingeschränkt. Alle Generatoren sind auch für Mandanten- und Kunden-Dokumente kostenlos und ohne Limit nutzbar — da alles lokal in deinem Browser läuft, kannst du beliebig viele Dokumente erstellen. Feature-Wünsche für Agentur-Workflows gern an hello@compliflow.de.",
   },
   {
     q: "Wer steht hinter Compliflow?",
@@ -92,6 +92,6 @@ export const FAQS = [
   },
   {
     q: "In welchem Format erhalte ich das fertige Dokument?",
-    a: "Als PDF-Datei, direkt aus deinem Browser generiert — ohne Upload, ohne E-Mail, ohne Wartezeit. Die kostenlose Version enthält einen kleinen 'Erstellt mit Compliflow'-Footer. Pro (29 € einmalig) entfernt diesen. Das PDF ist zum Ausdrucken, digitalen Unterzeichnen (z. B. mit DocuSign oder Adobe Sign) oder zur Ablage geeignet.",
+    a: "Als PDF-Datei, direkt aus deinem Browser generiert — ohne Upload, ohne E-Mail, ohne Wartezeit. Impressum, Datenschutzerklärung, AGB, Widerrufsbelehrung und Cookie-Banner gibt es zusätzlich als Copy-Paste-HTML für deine Website. Der kleine 'Erstellt mit Compliflow'-Hinweis lässt sich optional für einmalig 0,99 € entfernen. Das PDF ist zum Ausdrucken, digitalen Unterzeichnen oder zur Ablage geeignet.",
   },
 ];

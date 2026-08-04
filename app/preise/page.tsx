@@ -1,12 +1,6 @@
 import { MobileNav } from "@/components/mobile-nav";
 import { ToolsDropdown } from "@/components/tools-dropdown";
 
-export const metadata = {
-  title: "Preise — Compliflow",
-  description:
-    "Alle Generatoren sind kostenlos. 0,99€ einmalig pro Dokument, wenn du den Compliflow-Hinweis im Footer entfernen willst.",
-};
-
 export default function PreisePage() {
   return (
     <main id="main-content" className="relative z-10 min-h-screen">

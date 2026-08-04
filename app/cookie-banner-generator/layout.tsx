@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cookie-Banner-Generator | Compliflow",
+  title: "Cookie-Banner-Generator — § 25 TDDDG",
   description:
     "DSGVO-konformes Cookie-Banner kostenlos erstellen. BGH-2025-konform mit gleich prominentem Accept/Reject. HTML+JS-Snippet zum direkten Einbau.",
   alternates: { canonical: "https://compliflow.de/cookie-banner-generator" },

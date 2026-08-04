@@ -14,7 +14,7 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!post) return {};
   const url = `https://compliflow.de/blog/${post.slug}`;
   return {
-    title: `${post.title} | Compliflow Blog`,
+    title: post.title,
     description: post.excerpt,
     alternates: { canonical: url },
     openGraph: {
@@ -184,7 +184,7 @@ export default function BlogPostPage({ params }: Props) {
   const others = (sameCat.length >= 2 ? sameCat : BLOG_POSTS.filter((p) => p.slug !== post.slug)).slice(0, 2);
   const isCookiePost = post.category === "Cookie-Banner";
   const isVvtPost = post.category === "Verarbeitungsverzeichnis";
-  const ctaHref = isCookiePost ? "/cookie-banner" : isVvtPost ? "/vvt" : "/avv";
+  const ctaHref = isCookiePost ? "/cookie-banner-generator" : isVvtPost ? "/vvt" : "/avv";
   const ctaLabel = isCookiePost
     ? "Cookie-Banner Warteliste →"
     : isVvtPost

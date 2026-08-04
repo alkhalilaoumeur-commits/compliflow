@@ -66,6 +66,12 @@ const nextConfig = {
     instrumentationHook: true,
   },
   ...(useStandalone ? { output: "standalone" } : {}),
+  async redirects() {
+    return [
+      // Alte "Coming Soon"-Seite — der Generator ist längst live.
+      { source: "/cookie-banner", destination: "/cookie-banner-generator", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

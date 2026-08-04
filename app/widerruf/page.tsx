@@ -64,7 +64,7 @@ export default function WiderrufPage() {
           <strong className="text-ink">Wichtig:</strong> Das Widerrufsrecht{" "}
           <strong className="text-ink">erlischt vorzeitig</strong> bei einem Vertrag zur
           Lieferung von nicht auf einem körperlichen Datenträger befindlichen digitalen
-          Inhalten (z.B. PDF-Download eines AVV-Vertrags), wenn du:
+          Inhalten (z.B. die kostenpflichtige Watermark-Entfernung), wenn du:
         </p>
         <ol className="list-decimal list-inside space-y-2 ml-4">
           <li>
@@ -77,8 +77,9 @@ export default function WiderrufPage() {
           </li>
         </ol>
         <p>
-          Diese Bestätigung wirst du im Checkout-Prozess explizit abgeben müssen, bevor
-          der Download des Dokuments freigegeben wird.
+          Diese Bestätigung gibst du im Stripe-Checkout explizit ab, bevor die
+          Watermark-Entfernung freigeschaltet wird. Die Generatoren selbst sind
+          kostenlos und davon nicht betroffen.
         </p>
       </LegalSection>
 

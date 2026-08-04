@@ -84,7 +84,7 @@ export default function DatenschutzPage() {
         <DienstCard
           name="Stripe Payments Europe Ltd."
           land="Irland (EU)"
-          zweck="Zahlungsabwicklung für kostenpflichtige Leistungen (Pro-Download)"
+          zweck="Zahlungsabwicklung für kostenpflichtige Leistungen (Watermark-Entfernung)"
           garantie="EU-EWR · AVV abgeschlossen"
           link="https://stripe.com/privacy"
         />

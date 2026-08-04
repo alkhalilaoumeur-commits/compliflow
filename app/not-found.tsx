@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Logo } from "@/components/brand/logo";
 
 export const metadata: Metadata = {
-  title: "Seite nicht gefunden — Compliflow",
+  title: "Seite nicht gefunden",
   robots: { index: false, follow: false },
 };
 
@@ -30,8 +30,8 @@ export default function NotFound() {
             Diese Seite gibt&apos;s nicht.
           </h1>
           <p className="text-ink-dim text-lg leading-relaxed mb-10 max-w-lg">
-            Vielleicht hast du dich vertippt, oder die Seite ist noch nicht gebaut.
-            Tool 3 (Cookie-Banner) kommt am 19. August 2026.
+            Vielleicht hast du dich vertippt, oder die Seite ist umgezogen.
+            Alle 7 Generatoren findest du über die Startseite.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-4 max-w-2xl">

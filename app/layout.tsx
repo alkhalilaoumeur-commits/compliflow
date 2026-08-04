@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     "DSGVO Art 30",
     "Cookie Banner Generator",
     "Cookie Consent",
-    "TTDSG",
+    "TDDDG",
     "Compliance Tools",
     "Datenschutz Tools DACH",
     "DSGVO konform",
@@ -134,11 +134,7 @@ function buildJsonLd() {
         inLanguage: "de-DE",
         description:
           "Erstelle DSGVO-konforme Auftragsverarbeitungs-Verträge nach Art. 28 in 2 Minuten — mit Live-Vorschau, PDF-Export und Custom-Branding.",
-        offers: [
-          { "@type": "Offer", name: "Free", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: `${SITE_URL}/avv` },
-          { "@type": "Offer", name: "Pro Single", price: "29", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Pro Agency", price: "19", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
-        ],
+        offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: `${SITE_URL}/avv` },
       },
       {
         "@type": "SoftwareApplication",
@@ -149,18 +145,18 @@ function buildJsonLd() {
         inLanguage: "de-DE",
         description:
           "Verarbeitungsverzeichnis nach Art. 30 DSGVO erstellen — strukturiert, prüfungssicher, mit Branchen-Vorlagen.",
-        offers: { "@type": "Offer", price: "29", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
+        offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
       },
       {
         "@type": "SoftwareApplication",
-        "@id": `${SITE_URL}/cookie-banner#app`,
+        "@id": `${SITE_URL}/cookie-banner-generator#app`,
         name: "Compliflow Cookie-Banner",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         inLanguage: "de-DE",
         description:
-          "TTDSG- und DSGVO-konformer Cookie-Banner mit Audit-Trail und Google Consent Mode V2.",
-        offers: { "@type": "Offer", price: "9", priceCurrency: "EUR", availability: "https://schema.org/PreOrder" },
+          "TDDDG- und DSGVO-konformer Cookie-Banner mit Google Consent Mode V2 — kostenlos als Copy-Paste-Snippet.",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
       },
       {
         "@type": "FAQPage",

@@ -127,7 +127,7 @@ export const tools: Tool[] = [
     name: "Cookie-Banner",
     tag: "Consent Management · § 25 TDDDG",
     pitch:
-      "Modernes Consent-Tool mit Audit-Trail, 4 Banner-Stilen und 18 Tracking-Tools. BGH-2025-konform mit gleich prominentem Accept/Reject.",
+      "Modernes Consent-Tool mit Consent-Speicherung im Browser, 4 Banner-Stilen und 18 Tracking-Tools. BGH-2025-konform mit gleich prominentem Accept/Reject.",
     bullets: [
       "Accept und Reject gleich prominent (BGH 2025)",
       "Tracking erst nach echtem Consent — GA4, Meta, Plausible & mehr",

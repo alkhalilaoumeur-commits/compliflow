@@ -239,22 +239,22 @@ Ein Verarbeitungsverzeichnis braucht niemand monatelang zu erstellen. Compliflow
   },
   {
     slug: "ttdsg-cookie-banner-pflicht-2026",
-    title: "TTDSG und DSGVO: Cookie-Banner Pflicht 2026 — Was Selbstständige wissen müssen",
+    title: "TDDDG und DSGVO: Cookie-Banner Pflicht 2026 — Was Selbstständige wissen müssen",
     excerpt:
-      "Seit dem TTDSG 2021 gelten für Cookies strengere Regeln als unter der alten DSGVO-Auslegung. Warum ein einfaches 'OK'-Banner nicht ausreicht, was technische Cookies sind, und wann der Consent wirklich freiwillig ist.",
+      "Seit 2021 gelten für Cookies strengere Regeln — zuerst im TTDSG, das seit Mai 2024 TDDDG heißt. Warum ein einfaches 'OK'-Banner nicht ausreicht, was technische Cookies sind, und wann der Consent wirklich freiwillig ist.",
     category: "Cookie-Banner",
     date: "2026-06-08",
     readingTime: 6,
     content: `
-## Was ist das TTDSG?
+## Was ist das TDDDG?
 
-Das **Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG)** trat am 1. Dezember 2021 in Kraft und ergänzt die DSGVO im Bereich Cookies und digitale Dienste. Während die DSGVO allgemein für personenbezogene Daten gilt, regelt das TTDSG speziell den Zugriff auf Endgeräte — also das Setzen und Auslesen von Cookies, Local Storage und ähnlicher Technologien.
+Das **Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz (TDDDG)** trat am 1. Dezember 2021 als TTDSG in Kraft und heißt seit dem 14. Mai 2024 TDDDG. Es ergänzt die DSGVO im Bereich Cookies und digitale Dienste: Während die DSGVO allgemein für personenbezogene Daten gilt, regelt das TDDDG speziell den Zugriff auf Endgeräte — also das Setzen und Auslesen von Cookies, Local Storage und ähnlicher Technologien.
 
-**Kurzfassung:** Ohne ausdrückliche Einwilligung dürfen keine nicht-notwendigen Cookies gesetzt werden. Das gilt seit dem TTDSG noch strenger als vorher.
+**Kurzfassung:** Ohne ausdrückliche Einwilligung dürfen keine nicht-notwendigen Cookies gesetzt werden. Das gilt seit 2021 noch strenger als vorher.
 
 ## Welche Cookies brauchen keinen Consent?
 
-Nach § 25 Abs. 2 TTDSG sind Cookies ohne Einwilligung erlaubt, wenn sie:
+Nach § 25 Abs. 2 TDDDG sind Cookies ohne Einwilligung erlaubt, wenn sie:
 
 - **Technisch notwendig** sind, um einen ausdrücklich angeforderten Dienst bereitzustellen (z.B. Session-Cookies für den Login, Warenkorb-Cookies)
 - **Ausschließlich zur Übertragung einer Nachricht** über ein Netz verwendet werden
@@ -313,7 +313,7 @@ Der **Compliflow Cookie-Banner** (Launch: 19. August 2026) adressiert genau dies
 
 Bis zum Launch kannst du dich auf die Warteliste eintragen und bekommst 34 % Early-Bird-Rabatt:
 
-[Cookie-Banner Warteliste → 34% Early-Bird sichern](/cookie-banner)
+[Cookie-Banner-Generator → kostenlos erstellen](/cookie-banner-generator)
     `.trim(),
   },
   {
@@ -552,7 +552,7 @@ Neues Projektmanagement-Tool eingeführt? Erstmal prüfen: Wo liegen die Server?
 ## Konkrete Checkliste für Freelancer
 
 - [ ] Datenschutzerklärung auf Website vorhanden und aktuell
-- [ ] Impressum vorhanden (§ 5 TMG)
+- [ ] Impressum vorhanden (§ 5 DDG)
 - [ ] AVV mit allen Drittanbietern abgeschlossen ([jetzt erstellen](/avv))
 - [ ] Verarbeitungsverzeichnis angelegt ([jetzt erstellen](/vvt))
 - [ ] Kontaktformular-Einträge: Speicherdauer festgelegt
@@ -704,22 +704,22 @@ Das Verarbeitungsverzeichnis ist kein Monster. Mit dem [Compliflow VVT-Generator
     slug: "cookie-banner-5-fehler-dsgvo-2026",
     title: "5 Cookie-Banner-Fehler die 2026 zu Abmahnungen führen — mit Checkliste",
     excerpt:
-      "Pre-Checked Checkboxen, Google Analytics ohne Consent Mode, ungleiche Buttons: Die 5 häufigsten Cookie-Banner-Fehler und wie du sie mit der DSGVO+TTDSG-Checkliste prüfst.",
+      "Pre-Checked Checkboxen, Google Analytics ohne Consent Mode, ungleiche Buttons: Die 5 häufigsten Cookie-Banner-Fehler und wie du sie mit der DSGVO+TDDDG-Checkliste prüfst.",
     category: "Cookie-Banner",
     date: "2026-06-09",
     readingTime: 9,
     content: `
-## TTDSG, DSGVO und das Cookie-Chaos
+## TDDDG, DSGVO und das Cookie-Chaos
 
-Seit dem **Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz (TTDSG)** vom 1. Dezember 2021 ist die Rechtslage für Cookie-Banner in Deutschland endlich klar geregelt — aber in der Praxis setzt das kaum jemand korrekt um. Das kostet: Die österreichische Datenschutzbehörde (DSB) hat 2022 Google Analytics für rechtswidrig erklärt. Die französische CNIL hat Meta, Google und TikTok mit Millionenbußgeldern belegt.
+Seit dem **Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz (TDDDG)** — 2021 als TTDSG eingeführt — ist die Rechtslage für Cookie-Banner in Deutschland endlich klar geregelt — aber in der Praxis setzt das kaum jemand korrekt um. Das kostet: Die österreichische Datenschutzbehörde (DSB) hat 2022 Google Analytics für rechtswidrig erklärt. Die französische CNIL hat Meta, Google und TikTok mit Millionenbußgeldern belegt.
 
 In diesem Artikel erkläre ich was wirklich Pflicht ist — ohne Juristen-Sprache.
 
-## Was ist das TTDSG?
+## Was ist das TDDDG?
 
-Das TTDSG hat § 25 als zentralen Paragraphen für Cookies und Tracker. Er setzt die ePrivacy-Richtlinie (EU) um. Kernregel:
+Das TDDDG hat § 25 als zentralen Paragraphen für Cookies und Tracker. Er setzt die ePrivacy-Richtlinie (EU) um. Kernregel:
 
-**Das Speichern von Informationen auf dem Endgerät eines Nutzers oder der Zugriff auf dort gespeicherte Informationen ist nur mit Einwilligung erlaubt — es sei denn, es ist technisch unbedingt erforderlich (§ 25 Abs. 2 TTDSG).**
+**Das Speichern von Informationen auf dem Endgerät eines Nutzers oder der Zugriff auf dort gespeicherte Informationen ist nur mit Einwilligung erlaubt — es sei denn, es ist technisch unbedingt erforderlich (§ 25 Abs. 2 TDDDG).**
 
 Das bedeutet: Cookies brauchen grundsätzlich eine aktive Einwilligung **vor** dem Setzen. Ausnahmen gibt es nur für technisch notwendige Cookies.
 
@@ -754,7 +754,7 @@ Das ist dark pattern und rechtswidrig. Beide Buttons müssen gleich prominent se
 
 ### Fehler 2: Voreingestellte Checkboxen
 
-Wenn Kategorien wie "Marketing" oder "Analytics" vorausgewählt sind, ist das keine wirksame Einwilligung nach DSGVO Art. 7 Abs. 2 und TTDSG § 25. Die Einwilligung muss durch eine aktive Handlung gegeben werden.
+Wenn Kategorien wie "Marketing" oder "Analytics" vorausgewählt sind, ist das keine wirksame Einwilligung nach DSGVO Art. 7 Abs. 2 und § 25 TDDDG. Die Einwilligung muss durch eine aktive Handlung gegeben werden.
 
 ### Fehler 3: Google Analytics läuft schon beim Seitenaufruf
 
@@ -785,7 +785,7 @@ Nach Art. 7 Abs. 3 DSGVO muss der Widerruf einer Einwilligung so einfach sein wi
 
 ## Compliflow Cookie-Banner — Launch 19. August 2026
 
-Der [Compliflow Cookie-Banner](/cookie-banner) erfüllt alle diese Anforderungen. Fünf Designstile (Bar, Modal, Floating Corner, Drawer, Minimal), Google Consent Mode V2 out-of-the-box, vollständiger Audit-Trail als CSV-Export.
+Der [Compliflow Cookie-Banner](/cookie-banner-generator) erfüllt alle diese Anforderungen. Fünf Designstile (Bar, Modal, Floating Corner, Drawer, Minimal), Google Consent Mode V2 out-of-the-box, Consent-Dokumentation direkt im Browser.
 
 **Early-Bird-Rabatt:** 34 % in der Launch-Woche für alle die sich jetzt vormerken lassen.
 
@@ -932,7 +932,7 @@ Kein Anwalt nötig für die Basics. Diese Checkliste zeigt dir genau, was Pflich
 
 → [VVT kostenlos erstellen — Art. 30 DSGVO, mit Branchen-Vorlagen](/vvt)
 
-### 4. Cookie-Banner (TTDSG + DSGVO)
+### 4. Cookie-Banner (TDDDG + DSGVO)
 
 - [ ] Cookie-Banner vorhanden wenn Website Tracking-Cookies setzt
 - [ ] "Ablehnen"-Button gleichwertig prominent wie "Akzeptieren"
@@ -943,12 +943,12 @@ Kein Anwalt nötig für die Basics. Diese Checkliste zeigt dir genau, was Pflich
 
 ### 5. Impressum
 
-- [ ] Impressum vorhanden mit vollständiger Pflichtangabe nach §5 TMG
+- [ ] Impressum vorhanden mit vollständiger Pflichtangabe nach § 5 DDG
 - [ ] Name, Anschrift, E-Mail, ggf. USt-ID
 - [ ] Bei GmbH: Handelsregisternummer, Geschäftsführer
 - [ ] Für Freiberufler: Berufsbezeichnung und zuständige Kammer
 
-**Häufigster Fehler:** Nur Kontaktformular statt E-Mail-Adresse — das ist nicht ausreichend nach §5 TMG.
+**Häufigster Fehler:** Nur Kontaktformular statt E-Mail-Adresse — das ist nicht ausreichend nach § 5 DDG.
 
 ### 6. E-Mail-Marketing (Newsletter)
 
@@ -1274,7 +1274,7 @@ Jede natürliche oder juristische Person, die eine Website betreibt und dabei pe
 
 Die gute Nachricht: Der Aufwand ist überschaubar, wenn du weißt, was tatsächlich nötig ist.
 
-## Pflicht 1: Datenschutzerklärung (§ 13 TMG + Art. 13/14 DSGVO)
+## Pflicht 1: Datenschutzerklärung (Art. 13/14 DSGVO)
 
 Jede Website mit Besucherinteraktion braucht eine Datenschutzerklärung. Sie muss enthalten:
 
@@ -1286,9 +1286,9 @@ Jede Website mit Besucherinteraktion braucht eine Datenschutzerklärung. Sie mus
 
 **Häufiger Fehler:** Datenschutzerklärung kopiert, aber die eigenen Dienste nicht angepasst. Wenn du Stripe nutzt, muss Stripe drin stehen. Wenn du Mailchimp nutzt, muss Mailchimp drin stehen.
 
-## Pflicht 2: Cookie-Banner (TTDSG § 25)
+## Pflicht 2: Cookie-Banner (§ 25 TDDDG)
 
-Seit dem Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG) gilt in Deutschland: **Cookies und ähnliche Technologien, die nicht technisch notwendig sind, dürfen nur mit aktiver Einwilligung gesetzt werden.**
+Seit dem Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz (TDDDG, früher TTDSG) gilt in Deutschland: **Cookies und ähnliche Technologien, die nicht technisch notwendig sind, dürfen nur mit aktiver Einwilligung gesetzt werden.**
 
 Betroffen sind:
 - Marketing-Cookies (Facebook Pixel, Google Ads)
@@ -1330,7 +1330,7 @@ Das VVT dokumentiert:
 
 Ein VVT ist keine einmalige Aufgabe — es muss aktuell gehalten werden.
 
-## Pflicht 5: Impressum (§ 5 TMG)
+## Pflicht 5: Impressum (§ 5 DDG)
 
 Technisch kein DSGVO-Thema, aber eng verknüpft: **Jede Website mit geschäftlichem Zweck** braucht ein vollständiges Impressum:
 
@@ -1345,7 +1345,7 @@ Ohne Impressum: Abmahnrisiko. Impressums-Abmahnungen sind ein reales Geschäftsm
 ## Die schnelle Checkliste für Website-Betreiber
 
 - [ ] Datenschutzerklärung vorhanden und auf alle genutzten Dienste aktualisiert
-- [ ] Impressum vollständig (§ 5 TMG)
+- [ ] Impressum vollständig (§ 5 DDG)
 - [ ] Cookie-Banner für nicht-notwendige Cookies (oder: auf notwendige Cookies verzichten)
 - [ ] AVV mit Hoster abgeschlossen
 - [ ] AVV mit E-Mail-Marketing-Dienst abgeschlossen

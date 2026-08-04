@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Verarbeitungsverzeichnis kostenlos erstellen — Art. 30 DSGVO | Compliflow",
+  title: "Verarbeitungsverzeichnis kostenlos erstellen — Art. 30 DSGVO",
   description:
     "Verarbeitungsverzeichnis nach Art. 30 DSGVO kostenlos erstellen: 10 Branchen-Vorlagen, Rechtsgrundlagen-Auswahl, PDF-Download. Kein Account, keine Anmeldung, alle Pflichtfelder.",
   alternates: {

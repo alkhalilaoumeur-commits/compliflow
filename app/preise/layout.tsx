@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Preise — Compliflow ist komplett kostenlos | DSGVO-Generatoren",
+  title: "Preise — alle Generatoren kostenlos",
   description:
-    "Alle Compliflow-Generatoren sind kostenlos. Kein Abo, kein Pro-Modell, keine versteckten Kosten. So finanzieren wir uns.",
+    "Alle 7 Compliflow-Generatoren sind kostenlos. Kein Abo, kein Pro-Modell. Optional: 0,99 € einmalig, um den Compliflow-Hinweis im Dokument zu entfernen.",
   alternates: { canonical: "https://compliflow.de/preise" },
   openGraph: {
-    title: "Compliflow Preise — 0 € für alles, für immer",
+    title: "Compliflow Preise — alle Generatoren kostenlos",
     description:
-      "AVV, VVT und bald Cookie-Banner — kostenlos, ohne Account, ohne Abo. Finanziert über DRVN-Webseiten-Aufträge und kleine Affiliate-Provisionen.",
+      "AVV, VVT, Impressum, Datenschutz, AGB, Widerrufsbelehrung und Cookie-Banner — kostenlos, ohne Account, ohne Abo. Finanziert über DRVN-Webseiten-Aufträge.",
     url: "https://compliflow.de/preise",
     siteName: "Compliflow",
     locale: "de_DE",

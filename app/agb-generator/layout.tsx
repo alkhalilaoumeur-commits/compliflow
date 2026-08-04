@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AGB-Generator | Compliflow",
+  title: "AGB-Generator — §§ 305-310 BGB",
   description:
     "AGB für Webseite oder Online-Shop kostenlos erstellen. 3 Varianten: B2C Dienstleistung, B2C Shop, B2B. HTML zum direkten Einbinden + PDF.",
   alternates: { canonical: "https://compliflow.de/agb-generator" },

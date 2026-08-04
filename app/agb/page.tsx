@@ -32,9 +32,11 @@ export default function AgbPage() {
           und Cookie-Banner) erstellen können.
         </p>
         <p>
-          (2) Die Tools werden in einer kostenlosen Free-Version und in
-          kostenpflichtigen Pro-Versionen angeboten. Der jeweilige Funktionsumfang ergibt
-          sich aus der aktuellen Produktbeschreibung auf compliflow.de.
+          (2) Die Tools sind kostenlos nutzbar. Als einzige kostenpflichtige Leistung
+          bieten wir die Entfernung des „Erstellt mit Compliflow"-Hinweises aus dem
+          jeweiligen Dokument gegen Einmalzahlung an (nachfolgend
+          „Watermark-Entfernung"). Der jeweilige Funktionsumfang ergibt sich aus der
+          aktuellen Produktbeschreibung auf compliflow.de.
         </p>
         <p>
           (3) Die durch unsere Tools erstellten Dokumente basieren auf gängigen
@@ -66,8 +68,8 @@ export default function AgbPage() {
           mit Vertragsschluss fällig.
         </p>
         <p>
-          (3) Die Bereitstellung der Pro-Funktionen erfolgt unverzüglich nach erfolgreicher
-          Zahlung.
+          (3) Die Freischaltung der Watermark-Entfernung erfolgt unverzüglich nach
+          erfolgreicher Zahlung.
         </p>
       </LegalSection>
 
