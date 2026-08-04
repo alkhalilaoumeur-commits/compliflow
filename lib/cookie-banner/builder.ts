@@ -6,6 +6,48 @@
 import type { CookieBannerData, WizardStep, KategorieId, TrackingTool } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Sanitizing — das Snippet läuft auf fremden Webseiten. Jede Nutzereingabe, die
+// in generiertes JS/CSS/HTML wandert, muss hier durch, sonst zerschießt schon
+// ein versehentliches Anführungszeichen das komplette Consent-Management.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** JS-String-Literal: JSON.stringify + "<"-Escape, damit "</script>" den Snippet-Tag nicht beendet. */
+function jsStr(v: string): string {
+  return JSON.stringify(v).replace(/</g, "\\u003c");
+}
+
+/** Config-IDs (G-XXXX, GTM-XXXX, Pixel-ID, Plausible-Domain): nur harmlose Zeichen. */
+function sanitizeConfigId(v: string | undefined): string {
+  return (v ?? "").replace(/[^A-Za-z0-9._-]/g, "");
+}
+
+/** Tool-/Kategorie-IDs werden als JS-Bezeichner und HTML-Attribut verwendet. */
+function sanitizeIdent(v: string): string {
+  return v.replace(/[^A-Za-z0-9_]/g, "_");
+}
+
+/** Farbwerte: nur Hex-Notation, sonst Fallback — verhindert CSS/HTML-Injection über das freie Farbfeld. */
+function safeColor(v: string, fallback: string): string {
+  return /^#[0-9a-fA-F]{3,8}$/.test((v ?? "").trim()) ? v.trim() : fallback;
+}
+
+/** Zahlwerte aus dem Wizard hart auf endliche Zahl in sinnvollen Grenzen klemmen. */
+function safeNum(v: unknown, fallback: number, min: number, max: number): number {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
+/** Links im Banner: javascript:/data:-Schemata abklemmen, http(s)/relativ erlauben. */
+function safeUrl(v: string): string {
+  const u = (v ?? "").trim();
+  if (!u) return "#";
+  if (/^(https?:\/\/|\/|#|\.\/)/i.test(u)) return u;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return "#"; // fremdes Schema (javascript:, data:, …)
+  return `https://${u}`; // "example.de/datenschutz" ohne Schema
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Validation
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -55,7 +97,19 @@ export function getCompletionStatus(d: CookieBannerData): CompletionStatus {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildCss(d: CookieBannerData): string {
-  const f = d.farben;
+  // Alle Farb-/Zahlwerte validieren, bevor sie in den <style>-Block interpoliert werden.
+  const f = {
+    hintergrund: safeColor(d.farben.hintergrund, "#ffffff"),
+    text: safeColor(d.farben.text, "#1a1a1a"),
+    rand: safeColor(d.farben.rand, "#e2e2e2"),
+    link: safeColor(d.farben.link, "#1a1a1a"),
+    primaer: safeColor(d.farben.primaer, "#1f3d2f"),
+    primaerText: safeColor(d.farben.primaerText, "#ffffff"),
+    sekundaer: safeColor(d.farben.sekundaer, "#e2e2e2"),
+    sekundaerText: safeColor(d.farben.sekundaerText, "#1a1a1a"),
+  };
+  const schriftgroesseRem = safeNum(d.schriftgroesseRem, 1, 0.6, 2);
+  const abgerundetPx = safeNum(d.abgerundetPx, 8, 0, 48);
   const positionStyles: Record<typeof d.stil, string> = {
     bottom_bar: `
   .compliflow-cb { position: fixed; bottom: 0; left: 0; right: 0; max-width: 100%; }
@@ -79,13 +133,13 @@ function buildCss(d: CookieBannerData): string {
 
   return `<style id="compliflow-cb-style">
   #compliflow-cb-root, #compliflow-cb-root * { box-sizing: border-box; }
-  #compliflow-cb-root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: ${d.schriftgroesseRem}rem; line-height: 1.5; }
+  #compliflow-cb-root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: ${schriftgroesseRem}rem; line-height: 1.5; }
 ${positionStyles[d.stil]}
   .compliflow-cb {
     background: ${f.hintergrund};
     color: ${f.text};
     border: 1px solid ${f.rand};
-    border-radius: ${d.abgerundetPx}px;
+    border-radius: ${abgerundetPx}px;
     ${d.schatten ? "box-shadow: 0 10px 40px rgba(0,0,0,0.15);" : ""}
     z-index: 100000;
   }
@@ -93,7 +147,7 @@ ${positionStyles[d.stil]}
   .compliflow-cb__desc { margin: 0; }
   .compliflow-cb__links { margin-top: 8px; font-size: 0.85em; }
   .compliflow-cb__links a { color: ${f.link}; text-decoration: underline; margin-right: 12px; }
-  .compliflow-cb__btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border: none; border-radius: ${Math.max(4, d.abgerundetPx - 4)}px; font-size: inherit; font-weight: 600; cursor: pointer; min-height: 40px; transition: opacity 0.15s; }
+  .compliflow-cb__btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border: none; border-radius: ${Math.max(4, abgerundetPx - 4)}px; font-size: inherit; font-weight: 600; cursor: pointer; min-height: 40px; transition: opacity 0.15s; }
   .compliflow-cb__btn:hover { opacity: 0.9; }
   .compliflow-cb__btn--primary { background: ${f.primaer}; color: ${f.primaerText}; }
   .compliflow-cb__btn--secondary { background: ${f.sekundaer}; color: ${f.sekundaerText}; }
@@ -132,8 +186,8 @@ function buildBannerHtml(d: CookieBannerData, options: BuildOptions = {}): strin
   const aktiveKategorien = d.kategorien.filter((k) => k.aktiv);
   const credit = options.credit !== false;
 
-  const datenschutzLink = `<a href="${escapeHtml(d.anbieter.datenschutzUrl)}" target="_blank" rel="noopener">${escapeHtml(t.datenschutzLink)}</a>`;
-  const impressumLink = `<a href="${escapeHtml(d.anbieter.impressumUrl)}" target="_blank" rel="noopener">${escapeHtml(t.impressumLink)}</a>`;
+  const datenschutzLink = `<a href="${escapeHtml(safeUrl(d.anbieter.datenschutzUrl))}" target="_blank" rel="noopener">${escapeHtml(t.datenschutzLink)}</a>`;
+  const impressumLink = `<a href="${escapeHtml(safeUrl(d.anbieter.impressumUrl))}" target="_blank" rel="noopener">${escapeHtml(t.impressumLink)}</a>`;
 
   // Settings-Block (Categorie-Toggles)
   const settingsHtml = d.verhalten.settingsButton
@@ -148,7 +202,7 @@ function buildBannerHtml(d: CookieBannerData, options: BuildOptions = {}): strin
           <div class="compliflow-cb__cat-desc">${escapeHtml(k.beschreibung)}</div>
         </div>
         <div class="compliflow-cb__cat-toggle">
-          <input type="checkbox" data-category="${k.id}" ${k.pflicht ? "checked disabled" : ""} aria-label="${escapeHtml(k.name)}" />
+          <input type="checkbox" data-category="${sanitizeIdent(k.id)}" ${k.pflicht ? "checked disabled" : ""} aria-label="${escapeHtml(k.name)}" />
         </div>
       </div>`,
         )
@@ -222,53 +276,54 @@ ${ts.map((t) => buildSingleToolLoad(t)).join("\n")}
 }
 
 function buildSingleToolLoad(t: TrackingTool): string {
-  const name = JSON.stringify(t.name);
+  const id = sanitizeIdent(t.id);
+  const cid = sanitizeConfigId(t.configId);
   if (t.inlineScript) {
-    // Inline script
-    return `        // ${t.name} (inline)
-        if (!document.getElementById("cf-loaded-${t.id}")) {
-          var inlineScript${t.id} = document.createElement("script");
-          inlineScript${t.id}.id = "cf-loaded-${t.id}";
-          inlineScript${t.id}.text = ${JSON.stringify(t.inlineScript)};
-          document.head.appendChild(inlineScript${t.id});
+    // Inline script — jsStr escapet auch "</script>" im Inhalt
+    return `        // ${sanitizeIdent(t.name)} (inline)
+        if (!document.getElementById("cf-loaded-${id}")) {
+          var inlineScript${id} = document.createElement("script");
+          inlineScript${id}.id = "cf-loaded-${id}";
+          inlineScript${id}.text = ${jsStr(t.inlineScript)};
+          document.head.appendChild(inlineScript${id});
         }`;
   }
-  if (t.typ === "ga4" && t.configId) {
+  if (t.typ === "ga4" && cid) {
     return `        // Google Analytics 4
         if (!window.gtag) {
           var gaScript = document.createElement("script");
           gaScript.async = true;
-          gaScript.src = "https://www.googletagmanager.com/gtag/js?id=${t.configId}";
+          gaScript.src = ${jsStr(`https://www.googletagmanager.com/gtag/js?id=${cid}`)};
           document.head.appendChild(gaScript);
           window.dataLayer = window.dataLayer || [];
           window.gtag = function(){ window.dataLayer.push(arguments); };
           window.gtag("js", new Date());
-          window.gtag("config", "${t.configId}", { anonymize_ip: true });
+          window.gtag("config", ${jsStr(cid)}, { anonymize_ip: true });
         }`;
   }
-  if (t.typ === "gtm" && t.configId) {
+  if (t.typ === "gtm" && cid) {
     return `        // Google Tag Manager
         if (!window.dataLayer) {
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
           var gtmScript = document.createElement("script");
           gtmScript.async = true;
-          gtmScript.src = "https://www.googletagmanager.com/gtm.js?id=${t.configId}";
+          gtmScript.src = ${jsStr(`https://www.googletagmanager.com/gtm.js?id=${cid}`)};
           document.head.appendChild(gtmScript);
         }`;
   }
-  if (t.typ === "plausible" && t.configId) {
+  if (t.typ === "plausible" && cid) {
     return `        // Plausible Analytics
         if (!document.getElementById("cf-plausible")) {
           var pl = document.createElement("script");
           pl.id = "cf-plausible";
           pl.defer = true;
-          pl.dataset.domain = "${t.configId}";
-          pl.src = ${JSON.stringify(t.scriptSrc || "https://plausible.io/js/script.js")};
+          pl.dataset.domain = ${jsStr(cid)};
+          pl.src = ${jsStr(t.scriptSrc || "https://plausible.io/js/script.js")};
           document.head.appendChild(pl);
         }`;
   }
-  if (t.typ === "meta_pixel" && t.configId) {
+  if (t.typ === "meta_pixel" && cid) {
     return `        // Meta Pixel
         if (!window.fbq) {
           !function(f,b,e,v,n,t,s){
@@ -276,22 +331,23 @@ function buildSingleToolLoad(t: TrackingTool): string {
             if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;
             t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
           }(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
-          window.fbq("init", "${t.configId}");
+          window.fbq("init", ${jsStr(cid)});
           window.fbq("track", "PageView");
         }`;
   }
   if (t.scriptSrc) {
-    // Generic external script
-    return `        // ${t.name}
-        if (!document.querySelector('script[data-cf-id="${t.id}"]')) {
+    // Generic external script — configId wird hier bewusst NICHT an die URL
+    // konkateniert (ergab kaputte URLs, wenn beides gesetzt war)
+    return `        // ${sanitizeIdent(t.name)}
+        if (!document.querySelector('script[data-cf-id="${id}"]')) {
           var sc = document.createElement("script");
           sc.async = true;
-          sc.src = ${JSON.stringify(t.scriptSrc + (t.configId ?? ""))};
-          sc.dataset.cfId = "${t.id}";
+          sc.src = ${jsStr(t.scriptSrc)};
+          sc.dataset.cfId = "${id}";
           document.head.appendChild(sc);
         }`;
   }
-  return `        // ${t.name} (kein Loader konfiguriert)`;
+  return `        // ${sanitizeIdent(t.name)} (kein Loader konfiguriert)`;
 }
 
 function buildJs(d: CookieBannerData): string {

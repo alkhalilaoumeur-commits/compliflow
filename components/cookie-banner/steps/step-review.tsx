@@ -113,7 +113,7 @@ ${snippet}
             ref={iframeRef}
             srcDoc={srcDoc}
             title="Cookie-Banner Live-Vorschau"
-            sandbox="allow-scripts allow-same-origin"
+            sandbox="allow-scripts"
             className="w-full h-[500px] bg-white"
             style={{ border: "none", display: "block" }}
           />
