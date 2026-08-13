@@ -103,7 +103,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       {/* Desktop: Bild füllt rechte Hälfte als Hintergrund */}
-      <div className="hidden lg:block absolute inset-y-0 right-0 w-[45%]" aria-hidden="true">
+      <div className="hidden lg:block absolute inset-y-0 right-0 w-[45%] pointer-events-none" aria-hidden="true">
         <picture>
           <source srcSet="/hero/desk-compliance.webp" type="image/webp" />
           <img
