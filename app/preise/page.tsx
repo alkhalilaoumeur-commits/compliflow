@@ -16,7 +16,7 @@ export default function PreisePage() {
 
 function Header() {
   return (
-    <header className="border-b border-[rgba(226,221,209,0.7)]">
+    <header className="relative z-50 border-b border-[rgba(226,221,209,0.7)]">
       <div className="mx-auto w-full max-w-container px-6 md:px-10 lg:px-12 flex items-center justify-between py-5">
         <a href="/" className="flex items-baseline gap-2.5">
           <span className="font-display text-[20px] font-semibold tracking-tight text-ink">

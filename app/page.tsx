@@ -43,7 +43,7 @@ function Container({
 
 function Header() {
   return (
-    <header className="border-b border-[rgba(226,221,209,0.7)]">
+    <header className="relative z-50 border-b border-[rgba(226,221,209,0.7)]">
       <Container className="flex items-center justify-between py-5">
         <a href="/" className="fade-in flex items-baseline gap-2.5">
           <span className="font-display text-[20px] font-semibold tracking-tight text-ink">
