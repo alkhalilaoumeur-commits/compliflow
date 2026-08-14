@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "check:config": "node scripts/check-config.mjs",
     "clean": "rm -rf .next node_modules/.cache",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "hero:visual": "vitest run --config scripts/hero-visual/vitest.gen.config.ts"
   },
   "engines": {
     "node": ">=20.0.0"
